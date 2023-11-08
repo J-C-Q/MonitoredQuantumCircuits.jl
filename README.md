@@ -1,4 +1,4 @@
-# MonitoredQuantumCircuits
+![#MonitoredQuantumCircuits.jl](/docs/src/assets/logo.png "MonitoredQuantumCircuits.jl")
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://J-C-Q.github.io/MonitoredQuantumCircuits.jl/stable/)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://J-C-Q.github.io/MonitoredQuantumCircuits.jl/dev/)
