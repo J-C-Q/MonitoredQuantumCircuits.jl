@@ -2,6 +2,7 @@
 ![#MonitoredQuantumCircuits.jl](/docs/src/assets/logo-dark.png#gh-dark-mode-only "MonitoredQuantumCircuits.jl")
 
 <p align="center">
+  <img src="https://img.shields.io/badge/docs-stable-blue.svg">
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://J-C-Q.github.io/MonitoredQuantumCircuits.jl/stable/)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://J-C-Q.github.io/MonitoredQuantumCircuits.jl/dev/)
 [![Build Status](https://github.com/J-C-Q/MonitoredQuantumCircuits.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/J-C-Q/MonitoredQuantumCircuits.jl/actions/workflows/CI.yml?query=branch%3Amain)
