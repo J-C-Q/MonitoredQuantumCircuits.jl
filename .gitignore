@@ -4,3 +4,8 @@
 /Manifest.toml
 /docs/Manifest.toml
 /docs/build/
+
+.DS_Store
+
+.vscode/*
+.vscode
