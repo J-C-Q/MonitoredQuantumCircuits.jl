@@ -1,4 +1,5 @@
-![#MonitoredQuantumCircuits.jl](/docs/src/assets/logo.png "MonitoredQuantumCircuits.jl")
+![#MonitoredQuantumCircuits.jl](/docs/src/assets/logo.png#gh-light-mode-only "MonitoredQuantumCircuits.jl")
+![#MonitoredQuantumCircuits.jl](/docs/src/assets/logo-dark.png#gh-dark-mode-only "MonitoredQuantumCircuits.jl")
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://J-C-Q.github.io/MonitoredQuantumCircuits.jl/stable/)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://J-C-Q.github.io/MonitoredQuantumCircuits.jl/dev/)
