@@ -13,13 +13,14 @@ makedocs(;
         canonical="https://J-C-Q.github.io/MonitoredQuantumCircuits.jl",
         edit_link="main",
         assets=String[],
+        sidebar_sitename=false
     ),
     pages=[
         "Home" => "index.md",
-    ],
+    ]
 )
 
 deploydocs(;
     repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
-    devbranch="main",
+    devbranch="main"
 )
