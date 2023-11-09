@@ -25,6 +25,7 @@ the target of the edge. The edges are ordered in the same way as the gates in th
 of gates. The first edge is the edge that is the source of the first gate and the last
 edge is the edge that is the target of the last gate. The number of edges in the DAG
 is equal to the number of gates plus the number of qubits involved in the gates.
+Tested: No
 """
 function DAG_Circuit(Gates::Array{Gate,1})
     gateTypes = [gate.gateType for gate in Gates]
