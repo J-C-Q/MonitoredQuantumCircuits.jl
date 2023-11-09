@@ -12,5 +12,4 @@ Documentation for [MonitoredQuantumCircuits](https://github.com/J-C-Q/MonitoredQ
 
 ```@autodocs
 Modules = [MonitoredQuantumCircuits]
-Order   = [:function, :type]
 ```
