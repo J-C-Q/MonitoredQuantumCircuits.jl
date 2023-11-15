@@ -4,6 +4,7 @@ authors = ["Quinten Preiss"]
 version = "1.0.0-DEV"
 
 [deps]
+IBMQClient = "02860bad-daa6-4506-8736-4a3616c18085"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 
 [compat]
