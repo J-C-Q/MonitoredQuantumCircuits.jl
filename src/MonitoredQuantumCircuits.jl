@@ -1,6 +1,6 @@
 module MonitoredQuantumCircuits
 
-using IBMQClient
+using IBMQClient #https://github.com/QuantumBFS/IBMQClient.jl.git
 
 # Write your package code here.
 include("Circuit.jl")
