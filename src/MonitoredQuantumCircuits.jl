@@ -1,13 +1,10 @@
 module MonitoredQuantumCircuits
 
-using IBMQClient #https://github.com/QuantumBFS/IBMQClient.jl.git
-
 # Write your package code here.
-include("Circuit.jl")
-using .QuantumCircuits: DAG_Circuit
+include("QiskitInterface.jl")
 
+using .QiskitInterface: connenct_to_IBMQ, available_devices
 
+export connenct_to_IBMQ, available_devices
 
-
-export DAG_Circuit
 end
