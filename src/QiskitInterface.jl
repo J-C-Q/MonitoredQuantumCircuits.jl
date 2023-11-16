@@ -1,20 +1,34 @@
 module QiskitInterface
 using IBMQClient #https://github.com/QuantumBFS/IBMQClient.jl.git
 using IBMQClient.Schema
+using JSON
 
-function connenct_to_IBMQ(token::String)
+function connect_to_IBMQ(token::String)
     return AccountInfo(token)
 end
-function connenct_to_IBMQ()
+function connect_to_IBMQ()
     try
-        account = AccountInfo() # reading from ~/.qiskit/.qiskitrc
+        return _get_IBMQ_token()# reading from ~/.qiskit/qiskit-ibm.json
     catch
-        error("No IBMQ token found in ~/.qiskit/.qiskitrc. Please run AccountInfo(\"<your token>\")")
+        error("No IBMQ token found in ~/.qiskit/qiskit-ibm.json. Please provide your API token")
     end
-    return account
+    return nothing
+end
+function _get_IBMQ_token()
+    path = joinpath(homedir(), ".qiskit", "qiskit-ibm.json")
+    token = JSON.parsefile(path)["default-ibm-quantum"]["token"]
+    return AccountInfo(token)
 end
 function available_devices(account::AccountInfo)
-    return devices(account)
+    devices = IBMQClient.devices(account)
+
+    return IBMQClient.devices(account)
+end
+function _print_available_devices(account::AccountInfo)
+    devices = available_devices(account)
+    for device in devices
+        println(device.name)
+    end
 end
 
 
