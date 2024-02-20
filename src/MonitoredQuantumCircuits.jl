@@ -1,10 +1,15 @@
 module MonitoredQuantumCircuits
 
 # Write your package code here.
-include("QiskitInterface.jl")
+using Yao
+using YaoBlocksQobj
+using IBMQClient
+using IBMQClient.Schema
+using JLD2
 
-using .QiskitInterface: connect_to_IBMQ, available_devices
+include("IBMQClient.jl")
 
-export connect_to_IBMQ, available_devices
+export createAccount
+export IBMQ_simulate
 
 end

@@ -4,10 +4,12 @@ authors = ["Quinten Preiss"]
 version = "1.0.0-DEV"
 
 [deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 IBMQClient = "02860bad-daa6-4506-8736-4a3616c18085"
-JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
-PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
-Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+Yao = "5872b779-8223-5990-8dd0-5abbb0748c8c"
+YaoBlocksQASM = "0d67dbe6-922f-48f4-afaf-3100500b49df"
+YaoBlocksQobj = "8d6e117e-3ad9-4058-9567-0848b2080ffe"
 
 [compat]
 julia = "1.9.2"
