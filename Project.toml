@@ -5,11 +5,11 @@ version = "0.1.0-DEV"
 
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+Configurations = "5218b696-f38b-4ac9-8b61-a12ec717816d"
 IBMQClient = "02860bad-daa6-4506-8736-4a3616c18085"
 JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 Yao = "5872b779-8223-5990-8dd0-5abbb0748c8c"
-YaoBlocksQASM = "0d67dbe6-922f-48f4-afaf-3100500b49df"
-YaoBlocksQobj = "8d6e117e-3ad9-4058-9567-0848b2080ffe"
 
 [compat]
 julia = "1.9.2"
