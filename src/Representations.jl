@@ -71,13 +71,31 @@ struct PauliX <: PreDefGate
     end
 end
 
-struct PauliY <: PreDefGate
-
+struct Hadamard <: PreDefGate
+    name::String
+    matrix::Matrix{Complex{Float16}}
+    function Hadamard()
+        return new("h", [complex(1, 0) complex(1, 0); complex(1, 0) complex(-1, 0)] / sqrt(2))
+    end
 end
 
-struct PauliZ <: PreDefGate
 
+struct ControlledX <: PreDefGate
+    name::String
+    matrix::Matrix{Complex{Float16}}
+    function ControlledX()
+        return new(
+            "CX",
+            [complex(1, 0) complex(0, 0) complex(0, 0) complex(0, 0);
+                complex(0, 0) complex(1, 0) complex(0, 0) complex(0, 0);
+                complex(0, 0) complex(0, 0) complex(0, 0) complex(1, 0);
+                complex(0, 0) complex(0, 0) complex(1, 0) complex(0, 0)]
+        )
+    end
 end
+
+
+
 
 
 abstract type Measurement <: QuantumOperation end
