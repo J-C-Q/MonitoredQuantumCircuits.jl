@@ -1,6 +1,13 @@
-using Configurations
-using IBMQClient.Schema
-using UUIDs
+
+@option struct ExpOptions
+    id::String = string(uuid1())
+    header::Maybe{Dict{String,Any}} = nothing
+    nshots::Int = 1024
+    exp_header::Maybe{Vector{Dict{String,Any}}} = nothing
+    exp_config::Maybe{Vector{Dict{String,Any}}} = nothing
+end
+
+
 function to_Qobj(circuit::GeneralQuantumCircuit; kw...)
     options = ExpOptions(; kw...)
     instructions = Vector{Instruction}(undef, length(circuit.locations))
@@ -20,18 +27,12 @@ function to_Qobj(circuit::GeneralQuantumCircuit; kw...)
 end
 
 
-function generateInstruction(gate::PreDefGate, locations::AbstractArray{Int64})
+function generateInstruction(operation::PreDefGate, locations::AbstractArray{Int64})
     return Gate(
-        name=gate.name,
+        name=operation.name,
         qubits=locations,)
 end
 
-
-
-@option struct ExpOptions
-    id::String = string(uuid1())
-    header::Maybe{Dict{String,Any}} = nothing
-    nshots::Int = 1024
-    exp_header::Maybe{Vector{Dict{String,Any}}} = nothing
-    exp_config::Maybe{Vector{Dict{String,Any}}} = nothing
+function generateInstruction(operation::ProjectiveMeasurement, locations::AbstractArray{Int64})
+    return Measure(qubits=locations, memory=zeros(length(locations)))
 end

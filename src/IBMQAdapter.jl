@@ -1,20 +1,25 @@
 
 
-function IBMQrun(qobj, deviceName)
-    validate_backend(deviceName) || throw("No IBMQ backend with name $deviceName.")
-    job_info = IBMQClient.submit(IBMQ_ACCOUNT, RemoteJob(dev=deviceName), qobj)
+function IBMQrun(qobj, deviceName, token)
+    account = AccountInfo(token)
+    validate_backend(deviceName, account) || throw("No IBMQ backend with name $deviceName.")
+    job_info = IBMQClient.submit(account, RemoteJob(dev=deviceName), qobj)
     println("Job started with id $(job_info.id)")
 end
 
-function IBMQstatus(id::String)
-    jobAPI = IBMQClient.JobAPI(IBMQ_ACCOUNT.project, id)
-    IBMQClient.status(IBMQ_ACCOUNT,)
+function IBMQjobs(token)
+    account = AccountInfo(token)
+    return IBMQClient.jobs(account)
 end
 
-function validate_backend(deviceName::String)
-    return deviceName in [d.backend_name for d in IBMQClient.devices(IBMQ_ACCOUNT)]
+function IBMQdevices(token)
+    account = AccountInfo(token)
+    devices = IBMQClient.devices(account)
+    names = [d.backend_name for d in devices]
+    println(names)
+    return devices
 end
 
-function activateAccount(token::String)
-    global IBMQ_ACCOUNT = AccountInfo(token)
+function validate_backend(deviceName::String, account::AccountInfo)
+    return deviceName in [d.backend_name for d in IBMQClient.devices(account)]
 end
