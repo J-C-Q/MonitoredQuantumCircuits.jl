@@ -58,12 +58,14 @@ abstract type QuantumGate <: QuantumOperation end
 
 abstract type PreDefGate <: QuantumGate end
 
+abstract type BasisGate <: PreDefGate end
+
 struct GeneralMatrixGate <: QuantumGate
     name::String
     matrix::AbstractMatrix
 end
 
-struct PauliX <: PreDefGate
+struct PauliX <: BasisGate
     name::String
     matrix::Matrix{Complex{Float16}}
     function PauliX()
@@ -101,6 +103,12 @@ end
 abstract type Measurement <: QuantumOperation end
 
 struct ProjectiveMeasurement <: Measurement
+    name::String
+    location::Int64
+    description::String
+    function ProjectiveMeasurement(qubit::Int)
+        return new("projM", qubit, "A projective measurement on qubit $qubit.")
+    end
 end
 
 
@@ -108,11 +116,72 @@ end
 
 abstract type QuantumCircuit end
 
-mutable struct GeneralQuantumCircuit <: QuantumCircuit
-    gates::Vector{QuantumOperation}
-    locations::Vector{AbstractArray{Int64}}
-    gatePointer::Vector{Int64}
-    register::QuantumRegister
+struct GeneralQuantumCircuit <: QuantumCircuit
+    operationNames::Vector{String}
+    operationDescription::Vector{String}
+    qubitsPerOperation::Vector{Int64}
+    locations::Vector{Int64}
+    parameters::Vector{Float64}
+    operationPointer::Vector{Int64}
+    locationPointer::Vector{Int64}
+    parameterPointer::Vector{Int64}
+
+    """
+    Construct a quantum circuit object from a list of operations.
+    """
+    function GeneralQuantumCircuit(operationList::Vector{QuantumOperation})
+        operationNames = String[]
+        operationDescription = String[]
+        qubitsPerOperation = Int64[]
+        locations = Int64[]
+        parameters = Float64[]
+        operationPointer = Int64[]
+        locationPointer = Int64[]
+        parameterPointer = Int64[]
+
+        for operation in operationList
+            _addOperation!(operation, operationNames, operationDescription, qubitsPerOperation, locations, operationPointer, locationPointer)
+        end
+
+    end
+end
+
+"""
+Add a constant gate to the quantum circuit (only available during construction)
+"""
+function _addOperation!(operation::BasisGate,
+    operationNames::Vector{String},
+    operationDescription::Vector{String},
+    qubitsPerOperation::Vector{Int64},
+    locations::Vector{Int64},
+    operationPointer::Vector{Int64},
+    locationPointer::Vector{Int64})
+
+    push!(operationNames, operation.name)
+    push!(operationDescription, operation.description)
+    push!(qubitsPerOperation, 1)
+    push!(locations, operation.location)
+    push!(operationPointer, length(operationNames))
+    push!(locationPointer, length(locations))
+end
+
+"""
+Add a projective measurement to the quantum circuit (only available during construction)
+"""
+function _addOperation!(operation::ProjectiveMeasurement,
+    operationNames::Vector{String},
+    operationDescription::Vector{String},
+    qubitsPerOperation::Vector{Int64},
+    locations::Vector{Int64},
+    operationPointer::Vector{Int64},
+    locationPointer::Vector{Int64})
+
+    push!(operationNames, operation.name)
+    push!(operationDescription, operation.description)
+    push!(qubitsPerOperation, 1)
+    push!(locations, operation.location)
+    push!(operationPointer, length(operationNames))
+    push!(locationPointer, length(locations))
 end
 
 struct ClifforCircuit <: QuantumCircuit
