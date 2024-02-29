@@ -17,14 +17,14 @@ using Aqua
         # IBMQrun(to_Qobj(circuit), "ibm_osaka", token)
         # println(IBMQjobs(token))
 
-        # someQiskitStuff()
-        runOpenQASM("""OPENQASM 2.0;
-        include "qelib1.inc";
+        someQiskitStuff()
+        # runOpenQASM("""OPENQASM 2.0;
+        # include "qelib1.inc";
 
-        qreg q[2];
-        creg c[1];
-        x q[0];
-        measure q[0] -> c[0];""")
+        # qreg q[2];
+        # creg c[1];
+        # x q[0];
+        # measure q[0] -> c[0];""")
     end
 
 end
