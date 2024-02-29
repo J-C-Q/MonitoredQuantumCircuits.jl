@@ -55,10 +55,11 @@ end
 
 abstract type QuantumOperation end
 abstract type QuantumGate <: QuantumOperation end
+abstract type BasisGate <: QuantumGate end
+abstract type IBMQBasisGate <: BasisGate end
 
-abstract type PreDefGate <: QuantumGate end
 
-abstract type BasisGate <: PreDefGate end
+# ibmq basis gates: [id,rz,sx,x,ecr,reset]
 
 struct GeneralMatrixGate <: QuantumGate
     name::String
@@ -73,7 +74,7 @@ struct PauliX <: BasisGate
     end
 end
 
-struct Hadamard <: PreDefGate
+struct Hadamard <: BasisGate
     name::String
     matrix::Matrix{Complex{Float16}}
     function Hadamard()
@@ -82,7 +83,7 @@ struct Hadamard <: PreDefGate
 end
 
 
-struct ControlledX <: PreDefGate
+struct ControlledX <: BasisGate
     name::String
     matrix::Matrix{Complex{Float16}}
     function ControlledX()
@@ -119,6 +120,7 @@ abstract type QuantumCircuit end
 struct GeneralQuantumCircuit <: QuantumCircuit
     operationNames::Vector{String}
     operationDescription::Vector{String}
+    operationMatrix::Vector{Matrix}
     qubitsPerOperation::Vector{Int64}
     locations::Vector{Int64}
     parameters::Vector{Float64}
@@ -140,7 +142,7 @@ struct GeneralQuantumCircuit <: QuantumCircuit
         parameterPointer = Int64[]
 
         for operation in operationList
-            _addOperation!(operation, operationNames, operationDescription, qubitsPerOperation, locations, operationPointer, locationPointer)
+            _addOperation!(operation, operationNames, operationDescription, qubitsPerOperation, locations, parameters, operationPointer, locationPointer, parameterPointer)
         end
 
     end
@@ -154,13 +156,16 @@ function _addOperation!(operation::BasisGate,
     operationDescription::Vector{String},
     qubitsPerOperation::Vector{Int64},
     locations::Vector{Int64},
+    parameters::Vector{Float64},
     operationPointer::Vector{Int64},
-    locationPointer::Vector{Int64})
+    locationPointer::Vector{Int64},
+    parameterPointer::Vector{Int64})
 
     push!(operationNames, operation.name)
     push!(operationDescription, operation.description)
     push!(qubitsPerOperation, 1)
     push!(locations, operation.location)
+
     push!(operationPointer, length(operationNames))
     push!(locationPointer, length(locations))
 end
@@ -173,8 +178,11 @@ function _addOperation!(operation::ProjectiveMeasurement,
     operationDescription::Vector{String},
     qubitsPerOperation::Vector{Int64},
     locations::Vector{Int64},
+    parameters::Vector{Float64},
     operationPointer::Vector{Int64},
-    locationPointer::Vector{Int64})
+    locationPointer::Vector{Int64},
+    parameterPointer::Vector{Int64})
+
 
     push!(operationNames, operation.name)
     push!(operationDescription, operation.description)

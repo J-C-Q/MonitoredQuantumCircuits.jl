@@ -27,11 +27,11 @@ function to_Qobj(circuit::GeneralQuantumCircuit; kw...)
 end
 
 
-function generateInstruction(operation::PreDefGate, locations::AbstractArray{Int64})
-    return Gate(
-        name=operation.name,
-        qubits=locations,)
-end
+# function generateInstruction(operation::PreDefGate, locations::AbstractArray{Int64})
+#     return Gate(
+#         name=operation.name,
+#         qubits=locations,)
+# end
 
 function generateInstruction(operation::ProjectiveMeasurement, locations::AbstractArray{Int64})
     return Measure(qubits=locations, memory=zeros(length(locations)))
