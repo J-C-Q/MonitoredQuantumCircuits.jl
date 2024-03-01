@@ -8,7 +8,7 @@ function main()
     pyversion = PyCall.python
     println("Using Python at: $pyversion")
 
-    Conda.add(["qiskit", "qiskit-ibm-runtime"])
+    Conda.add(["qiskit", "qiskit-ibm-runtime", "qiskit-ibm-provider"])
 
 end
 

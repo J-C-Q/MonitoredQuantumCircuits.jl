@@ -30,7 +30,8 @@ include("deps/build.jl")
 
 include("QiskitAdapter.jl")
 
-export someQiskitStuff
-export runOpenQASM
+export QiskitQuantumCircuit
+export IBMQChip
+export IBMQRun
 
 end
