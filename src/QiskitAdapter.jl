@@ -37,8 +37,21 @@ end
 """
 Run a qiskit quantum circuit on an IBMQ chip.
 """
-function IBMQRun(circuit::QiskitQuantumCircuit, chip::IBMQChip; shots=1024)
-    qiskit = pyimport("qiskit")
-    qiskit.transpile(circuit.qc, chip.backend)
+function ibmqRun(circuit::QiskitQuantumCircuit, chip::IBMQChip; shots=1024)
     chip.sampler.run(circuit.qc, shots=shots)
+end
+
+"""
+Transpile a qiskit quantum circuit to an IBMQ chip
+"""
+function qiskitTranspile(circuit::QiskitQuantumCircuit, chip::IBMQChip)
+    qiskit = pyimport("qiskit")
+    qiskit.transpile(circuit.qc, backend=chip.backend)
+end
+
+"""
+A wrapper for the qiskit draw circuit function to remove the PyObject at the beginning.
+"""
+function qiskitPrint(circuit::QiskitQuantumCircuit)
+    println(string(circuit.qc.draw())[10:end])
 end

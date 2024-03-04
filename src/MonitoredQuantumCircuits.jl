@@ -26,12 +26,20 @@ module MonitoredQuantumCircuits
 
 using Conda
 using PyCall
+using StatsBase
+using Graphs
 include("deps/build.jl")
 
 include("QiskitAdapter.jl")
 
+include("PreDefCircuits.jl")
+
 export QiskitQuantumCircuit
 export IBMQChip
-export IBMQRun
+export qiskitTranspile
+export qiskitPrint
+export ibmqRun
 
+export randomCircuit
+export nishimori
 end
