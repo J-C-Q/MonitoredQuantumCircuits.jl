@@ -30,7 +30,7 @@ struct IBMQChip
         qiskit_ibm_runtime = pyimport("qiskit_ibm_runtime")
         service = qiskit_ibm_runtime.QiskitRuntimeService(channel="ibm_quantum", token=token)
         backend = service.backend("ibm_" * chip)
-        return new(backend, qiskit_ibm_runtime.Sampler(backend, options=qiskit_ibm_runtime.Options(resilience_level=0)))
+        return new(backend, qiskit_ibm_runtime.SamplerV2(backend, options=qiskit_ibm_runtime.Options(resilience_level=0)))
     end
 end
 

@@ -17,12 +17,11 @@ using Aqua
         # IBMQrun(to_Qobj(circuit), "ibm_osaka", token)
         # println(IBMQjobs(token))
 
-        # circuit = QiskitQuantumCircuit(2, 2)
-        # # circuit.qc.h(0)
-        # # circuit.qc.cx(0, 1)
+        circuit = QiskitQuantumCircuit(2, 2)
 
-        # circuit.qc.p(0.1253, 0)
-        # circuit.qc.measure([0, 1], [0, 1])
+
+        circuit.qc.p(0.1253, 0)
+        circuit.qc.measure([0, 1], [0, 1])
 
         # QiskitPrint(circuit)
 
@@ -32,10 +31,10 @@ using Aqua
 
 
         IBMQ_osaka = IBMQChip("osaka", "24519c61427d7a80665a014a79f7adbba12955cee6b72e48e3c09cb445e06aee1f43248cb2fd0ac4bada1e4d5ff6567eb61419eb95e569255ca37e57adcc6d73")
-        # QiskitTranspile(circuit, IBMQ_osaka)
+        qiskitTranspile(circuit, IBMQ_osaka)
 
         # println(randomCircuit(IBMQ_osaka, 10))
-        println(nishimori(IBMQ_osaka))
+        # println(nishimori(IBMQ_osaka))
         # QiskitPrint(circuit)
 
         # IBMQRun(circuit, IBMQ_osaka)
