@@ -34,6 +34,8 @@ include("QiskitAdapter.jl")
 
 include("PreDefCircuits.jl")
 
+include("ITensorsAdapter.jl")
+
 export QiskitQuantumCircuit
 export IBMQChip
 export qiskitTranspile
@@ -42,4 +44,6 @@ export ibmqRun
 
 export randomCircuit
 export nishimori
+
+export itensorTest
 end
