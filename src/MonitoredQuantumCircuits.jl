@@ -1,5 +1,11 @@
 module MonitoredQuantumCircuits
 
+# TODO: Define a circuit geometry (e.g. IBMQChip)
+# TODO: Create methods to add gates to the circuit (representation in Qiskit) only allow next neighbors
+# TODO: Create pre defined circuits (e.g. Nishimori)
+# TODO: Create methode to run the circuit on IBMQ or simulate it with itensors on any computer
+
+
 # Write your package code here.
 # using JLD2
 # using IBMQClient

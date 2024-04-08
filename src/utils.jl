@@ -46,5 +46,5 @@ function mapBiAc(g::Graph)
             rem_vertex!(rmAcillaGraph, i)
         end
     end
-    return rmAcillaGraph
+    return barmAcillaGraph
 end
