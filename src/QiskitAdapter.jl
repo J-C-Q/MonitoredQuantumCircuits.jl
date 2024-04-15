@@ -33,7 +33,7 @@ struct IBMQChip
         qiskit_ibm_runtime = pyimport("qiskit_ibm_runtime")
         service = qiskit_ibm_runtime.QiskitRuntimeService(channel="ibm_quantum", token=token)
         backend = service.backend("ibm_" * chip)
-        return new(backend, qiskit_ibm_runtime.Sampler(backend, options=qiskit_ibm_runtime.Options()))
+        return new(backend, qiskit_ibm_runtime.Sampler(backend, options=qiskit_ibm_runtime.Options(optimization_level=0)))
     end
 end
 
@@ -49,7 +49,7 @@ Transpile a qiskit quantum circuit to an IBMQ chip
 """
 function qiskitTranspile(circuit::QiskitQuantumCircuit, chip::IBMQChip)
     preset_passmanagers = pyimport("qiskit.transpiler.preset_passmanagers")
-    pass_manager = preset_passmanagers.generate_preset_pass_manager(optimization_level=3, backend=chip.backend)
+    pass_manager = preset_passmanagers.generate_preset_pass_manager(optimization_level=0, backend=chip.backend)
     return pass_manager.run(circuit.qc)
 end
 
