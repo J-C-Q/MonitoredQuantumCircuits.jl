@@ -6,15 +6,20 @@ function SQGO_randomCircuit(chip::IBMQChip, numberOfGates::Int)
 end
 
 function nishimori_on_Eagler3_1D(token::String)
-    chip = IBMQChip("ibm_brisbane", token)
+    chip = IBMQChip("brisbane", token)
     couplingMap = chip.backend.coupling_map.get_edges()
-    nqubits = 13
+    nqubits = 14
     anxilaryquibits = 0:2:13
-    circuit = QiskitQuantumCircuit(nqubits)
+    circuit = QiskitQuantumCircuit(nqubits, nqubits)
 
     # add H on all qubits
-    for _ in 1:nqubits
-        circuit.qc.h()
+    for i in 0:nqubits-1
+        circuit.qc.h(i)
+    end
+
+    # add Rzz gates
+    for i in 0:2:nqubits-1
+        circuit.qc.rzz(π / 2, i, i + 1)
     end
 
     qiskitPrint(circuit)
