@@ -20,7 +20,7 @@ struct QiskitQuantumCircuit
 end
 
 """
-A wrapper for the qiskit Sampler python class.
+A wrapper for the qiskit Sampler(V2) python class.
 """
 struct IBMQChip
     backend::PyCall.PyObject

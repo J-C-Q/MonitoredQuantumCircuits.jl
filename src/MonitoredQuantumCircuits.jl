@@ -1,6 +1,7 @@
 module MonitoredQuantumCircuits
 
 # TODO: Define a circuit geometry (e.g. IBMQChip)
+# ? just use Graphs.jl
 # TODO: Create methods to add gates to the circuit (representation in Qiskit) only allow next neighbors
 # TODO: Create pre defined circuits (e.g. Nishimori)
 # TODO: Create methode to run the circuit on IBMQ or simulate it with itensors on any computer
@@ -49,7 +50,7 @@ export qiskitPrint
 export ibmqRun
 
 export randomCircuit
-export nishimori
+export nishimori_on_Eagler3_1D
 
 export itensorTest
 end
