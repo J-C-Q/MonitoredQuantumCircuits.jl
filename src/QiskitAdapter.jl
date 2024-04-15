@@ -5,6 +5,9 @@ A wrapper for the qiskit QuantumCircuit python class.
 struct QiskitQuantumCircuit
     qc::PyCall.PyObject
 
+    function QiskitQuantumCircuit(qc::PyCall.PyObject)
+        return new(qc)
+    end
     function QiskitQuantumCircuit(qubits::Int)
         qiskit = pyimport("qiskit")
         return new(qiskit.QuantumCircuit(qubits))
@@ -30,7 +33,7 @@ struct IBMQChip
         qiskit_ibm_runtime = pyimport("qiskit_ibm_runtime")
         service = qiskit_ibm_runtime.QiskitRuntimeService(channel="ibm_quantum", token=token)
         backend = service.backend("ibm_" * chip)
-        return new(backend, qiskit_ibm_runtime.SamplerV2(backend, options=qiskit_ibm_runtime.SamplerOptions()))
+        return new(backend, qiskit_ibm_runtime.Sampler(backend, options=qiskit_ibm_runtime.Options()))
     end
 end
 
@@ -45,8 +48,9 @@ end
 Transpile a qiskit quantum circuit to an IBMQ chip
 """
 function qiskitTranspile(circuit::QiskitQuantumCircuit, chip::IBMQChip)
-    qiskit = pyimport("qiskit")
-    qiskit.transpile(circuit.qc, backend=chip.backend)
+    preset_passmanagers = pyimport("qiskit.transpiler.preset_passmanagers")
+    pass_manager = preset_passmanagers.generate_preset_pass_manager(optimization_level=3, backend=chip.backend)
+    return pass_manager.run(circuit.qc)
 end
 
 """

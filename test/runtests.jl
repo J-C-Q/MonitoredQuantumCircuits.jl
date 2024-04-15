@@ -48,7 +48,8 @@ using Aqua
 
 
         # itensorTest()
-        nishimori_on_Eagler3_1D("24519c61427d7a80665a014a79f7adbba12955cee6b72e48e3c09cb445e06aee1f43248cb2fd0ac4bada1e4d5ff6567eb61419eb95e569255ca37e57adcc6d73")
+        token = "24519c61427d7a80665a014a79f7adbba12955cee6b72e48e3c09cb445e06aee1f43248cb2fd0ac4bada1e4d5ff6567eb61419eb95e569255ca37e57adcc6d73"
+        ibmqRun(nishimori_on_Eagler3_1D(token), IBMQChip("brisbane", token))
     end
 
 end
