@@ -35,6 +35,8 @@ using Conda
 using PyCall
 using StatsBase
 using Graphs
+using GLMakie
+using GLMakie.GeometryBasics
 include("deps/build.jl")
 
 include("QiskitAdapter.jl")
@@ -42,6 +44,8 @@ include("QiskitAdapter.jl")
 include("PreDefCircuits.jl")
 
 include("ITensorsAdapter.jl")
+
+include("GLMakiePrint.jl")
 
 export QiskitQuantumCircuit
 export IBMQChip
@@ -53,4 +57,6 @@ export randomCircuit
 export nishimori_on_Eagler3_1D
 
 export itensorTest
+
+export GLMakiePrint
 end

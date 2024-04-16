@@ -42,11 +42,11 @@ function nishimori_on_Eagler3_1D(token::String)
     end
 
     # measure A qubits
-    for i in 0:nqubits-1
+    for i in 0:4:nqubits-1
         circuit.qc.measure(i, i)
     end
-    transpiled = qiskitTranspile(circuit, chip)
-    circuit = QiskitQuantumCircuit(transpiled)
-    qiskitPrint(circuit)
+    # transpiled = qiskitTranspile(circuit, chip)
+    # circuit = QiskitQuantumCircuit(transpiled)
+    # qiskitPrint(circuit)
     return circuit
 end
