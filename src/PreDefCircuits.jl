@@ -31,6 +31,7 @@ function nishimori_on_Eagler3_1D(token::String)
         circuit.qc.rzz(π / 2, i, i + 1)
     end
 
+
     # h on all acillas
     for i in anxilaryquibits
         circuit.qc.h(i)
@@ -42,11 +43,11 @@ function nishimori_on_Eagler3_1D(token::String)
     end
 
     # measure A qubits
-    for i in 0:4:nqubits-1
-        circuit.qc.measure(i, i)
-    end
-    # transpiled = qiskitTranspile(circuit, chip)
-    # circuit = QiskitQuantumCircuit(transpiled)
+    # for i in 0:4:nqubits-1
+    #     circuit.qc.measure(i, i)
+    # end
+    transpiled = qiskitTranspile(circuit, chip)
+    circuit = QiskitQuantumCircuit(transpiled)
     # qiskitPrint(circuit)
     return circuit
 end

@@ -3,7 +3,7 @@ Print a circuit on a given geometry or chip in 3D using GLMakie
 """
 function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
     fig = Figure()
-    scene = LScene(fig[1, 1])
+    scene = LScene(fig[1, 1], show_axis=false)
 
     couplingMap = chip.backend.coupling_map
 
@@ -94,8 +94,9 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
     singleQubitGates = Point3[]
     singleQubitGateLabels = String[]
     measurements = Point3[]
-    twoQubitGates = Point3[]
     twoQubitGates2 = Point3[]
+    twoQubitGatesRotation = Float64[]
+    twoQubitGateLabels = String[]
     timeOffset = 0.2
 
     for gate in circuitData
@@ -105,17 +106,17 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
                 push!(measurements, layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]))
             else
                 push!(singleQubitGates, layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]))
-                push!(singleQubitGateLabels, string(gate.operation.name))
+                push!(singleQubitGateLabels, uppercase(string(gate.operation.name)))
             end
             usedQubits = union(usedQubits, Set([gate.qubits[1]._index + 1]))
         elseif gate.operation.num_qubits == 2
             time = max(currentTime[gate.qubits[1]._index+1], currentTime[gate.qubits[2]._index+1])
             currentTime[gate.qubits[1]._index+1] = time + timeOffset
             currentTime[gate.qubits[2]._index+1] = time + timeOffset
-            push!(twoQubitGates, layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]))
-            push!(twoQubitGates, layout[gate.qubits[2]._index+1] + Point3(0, 0, currentTime[gate.qubits[2]._index+1]))
-            usedQubits = union(usedQubits, Set([gate.qubits[1]._index + 1, gate.qubits[2]._index + 1]))
             push!(twoQubitGates2, (layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]) + layout[gate.qubits[2]._index+1] + Point3(0, 0, currentTime[gate.qubits[2]._index+1])) ./ 2)
+            difference = (layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]) - (layout[gate.qubits[2]._index+1] + Point3(0, 0, currentTime[gate.qubits[2]._index+1])))
+            push!(twoQubitGatesRotation, atan(difference[1], difference[2]))
+            push!(twoQubitGateLabels, uppercase(string(gate.operation.name)))
         end
     end
 
@@ -132,11 +133,16 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
 
     meshscatter!(scene, layout, markersize=0.1, color=:black)
     linesegments!(scene, connections, linewidth=1, color=:black)
-    linesegments!(scene, timePaths, linewidth=1, color=:red)
-    meshscatter!(scene, singleQubitGates, markersize=0.2, color=:blue, marker=singleQubitMesh)
-    meshscatter!(scene, measurements, markersize=0.2, color=:red, marker=singleQubitMesh)
+    # linesegments!(scene, timePaths, linewidth=1, color=:red)
+    meshscatter!(scene, singleQubitGates, markersize=0.2, color=(:blue, 0.2), marker=singleQubitMesh, transparency=true)
+    meshscatter!(scene, measurements, markersize=0.2, color=(:red, 0.2), marker=singleQubitMesh, transparency=true)
     # linesegments!(scene, twoQubitGates, linewidth=1, color=:green)
-    meshscatter!(scene, twoQubitGates2, markersize=0.2, color=:green, marker=twoQubitMesh)
-    # text!(scene, singleQubitGates, text=singleQubitGateLabels, fontsize=0.1, color=:black, markerspace=:data)
+    meshscatter!(scene, twoQubitGates2, markersize=0.2, color=(:green, 0.2), marker=twoQubitMesh, rotations=twoQubitGatesRotation, transparency=true)
+    text!(scene, singleQubitGates, text=singleQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
+    text!(scene, twoQubitGates2, text=twoQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
     display(fig)
+end
+
+function quaternion(normalVector, angle)
+    return Quaternion(sin(angle / 2) * normalVector[1], sin(angle / 2) * normalVector[2], sin(angle / 2) * normalVector[3], cos(angle / 2))
 end
