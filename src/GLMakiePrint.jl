@@ -129,7 +129,8 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
     end
 
 
-    singleQubitMesh = Rect3f(Vec3f(-0.5), Vec3f(1))
+    singleQubitMesh = load("resources/beveled_cube.stl")
+    # Rect3f(Vec3f(-0.5), Vec3f(1))
     twoQubitMesh = Rect3f(Vec3f(-0.5, -3, -0.5), Vec3f(1, 6, 1))
 
 
