@@ -1,8 +1,29 @@
 include("utils.jl")
-function SQGO_randomCircuit(chip::IBMQChip, numberOfGates::Int)
-    basisGates = chip.backend.gates
-
-    gates = sample(basisGates, numberOfGates)
+function randomCircuit(chip::IBMQChip, numberOfGates::Int)
+    qiskitcircuit = pyimport("qiskit.circuit")
+    nqubits = chip.backend.num_qubits
+    couplingMap = chip.backend.coupling_map.get_edges()
+    supportedGates = chip.backend.gates[1:end-1]
+    println(supportedGates)
+    circuit = QiskitQuantumCircuit(nqubits, nqubits)
+    for i in 1:numberOfGates
+        gate = rand(supportedGates)
+        if gate.parameters != 0
+            instruction = qiskitcircuit.Instruction(gate.name, length(gate.coupling_map[1]), 0, [0])
+        else
+            instruction = qiskitcircuit.Instruction(gate.name, length(gate.coupling_map[1]), 0, [])
+        end
+        qubits = rand(gate.coupling_map)
+        circuit.qc.append(instruction, qubits)
+        # if gate.num_qubits == 1
+        #     qubit = rand(0:nqubits-1)
+        #     circuit.qc.append(gate, [qubit])
+        # elseif gate.num_qubits == 2
+        #     qubits = rand(couplingMap)
+        #     circuit.qc.append(gate, qubits)
+        # end
+    end
+    return circuit
 end
 
 function nishimori_on_Eagler3_1D(token::String)
@@ -46,8 +67,8 @@ function nishimori_on_Eagler3_1D(token::String)
     # for i in 0:4:nqubits-1
     #     circuit.qc.measure(i, i)
     # end
-    transpiled = qiskitTranspile(circuit, chip)
-    circuit = QiskitQuantumCircuit(transpiled)
+    # transpiled = qiskitTranspile(circuit, chip)
+    # circuit = QiskitQuantumCircuit(transpiled)
     # qiskitPrint(circuit)
     return circuit
 end

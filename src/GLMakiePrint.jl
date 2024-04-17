@@ -96,6 +96,7 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
     measurements = Point3[]
     twoQubitGates2 = Point3[]
     twoQubitGatesRotation = Float64[]
+    twoQubitGateScales = Point3[]
     twoQubitGateLabels = String[]
     timeOffset = 0.2
 
@@ -116,6 +117,7 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
             push!(twoQubitGates2, (layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]) + layout[gate.qubits[2]._index+1] + Point3(0, 0, currentTime[gate.qubits[2]._index+1])) ./ 2)
             difference = (layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]) - (layout[gate.qubits[2]._index+1] + Point3(0, 0, currentTime[gate.qubits[2]._index+1])))
             push!(twoQubitGatesRotation, atan(difference[1], difference[2]))
+            push!(twoQubitGateScales, Point3(0.2, norm(difference) + 0.2, 0.2))
             push!(twoQubitGateLabels, uppercase(string(gate.operation.name)))
         end
     end
@@ -134,10 +136,10 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
     meshscatter!(scene, layout, markersize=0.1, color=:black)
     linesegments!(scene, connections, linewidth=1, color=:black)
     # linesegments!(scene, timePaths, linewidth=1, color=:red)
-    meshscatter!(scene, singleQubitGates, markersize=0.2, color=(:blue, 0.2), marker=singleQubitMesh, transparency=true)
-    meshscatter!(scene, measurements, markersize=0.2, color=(:red, 0.2), marker=singleQubitMesh, transparency=true)
+    meshscatter!(scene, singleQubitGates, markersize=0.2, color=(:blue, 1), marker=singleQubitMesh, transparency=false)
+    meshscatter!(scene, measurements, markersize=0.2, color=(:red, 1), marker=singleQubitMesh, transparency=false)
     # linesegments!(scene, twoQubitGates, linewidth=1, color=:green)
-    meshscatter!(scene, twoQubitGates2, markersize=0.2, color=(:green, 0.2), marker=twoQubitMesh, rotations=twoQubitGatesRotation, transparency=true)
+    meshscatter!(scene, twoQubitGates2, markersize=twoQubitGateScales, color=(:green, 1), marker=singleQubitMesh, rotations=twoQubitGatesRotation, transparency=false)
     text!(scene, singleQubitGates, text=singleQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
     text!(scene, twoQubitGates2, text=twoQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
     display(fig)
