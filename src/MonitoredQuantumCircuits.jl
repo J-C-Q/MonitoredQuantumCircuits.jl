@@ -36,6 +36,7 @@ using PyCall
 using StatsBase
 using Graphs
 using GLMakie
+using LinearAlgebra
 using GLMakie.GeometryBasics
 include("deps/build.jl")
 

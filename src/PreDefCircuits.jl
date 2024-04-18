@@ -26,9 +26,9 @@ function randomCircuit(chip::IBMQChip, numberOfGates::Int)
     return circuit
 end
 
-function nishimori_on_Eagler3_1D(token::String)
-    fakeProvidor = pyimport("qiskit_ibm_runtime.fake_povider")
-    chip = fakeProvidor.FakeBrisbane() #IBMQChip("brisbane", token)
+function nishimori_on_Eagler3_1D(chip::IBMQChip)
+    # fakeProvidor = pyimport("qiskit_ibm_runtime.fake_povider")
+    # chip = IBMQChip("brisbane", token)
     couplingMap = chip.backend.coupling_map.get_edges()
     nqubits = 13
     anxilaryquibits = 1:2:nqubits-1

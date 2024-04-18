@@ -78,9 +78,13 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
 
 
     connections = Point3[]
+    connectionRotations = Point3[]
     for c in couplingMap
-        push!(connections, layout[c[1]+1])
-        push!(connections, layout[c[2]+1])
+        push!(connections, (layout[c[1]+1].+layout[c[2]+1])./2)
+        difference = layout[c[1]+1] - layout[c[2]+1]
+        push!(connectionRotations, difference)
+        # push!(connections, layout[c[1]+1])
+        # push!(connections, layout[c[2]+1])
     end
 
 
@@ -124,19 +128,34 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
 
     timePaths = Point3[]
     for i in usedQubits
-        push!(timePaths, layout[i])
-        push!(timePaths, layout[i] + Point3(0, 0, circuitDepth * timeOffset))
+        push!(timePaths, layout[i] + Point3(0, 0, circuitDepth * timeOffset/2))
     end
 
 
-    singleQubitMesh = load("resources/beveled_cube.stl")
+    singleQubitMesh = beveledCubeMesh(1,1)#load("src/resources/beveled_cube2.stl")
     # Rect3f(Vec3f(-0.5), Vec3f(1))
     twoQubitMesh = Rect3f(Vec3f(-0.5, -3, -0.5), Vec3f(1, 6, 1))
 
+    # qubits
+    meshscatter!(scene,
+    layout,
+    markersize=0.1,
+    color=:black)
 
-    meshscatter!(scene, layout, markersize=0.1, color=:black)
-    linesegments!(scene, connections, linewidth=1, color=:black)
-    # linesegments!(scene, timePaths, linewidth=1, color=:red)
+    # connections
+    meshscatter!(scene,
+    connections,
+    marker=Makie._mantle(Point3f(0, 0, -1/2), Point3f(0, 0, 1/2), 0.1, 0.1, 16), color=:black,
+    markersize=(0.2,0.2,1),
+    rotations=connectionRotations)
+
+    # time paths
+    meshscatter!(scene,
+    timePaths,
+    color=:black,
+    marker=Makie._mantle(Point3f(0, 0, -1 / 2), Point3f(0, 0, 1 / 2), 0.1, 0.1, 16),markersize=(0.2,0.2,1))
+
+
     meshscatter!(scene, singleQubitGates, markersize=0.2, color=(:blue, 1), marker=singleQubitMesh, transparency=false)
     meshscatter!(scene, measurements, markersize=0.2, color=(:red, 1), marker=singleQubitMesh, transparency=false)
     # linesegments!(scene, twoQubitGates, linewidth=1, color=:green)
@@ -148,4 +167,54 @@ end
 
 function quaternion(normalVector, angle)
     return Quaternion(sin(angle / 2) * normalVector[1], sin(angle / 2) * normalVector[2], sin(angle / 2) * normalVector[3], cos(angle / 2))
+end
+
+
+function beveledCubeMesh(radius::Real,segments::Int)
+    cubeSize = 0.5
+    radius > 0 || throw(ArgumentError("radius must be positive"))
+    segments > 0 || throw(ArgumentError("segments must be positive"))
+
+    # Create the vertices of a cube
+    vertices = [
+        Point3f(-cubeSize, -cubeSize, -cubeSize),
+        Point3f(-cubeSize, -cubeSize, cubeSize),
+        Point3f(-cubeSize, cubeSize, -cubeSize),
+        Point3f(-cubeSize, cubeSize, cubeSize),
+        Point3f(cubeSize, -cubeSize, -cubeSize),
+        Point3f(cubeSize, -cubeSize, cubeSize),
+        Point3f(cubeSize, cubeSize, -cubeSize),
+        Point3f(cubeSize, cubeSize, cubeSize)
+    ]
+
+    normals = [
+        Vec3f(-1, -1, -1),
+        Vec3f(-1, -1, 1),
+        Vec3f(-1, 1, -1),
+        Vec3f(-1, 1, 1),
+        Vec3f(1, -1, -1),
+        Vec3f(1, -1, 1),
+        Vec3f(1, 1, -1),
+        Vec3f(1, 1, 1)
+    ]
+
+    # Create the faces of a cube
+    faces = [
+        GLTriangleFace(1, 2, 4),
+        GLTriangleFace(1, 4, 3),
+        GLTriangleFace(1, 3, 7),
+        GLTriangleFace(1, 7, 5),
+        GLTriangleFace(1, 5, 6),
+        GLTriangleFace(1, 6, 2),
+        GLTriangleFace(2, 6, 8),
+        GLTriangleFace(2, 8, 4),
+        GLTriangleFace(3, 4, 8),
+        GLTriangleFace(3, 8, 7),
+        GLTriangleFace(5, 7, 8),
+        GLTriangleFace(5, 8, 6)
+    ]
+
+    # Create the mesh
+    return GeometryBasics.Mesh(vertices, faces)
+
 end

@@ -1,4 +1,4 @@
-using ITensors
+# using ITensors
 
 function itensorTest()
     # Define the qubits (indices)
