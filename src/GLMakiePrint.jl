@@ -3,7 +3,9 @@ Print a circuit on a given geometry or chip in 3D using GLMakie
 """
 function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
     fig = Figure()
-    scene = LScene(fig[1, 1], show_axis=false)
+    ssao = Makie.SSAO(radius=5.0, blur=3)
+    scene = LScene(fig[1, 1], show_axis=false, scenekw=(ssao=ssao,))
+    scene.scene.ssao.bias[] = 0.025
 
     couplingMap = chip.backend.coupling_map
 
@@ -79,10 +81,12 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
 
     connections = Point3[]
     connectionRotations = Point3[]
+    connectionScales = Point3[]
     for c in couplingMap
-        push!(connections, (layout[c[1]+1].+layout[c[2]+1])./2)
-        difference = layout[c[1]+1] - layout[c[2]+1]
+        push!(connections, (layout[c[1]+1] .+ layout[c[2]+1]) ./ 2)
+        difference = layout[c[1]+1] .- layout[c[2]+1]
         push!(connectionRotations, difference)
+        push!(connectionScales, Point3(0.075, 0.075, norm(difference)))
         # push!(connections, layout[c[1]+1])
         # push!(connections, layout[c[2]+1])
     end
@@ -102,7 +106,10 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
     twoQubitGatesRotation = Float64[]
     twoQubitGateScales = Point3[]
     twoQubitGateLabels = String[]
-    timeOffset = 0.2
+
+    twoQubitGatesHelper = Point3[]
+    twoQubitGatesHelperRotation = Float64[]
+    timeOffset = 0.21
 
     for gate in circuitData
         if gate.operation.num_qubits == 1
@@ -119,49 +126,89 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
             currentTime[gate.qubits[1]._index+1] = time + timeOffset
             currentTime[gate.qubits[2]._index+1] = time + timeOffset
             push!(twoQubitGates2, (layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]) + layout[gate.qubits[2]._index+1] + Point3(0, 0, currentTime[gate.qubits[2]._index+1])) ./ 2)
+
+            push!(twoQubitGatesHelper, layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]))
+            push!(twoQubitGatesHelper, layout[gate.qubits[2]._index+1] + Point3(0, 0, currentTime[gate.qubits[2]._index+1]))
             difference = (layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]) - (layout[gate.qubits[2]._index+1] + Point3(0, 0, currentTime[gate.qubits[2]._index+1])))
-            push!(twoQubitGatesRotation, atan(difference[1], difference[2]))
-            push!(twoQubitGateScales, Point3(0.2, norm(difference) + 0.2, 0.2))
+            push!(twoQubitGatesRotation, atan(difference[2], difference[1]) + π / 2)
+            push!(twoQubitGatesHelperRotation, atan(difference[2], difference[1]) + π / 2)
+            push!(twoQubitGatesHelperRotation, atan(difference[2], difference[1]) + 3π / 2)
+            push!(twoQubitGateScales, Point3(0.2, norm(difference) - 0.2, 0.2))
             push!(twoQubitGateLabels, uppercase(string(gate.operation.name)))
         end
     end
 
     timePaths = Point3[]
     for i in usedQubits
-        push!(timePaths, layout[i] + Point3(0, 0, circuitDepth * timeOffset/2))
+        push!(timePaths, layout[i] + Point3(0, 0, circuitDepth * timeOffset / 2))
     end
 
 
-    singleQubitMesh = beveledCubeMesh(1,1)#load("src/resources/beveled_cube2.stl")
+    singleQubitMesh = load("src/resources/beveled_cube2.stl")
+    singleQubitMesh2 = load("src/resources/beveled_cube_withhole.stl")
     # Rect3f(Vec3f(-0.5), Vec3f(1))
-    twoQubitMesh = Rect3f(Vec3f(-0.5, -3, -0.5), Vec3f(1, 6, 1))
+    twoQubitMesh = load("src/resources/beveled_oneside.stl")
+    twoQubitHelperMesh = load("src/resources/beveled_oneside_end.stl")
+    cylinderMesh = load("src/resources/cylinder.stl")
 
     # qubits
     meshscatter!(scene,
-    layout,
-    markersize=0.1,
-    color=:black)
+        layout,
+        markersize=0.1,
+        color="#1e1b18", ssao=true)
 
     # connections
     meshscatter!(scene,
-    connections,
-    marker=Makie._mantle(Point3f(0, 0, -1/2), Point3f(0, 0, 1/2), 0.1, 0.1, 16), color=:black,
-    markersize=(0.2,0.2,1),
-    rotations=connectionRotations)
+        connections,
+        marker=cylinderMesh,#Makie._mantle(Point3f(0, 0, -1 / 2), Point3f(0, 0, 1 / 2), 0.1, 0.1, 16),
+        color="#1e1b18",
+        markersize=connectionScales,
+        rotations=connectionRotations, ssao=true)
 
     # time paths
     meshscatter!(scene,
-    timePaths,
-    color=:black,
-    marker=Makie._mantle(Point3f(0, 0, -1 / 2), Point3f(0, 0, 1 / 2), 0.1, 0.1, 16),markersize=(0.2,0.2,1))
+        timePaths,
+        color="#1e1b18",
+        marker=cylinderMesh,#Makie._mantle(Point3f(0, 0, -1 / 2), Point3f(0, 0, 1 / 2), 0.1, 0.1, 16),
+        markersize=(0.075, 0.075, 1),
+        ssao=true)
 
 
-    meshscatter!(scene, singleQubitGates, markersize=0.2, color=(:blue, 1), marker=singleQubitMesh, transparency=false)
-    meshscatter!(scene, measurements, markersize=0.2, color=(:red, 1), marker=singleQubitMesh, transparency=false)
-    # linesegments!(scene, twoQubitGates, linewidth=1, color=:green)
-    meshscatter!(scene, twoQubitGates2, markersize=twoQubitGateScales, color=(:green, 1), marker=singleQubitMesh, rotations=twoQubitGatesRotation, transparency=false)
-    text!(scene, singleQubitGates, text=singleQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
-    text!(scene, twoQubitGates2, text=twoQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
+    meshscatter!(scene,
+        singleQubitGates,
+        markersize=0.2,
+        color="#3e92cc",
+        marker=singleQubitMesh2,
+        transparency=false,
+        ssao=true)
+
+    meshscatter!(scene,
+        measurements,
+        markersize=0.2,
+        color="#d8315b",
+        marker=singleQubitMesh2,
+        transparency=false,
+        ssao=true)
+
+    meshscatter!(scene,
+        twoQubitGates2,
+        markersize=twoQubitGateScales,
+        color="#3e92cc",
+        marker=twoQubitMesh,
+        rotations=twoQubitGatesRotation,
+        transparency=false,
+        ssao=true)
+    meshscatter!(scene,
+        twoQubitGatesHelper,
+        markersize=0.2,
+        color="#3e92cc",
+        marker=twoQubitHelperMesh,
+        transparency=false,
+        ssao=true,
+        rotations=twoQubitGatesHelperRotation)
+
+    # text!(scene, singleQubitGates, text=singleQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
+    # text!(scene, twoQubitGates2, text=twoQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
     display(fig)
 end
 
@@ -170,7 +217,7 @@ function quaternion(normalVector, angle)
 end
 
 
-function beveledCubeMesh(radius::Real,segments::Int)
+function beveledCubeMesh(radius::Real, segments::Int)
     cubeSize = 0.5
     radius > 0 || throw(ArgumentError("radius must be positive"))
     segments > 0 || throw(ArgumentError("segments must be positive"))

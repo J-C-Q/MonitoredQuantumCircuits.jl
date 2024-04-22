@@ -60,4 +60,7 @@ export nishimori_on_Eagler3_1D
 export itensorTest
 
 export GLMakiePrint
+
+# weird bug with cryptography
+ENV["CRYPTOGRAPHY_OPENSSL_NO_LEGACY"] = "1"
 end
