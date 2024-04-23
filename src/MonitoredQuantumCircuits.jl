@@ -56,6 +56,7 @@ export ibmqRun
 
 export randomCircuit
 export nishimori_on_Eagler3_1D
+export nishimori_on_Eagler3
 
 export itensorTest
 

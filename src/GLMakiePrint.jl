@@ -135,6 +135,8 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
             push!(twoQubitGatesHelperRotation, atan(difference[2], difference[1]) + 3π / 2)
             push!(twoQubitGateScales, Point3(0.2, norm(difference) - 0.2, 0.2))
             push!(twoQubitGateLabels, uppercase(string(gate.operation.name)))
+        elseif gate.operation.name == "barrier"
+            currentTime .= maximum(currentTime)
         end
     end
 
@@ -170,7 +172,7 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
         timePaths,
         color="#1e1b18",
         marker=cylinderMesh,#Makie._mantle(Point3f(0, 0, -1 / 2), Point3f(0, 0, 1 / 2), 0.1, 0.1, 16),
-        markersize=(0.075, 0.075, 1),
+        markersize=(0.075, 0.075, maximum(currentTime) + 0.1),
         ssao=true)
 
 
@@ -182,30 +184,34 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
         transparency=false,
         ssao=true)
 
-    meshscatter!(scene,
-        measurements,
-        markersize=0.2,
-        color="#d8315b",
-        marker=singleQubitMesh2,
-        transparency=false,
-        ssao=true)
+    if length(measurements) > 0
+        meshscatter!(scene,
+            measurements,
+            markersize=0.2,
+            color="#d8315b",
+            marker=singleQubitMesh2,
+            transparency=false,
+            ssao=true)
+    end
 
-    meshscatter!(scene,
-        twoQubitGates2,
-        markersize=twoQubitGateScales,
-        color="#3e92cc",
-        marker=twoQubitMesh,
-        rotations=twoQubitGatesRotation,
-        transparency=false,
-        ssao=true)
-    meshscatter!(scene,
-        twoQubitGatesHelper,
-        markersize=0.2,
-        color="#3e92cc",
-        marker=twoQubitHelperMesh,
-        transparency=false,
-        ssao=true,
-        rotations=twoQubitGatesHelperRotation)
+    if length(twoQubitGates2) > 0
+        meshscatter!(scene,
+            twoQubitGates2,
+            markersize=twoQubitGateScales,
+            color=("#3e92cc", 1),
+            marker=twoQubitMesh,
+            rotations=twoQubitGatesRotation,
+            transparency=false,
+            ssao=true)
+        meshscatter!(scene,
+            twoQubitGatesHelper,
+            markersize=0.2,
+            color=("#3e92cc", 1),
+            marker=twoQubitHelperMesh,
+            transparency=false,
+            ssao=true,
+            rotations=twoQubitGatesHelperRotation)
+    end
 
     # text!(scene, singleQubitGates, text=singleQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
     # text!(scene, twoQubitGates2, text=twoQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
@@ -214,54 +220,4 @@ end
 
 function quaternion(normalVector, angle)
     return Quaternion(sin(angle / 2) * normalVector[1], sin(angle / 2) * normalVector[2], sin(angle / 2) * normalVector[3], cos(angle / 2))
-end
-
-
-function beveledCubeMesh(radius::Real, segments::Int)
-    cubeSize = 0.5
-    radius > 0 || throw(ArgumentError("radius must be positive"))
-    segments > 0 || throw(ArgumentError("segments must be positive"))
-
-    # Create the vertices of a cube
-    vertices = [
-        Point3f(-cubeSize, -cubeSize, -cubeSize),
-        Point3f(-cubeSize, -cubeSize, cubeSize),
-        Point3f(-cubeSize, cubeSize, -cubeSize),
-        Point3f(-cubeSize, cubeSize, cubeSize),
-        Point3f(cubeSize, -cubeSize, -cubeSize),
-        Point3f(cubeSize, -cubeSize, cubeSize),
-        Point3f(cubeSize, cubeSize, -cubeSize),
-        Point3f(cubeSize, cubeSize, cubeSize)
-    ]
-
-    normals = [
-        Vec3f(-1, -1, -1),
-        Vec3f(-1, -1, 1),
-        Vec3f(-1, 1, -1),
-        Vec3f(-1, 1, 1),
-        Vec3f(1, -1, -1),
-        Vec3f(1, -1, 1),
-        Vec3f(1, 1, -1),
-        Vec3f(1, 1, 1)
-    ]
-
-    # Create the faces of a cube
-    faces = [
-        GLTriangleFace(1, 2, 4),
-        GLTriangleFace(1, 4, 3),
-        GLTriangleFace(1, 3, 7),
-        GLTriangleFace(1, 7, 5),
-        GLTriangleFace(1, 5, 6),
-        GLTriangleFace(1, 6, 2),
-        GLTriangleFace(2, 6, 8),
-        GLTriangleFace(2, 8, 4),
-        GLTriangleFace(3, 4, 8),
-        GLTriangleFace(3, 8, 7),
-        GLTriangleFace(5, 7, 8),
-        GLTriangleFace(5, 8, 6)
-    ]
-
-    # Create the mesh
-    return GeometryBasics.Mesh(vertices, faces)
-
 end
