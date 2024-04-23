@@ -92,7 +92,7 @@ function nishimori_on_Eagler3(chip::IBMQChip)
         collect(90:93),
         collect(95:2:108),
         collect(109:112),
-        collect(115:126))
+        collect(115:2:126))
     circuit = QiskitQuantumCircuit(nqubits, nqubits)
 
     # add H on all qubits
@@ -229,9 +229,17 @@ function nishimori_on_Eagler3(chip::IBMQChip)
     end
     circuit.qc.barrier()
     # measure A qubits
-    # for i in 0:4:nqubits-1
-    #     circuit.qc.measure(i, i)
-    # end
+    j = 0
+    for i in 0:nqubits-1
+        if i in ancillaQubits || i == 13 || i == 113
+            continue
+        end
+        j += 1
+        if j % 2 == 0
+            continue
+        end
+        circuit.qc.measure(i, i)
+    end
     # transpiled = qiskitTranspile(circuit, chip)
     # circuit = QiskitQuantumCircuit(transpiled)
     # qiskitPrint(circuit)

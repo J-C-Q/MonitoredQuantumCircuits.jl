@@ -97,8 +97,15 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
     circuitData = circuit.qc.data
     # println(circuitData)
 
+    layerSlider = Slider(fig[2, 1], value=1, range=1:circuitDepth)
+
+
     usedQubits = Set{Int}()
     currentTime = zeros(chip.backend.num_qubits)
+    singelQubitDepth = Int64[]
+    twoQubitDepth = Int64[]
+    twoQubitHelperDepth = Int64[]
+    measurementsDepth = Int64[]
     singleQubitGates = Point3[]
     singleQubitGateLabels = String[]
     measurements = Point3[]
@@ -116,8 +123,10 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
             currentTime[gate.qubits[1]._index+1] += timeOffset
             if gate.operation.num_clbits == 1
                 push!(measurements, layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]))
+                push!(measurementsDepth, round(Int64, currentTime[gate.qubits[1]._index+1] / timeOffset))
             else
                 push!(singleQubitGates, layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]))
+                push!(singelQubitDepth, round(Int64, currentTime[gate.qubits[1]._index+1] / timeOffset))
                 push!(singleQubitGateLabels, uppercase(string(gate.operation.name)))
             end
             usedQubits = union(usedQubits, Set([gate.qubits[1]._index + 1]))
@@ -125,10 +134,15 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
             time = max(currentTime[gate.qubits[1]._index+1], currentTime[gate.qubits[2]._index+1])
             currentTime[gate.qubits[1]._index+1] = time + timeOffset
             currentTime[gate.qubits[2]._index+1] = time + timeOffset
+
             push!(twoQubitGates2, (layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]) + layout[gate.qubits[2]._index+1] + Point3(0, 0, currentTime[gate.qubits[2]._index+1])) ./ 2)
+            push!(twoQubitDepth, round(Int64, currentTime[gate.qubits[1]._index+1] / timeOffset))
 
             push!(twoQubitGatesHelper, layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]))
             push!(twoQubitGatesHelper, layout[gate.qubits[2]._index+1] + Point3(0, 0, currentTime[gate.qubits[2]._index+1]))
+            push!(twoQubitHelperDepth, round(Int64, currentTime[gate.qubits[1]._index+1] / timeOffset))
+            push!(twoQubitHelperDepth, round(Int64, currentTime[gate.qubits[1]._index+1] / timeOffset))
+
             difference = (layout[gate.qubits[1]._index+1] + Point3(0, 0, currentTime[gate.qubits[1]._index+1]) - (layout[gate.qubits[2]._index+1] + Point3(0, 0, currentTime[gate.qubits[2]._index+1])))
             push!(twoQubitGatesRotation, atan(difference[2], difference[1]) + π / 2)
             push!(twoQubitGatesHelperRotation, atan(difference[2], difference[1]) + π / 2)
@@ -139,6 +153,11 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
             currentTime .= maximum(currentTime)
         end
     end
+
+    singleQubitColors = Observable([("#3e92cc", 1.0) for _ in 1:length(singleQubitGates)])
+    twoQubitColors = Observable([("#3e92cc", 1.0) for _ in 1:length(twoQubitGates2)])
+    twoQubitHelperColors = Observable([("#3e92cc", 1.0) for _ in 1:length(twoQubitGatesHelper)])
+    measurementsColors = Observable([("#d8315b", 1.0) for _ in 1:length(measurements)])
 
     timePaths = Point3[]
     for i in usedQubits
@@ -179,7 +198,7 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
     meshscatter!(scene,
         singleQubitGates,
         markersize=0.2,
-        color="#3e92cc",
+        color=singleQubitColors,
         marker=singleQubitMesh2,
         transparency=false,
         ssao=true)
@@ -188,7 +207,7 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
         meshscatter!(scene,
             measurements,
             markersize=0.2,
-            color="#d8315b",
+            color=measurementsColors,
             marker=singleQubitMesh2,
             transparency=false,
             ssao=true)
@@ -198,7 +217,7 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
         meshscatter!(scene,
             twoQubitGates2,
             markersize=twoQubitGateScales,
-            color=("#3e92cc", 1),
+            color=twoQubitColors,
             marker=twoQubitMesh,
             rotations=twoQubitGatesRotation,
             transparency=false,
@@ -206,7 +225,7 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
         meshscatter!(scene,
             twoQubitGatesHelper,
             markersize=0.2,
-            color=("#3e92cc", 1),
+            color=twoQubitHelperColors,
             marker=twoQubitHelperMesh,
             transparency=false,
             ssao=true,
@@ -216,6 +235,41 @@ function GLMakiePrint(circuit::QiskitQuantumCircuit, chip::IBMQChip)
     # text!(scene, singleQubitGates, text=singleQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
     # text!(scene, twoQubitGates2, text=twoQubitGateLabels, fontsize=0.2, color=:black, markerspace=:data, rotation=quaternion([0, 0, 1], π / 2) * quaternion([1, 0, 0], π / 2) * quaternion([0, 1, 0], 0), align=(:center, :center))
     display(fig)
+
+    on(layerSlider.value) do value
+        for i in 1:length(singleQubitGates)
+            if singelQubitDepth[i] == value
+                singleQubitColors[][i] = ("#3e92cc", 1.0)
+            else
+                singleQubitColors[][i] = ("#3e92cc", 0.0)
+            end
+        end
+        for i in 1:length(twoQubitGates2)
+            if twoQubitDepth[i] == value
+                twoQubitColors[][i] = ("#3e92cc", 1.0)
+            else
+                twoQubitColors[][i] = ("#3e92cc", 0.0)
+            end
+        end
+        for i in 1:length(twoQubitGatesHelper)
+            if twoQubitHelperDepth[i] == value
+                twoQubitHelperColors[][i] = ("#3e92cc", 1.0)
+            else
+                twoQubitHelperColors[][i] = ("#3e92cc", 0.0)
+            end
+        end
+        for i in 1:length(measurements)
+            if measurementsDepth[i] == value
+                measurementsColors[][i] = ("#d8315b", 1.0)
+            else
+                measurementsColors[][i] = ("#d8315b", 0.0)
+            end
+        end
+        singleQubitColors[] = singleQubitColors[]
+        twoQubitColors[] = twoQubitColors[]
+        twoQubitHelperColors[] = twoQubitHelperColors[]
+        measurementsColors[] = measurementsColors[]
+    end
 end
 
 function quaternion(normalVector, angle)
