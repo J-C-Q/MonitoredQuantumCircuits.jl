@@ -1,0 +1,5 @@
+[deps]
+qiskit-aer = ""
+qiskit-ibm-runtime = ""
+qiskit-ibm-provider = ""
+qiskit = ""
