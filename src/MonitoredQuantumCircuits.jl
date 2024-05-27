@@ -12,9 +12,10 @@ function __init__()
     PythonCall.pycopy!(qiskit, pyimport("qiskit"))
     PythonCall.pycopy!(qiskit_ibm_runtime, pyimport("qiskit_ibm_runtime"))
     PythonCall.pycopy!(qiskit_ibm_provider, pyimport("qiskit_ibm_provider"))
-    PythonCall.pycopy!(qiskit_aer, pyimport("qiskit.providers.aer"))
+    PythonCall.pycopy!(qiskit_aer, pyimport("qiskit_aer"))
 end
 
 include("Qiskit.jl")
 
+export QuantumCircuit
 end
