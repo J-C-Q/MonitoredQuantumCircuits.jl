@@ -1,6 +1,7 @@
 module MonitoredQuantumCircuits
 
 using PythonCall
+PythonCall.printPyPrefix!(false)
 
 const qiskit = PythonCall.pynew()
 const qiskit_ibm_runtime = PythonCall.pynew()
@@ -15,7 +16,7 @@ function __init__()
     PythonCall.pycopy!(qiskit_aer, pyimport("qiskit_aer"))
 end
 
-include("Qiskit.jl")
+include("Qiskit_Wrapper/Qiskit.jl")
 
 export QuantumCircuit
 end
