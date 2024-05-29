@@ -1,15 +1,23 @@
 """
 A wrapper for the qiskit QuantumCircuit python class.
 """
-const QuantumCircuitPropertieTypes::Dict{Symbol,Symbol} = Dict(
-    :qc => Symbol("Py"),
-    :name => Symbol("String"),
-    :global_phase => Symbol("Float64"),
-    :metadata => Symbol("Dict"),
-    :ancillas => Symbol("Vector{Int64}"),)
+const QuantumCircuitPropertieTypes::Dict{Symbol,Type} = Dict(
+    :name => String,
+    :global_phase => Float64,
+    :metadata => Dict,
+    :ancillas => Vector,
+    :qubits => Vector{Qubit},)
 
 struct QuantumCircuit
     qiskit_quantumcirucit::Py
+    name::Nothing
+    global_phase::Nothing
+    metadata::Nothing
+    ancillas::Nothing
+    qubits::Nothing
+
+
+
     function QuantumCircuit(qc::QuantumCircuit)
         return new(qc.qiskit_quantumcirucit)
     end
@@ -30,7 +38,7 @@ function Base.getproperty(qc::QuantumCircuit, prop::Symbol)
         return getfield(qc, prop)
     else
         try
-            return pyconvert(eval(QuantumCircuitPropertieTypes[prop]), getproperty(qc.qiskit_quantumcirucit, prop))
+            return pyconvert(QuantumCircuitPropertieTypes[prop], getproperty(qc.qiskit_quantumcirucit, prop))
         catch
             return getproperty(qc.qiskit_quantumcirucit, prop)
         end
@@ -41,10 +49,11 @@ function Base.setproperty!(qc::QuantumCircuit, prop::Symbol, value)
     if prop == :qiskit_quantumcirucit
         return setfield!(qc, prop, value)
     else
-        try
+        # type check for the julia side interface
+        if QuantumCircuitPropertieTypes[prop] == typeof(value)
             return setproperty!(qc.qiskit_quantumcirucit, prop, value)
-        catch
-            throw(ArgumentError("The  property .$prop is of type $(eval(QuantumCircuitPropertieTypes[prop])) but $(typeof(value)) was provided."))
+        else
+            throw(ArgumentError("The property $prop must be of type $(QuantumCircuitPropertieTypes[prop])"))
         end
     end
 end
