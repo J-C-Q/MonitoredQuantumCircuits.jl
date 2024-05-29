@@ -18,8 +18,12 @@ struct QuantumCircuit
 
 
 
-    function QuantumCircuit(qc::QuantumCircuit)
-        return new(qc.qiskit_quantumcirucit)
+    function QuantumCircuit(qc::Py)
+        if pyisinstance(qc, qiskit.circuit.QuantumCircuit)
+            return new(qc)
+        else
+            throw(ArgumentError("The input must be a qiskit.circuit.QuantumCircuit"))
+        end
     end
     function QuantumCircuit(qubits::Int)
         return new(qiskit.QuantumCircuit(qubits))
