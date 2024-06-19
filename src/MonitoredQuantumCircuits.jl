@@ -1,7 +1,7 @@
 module MonitoredQuantumCircuits
 
-include("data_structures/quantumCircuit.jl")
-import .quantumCircuit: QuantumGate
-export QuantumGate
+
+
+include("itensors_interface/itensors_interface.jl")
 
 end
