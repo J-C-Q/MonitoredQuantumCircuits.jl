@@ -1,0 +1,250 @@
+{
+    "arch": "x86_64",
+    "build": "py312h55e1634_0",
+    "build_number": 0,
+    "build_string": "py312h55e1634_0",
+    "channel": "https://conda.anaconda.org/conda-forge/linux-64",
+    "constrains": [
+        "matplotlib >=3.0",
+        "pillow >=5.4"
+    ],
+    "depends": [
+        "libgcc-ng >=12",
+        "libstdcxx-ng >=12",
+        "numpy >=1.16.0,<2",
+        "python >=3.12,<3.13.0a0",
+        "python_abi 3.12.* *_cp312"
+    ],
+    "extracted_package_dir": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/rustworkx-0.14.2-py312h55e1634_0",
+    "files": [
+        "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/INSTALLER",
+        "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/LICENSE",
+        "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/METADATA",
+        "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/RECORD",
+        "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/REQUESTED",
+        "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/WHEEL",
+        "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/direct_url.json",
+        "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/top_level.txt",
+        "lib/python3.12/site-packages/rustworkx/__init__.py",
+        "lib/python3.12/site-packages/rustworkx/__init__.pyi",
+        "lib/python3.12/site-packages/rustworkx/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/rustworkx/__pycache__/visit.cpython-312.pyc",
+        "lib/python3.12/site-packages/rustworkx/generators/__init__.pyi",
+        "lib/python3.12/site-packages/rustworkx/py.typed",
+        "lib/python3.12/site-packages/rustworkx/rustworkx.cpython-312-x86_64-linux-gnu.so",
+        "lib/python3.12/site-packages/rustworkx/rustworkx.pyi",
+        "lib/python3.12/site-packages/rustworkx/visit.py",
+        "lib/python3.12/site-packages/rustworkx/visit.pyi",
+        "lib/python3.12/site-packages/rustworkx/visualization/__init__.py",
+        "lib/python3.12/site-packages/rustworkx/visualization/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/rustworkx/visualization/__pycache__/graphviz.cpython-312.pyc",
+        "lib/python3.12/site-packages/rustworkx/visualization/__pycache__/matplotlib.cpython-312.pyc",
+        "lib/python3.12/site-packages/rustworkx/visualization/graphviz.py",
+        "lib/python3.12/site-packages/rustworkx/visualization/graphviz.pyi",
+        "lib/python3.12/site-packages/rustworkx/visualization/matplotlib.py",
+        "lib/python3.12/site-packages/rustworkx/visualization/matplotlib.pyi"
+    ],
+    "fn": "rustworkx-0.14.2-py312h55e1634_0.conda",
+    "license": "Apache-2.0",
+    "link": {
+        "source": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/rustworkx-0.14.2-py312h55e1634_0",
+        "type": 1
+    },
+    "md5": "c66cc4ec28cfc9bfcf6c87a97aefe87f",
+    "name": "rustworkx",
+    "package_tarball_full_path": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/rustworkx-0.14.2-py312h55e1634_0.tar.bz2",
+    "paths_data": {
+        "paths": [
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/INSTALLER",
+                "path_type": "hardlink",
+                "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+                "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+                "size_in_bytes": 5
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/LICENSE",
+                "path_type": "hardlink",
+                "sha256": "5df2a0d87d6c562f0ea11c688ac52532aa28d744cabc7994ff0537f64b3b3320",
+                "sha256_in_prefix": "5df2a0d87d6c562f0ea11c688ac52532aa28d744cabc7994ff0537f64b3b3320",
+                "size_in_bytes": 10143
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/METADATA",
+                "path_type": "hardlink",
+                "sha256": "b5fe6e038148b4e7362b32c24f13e36c958e78bbf7978e52c429c63e9c9ad8e8",
+                "sha256_in_prefix": "b5fe6e038148b4e7362b32c24f13e36c958e78bbf7978e52c429c63e9c9ad8e8",
+                "size_in_bytes": 9987
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/RECORD",
+                "path_type": "hardlink",
+                "sha256": "9196d0cd8231a698f6ca9c9ffa727f524e0a1e20fb3b4abb23c27b890d6b33e5",
+                "sha256_in_prefix": "9196d0cd8231a698f6ca9c9ffa727f524e0a1e20fb3b4abb23c27b890d6b33e5",
+                "size_in_bytes": 2122
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/REQUESTED",
+                "path_type": "hardlink",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/WHEEL",
+                "path_type": "hardlink",
+                "sha256": "534d96963bacec16b1cb7e473924a3d644e7b56f70920f73c1885776cfff3789",
+                "sha256_in_prefix": "534d96963bacec16b1cb7e473924a3d644e7b56f70920f73c1885776cfff3789",
+                "size_in_bytes": 105
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/direct_url.json",
+                "path_type": "hardlink",
+                "sha256": "7de9ad0e40290a35cfb7794d8e96de0a1162b33d75e3816f83169392bdc4356d",
+                "sha256_in_prefix": "7de9ad0e40290a35cfb7794d8e96de0a1162b33d75e3816f83169392bdc4356d",
+                "size_in_bytes": 105
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx-0.14.2.dist-info/top_level.txt",
+                "path_type": "hardlink",
+                "sha256": "f914795112df17cd82c3a1712865d9de999d52e7fead2550f471bb9300eae447",
+                "sha256_in_prefix": "f914795112df17cd82c3a1712865d9de999d52e7fead2550f471bb9300eae447",
+                "size_in_bytes": 10
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "6a0aeab96f2aba9b5056043e4b24358ee16135180400604f4d287c63710c301b",
+                "sha256_in_prefix": "6a0aeab96f2aba9b5056043e4b24358ee16135180400604f4d287c63710c301b",
+                "size_in_bytes": 91753
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/__init__.pyi",
+                "path_type": "hardlink",
+                "sha256": "f105b79909e8daf2071f5bceceaffc2c1a09128b9993c0b3ccd31eb8dd58e7ea",
+                "sha256_in_prefix": "f105b79909e8daf2071f5bceceaffc2c1a09128b9993c0b3ccd31eb8dd58e7ea",
+                "size_in_bytes": 26654
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "1549e80059d6b57f6f07aad76d418cd93c1c525bccd076fc05abc8ef893abce6",
+                "sha256_in_prefix": "1549e80059d6b57f6f07aad76d418cd93c1c525bccd076fc05abc8ef893abce6",
+                "size_in_bytes": 97746
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/__pycache__/visit.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "afe4540f43db6e352fdd7589a7d55bc5944851d94fd431d8c234f48b75b98cab",
+                "sha256_in_prefix": "afe4540f43db6e352fdd7589a7d55bc5944851d94fd431d8c234f48b75b98cab",
+                "size_in_bytes": 6410
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/generators/__init__.pyi",
+                "path_type": "hardlink",
+                "sha256": "58a42037563331a78c745f7a1f187ba155b0030697702d00ffb3762ce9c65a36",
+                "sha256_in_prefix": "58a42037563331a78c745f7a1f187ba155b0030697702d00ffb3762ce9c65a36",
+                "size_in_bytes": 4293
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/py.typed",
+                "path_type": "hardlink",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/rustworkx.cpython-312-x86_64-linux-gnu.so",
+                "path_type": "hardlink",
+                "sha256": "19bf8ce8a63a0c4e70f127d78a38fef112511132a06082e0e4537ead7cd46e62",
+                "sha256_in_prefix": "19bf8ce8a63a0c4e70f127d78a38fef112511132a06082e0e4537ead7cd46e62",
+                "size_in_bytes": 6550232
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/rustworkx.pyi",
+                "path_type": "hardlink",
+                "sha256": "6293184e6e545f224a86f8bd162cb0d8da4bf47fe5559e6f47d149861178383d",
+                "sha256_in_prefix": "6293184e6e545f224a86f8bd162cb0d8da4bf47fe5559e6f47d149861178383d",
+                "size_in_bytes": 43733
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/visit.py",
+                "path_type": "hardlink",
+                "sha256": "a68ebcef5e7f19b68ee7d9dd3ba6292dd3ff323320a33059a980167d5d20264b",
+                "sha256_in_prefix": "a68ebcef5e7f19b68ee7d9dd3ba6292dd3ff323320a33059a980167d5d20264b",
+                "size_in_bytes": 5137
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/visit.pyi",
+                "path_type": "hardlink",
+                "sha256": "ffb8924fc271ca8384279eb9b3b36a049dd1c20a85e23d62477d30c07345778b",
+                "sha256_in_prefix": "ffb8924fc271ca8384279eb9b3b36a049dd1c20a85e23d62477d30c07345778b",
+                "size_in_bytes": 1625
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/visualization/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "c09279adf18e6e863ffb7545f101900a8f85715112095e539605dec8b7f7573f",
+                "sha256_in_prefix": "c09279adf18e6e863ffb7545f101900a8f85715112095e539605dec8b7f7573f",
+                "size_in_bytes": 580
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/visualization/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "f59d0ecca605fc1a5986a042b82a5faf8763d5d51d8792ed5ec1b1ca676bb640",
+                "sha256_in_prefix": "f59d0ecca605fc1a5986a042b82a5faf8763d5d51d8792ed5ec1b1ca676bb640",
+                "size_in_bytes": 352
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/visualization/__pycache__/graphviz.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "50ead6d83dfacb096d765a67ed420453461961e5056048d510e1a1585474b385",
+                "sha256_in_prefix": "50ead6d83dfacb096d765a67ed420453461961e5056048d510e1a1585474b385",
+                "size_in_bytes": 7201
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/visualization/__pycache__/matplotlib.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "e2ea7c6e37328fe8220c7a8bcc893a676aa874bac794540430f285c1bad0a977",
+                "sha256_in_prefix": "e2ea7c6e37328fe8220c7a8bcc893a676aa874bac794540430f285c1bad0a977",
+                "size_in_bytes": 36074
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/visualization/graphviz.py",
+                "path_type": "hardlink",
+                "sha256": "8fcd9b7193e1e7c1a72a4c907f7d9af263ded4592a36b91d94415aa4cf03eab4",
+                "sha256_in_prefix": "8fcd9b7193e1e7c1a72a4c907f7d9af263ded4592a36b91d94415aa4cf03eab4",
+                "size_in_bytes": 7545
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/visualization/graphviz.pyi",
+                "path_type": "hardlink",
+                "sha256": "2edcb370216f6c1dbbcd17adcdc8eda426d41545c5e1e6e9ee63181a148a4076",
+                "sha256_in_prefix": "2edcb370216f6c1dbbcd17adcdc8eda426d41545c5e1e6e9ee63181a148a4076",
+                "size_in_bytes": 975
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/visualization/matplotlib.py",
+                "path_type": "hardlink",
+                "sha256": "daa32a975f4652e738b8389c8266aac27ae08684510f5a408bfb9d9d98b3f392",
+                "sha256_in_prefix": "daa32a975f4652e738b8389c8266aac27ae08684510f5a408bfb9d9d98b3f392",
+                "size_in_bytes": 39143
+            },
+            {
+                "_path": "lib/python3.12/site-packages/rustworkx/visualization/matplotlib.pyi",
+                "path_type": "hardlink",
+                "sha256": "6ff39cb5c6b12b200944a19794daab706db6dad8faa263908737d161ce7ed99b",
+                "sha256_in_prefix": "6ff39cb5c6b12b200944a19794daab706db6dad8faa263908737d161ce7ed99b",
+                "size_in_bytes": 1983
+            }
+        ],
+        "paths_version": 1
+    },
+    "platform": "linux",
+    "requested_spec": "",
+    "sha256": "e2152bed8e697ca40e87b9b0955a7346d9c2f89546b2d8e5b67c9440915b4f84",
+    "size": 1691731,
+    "subdir": "linux-64",
+    "timestamp": 1710292781436,
+    "track_features": "",
+    "url": "https://conda.anaconda.org/conda-forge/linux-64/rustworkx-0.14.2-py312h55e1634_0.conda",
+    "version": "0.14.2"
+}

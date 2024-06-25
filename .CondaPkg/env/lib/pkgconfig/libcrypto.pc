@@ -1,0 +1,11 @@
+libdir=/files/home/part8/qpreiss/Bookworm/Documents/MonitoredQuantumCircuits/.CondaPkg/env/lib
+includedir=/files/home/part8/qpreiss/Bookworm/Documents/MonitoredQuantumCircuits/.CondaPkg/env/include
+enginesdir=/files/home/part8/qpreiss/Bookworm/Documents/MonitoredQuantumCircuits/.CondaPkg/env/lib/engines-3
+modulesdir=/files/home/part8/qpreiss/Bookworm/Documents/MonitoredQuantumCircuits/.CondaPkg/env/lib/ossl-modules
+
+Name: OpenSSL-libcrypto
+Description: OpenSSL cryptography library
+Version: 3.3.0
+Libs: -L${libdir} -lcrypto
+Libs.private: -ldl -pthread
+Cflags: -I${includedir}

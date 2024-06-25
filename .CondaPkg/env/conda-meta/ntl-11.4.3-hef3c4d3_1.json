@@ -1,0 +1,2150 @@
+{
+    "arch": "x86_64",
+    "build": "hef3c4d3_1",
+    "build_number": 1,
+    "build_string": "hef3c4d3_1",
+    "channel": "https://conda.anaconda.org/conda-forge/linux-64",
+    "constrains": [],
+    "depends": [
+        "gf2x >=1.3.0,<1.4.0a0",
+        "gmp >=6.2.1,<7.0a0",
+        "libgcc-ng >=7.5.0",
+        "libstdcxx-ng >=7.5.0"
+    ],
+    "extracted_package_dir": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/ntl-11.4.3-hef3c4d3_1",
+    "files": [
+        "include/NTL/ALL_FEATURES.h",
+        "include/NTL/BasicThreadPool.h",
+        "include/NTL/ConfigLog.h",
+        "include/NTL/FFT.h",
+        "include/NTL/FFT_impl.h",
+        "include/NTL/FacVec.h",
+        "include/NTL/GF2.h",
+        "include/NTL/GF2E.h",
+        "include/NTL/GF2EX.h",
+        "include/NTL/GF2EXFactoring.h",
+        "include/NTL/GF2X.h",
+        "include/NTL/GF2XFactoring.h",
+        "include/NTL/GF2XVec.h",
+        "include/NTL/HAVE_ALIGNED_ARRAY.h",
+        "include/NTL/HAVE_AVX.h",
+        "include/NTL/HAVE_AVX2.h",
+        "include/NTL/HAVE_AVX512F.h",
+        "include/NTL/HAVE_BUILTIN_CLZL.h",
+        "include/NTL/HAVE_CHRONO_TIME.h",
+        "include/NTL/HAVE_COPY_TRAITS1.h",
+        "include/NTL/HAVE_COPY_TRAITS2.h",
+        "include/NTL/HAVE_FMA.h",
+        "include/NTL/HAVE_LL_TYPE.h",
+        "include/NTL/HAVE_MACOS_TIME.h",
+        "include/NTL/HAVE_PCLMUL.h",
+        "include/NTL/HAVE_POSIX_TIME.h",
+        "include/NTL/HAVE_SSSE3.h",
+        "include/NTL/HNF.h",
+        "include/NTL/LLL.h",
+        "include/NTL/Lazy.h",
+        "include/NTL/LazyTable.h",
+        "include/NTL/MatPrime.h",
+        "include/NTL/PD.h",
+        "include/NTL/PackageInfo.h",
+        "include/NTL/REPORT_ALL_FEATURES.h",
+        "include/NTL/RR.h",
+        "include/NTL/SmartPtr.h",
+        "include/NTL/WordVector.h",
+        "include/NTL/ZZ.h",
+        "include/NTL/ZZVec.h",
+        "include/NTL/ZZX.h",
+        "include/NTL/ZZXFactoring.h",
+        "include/NTL/ZZ_limbs.h",
+        "include/NTL/ZZ_p.h",
+        "include/NTL/ZZ_pE.h",
+        "include/NTL/ZZ_pEX.h",
+        "include/NTL/ZZ_pEXFactoring.h",
+        "include/NTL/ZZ_pX.h",
+        "include/NTL/ZZ_pXFactoring.h",
+        "include/NTL/config.h",
+        "include/NTL/ctools.h",
+        "include/NTL/fileio.h",
+        "include/NTL/gmp_aux.h",
+        "include/NTL/lip.h",
+        "include/NTL/lzz_p.h",
+        "include/NTL/lzz_pE.h",
+        "include/NTL/lzz_pEX.h",
+        "include/NTL/lzz_pEXFactoring.h",
+        "include/NTL/lzz_pX.h",
+        "include/NTL/lzz_pXFactoring.h",
+        "include/NTL/mach_desc.h",
+        "include/NTL/mat_GF2.h",
+        "include/NTL/mat_GF2E.h",
+        "include/NTL/mat_RR.h",
+        "include/NTL/mat_ZZ.h",
+        "include/NTL/mat_ZZ_p.h",
+        "include/NTL/mat_ZZ_pE.h",
+        "include/NTL/mat_lzz_p.h",
+        "include/NTL/mat_lzz_pE.h",
+        "include/NTL/mat_poly_ZZ.h",
+        "include/NTL/mat_poly_ZZ_p.h",
+        "include/NTL/mat_poly_lzz_p.h",
+        "include/NTL/matrix.h",
+        "include/NTL/new.h",
+        "include/NTL/pair.h",
+        "include/NTL/pair_GF2EX_long.h",
+        "include/NTL/pair_GF2X_long.h",
+        "include/NTL/pair_ZZX_long.h",
+        "include/NTL/pair_ZZ_pEX_long.h",
+        "include/NTL/pair_ZZ_pX_long.h",
+        "include/NTL/pair_lzz_pEX_long.h",
+        "include/NTL/pair_lzz_pX_long.h",
+        "include/NTL/pd_FFT.h",
+        "include/NTL/quad_float.h",
+        "include/NTL/sp_arith.h",
+        "include/NTL/thread.h",
+        "include/NTL/tools.h",
+        "include/NTL/vec_GF2.h",
+        "include/NTL/vec_GF2E.h",
+        "include/NTL/vec_GF2XVec.h",
+        "include/NTL/vec_RR.h",
+        "include/NTL/vec_ZZ.h",
+        "include/NTL/vec_ZZVec.h",
+        "include/NTL/vec_ZZ_p.h",
+        "include/NTL/vec_ZZ_pE.h",
+        "include/NTL/vec_double.h",
+        "include/NTL/vec_long.h",
+        "include/NTL/vec_lzz_p.h",
+        "include/NTL/vec_lzz_pE.h",
+        "include/NTL/vec_quad_float.h",
+        "include/NTL/vec_ulong.h",
+        "include/NTL/vec_vec_GF2.h",
+        "include/NTL/vec_vec_GF2E.h",
+        "include/NTL/vec_vec_RR.h",
+        "include/NTL/vec_vec_ZZ.h",
+        "include/NTL/vec_vec_ZZ_p.h",
+        "include/NTL/vec_vec_ZZ_pE.h",
+        "include/NTL/vec_vec_long.h",
+        "include/NTL/vec_vec_lzz_p.h",
+        "include/NTL/vec_vec_lzz_pE.h",
+        "include/NTL/vec_vec_ulong.h",
+        "include/NTL/vec_xdouble.h",
+        "include/NTL/vector.h",
+        "include/NTL/version.h",
+        "include/NTL/xdouble.h",
+        "lib/libntl.a",
+        "lib/libntl.so",
+        "lib/libntl.so.43",
+        "lib/libntl.so.43.0.1",
+        "share/doc/NTL/BasicThreadPool.cpp.html",
+        "share/doc/NTL/BasicThreadPool.txt",
+        "share/doc/NTL/GF2.cpp.html",
+        "share/doc/NTL/GF2.txt",
+        "share/doc/NTL/GF2E.cpp.html",
+        "share/doc/NTL/GF2E.txt",
+        "share/doc/NTL/GF2EX.cpp.html",
+        "share/doc/NTL/GF2EX.txt",
+        "share/doc/NTL/GF2EXFactoring.cpp.html",
+        "share/doc/NTL/GF2EXFactoring.txt",
+        "share/doc/NTL/GF2X.cpp.html",
+        "share/doc/NTL/GF2X.txt",
+        "share/doc/NTL/GF2XFactoring.cpp.html",
+        "share/doc/NTL/GF2XFactoring.txt",
+        "share/doc/NTL/GF2XVec.cpp.html",
+        "share/doc/NTL/GF2XVec.txt",
+        "share/doc/NTL/HNF.cpp.html",
+        "share/doc/NTL/HNF.txt",
+        "share/doc/NTL/LLL.cpp.html",
+        "share/doc/NTL/LLL.txt",
+        "share/doc/NTL/Lazy.cpp.html",
+        "share/doc/NTL/Lazy.txt",
+        "share/doc/NTL/LazyTable.cpp.html",
+        "share/doc/NTL/LazyTable.txt",
+        "share/doc/NTL/RR.cpp.html",
+        "share/doc/NTL/RR.txt",
+        "share/doc/NTL/SmartPtr.cpp.html",
+        "share/doc/NTL/SmartPtr.txt",
+        "share/doc/NTL/ZZ.cpp.html",
+        "share/doc/NTL/ZZ.txt",
+        "share/doc/NTL/ZZVec.cpp.html",
+        "share/doc/NTL/ZZVec.txt",
+        "share/doc/NTL/ZZX.cpp.html",
+        "share/doc/NTL/ZZX.txt",
+        "share/doc/NTL/ZZXFactoring.cpp.html",
+        "share/doc/NTL/ZZXFactoring.txt",
+        "share/doc/NTL/ZZ_limbs.cpp.html",
+        "share/doc/NTL/ZZ_limbs.txt",
+        "share/doc/NTL/ZZ_p.cpp.html",
+        "share/doc/NTL/ZZ_p.txt",
+        "share/doc/NTL/ZZ_pE.cpp.html",
+        "share/doc/NTL/ZZ_pE.txt",
+        "share/doc/NTL/ZZ_pEX.cpp.html",
+        "share/doc/NTL/ZZ_pEX.txt",
+        "share/doc/NTL/ZZ_pEXFactoring.cpp.html",
+        "share/doc/NTL/ZZ_pEXFactoring.txt",
+        "share/doc/NTL/ZZ_pX.cpp.html",
+        "share/doc/NTL/ZZ_pX.txt",
+        "share/doc/NTL/ZZ_pXFactoring.cpp.html",
+        "share/doc/NTL/ZZ_pXFactoring.txt",
+        "share/doc/NTL/arrow1.gif",
+        "share/doc/NTL/arrow2.gif",
+        "share/doc/NTL/arrow3.gif",
+        "share/doc/NTL/config.txt",
+        "share/doc/NTL/conversions.txt",
+        "share/doc/NTL/copying.txt",
+        "share/doc/NTL/flags.txt",
+        "share/doc/NTL/lzz_p.cpp.html",
+        "share/doc/NTL/lzz_p.txt",
+        "share/doc/NTL/lzz_pE.cpp.html",
+        "share/doc/NTL/lzz_pE.txt",
+        "share/doc/NTL/lzz_pEX.cpp.html",
+        "share/doc/NTL/lzz_pEX.txt",
+        "share/doc/NTL/lzz_pEXFactoring.cpp.html",
+        "share/doc/NTL/lzz_pEXFactoring.txt",
+        "share/doc/NTL/lzz_pX.cpp.html",
+        "share/doc/NTL/lzz_pX.txt",
+        "share/doc/NTL/lzz_pXFactoring.cpp.html",
+        "share/doc/NTL/lzz_pXFactoring.txt",
+        "share/doc/NTL/mat_GF2.cpp.html",
+        "share/doc/NTL/mat_GF2.txt",
+        "share/doc/NTL/mat_GF2E.cpp.html",
+        "share/doc/NTL/mat_GF2E.txt",
+        "share/doc/NTL/mat_RR.cpp.html",
+        "share/doc/NTL/mat_RR.txt",
+        "share/doc/NTL/mat_ZZ.cpp.html",
+        "share/doc/NTL/mat_ZZ.txt",
+        "share/doc/NTL/mat_ZZ_p.cpp.html",
+        "share/doc/NTL/mat_ZZ_p.txt",
+        "share/doc/NTL/mat_ZZ_pE.cpp.html",
+        "share/doc/NTL/mat_ZZ_pE.txt",
+        "share/doc/NTL/mat_lzz_p.cpp.html",
+        "share/doc/NTL/mat_lzz_p.txt",
+        "share/doc/NTL/mat_lzz_pE.cpp.html",
+        "share/doc/NTL/mat_lzz_pE.txt",
+        "share/doc/NTL/mat_poly_ZZ.cpp.html",
+        "share/doc/NTL/mat_poly_ZZ.txt",
+        "share/doc/NTL/mat_poly_ZZ_p.cpp.html",
+        "share/doc/NTL/mat_poly_ZZ_p.txt",
+        "share/doc/NTL/mat_poly_lzz_p.cpp.html",
+        "share/doc/NTL/mat_poly_lzz_p.txt",
+        "share/doc/NTL/matrix.cpp.html",
+        "share/doc/NTL/matrix.txt",
+        "share/doc/NTL/names.txt",
+        "share/doc/NTL/pair.cpp.html",
+        "share/doc/NTL/pair.txt",
+        "share/doc/NTL/quad_float.cpp.html",
+        "share/doc/NTL/quad_float.txt",
+        "share/doc/NTL/sedscript.txt",
+        "share/doc/NTL/tools.cpp.html",
+        "share/doc/NTL/tools.txt",
+        "share/doc/NTL/tour-ack.html",
+        "share/doc/NTL/tour-changes.html",
+        "share/doc/NTL/tour-ex1.html",
+        "share/doc/NTL/tour-ex2.html",
+        "share/doc/NTL/tour-ex3.html",
+        "share/doc/NTL/tour-ex4.html",
+        "share/doc/NTL/tour-ex5.html",
+        "share/doc/NTL/tour-ex6.html",
+        "share/doc/NTL/tour-ex7.html",
+        "share/doc/NTL/tour-examples.html",
+        "share/doc/NTL/tour-gf2x.html",
+        "share/doc/NTL/tour-gmp.html",
+        "share/doc/NTL/tour-impl.html",
+        "share/doc/NTL/tour-intro.html",
+        "share/doc/NTL/tour-modules.html",
+        "share/doc/NTL/tour-roadmap.html",
+        "share/doc/NTL/tour-struct.html",
+        "share/doc/NTL/tour-time.html",
+        "share/doc/NTL/tour-tips.html",
+        "share/doc/NTL/tour-unix.html",
+        "share/doc/NTL/tour-win.html",
+        "share/doc/NTL/tour.html",
+        "share/doc/NTL/vec_GF2.cpp.html",
+        "share/doc/NTL/vec_GF2.txt",
+        "share/doc/NTL/vec_GF2E.cpp.html",
+        "share/doc/NTL/vec_GF2E.txt",
+        "share/doc/NTL/vec_RR.cpp.html",
+        "share/doc/NTL/vec_RR.txt",
+        "share/doc/NTL/vec_ZZ.cpp.html",
+        "share/doc/NTL/vec_ZZ.txt",
+        "share/doc/NTL/vec_ZZ_p.cpp.html",
+        "share/doc/NTL/vec_ZZ_p.txt",
+        "share/doc/NTL/vec_ZZ_pE.cpp.html",
+        "share/doc/NTL/vec_ZZ_pE.txt",
+        "share/doc/NTL/vec_lzz_p.cpp.html",
+        "share/doc/NTL/vec_lzz_p.txt",
+        "share/doc/NTL/vec_lzz_pE.cpp.html",
+        "share/doc/NTL/vec_lzz_pE.txt",
+        "share/doc/NTL/vector.cpp.html",
+        "share/doc/NTL/vector.txt",
+        "share/doc/NTL/version.cpp.html",
+        "share/doc/NTL/version.txt",
+        "share/doc/NTL/xdouble.cpp.html",
+        "share/doc/NTL/xdouble.txt"
+    ],
+    "fn": "ntl-11.4.3-hef3c4d3_1.tar.bz2",
+    "license": "LGPL-2.0-or-later",
+    "link": {
+        "source": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/ntl-11.4.3-hef3c4d3_1",
+        "type": 1
+    },
+    "md5": "dd99f87198f2668b9a2b196f79a7ba27",
+    "name": "ntl",
+    "package_tarball_full_path": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/ntl-11.4.3-hef3c4d3_1.tar.bz2",
+    "paths_data": {
+        "paths": [
+            {
+                "_path": "include/NTL/ALL_FEATURES.h",
+                "path_type": "hardlink",
+                "sha256": "0face3643240a62e27f38346ce9de5a485f173c5825232fef82496949c45d0e4",
+                "sha256_in_prefix": "0face3643240a62e27f38346ce9de5a485f173c5825232fef82496949c45d0e4",
+                "size_in_bytes": 439
+            },
+            {
+                "_path": "include/NTL/BasicThreadPool.h",
+                "path_type": "hardlink",
+                "sha256": "94326d34da3ff92e5f171696de730815b72482887ef9dee760afade35faaa83b",
+                "sha256_in_prefix": "94326d34da3ff92e5f171696de730815b72482887ef9dee760afade35faaa83b",
+                "size_in_bytes": 19487
+            },
+            {
+                "_path": "include/NTL/ConfigLog.h",
+                "path_type": "hardlink",
+                "sha256": "cd4090fdae046ae619847828057c73097bdcb66e4c00217c9e332abebc494904",
+                "sha256_in_prefix": "3869de8a169dae7360d231d64b47c66e8b3139908711dad63c0a6d02856a013e",
+                "size_in_bytes": 5874
+            },
+            {
+                "_path": "include/NTL/FFT.h",
+                "path_type": "hardlink",
+                "sha256": "44955edbf90bc9e746bc45f9e09e68b48f1151fade2fe1d98337fc89f22ef4ba",
+                "sha256_in_prefix": "44955edbf90bc9e746bc45f9e09e68b48f1151fade2fe1d98337fc89f22ef4ba",
+                "size_in_bytes": 6058
+            },
+            {
+                "_path": "include/NTL/FFT_impl.h",
+                "path_type": "hardlink",
+                "sha256": "41346f564ec8d6872103511a986690c2472c3cd68e896bea87657782da317ac0",
+                "sha256_in_prefix": "41346f564ec8d6872103511a986690c2472c3cd68e896bea87657782da317ac0",
+                "size_in_bytes": 1439
+            },
+            {
+                "_path": "include/NTL/FacVec.h",
+                "path_type": "hardlink",
+                "sha256": "277bb9ee04750764b3c55d5a1844ac3fb1771ceea778dd803655d7c7c7747caf",
+                "sha256_in_prefix": "277bb9ee04750764b3c55d5a1844ac3fb1771ceea778dd803655d7c7c7747caf",
+                "size_in_bytes": 288
+            },
+            {
+                "_path": "include/NTL/GF2.h",
+                "path_type": "hardlink",
+                "sha256": "f7d4541b84b963fb30e52a5e45a1961b9bb0abfa1eee5eb122ec89fcafa445ff",
+                "sha256_in_prefix": "f7d4541b84b963fb30e52a5e45a1961b9bb0abfa1eee5eb122ec89fcafa445ff",
+                "size_in_bytes": 9905
+            },
+            {
+                "_path": "include/NTL/GF2E.h",
+                "path_type": "hardlink",
+                "sha256": "ee11bb09c2da76d9ecba0c8baa92b14e8da78a668f97e81075e54cded131c7c9",
+                "sha256_in_prefix": "ee11bb09c2da76d9ecba0c8baa92b14e8da78a668f97e81075e54cded131c7c9",
+                "size_in_bytes": 11811
+            },
+            {
+                "_path": "include/NTL/GF2EX.h",
+                "path_type": "hardlink",
+                "sha256": "76fa202e4a97defad51eb8ba1b397a3a1770af5a50869ae1d82abc16e95cc99d",
+                "sha256_in_prefix": "76fa202e4a97defad51eb8ba1b397a3a1770af5a50869ae1d82abc16e95cc99d",
+                "size_in_bytes": 30768
+            },
+            {
+                "_path": "include/NTL/GF2EXFactoring.h",
+                "path_type": "hardlink",
+                "sha256": "5b4e7be6838063b95d99de004d6635f069d02293fb2b14ef58abc122f53ec362",
+                "sha256_in_prefix": "5b4e7be6838063b95d99de004d6635f069d02293fb2b14ef58abc122f53ec362",
+                "size_in_bytes": 6934
+            },
+            {
+                "_path": "include/NTL/GF2X.h",
+                "path_type": "hardlink",
+                "sha256": "bef71372c18da0ee94cc05c8e3bb2d1f879065a3f4b25f9c350ee8fb75fa20f2",
+                "sha256_in_prefix": "bef71372c18da0ee94cc05c8e3bb2d1f879065a3f4b25f9c350ee8fb75fa20f2",
+                "size_in_bytes": 22085
+            },
+            {
+                "_path": "include/NTL/GF2XFactoring.h",
+                "path_type": "hardlink",
+                "sha256": "c7e1bcb7db568a3179f2d33b915308833f07088eed5effe94555dcbd68173771",
+                "sha256_in_prefix": "c7e1bcb7db568a3179f2d33b915308833f07088eed5effe94555dcbd68173771",
+                "size_in_bytes": 1716
+            },
+            {
+                "_path": "include/NTL/GF2XVec.h",
+                "path_type": "hardlink",
+                "sha256": "a1d5d0e3806887742656a0d31ee1553a2a8813abd499df9477cec06f0bd8f327",
+                "sha256_in_prefix": "a1d5d0e3806887742656a0d31ee1553a2a8813abd499df9477cec06f0bd8f327",
+                "size_in_bytes": 1927
+            },
+            {
+                "_path": "include/NTL/HAVE_ALIGNED_ARRAY.h",
+                "path_type": "hardlink",
+                "sha256": "b5b2d0b562f1f66b56ad8e34d6f07d69c95b3bddb7bb6addc4ca9a18de04dfc3",
+                "sha256_in_prefix": "b5b2d0b562f1f66b56ad8e34d6f07d69c95b3bddb7bb6addc4ca9a18de04dfc3",
+                "size_in_bytes": 69
+            },
+            {
+                "_path": "include/NTL/HAVE_AVX.h",
+                "path_type": "hardlink",
+                "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "size_in_bytes": 1
+            },
+            {
+                "_path": "include/NTL/HAVE_AVX2.h",
+                "path_type": "hardlink",
+                "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "size_in_bytes": 1
+            },
+            {
+                "_path": "include/NTL/HAVE_AVX512F.h",
+                "path_type": "hardlink",
+                "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "size_in_bytes": 1
+            },
+            {
+                "_path": "include/NTL/HAVE_BUILTIN_CLZL.h",
+                "path_type": "hardlink",
+                "sha256": "c2f9bf5f5b7563e7fbb3a51727ed50ec88d632865e978f1de0f35671804d2845",
+                "sha256_in_prefix": "c2f9bf5f5b7563e7fbb3a51727ed50ec88d632865e978f1de0f35671804d2845",
+                "size_in_bytes": 67
+            },
+            {
+                "_path": "include/NTL/HAVE_CHRONO_TIME.h",
+                "path_type": "hardlink",
+                "sha256": "c42231e04c47e3a179b535d7cfb2803664f336adbcc45651343f340efa82b596",
+                "sha256_in_prefix": "c42231e04c47e3a179b535d7cfb2803664f336adbcc45651343f340efa82b596",
+                "size_in_bytes": 65
+            },
+            {
+                "_path": "include/NTL/HAVE_COPY_TRAITS1.h",
+                "path_type": "hardlink",
+                "sha256": "0ca6d7be5d5668766e3c0cbb1f741102e3df56e38502307a739e55c2e4d62054",
+                "sha256_in_prefix": "0ca6d7be5d5668766e3c0cbb1f741102e3df56e38502307a739e55c2e4d62054",
+                "size_in_bytes": 67
+            },
+            {
+                "_path": "include/NTL/HAVE_COPY_TRAITS2.h",
+                "path_type": "hardlink",
+                "sha256": "e8995464e588152dc1fc9354d1bdc02619f35e46a2a23beaba7640250aa47ad1",
+                "sha256_in_prefix": "e8995464e588152dc1fc9354d1bdc02619f35e46a2a23beaba7640250aa47ad1",
+                "size_in_bytes": 67
+            },
+            {
+                "_path": "include/NTL/HAVE_FMA.h",
+                "path_type": "hardlink",
+                "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "size_in_bytes": 1
+            },
+            {
+                "_path": "include/NTL/HAVE_LL_TYPE.h",
+                "path_type": "hardlink",
+                "sha256": "7f2b33f5f391491beb3a585a62e0e48c91c5079d8243c759965f179be4c998b1",
+                "sha256_in_prefix": "7f2b33f5f391491beb3a585a62e0e48c91c5079d8243c759965f179be4c998b1",
+                "size_in_bytes": 57
+            },
+            {
+                "_path": "include/NTL/HAVE_MACOS_TIME.h",
+                "path_type": "hardlink",
+                "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "size_in_bytes": 1
+            },
+            {
+                "_path": "include/NTL/HAVE_PCLMUL.h",
+                "path_type": "hardlink",
+                "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "size_in_bytes": 1
+            },
+            {
+                "_path": "include/NTL/HAVE_POSIX_TIME.h",
+                "path_type": "hardlink",
+                "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "size_in_bytes": 1
+            },
+            {
+                "_path": "include/NTL/HAVE_SSSE3.h",
+                "path_type": "hardlink",
+                "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "size_in_bytes": 1
+            },
+            {
+                "_path": "include/NTL/HNF.h",
+                "path_type": "hardlink",
+                "sha256": "8ec1d850cafb86fceda458a8805da07d6b2250d343ca409e5aae1e982e8f80e0",
+                "sha256_in_prefix": "8ec1d850cafb86fceda458a8805da07d6b2250d343ca409e5aae1e982e8f80e0",
+                "size_in_bytes": 757
+            },
+            {
+                "_path": "include/NTL/LLL.h",
+                "path_type": "hardlink",
+                "sha256": "94b9fecdb33d47cc9facf701dc789739a0115d770902dfe54b0bfad944fd4a5f",
+                "sha256_in_prefix": "94b9fecdb33d47cc9facf701dc789739a0115d770902dfe54b0bfad944fd4a5f",
+                "size_in_bytes": 5809
+            },
+            {
+                "_path": "include/NTL/Lazy.h",
+                "path_type": "hardlink",
+                "sha256": "a181e250b49df460d44e0efa7be7db2e56ddc7a0660339286b8bf4f5095a92a6",
+                "sha256_in_prefix": "a181e250b49df460d44e0efa7be7db2e56ddc7a0660339286b8bf4f5095a92a6",
+                "size_in_bytes": 5001
+            },
+            {
+                "_path": "include/NTL/LazyTable.h",
+                "path_type": "hardlink",
+                "sha256": "6e402e2f2a225f59a10680a6088ba6c486e0f52caf9a5e353924aa855349a5bf",
+                "sha256_in_prefix": "6e402e2f2a225f59a10680a6088ba6c486e0f52caf9a5e353924aa855349a5bf",
+                "size_in_bytes": 3792
+            },
+            {
+                "_path": "include/NTL/MatPrime.h",
+                "path_type": "hardlink",
+                "sha256": "56a9100a04c4842c60cce720e1de49d6eda45d76e4c1562a05278e3ac4570914",
+                "sha256_in_prefix": "56a9100a04c4842c60cce720e1de49d6eda45d76e4c1562a05278e3ac4570914",
+                "size_in_bytes": 3358
+            },
+            {
+                "_path": "include/NTL/PD.h",
+                "path_type": "hardlink",
+                "sha256": "ad2c0c39763b310f2c7e16708d4ce6fcec1418adbc9d1aa743756e97f1b5fd58",
+                "sha256_in_prefix": "ad2c0c39763b310f2c7e16708d4ce6fcec1418adbc9d1aa743756e97f1b5fd58",
+                "size_in_bytes": 15691
+            },
+            {
+                "_path": "include/NTL/PackageInfo.h",
+                "path_type": "hardlink",
+                "sha256": "c7094ff960bd3c560c9f112768d16d14116914ad69aa06021d8d2b91951f3c96",
+                "sha256_in_prefix": "c7094ff960bd3c560c9f112768d16d14116914ad69aa06021d8d2b91951f3c96",
+                "size_in_bytes": 24
+            },
+            {
+                "_path": "include/NTL/REPORT_ALL_FEATURES.h",
+                "path_type": "hardlink",
+                "sha256": "3e0b06e819308c06b89dae535cc90ff39558e638e3a21e3d3e4d1eae6dca19aa",
+                "sha256_in_prefix": "3e0b06e819308c06b89dae535cc90ff39558e638e3a21e3d3e4d1eae6dca19aa",
+                "size_in_bytes": 1015
+            },
+            {
+                "_path": "include/NTL/RR.h",
+                "path_type": "hardlink",
+                "sha256": "b244537600fd77f49445aa48740703d3ac051fb21b07d2f2bc71e113d048f0c4",
+                "sha256_in_prefix": "b244537600fd77f49445aa48740703d3ac051fb21b07d2f2bc71e113d048f0c4",
+                "size_in_bytes": 16207
+            },
+            {
+                "_path": "include/NTL/SmartPtr.h",
+                "path_type": "hardlink",
+                "sha256": "a528aef5f7768b621c25c2de9de6e37e46a43dc7fe63b806cc10acb054016168",
+                "sha256_in_prefix": "a528aef5f7768b621c25c2de9de6e37e46a43dc7fe63b806cc10acb054016168",
+                "size_in_bytes": 47241
+            },
+            {
+                "_path": "include/NTL/WordVector.h",
+                "path_type": "hardlink",
+                "sha256": "de76e0dbfbbc86779ebbfdfc213a46394404c4f7a917bbc0fef00037ef90332c",
+                "sha256_in_prefix": "de76e0dbfbbc86779ebbfdfc213a46394404c4f7a917bbc0fef00037ef90332c",
+                "size_in_bytes": 4033
+            },
+            {
+                "_path": "include/NTL/ZZ.h",
+                "path_type": "hardlink",
+                "sha256": "66f98e48af768c508c33ca248e827172f91d82073b2ac5119b8c4891dcb3d0d3",
+                "sha256_in_prefix": "66f98e48af768c508c33ca248e827172f91d82073b2ac5119b8c4891dcb3d0d3",
+                "size_in_bytes": 42284
+            },
+            {
+                "_path": "include/NTL/ZZVec.h",
+                "path_type": "hardlink",
+                "sha256": "1df1367c4aba2a6ece4906756d770aa538f689b7121b642aff1018d7a57311b2",
+                "sha256_in_prefix": "1df1367c4aba2a6ece4906756d770aa538f689b7121b642aff1018d7a57311b2",
+                "size_in_bytes": 1862
+            },
+            {
+                "_path": "include/NTL/ZZX.h",
+                "path_type": "hardlink",
+                "sha256": "2f04d049d21e66b2610f60bdd3c4687ccdade142ee723b80d212786a9688ac98",
+                "sha256_in_prefix": "2f04d049d21e66b2610f60bdd3c4687ccdade142ee723b80d212786a9688ac98",
+                "size_in_bytes": 19867
+            },
+            {
+                "_path": "include/NTL/ZZXFactoring.h",
+                "path_type": "hardlink",
+                "sha256": "410bb4ab02f4d5e13e4d7c75eb37c8101eaf6b62069f03a7443e8ba992bddbed",
+                "sha256_in_prefix": "410bb4ab02f4d5e13e4d7c75eb37c8101eaf6b62069f03a7443e8ba992bddbed",
+                "size_in_bytes": 1826
+            },
+            {
+                "_path": "include/NTL/ZZ_limbs.h",
+                "path_type": "hardlink",
+                "sha256": "9d12b2f2b266cdbb8b34a9d24715aa145231440abc416b87e777f647e3fd81ea",
+                "sha256_in_prefix": "9d12b2f2b266cdbb8b34a9d24715aa145231440abc416b87e777f647e3fd81ea",
+                "size_in_bytes": 820
+            },
+            {
+                "_path": "include/NTL/ZZ_p.h",
+                "path_type": "hardlink",
+                "sha256": "de53125238ea5bc355c04930060dc02983fef636ba93530e211236ac25a2add1",
+                "sha256_in_prefix": "de53125238ea5bc355c04930060dc02983fef636ba93530e211236ac25a2add1",
+                "size_in_bytes": 12985
+            },
+            {
+                "_path": "include/NTL/ZZ_pE.h",
+                "path_type": "hardlink",
+                "sha256": "2f0a298e9e70476799960a643e881b5241551136ab142ab22d86517ee9957720",
+                "sha256_in_prefix": "2f0a298e9e70476799960a643e881b5241551136ab142ab22d86517ee9957720",
+                "size_in_bytes": 12323
+            },
+            {
+                "_path": "include/NTL/ZZ_pEX.h",
+                "path_type": "hardlink",
+                "sha256": "4e4d9b9833518f86378a87042e9c47c68d365c1725582317649053dc1a29e306",
+                "sha256_in_prefix": "4e4d9b9833518f86378a87042e9c47c68d365c1725582317649053dc1a29e306",
+                "size_in_bytes": 31481
+            },
+            {
+                "_path": "include/NTL/ZZ_pEXFactoring.h",
+                "path_type": "hardlink",
+                "sha256": "56d6239698e4099a1e289f54cf36e61847d12265955d6b4c5e5afb3a7f65b9c0",
+                "sha256_in_prefix": "56d6239698e4099a1e289f54cf36e61847d12265955d6b4c5e5afb3a7f65b9c0",
+                "size_in_bytes": 5341
+            },
+            {
+                "_path": "include/NTL/ZZ_pX.h",
+                "path_type": "hardlink",
+                "sha256": "c2c771797b599855d6c96ea9c7d768fb27e843bb3648fa800e3721d432774781",
+                "sha256_in_prefix": "c2c771797b599855d6c96ea9c7d768fb27e843bb3648fa800e3721d432774781",
+                "size_in_bytes": 37782
+            },
+            {
+                "_path": "include/NTL/ZZ_pXFactoring.h",
+                "path_type": "hardlink",
+                "sha256": "a09dbc1aa7aa20bf29c4cb7e55e4b94d8cdf71d5e7c52693720ba1c9620921ca",
+                "sha256_in_prefix": "a09dbc1aa7aa20bf29c4cb7e55e4b94d8cdf71d5e7c52693720ba1c9620921ca",
+                "size_in_bytes": 6854
+            },
+            {
+                "_path": "include/NTL/config.h",
+                "path_type": "hardlink",
+                "sha256": "5e8c470380095f9b7b245b8b2ac8f044af1d0fe1cf65a7b9b32891bfa4e19840",
+                "sha256_in_prefix": "5e8c470380095f9b7b245b8b2ac8f044af1d0fe1cf65a7b9b32891bfa4e19840",
+                "size_in_bytes": 10769
+            },
+            {
+                "_path": "include/NTL/ctools.h",
+                "path_type": "hardlink",
+                "sha256": "2b95d7e3660685e453fc8a61cbc54a4d380715dfbab2bf1e5df35cd70ec2fdb3",
+                "sha256_in_prefix": "2b95d7e3660685e453fc8a61cbc54a4d380715dfbab2bf1e5df35cd70ec2fdb3",
+                "size_in_bytes": 13610
+            },
+            {
+                "_path": "include/NTL/fileio.h",
+                "path_type": "hardlink",
+                "sha256": "0c35874d53d8a938455c216a81ebe27bdc9efa6ba48c1056bfe2a1df188be67d",
+                "sha256_in_prefix": "0c35874d53d8a938455c216a81ebe27bdc9efa6ba48c1056bfe2a1df188be67d",
+                "size_in_bytes": 1157
+            },
+            {
+                "_path": "include/NTL/gmp_aux.h",
+                "path_type": "hardlink",
+                "sha256": "b31a7a2f413035080cc3db7005439a7006eb910dba1bdb6b9b0538f64eaab3fd",
+                "sha256_in_prefix": "b31a7a2f413035080cc3db7005439a7006eb910dba1bdb6b9b0538f64eaab3fd",
+                "size_in_bytes": 120
+            },
+            {
+                "_path": "include/NTL/lip.h",
+                "path_type": "hardlink",
+                "sha256": "2b6b5e1615485a4f7d2337971e8795f5134b7c509ad9e204a133f0dcbd7a83de",
+                "sha256_in_prefix": "2b6b5e1615485a4f7d2337971e8795f5134b7c509ad9e204a133f0dcbd7a83de",
+                "size_in_bytes": 19304
+            },
+            {
+                "_path": "include/NTL/lzz_p.h",
+                "path_type": "hardlink",
+                "sha256": "7b77af2820d27b7d022690ba0ed1984be336bf9d2e4cc6c279e4e4d85c693ec7",
+                "sha256_in_prefix": "7b77af2820d27b7d022690ba0ed1984be336bf9d2e4cc6c279e4e4d85c693ec7",
+                "size_in_bytes": 12947
+            },
+            {
+                "_path": "include/NTL/lzz_pE.h",
+                "path_type": "hardlink",
+                "sha256": "00f0e22ff174ea54af7a29c2e2e5ff480a9ad97f830361e5f607c724b5b6535a",
+                "sha256_in_prefix": "00f0e22ff174ea54af7a29c2e2e5ff480a9ad97f830361e5f607c724b5b6535a",
+                "size_in_bytes": 12315
+            },
+            {
+                "_path": "include/NTL/lzz_pEX.h",
+                "path_type": "hardlink",
+                "sha256": "3258d87fa4426fc1690e5b12434fd78165398af4781999618371bf580b63c5b2",
+                "sha256_in_prefix": "3258d87fa4426fc1690e5b12434fd78165398af4781999618371bf580b63c5b2",
+                "size_in_bytes": 31537
+            },
+            {
+                "_path": "include/NTL/lzz_pEXFactoring.h",
+                "path_type": "hardlink",
+                "sha256": "d9385b0cf51427cc794a00d43b72e14e2fadb6205ba9b5bf012e3531ec42d4c5",
+                "sha256_in_prefix": "d9385b0cf51427cc794a00d43b72e14e2fadb6205ba9b5bf012e3531ec42d4c5",
+                "size_in_bytes": 5391
+            },
+            {
+                "_path": "include/NTL/lzz_pX.h",
+                "path_type": "hardlink",
+                "sha256": "b4eedd66e1d457bbe84a18b0b02d1c94c9879ba75d4e0b895095e415c715bf66",
+                "sha256_in_prefix": "b4eedd66e1d457bbe84a18b0b02d1c94c9879ba75d4e0b895095e415c715bf66",
+                "size_in_bytes": 36746
+            },
+            {
+                "_path": "include/NTL/lzz_pXFactoring.h",
+                "path_type": "hardlink",
+                "sha256": "0a1072907659abc29ef0d381f20fd569e49c3221dbfe899c3b040175bf561123",
+                "sha256_in_prefix": "0a1072907659abc29ef0d381f20fd569e49c3221dbfe899c3b040175bf561123",
+                "size_in_bytes": 6962
+            },
+            {
+                "_path": "include/NTL/mach_desc.h",
+                "path_type": "hardlink",
+                "sha256": "e886849eef78b3f4d140b01196a98eddb771f99e6438054bf628bb66ffe567db",
+                "sha256_in_prefix": "e886849eef78b3f4d140b01196a98eddb771f99e6438054bf628bb66ffe567db",
+                "size_in_bytes": 26732
+            },
+            {
+                "_path": "include/NTL/mat_GF2.h",
+                "path_type": "hardlink",
+                "sha256": "705ea586a5303166bb4af1c2d52113f1edff635ef79a3e0e5f609c3d2d3cc9f1",
+                "sha256_in_prefix": "705ea586a5303166bb4af1c2d52113f1edff635ef79a3e0e5f609c3d2d3cc9f1",
+                "size_in_bytes": 4469
+            },
+            {
+                "_path": "include/NTL/mat_GF2E.h",
+                "path_type": "hardlink",
+                "sha256": "c808a62985584fb0cae888a416b0b302ccae948d985f0f7207b060b7c2bf675c",
+                "sha256_in_prefix": "c808a62985584fb0cae888a416b0b302ccae948d985f0f7207b060b7c2bf675c",
+                "size_in_bytes": 4913
+            },
+            {
+                "_path": "include/NTL/mat_RR.h",
+                "path_type": "hardlink",
+                "sha256": "b4082865c89da6f01591ea5130b06636f76f472f84ae95311d9370b4a86d2c2e",
+                "sha256_in_prefix": "b4082865c89da6f01591ea5130b06636f76f472f84ae95311d9370b4a86d2c2e",
+                "size_in_bytes": 3703
+            },
+            {
+                "_path": "include/NTL/mat_ZZ.h",
+                "path_type": "hardlink",
+                "sha256": "a2ad89f501d84b48f494c79133d0eab18419a06d13de80466d51cbbec317a45d",
+                "sha256_in_prefix": "a2ad89f501d84b48f494c79133d0eab18419a06d13de80466d51cbbec317a45d",
+                "size_in_bytes": 4480
+            },
+            {
+                "_path": "include/NTL/mat_ZZ_p.h",
+                "path_type": "hardlink",
+                "sha256": "71f374ed238c61afc8fc062531a84177c413b86b0d06293e4a5a47a1b8b967f8",
+                "sha256_in_prefix": "71f374ed238c61afc8fc062531a84177c413b86b0d06293e4a5a47a1b8b967f8",
+                "size_in_bytes": 5661
+            },
+            {
+                "_path": "include/NTL/mat_ZZ_pE.h",
+                "path_type": "hardlink",
+                "sha256": "09b79106be4682b02afb76e42d1df567ea84c8e04056d345f1caf8e95f53c540",
+                "sha256_in_prefix": "09b79106be4682b02afb76e42d1df567ea84c8e04056d345f1caf8e95f53c540",
+                "size_in_bytes": 4979
+            },
+            {
+                "_path": "include/NTL/mat_lzz_p.h",
+                "path_type": "hardlink",
+                "sha256": "12f1ade993c3a9f6b77f94085c2a53de2994ce3eef0984f1a0b6adf29b666178",
+                "sha256_in_prefix": "12f1ade993c3a9f6b77f94085c2a53de2994ce3eef0984f1a0b6adf29b666178",
+                "size_in_bytes": 5883
+            },
+            {
+                "_path": "include/NTL/mat_lzz_pE.h",
+                "path_type": "hardlink",
+                "sha256": "13bac5b75f8acc28b4ec749329a479dcb54b1a731200ff17c630894634420a4c",
+                "sha256_in_prefix": "13bac5b75f8acc28b4ec749329a479dcb54b1a731200ff17c630894634420a4c",
+                "size_in_bytes": 4980
+            },
+            {
+                "_path": "include/NTL/mat_poly_ZZ.h",
+                "path_type": "hardlink",
+                "sha256": "593bcfda057e240008f3c2d39ea83f51e64b5076f4b7c9a20d5a1441dd43d762",
+                "sha256_in_prefix": "593bcfda057e240008f3c2d39ea83f51e64b5076f4b7c9a20d5a1441dd43d762",
+                "size_in_bytes": 201
+            },
+            {
+                "_path": "include/NTL/mat_poly_ZZ_p.h",
+                "path_type": "hardlink",
+                "sha256": "b66a13c8be29df921426113ce4c3719d3b377cd95832738549e3759676315504",
+                "sha256_in_prefix": "b66a13c8be29df921426113ce4c3719d3b377cd95832738549e3759676315504",
+                "size_in_bytes": 192
+            },
+            {
+                "_path": "include/NTL/mat_poly_lzz_p.h",
+                "path_type": "hardlink",
+                "sha256": "4a2c2d84f965bbddbf7114cd3fe47944dc83dfdb3a3c8dcaa32c72e38972d3eb",
+                "sha256_in_prefix": "4a2c2d84f965bbddbf7114cd3fe47944dc83dfdb3a3c8dcaa32c72e38972d3eb",
+                "size_in_bytes": 194
+            },
+            {
+                "_path": "include/NTL/matrix.h",
+                "path_type": "hardlink",
+                "sha256": "cee1b9e4da7d0d1baebc6fe80b9687d4d4c681cf40ca2215eda9d1d5b2ff4b98",
+                "sha256_in_prefix": "cee1b9e4da7d0d1baebc6fe80b9687d4d4c681cf40ca2215eda9d1d5b2ff4b98",
+                "size_in_bytes": 6156
+            },
+            {
+                "_path": "include/NTL/new.h",
+                "path_type": "hardlink",
+                "sha256": "4ec567589ed39a10b8b495a236a15f26bbcd9f5e8ed6a8941eb7e37df9a5cb48",
+                "sha256_in_prefix": "4ec567589ed39a10b8b495a236a15f26bbcd9f5e8ed6a8941eb7e37df9a5cb48",
+                "size_in_bytes": 102
+            },
+            {
+                "_path": "include/NTL/pair.h",
+                "path_type": "hardlink",
+                "sha256": "85c84b54dbb65ecdcb951058f8ad3ee3d90a46c0c61c32a48265c8b5d89acd6b",
+                "sha256_in_prefix": "85c84b54dbb65ecdcb951058f8ad3ee3d90a46c0c61c32a48265c8b5d89acd6b",
+                "size_in_bytes": 1727
+            },
+            {
+                "_path": "include/NTL/pair_GF2EX_long.h",
+                "path_type": "hardlink",
+                "sha256": "5422a1dd452c34731cfb9c2744446e7ac4615f978918edbb7e722805eafd8aec",
+                "sha256_in_prefix": "5422a1dd452c34731cfb9c2744446e7ac4615f978918edbb7e722805eafd8aec",
+                "size_in_bytes": 265
+            },
+            {
+                "_path": "include/NTL/pair_GF2X_long.h",
+                "path_type": "hardlink",
+                "sha256": "0e9c268f0c71f113d0e333aef040e3f1331e2d3f2920a65a1c64f015bc7cf691",
+                "sha256_in_prefix": "0e9c268f0c71f113d0e333aef040e3f1331e2d3f2920a65a1c64f015bc7cf691",
+                "size_in_bytes": 256
+            },
+            {
+                "_path": "include/NTL/pair_ZZX_long.h",
+                "path_type": "hardlink",
+                "sha256": "e4cf0e0579a3f2ca068cacc4a3c99f482872a57a2964c96d275fd07c1728eed0",
+                "sha256_in_prefix": "e4cf0e0579a3f2ca068cacc4a3c99f482872a57a2964c96d275fd07c1728eed0",
+                "size_in_bytes": 249
+            },
+            {
+                "_path": "include/NTL/pair_ZZ_pEX_long.h",
+                "path_type": "hardlink",
+                "sha256": "33e5a9c38d3199ce9202241f23dee56db59ab44d87ae23e30711fae6ccd4b65b",
+                "sha256_in_prefix": "33e5a9c38d3199ce9202241f23dee56db59ab44d87ae23e30711fae6ccd4b65b",
+                "size_in_bytes": 247
+            },
+            {
+                "_path": "include/NTL/pair_ZZ_pX_long.h",
+                "path_type": "hardlink",
+                "sha256": "a7ceb444f7f7af466fb536143a72b13c90eac570bd42945b7c790bba2dd35ac8",
+                "sha256_in_prefix": "a7ceb444f7f7af466fb536143a72b13c90eac570bd42945b7c790bba2dd35ac8",
+                "size_in_bytes": 263
+            },
+            {
+                "_path": "include/NTL/pair_lzz_pEX_long.h",
+                "path_type": "hardlink",
+                "sha256": "da604cee131258556d33635681f07b3cfb334d92c7c04d5b71729e67038e22fc",
+                "sha256_in_prefix": "da604cee131258556d33635681f07b3cfb334d92c7c04d5b71729e67038e22fc",
+                "size_in_bytes": 248
+            },
+            {
+                "_path": "include/NTL/pair_lzz_pX_long.h",
+                "path_type": "hardlink",
+                "sha256": "078b263e03c6b14303cafbee9fd865cd0eedcecf1f5ac70bc65ead32b58232f3",
+                "sha256_in_prefix": "078b263e03c6b14303cafbee9fd865cd0eedcecf1f5ac70bc65ead32b58232f3",
+                "size_in_bytes": 264
+            },
+            {
+                "_path": "include/NTL/pd_FFT.h",
+                "path_type": "hardlink",
+                "sha256": "1f73603155c807d7d16974e45ebfcdfff047e637cd1c90f745f3b7c33b4ef84a",
+                "sha256_in_prefix": "1f73603155c807d7d16974e45ebfcdfff047e637cd1c90f745f3b7c33b4ef84a",
+                "size_in_bytes": 1034
+            },
+            {
+                "_path": "include/NTL/quad_float.h",
+                "path_type": "hardlink",
+                "sha256": "c5dd3c67d7190630bc4640352d1fafb9a7ae0180089efb6b85f8dfa007a812f1",
+                "sha256_in_prefix": "c5dd3c67d7190630bc4640352d1fafb9a7ae0180089efb6b85f8dfa007a812f1",
+                "size_in_bytes": 10114
+            },
+            {
+                "_path": "include/NTL/sp_arith.h",
+                "path_type": "hardlink",
+                "sha256": "43843b8faed8962037670bb1f7903c0b17bb03a0e2cb1a84ad07dc0d2b801e52",
+                "sha256_in_prefix": "43843b8faed8962037670bb1f7903c0b17bb03a0e2cb1a84ad07dc0d2b801e52",
+                "size_in_bytes": 24314
+            },
+            {
+                "_path": "include/NTL/thread.h",
+                "path_type": "hardlink",
+                "sha256": "f15d00def36e1691e11b279b01db1b0159e89f559a238db553c8123359f58e7b",
+                "sha256_in_prefix": "f15d00def36e1691e11b279b01db1b0159e89f559a238db553c8123359f58e7b",
+                "size_in_bytes": 6413
+            },
+            {
+                "_path": "include/NTL/tools.h",
+                "path_type": "hardlink",
+                "sha256": "aa0f504f74c5ba79188e808fc8678cbebf4369a31cfb7bfd47461878788e055d",
+                "sha256_in_prefix": "aa0f504f74c5ba79188e808fc8678cbebf4369a31cfb7bfd47461878788e055d",
+                "size_in_bytes": 29763
+            },
+            {
+                "_path": "include/NTL/vec_GF2.h",
+                "path_type": "hardlink",
+                "sha256": "f16bf8a83d90b31206ce7d5b6cfced3b16e00cff50ff850b0d1fa4b594c5d10a",
+                "sha256_in_prefix": "f16bf8a83d90b31206ce7d5b6cfced3b16e00cff50ff850b0d1fa4b594c5d10a",
+                "size_in_bytes": 12033
+            },
+            {
+                "_path": "include/NTL/vec_GF2E.h",
+                "path_type": "hardlink",
+                "sha256": "1718125c6b9590cd1b0cbbbcfcc2b8bc1d0300aaa4f802961d67c04c2a4a3748",
+                "sha256_in_prefix": "1718125c6b9590cd1b0cbbbcfcc2b8bc1d0300aaa4f802961d67c04c2a4a3748",
+                "size_in_bytes": 2738
+            },
+            {
+                "_path": "include/NTL/vec_GF2XVec.h",
+                "path_type": "hardlink",
+                "sha256": "13e450c928c4a759a927c433b35b6873a8b046cb97da693feba404aad7e28378",
+                "sha256_in_prefix": "13e450c928c4a759a927c433b35b6873a8b046cb97da693feba404aad7e28378",
+                "size_in_bytes": 177
+            },
+            {
+                "_path": "include/NTL/vec_RR.h",
+                "path_type": "hardlink",
+                "sha256": "2c4c4390a463bc8961c0ebca3ab6459867fe216cf99475ada5b0d122e1a8a6ea",
+                "sha256_in_prefix": "2c4c4390a463bc8961c0ebca3ab6459867fe216cf99475ada5b0d122e1a8a6ea",
+                "size_in_bytes": 1870
+            },
+            {
+                "_path": "include/NTL/vec_ZZ.h",
+                "path_type": "hardlink",
+                "sha256": "ef81f696fb8a8152e5af8fb94ce2839ca7c104bc38d37939ebc0e713116bff96",
+                "sha256_in_prefix": "ef81f696fb8a8152e5af8fb94ce2839ca7c104bc38d37939ebc0e713116bff96",
+                "size_in_bytes": 1861
+            },
+            {
+                "_path": "include/NTL/vec_ZZVec.h",
+                "path_type": "hardlink",
+                "sha256": "753361741df01a0c572ef728db0ac281fd31721af9fead2ad730962d8402f426",
+                "sha256_in_prefix": "753361741df01a0c572ef728db0ac281fd31721af9fead2ad730962d8402f426",
+                "size_in_bytes": 167
+            },
+            {
+                "_path": "include/NTL/vec_ZZ_p.h",
+                "path_type": "hardlink",
+                "sha256": "597424f9baec2e340131c32b98c14df295f9584d93bd164febaf056fba98b415",
+                "sha256_in_prefix": "597424f9baec2e340131c32b98c14df295f9584d93bd164febaf056fba98b415",
+                "size_in_bytes": 2477
+            },
+            {
+                "_path": "include/NTL/vec_ZZ_pE.h",
+                "path_type": "hardlink",
+                "sha256": "6b1c17c75f8f99ed4a1311a680704cd1d8bbac743b2e8b8f86cc72b663f3b8f1",
+                "sha256_in_prefix": "6b1c17c75f8f99ed4a1311a680704cd1d8bbac743b2e8b8f86cc72b663f3b8f1",
+                "size_in_bytes": 2795
+            },
+            {
+                "_path": "include/NTL/vec_double.h",
+                "path_type": "hardlink",
+                "sha256": "2fd1e5534f537a8b45d7a574fb33991fe14dff885cd0c0ef9d15d2778e0c19ee",
+                "sha256_in_prefix": "2fd1e5534f537a8b45d7a574fb33991fe14dff885cd0c0ef9d15d2778e0c19ee",
+                "size_in_bytes": 148
+            },
+            {
+                "_path": "include/NTL/vec_long.h",
+                "path_type": "hardlink",
+                "sha256": "a91252c52ce47806b440a14d2a8165a247e6c5448d99907f78ef8c59f3626ee6",
+                "sha256_in_prefix": "a91252c52ce47806b440a14d2a8165a247e6c5448d99907f78ef8c59f3626ee6",
+                "size_in_bytes": 140
+            },
+            {
+                "_path": "include/NTL/vec_lzz_p.h",
+                "path_type": "hardlink",
+                "sha256": "a98bf86938bdf72c918443bc5ae1e5430d7925c8d6dc4106aa586d673c6fd40b",
+                "sha256_in_prefix": "a98bf86938bdf72c918443bc5ae1e5430d7925c8d6dc4106aa586d673c6fd40b",
+                "size_in_bytes": 2499
+            },
+            {
+                "_path": "include/NTL/vec_lzz_pE.h",
+                "path_type": "hardlink",
+                "sha256": "67d1cad8cfa84957ee07254a566cf466908e64b5aae2f74c2df38658058dfbd9",
+                "sha256_in_prefix": "67d1cad8cfa84957ee07254a566cf466908e64b5aae2f74c2df38658058dfbd9",
+                "size_in_bytes": 2796
+            },
+            {
+                "_path": "include/NTL/vec_quad_float.h",
+                "path_type": "hardlink",
+                "sha256": "cf683646a89dccb4d58ff383ed5483fdb29092c27bbc8928a0d6b5f341410ded",
+                "sha256_in_prefix": "cf683646a89dccb4d58ff383ed5483fdb29092c27bbc8928a0d6b5f341410ded",
+                "size_in_bytes": 192
+            },
+            {
+                "_path": "include/NTL/vec_ulong.h",
+                "path_type": "hardlink",
+                "sha256": "285ba19b92431a4fdca1279e096383f3c9d61488fbb17824ee15a839cd4f6ae9",
+                "sha256_in_prefix": "285ba19b92431a4fdca1279e096383f3c9d61488fbb17824ee15a839cd4f6ae9",
+                "size_in_bytes": 152
+            },
+            {
+                "_path": "include/NTL/vec_vec_GF2.h",
+                "path_type": "hardlink",
+                "sha256": "94dba5820c4d939763dbe0da6f5f42b0eaca5766b510ba65ab816dcfba07fa7b",
+                "sha256_in_prefix": "94dba5820c4d939763dbe0da6f5f42b0eaca5766b510ba65ab816dcfba07fa7b",
+                "size_in_bytes": 180
+            },
+            {
+                "_path": "include/NTL/vec_vec_GF2E.h",
+                "path_type": "hardlink",
+                "sha256": "3fecfb9b19f04f5bb7cd8355c7f6fc7e2d4fd6fee49c16a64ab8f0921debdb58",
+                "sha256_in_prefix": "3fecfb9b19f04f5bb7cd8355c7f6fc7e2d4fd6fee49c16a64ab8f0921debdb58",
+                "size_in_bytes": 161
+            },
+            {
+                "_path": "include/NTL/vec_vec_RR.h",
+                "path_type": "hardlink",
+                "sha256": "256d7aa27a81c195fdec63df27b759970698b36b59b07492d6690058175cca62",
+                "sha256_in_prefix": "256d7aa27a81c195fdec63df27b759970698b36b59b07492d6690058175cca62",
+                "size_in_bytes": 151
+            },
+            {
+                "_path": "include/NTL/vec_vec_ZZ.h",
+                "path_type": "hardlink",
+                "sha256": "c14f9811558dd1a7f9be1e6d1073586f7e03a33deef2b6c3523053e42918919d",
+                "sha256_in_prefix": "c14f9811558dd1a7f9be1e6d1073586f7e03a33deef2b6c3523053e42918919d",
+                "size_in_bytes": 151
+            },
+            {
+                "_path": "include/NTL/vec_vec_ZZ_p.h",
+                "path_type": "hardlink",
+                "sha256": "0e3a13a77ee89910b2434719be8b8b3b1d76a836232cde24557b322582b0d971",
+                "sha256_in_prefix": "0e3a13a77ee89910b2434719be8b8b3b1d76a836232cde24557b322582b0d971",
+                "size_in_bytes": 161
+            },
+            {
+                "_path": "include/NTL/vec_vec_ZZ_pE.h",
+                "path_type": "hardlink",
+                "sha256": "5d6056f164117a2e84bf10e95faae9f9d951c6028b270413ccc77003ed29ecd0",
+                "sha256_in_prefix": "5d6056f164117a2e84bf10e95faae9f9d951c6028b270413ccc77003ed29ecd0",
+                "size_in_bytes": 166
+            },
+            {
+                "_path": "include/NTL/vec_vec_long.h",
+                "path_type": "hardlink",
+                "sha256": "acdde446b93f5291972ecfc7afdba7d059727951b6967a1b747ab194a890d9a9",
+                "sha256_in_prefix": "acdde446b93f5291972ecfc7afdba7d059727951b6967a1b747ab194a890d9a9",
+                "size_in_bytes": 162
+            },
+            {
+                "_path": "include/NTL/vec_vec_lzz_p.h",
+                "path_type": "hardlink",
+                "sha256": "40c92d49f660ecea6ca5bac010e598c900dbeeee389d0203a13f870cbdc65367",
+                "sha256_in_prefix": "40c92d49f660ecea6ca5bac010e598c900dbeeee389d0203a13f870cbdc65367",
+                "size_in_bytes": 162
+            },
+            {
+                "_path": "include/NTL/vec_vec_lzz_pE.h",
+                "path_type": "hardlink",
+                "sha256": "bb37db04b4b21c339cb7fb41975f06116015f382fd225171e5316fe286768280",
+                "sha256_in_prefix": "bb37db04b4b21c339cb7fb41975f06116015f382fd225171e5316fe286768280",
+                "size_in_bytes": 167
+            },
+            {
+                "_path": "include/NTL/vec_vec_ulong.h",
+                "path_type": "hardlink",
+                "sha256": "a1853382ebcbbe4fcfec6052393c7fab9ca1784564c9f611b85e73bb731ff65b",
+                "sha256_in_prefix": "a1853382ebcbbe4fcfec6052393c7fab9ca1784564c9f611b85e73bb731ff65b",
+                "size_in_bytes": 175
+            },
+            {
+                "_path": "include/NTL/vec_xdouble.h",
+                "path_type": "hardlink",
+                "sha256": "c5628f6c664a5ad1c2acf5f531ca79465ba899b104c84ed4d0293af8bcf612d1",
+                "sha256_in_prefix": "c5628f6c664a5ad1c2acf5f531ca79465ba899b104c84ed4d0293af8bcf612d1",
+                "size_in_bytes": 178
+            },
+            {
+                "_path": "include/NTL/vector.h",
+                "path_type": "hardlink",
+                "sha256": "32ddd9a376d3d3c564b52617e0ff6deb395f26884b4756a12a286a480319111f",
+                "sha256_in_prefix": "32ddd9a376d3d3c564b52617e0ff6deb395f26884b4756a12a286a480319111f",
+                "size_in_bytes": 23121
+            },
+            {
+                "_path": "include/NTL/version.h",
+                "path_type": "hardlink",
+                "sha256": "acb3aab96f557b0287c07bd1deffce3763c1cde3800feeac42350e1690d54129",
+                "sha256_in_prefix": "acb3aab96f557b0287c07bd1deffce3763c1cde3800feeac42350e1690d54129",
+                "size_in_bytes": 181
+            },
+            {
+                "_path": "include/NTL/xdouble.h",
+                "path_type": "hardlink",
+                "sha256": "b4234a2336a1de931f96cd7083400a9833d2eaba221ca74ebce98f8ecb5a297c",
+                "sha256_in_prefix": "b4234a2336a1de931f96cd7083400a9833d2eaba221ca74ebce98f8ecb5a297c",
+                "size_in_bytes": 8390
+            },
+            {
+                "_path": "lib/libntl.a",
+                "path_type": "hardlink",
+                "sha256": "8bd8ac56711f14cf9eff0b074680fa5b66528e196e75c95f6210bdad99950771",
+                "sha256_in_prefix": "8bd8ac56711f14cf9eff0b074680fa5b66528e196e75c95f6210bdad99950771",
+                "size_in_bytes": 41340210
+            },
+            {
+                "_path": "lib/libntl.so",
+                "path_type": "softlink",
+                "sha256_in_prefix": "7ab977cc256876e578bd6e5298e78c6e6f8c9cd2a2ea5622016e3121d44945d5",
+                "size_in_bytes": 23445320
+            },
+            {
+                "_path": "lib/libntl.so.43",
+                "path_type": "softlink",
+                "sha256_in_prefix": "7ab977cc256876e578bd6e5298e78c6e6f8c9cd2a2ea5622016e3121d44945d5",
+                "size_in_bytes": 23445320
+            },
+            {
+                "_path": "lib/libntl.so.43.0.1",
+                "path_type": "hardlink",
+                "sha256": "7ab977cc256876e578bd6e5298e78c6e6f8c9cd2a2ea5622016e3121d44945d5",
+                "sha256_in_prefix": "7ab977cc256876e578bd6e5298e78c6e6f8c9cd2a2ea5622016e3121d44945d5",
+                "size_in_bytes": 23445320
+            },
+            {
+                "_path": "share/doc/NTL/BasicThreadPool.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "aba10e0b59efedd67a5e8500186f100d9e64c3fa1f1d8afd83dccc10a45ad64d",
+                "sha256_in_prefix": "aba10e0b59efedd67a5e8500186f100d9e64c3fa1f1d8afd83dccc10a45ad64d",
+                "size_in_bytes": 29369
+            },
+            {
+                "_path": "share/doc/NTL/BasicThreadPool.txt",
+                "path_type": "hardlink",
+                "sha256": "47b59e5103ff72745bcbf7406da9839f1158f90bded6db0398cfc60e987d699f",
+                "sha256_in_prefix": "47b59e5103ff72745bcbf7406da9839f1158f90bded6db0398cfc60e987d699f",
+                "size_in_bytes": 17517
+            },
+            {
+                "_path": "share/doc/NTL/GF2.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "743fa9cc87285239b332d730ae35ecf78ca70e3fd36343f16840abbd6daf0d43",
+                "sha256_in_prefix": "743fa9cc87285239b332d730ae35ecf78ca70e3fd36343f16840abbd6daf0d43",
+                "size_in_bytes": 12752
+            },
+            {
+                "_path": "share/doc/NTL/GF2.txt",
+                "path_type": "hardlink",
+                "sha256": "ab42085159b63796586db7f7fe3efb4e29b66b7b6a8e6c21b62b4aec0df61baa",
+                "sha256_in_prefix": "ab42085159b63796586db7f7fe3efb4e29b66b7b6a8e6c21b62b4aec0df61baa",
+                "size_in_bytes": 6094
+            },
+            {
+                "_path": "share/doc/NTL/GF2E.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "0876dd1cd64d1ac60b76ff01e2920a31c451197a2a60999fd77a33c534c1f16f",
+                "sha256_in_prefix": "0876dd1cd64d1ac60b76ff01e2920a31c451197a2a60999fd77a33c534c1f16f",
+                "size_in_bytes": 23241
+            },
+            {
+                "_path": "share/doc/NTL/GF2E.txt",
+                "path_type": "hardlink",
+                "sha256": "c9a9580537e0d6f129bce3e434fe4ac214f9e7bc7551bbdf2b538f3aafc0830e",
+                "sha256_in_prefix": "c9a9580537e0d6f129bce3e434fe4ac214f9e7bc7551bbdf2b538f3aafc0830e",
+                "size_in_bytes": 11336
+            },
+            {
+                "_path": "share/doc/NTL/GF2EX.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "b03593ea8c0cd11f8334ac38681f6c7052ae83cb779c13fd6eabb29df89c09ff",
+                "sha256_in_prefix": "b03593ea8c0cd11f8334ac38681f6c7052ae83cb779c13fd6eabb29df89c09ff",
+                "size_in_bytes": 56493
+            },
+            {
+                "_path": "share/doc/NTL/GF2EX.txt",
+                "path_type": "hardlink",
+                "sha256": "a525092157290d25e52bc387bb39b162c17b5954e7dd206faf983059984c44d2",
+                "sha256_in_prefix": "a525092157290d25e52bc387bb39b162c17b5954e7dd206faf983059984c44d2",
+                "size_in_bytes": 27733
+            },
+            {
+                "_path": "share/doc/NTL/GF2EXFactoring.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "404fde95445347f13c68ee7b613c532ae5e24a14d4901f628a5a2b84881b9f83",
+                "sha256_in_prefix": "404fde95445347f13c68ee7b613c532ae5e24a14d4901f628a5a2b84881b9f83",
+                "size_in_bytes": 15718
+            },
+            {
+                "_path": "share/doc/NTL/GF2EXFactoring.txt",
+                "path_type": "hardlink",
+                "sha256": "6ced37d4981a1cdb4acdc63158ec349e2dde9b65a24aff1791fee4f5254a4c88",
+                "sha256_in_prefix": "6ced37d4981a1cdb4acdc63158ec349e2dde9b65a24aff1791fee4f5254a4c88",
+                "size_in_bytes": 8203
+            },
+            {
+                "_path": "share/doc/NTL/GF2X.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "e1f68fc235c73fade5b954357cfd15c4f25a9530efbb94c0c05d163d7d12f29f",
+                "sha256_in_prefix": "e1f68fc235c73fade5b954357cfd15c4f25a9530efbb94c0c05d163d7d12f29f",
+                "size_in_bytes": 51130
+            },
+            {
+                "_path": "share/doc/NTL/GF2X.txt",
+                "path_type": "hardlink",
+                "sha256": "af67b11c5a0c9de52e73d2c068ab0aa79700ab7883f6a2c96450d8503951d71a",
+                "sha256_in_prefix": "af67b11c5a0c9de52e73d2c068ab0aa79700ab7883f6a2c96450d8503951d71a",
+                "size_in_bytes": 25253
+            },
+            {
+                "_path": "share/doc/NTL/GF2XFactoring.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "eda0af48cd87d47862e073778001f776edce08f7b33b550c472b07ad6416e71e",
+                "sha256_in_prefix": "eda0af48cd87d47862e073778001f776edce08f7b33b550c472b07ad6416e71e",
+                "size_in_bytes": 8294
+            },
+            {
+                "_path": "share/doc/NTL/GF2XFactoring.txt",
+                "path_type": "hardlink",
+                "sha256": "8ef489191c16620b84261b07b2965c6e936002456f80e4ae540824e23666088c",
+                "sha256_in_prefix": "8ef489191c16620b84261b07b2965c6e936002456f80e4ae540824e23666088c",
+                "size_in_bytes": 4078
+            },
+            {
+                "_path": "share/doc/NTL/GF2XVec.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "d7d7409f790fc069cebbd426e3b8f1f44a41c4ffb65f4c5d42ddc8812c8be09f",
+                "sha256_in_prefix": "d7d7409f790fc069cebbd426e3b8f1f44a41c4ffb65f4c5d42ddc8812c8be09f",
+                "size_in_bytes": 4627
+            },
+            {
+                "_path": "share/doc/NTL/GF2XVec.txt",
+                "path_type": "hardlink",
+                "sha256": "37f345d4c0d4932c1376c71cb2a1ee2254519f29def511db01f4be3233ede6df",
+                "sha256_in_prefix": "37f345d4c0d4932c1376c71cb2a1ee2254519f29def511db01f4be3233ede6df",
+                "size_in_bytes": 1855
+            },
+            {
+                "_path": "share/doc/NTL/HNF.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "768bb86c570bf1b3898538697299de6bf9062ca060352778da7255232a959d66",
+                "sha256_in_prefix": "768bb86c570bf1b3898538697299de6bf9062ca060352778da7255232a959d66",
+                "size_in_bytes": 2576
+            },
+            {
+                "_path": "share/doc/NTL/HNF.txt",
+                "path_type": "hardlink",
+                "sha256": "1febe5a9cdf19fd6241abd34aa4f921ac2583d02676f32212a95d81ada821395",
+                "sha256_in_prefix": "1febe5a9cdf19fd6241abd34aa4f921ac2583d02676f32212a95d81ada821395",
+                "size_in_bytes": 906
+            },
+            {
+                "_path": "share/doc/NTL/LLL.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "dd39195a189dbfc90ea9f8238b13a3a6c7e06cda211ef6a888e59fd0f9658efb",
+                "sha256_in_prefix": "dd39195a189dbfc90ea9f8238b13a3a6c7e06cda211ef6a888e59fd0f9658efb",
+                "size_in_bytes": 29026
+            },
+            {
+                "_path": "share/doc/NTL/LLL.txt",
+                "path_type": "hardlink",
+                "sha256": "215b18db194d7df0f8145462d4df1f1f603c5cbdcf2f7dfc53688b80599d95cb",
+                "sha256_in_prefix": "215b18db194d7df0f8145462d4df1f1f603c5cbdcf2f7dfc53688b80599d95cb",
+                "size_in_bytes": 17515
+            },
+            {
+                "_path": "share/doc/NTL/Lazy.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "618c4b6fb7ec52139c8715249cc919cd4b51050f7a2740b58f89926d5268eabc",
+                "sha256_in_prefix": "618c4b6fb7ec52139c8715249cc919cd4b51050f7a2740b58f89926d5268eabc",
+                "size_in_bytes": 6194
+            },
+            {
+                "_path": "share/doc/NTL/Lazy.txt",
+                "path_type": "hardlink",
+                "sha256": "9fdf164fd2cd57555c2ada7b8c17dc24eebe469bd6f74e735acc64d3587b8214",
+                "sha256_in_prefix": "9fdf164fd2cd57555c2ada7b8c17dc24eebe469bd6f74e735acc64d3587b8214",
+                "size_in_bytes": 2871
+            },
+            {
+                "_path": "share/doc/NTL/LazyTable.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "9e4d44b616db0bd3ac22b80b5077478890d232dc9c5c4bc86be5b118d40b96c7",
+                "sha256_in_prefix": "9e4d44b616db0bd3ac22b80b5077478890d232dc9c5c4bc86be5b118d40b96c7",
+                "size_in_bytes": 5429
+            },
+            {
+                "_path": "share/doc/NTL/LazyTable.txt",
+                "path_type": "hardlink",
+                "sha256": "ceedbf668dd541a67053231a7394ae2437e5eb30b35b6ec37193d81c80cd91c2",
+                "sha256_in_prefix": "ceedbf668dd541a67053231a7394ae2437e5eb30b35b6ec37193d81c80cd91c2",
+                "size_in_bytes": 2453
+            },
+            {
+                "_path": "share/doc/NTL/RR.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "e20b8c39f6ac60b7bea04bcf36a1d6518958a670dedb285cc84fda2bb9ad05b3",
+                "sha256_in_prefix": "e20b8c39f6ac60b7bea04bcf36a1d6518958a670dedb285cc84fda2bb9ad05b3",
+                "size_in_bytes": 38556
+            },
+            {
+                "_path": "share/doc/NTL/RR.txt",
+                "path_type": "hardlink",
+                "sha256": "152fc28c498188ad493998b77f5b89ab704af2e2bed50201f180c4d6ee82baf2",
+                "sha256_in_prefix": "152fc28c498188ad493998b77f5b89ab704af2e2bed50201f180c4d6ee82baf2",
+                "size_in_bytes": 17911
+            },
+            {
+                "_path": "share/doc/NTL/SmartPtr.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "5222dea480fb41ffb6e862ff460f046260f597efcece057d62237204ea2c7c7b",
+                "sha256_in_prefix": "5222dea480fb41ffb6e862ff460f046260f597efcece057d62237204ea2c7c7b",
+                "size_in_bytes": 55609
+            },
+            {
+                "_path": "share/doc/NTL/SmartPtr.txt",
+                "path_type": "hardlink",
+                "sha256": "c30b67d33a95cd3b01d0814a6313bf684e8beefba20c897af255429e5fbc8661",
+                "sha256_in_prefix": "c30b67d33a95cd3b01d0814a6313bf684e8beefba20c897af255429e5fbc8661",
+                "size_in_bytes": 29551
+            },
+            {
+                "_path": "share/doc/NTL/ZZ.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "fcef8bc865bad1af49f2775b91d82d6ef8802c84f8a95f6f7e305ccbf9c1e826",
+                "sha256_in_prefix": "fcef8bc865bad1af49f2775b91d82d6ef8802c84f8a95f6f7e305ccbf9c1e826",
+                "size_in_bytes": 73322
+            },
+            {
+                "_path": "share/doc/NTL/ZZ.txt",
+                "path_type": "hardlink",
+                "sha256": "480ca90ea2cd2641b4e1aff4144fa64bdfb8f9f36bf5da9fefe1051f69f23534",
+                "sha256_in_prefix": "480ca90ea2cd2641b4e1aff4144fa64bdfb8f9f36bf5da9fefe1051f69f23534",
+                "size_in_bytes": 36306
+            },
+            {
+                "_path": "share/doc/NTL/ZZVec.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "dc30a87c96bd2c4493b9ccefae57d9cf5f30c5d381352b9f4ad208cf6f43e6d0",
+                "sha256_in_prefix": "dc30a87c96bd2c4493b9ccefae57d9cf5f30c5d381352b9f4ad208cf6f43e6d0",
+                "size_in_bytes": 4557
+            },
+            {
+                "_path": "share/doc/NTL/ZZVec.txt",
+                "path_type": "hardlink",
+                "sha256": "a239c0b9ff09035c9d228a5dc9dac2c2ef9baae99e9220d92a8d6e2f79b80c79",
+                "sha256_in_prefix": "a239c0b9ff09035c9d228a5dc9dac2c2ef9baae99e9220d92a8d6e2f79b80c79",
+                "size_in_bytes": 1782
+            },
+            {
+                "_path": "share/doc/NTL/ZZX.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "f868ce96782c0298899f8cf71350be631089db82147a7e05baebebccd4aa1a3a",
+                "sha256_in_prefix": "f868ce96782c0298899f8cf71350be631089db82147a7e05baebebccd4aa1a3a",
+                "size_in_bytes": 36478
+            },
+            {
+                "_path": "share/doc/NTL/ZZX.txt",
+                "path_type": "hardlink",
+                "sha256": "73bd433621a5f5f9974a8420086360385df52169336b1c47b116d0d44d42fd35",
+                "sha256_in_prefix": "73bd433621a5f5f9974a8420086360385df52169336b1c47b116d0d44d42fd35",
+                "size_in_bytes": 17508
+            },
+            {
+                "_path": "share/doc/NTL/ZZXFactoring.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "f1b24fdfa2434a17c43b1b95377a7d1240e01b076319057ec0b902d553066ad4",
+                "sha256_in_prefix": "f1b24fdfa2434a17c43b1b95377a7d1240e01b076319057ec0b902d553066ad4",
+                "size_in_bytes": 11960
+            },
+            {
+                "_path": "share/doc/NTL/ZZXFactoring.txt",
+                "path_type": "hardlink",
+                "sha256": "c0b35051aefa4cbed32970a1fdff161ca55acb03f158dd19cff724d90720f261",
+                "sha256_in_prefix": "c0b35051aefa4cbed32970a1fdff161ca55acb03f158dd19cff724d90720f261",
+                "size_in_bytes": 6567
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_limbs.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "e055be3068ca5e0b0ede590f972b8715bcbdfe1be09b76119526e4f9a6073359",
+                "sha256_in_prefix": "e055be3068ca5e0b0ede590f972b8715bcbdfe1be09b76119526e4f9a6073359",
+                "size_in_bytes": 3454
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_limbs.txt",
+                "path_type": "hardlink",
+                "sha256": "9e7c622d0c19e7d8d540cb8861d667d45e6af21764c63befb1291ae58bf3c065",
+                "sha256_in_prefix": "9e7c622d0c19e7d8d540cb8861d667d45e6af21764c63befb1291ae58bf3c065",
+                "size_in_bytes": 1329
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_p.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "69619761d4852261684eaa82896d132521af62a2893e4de9da52feb8dd3ce152",
+                "sha256_in_prefix": "69619761d4852261684eaa82896d132521af62a2893e4de9da52feb8dd3ce152",
+                "size_in_bytes": 23145
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_p.txt",
+                "path_type": "hardlink",
+                "sha256": "677d0e18b1b4965d815950481c8d2acd8215589d957317110a8bf56af535ca6d",
+                "sha256_in_prefix": "677d0e18b1b4965d815950481c8d2acd8215589d957317110a8bf56af535ca6d",
+                "size_in_bytes": 11271
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_pE.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "4ceca660ab58994171b2d8d45c9c52886f985d80879446127898b7c513211a0b",
+                "sha256_in_prefix": "4ceca660ab58994171b2d8d45c9c52886f985d80879446127898b7c513211a0b",
+                "size_in_bytes": 22153
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_pE.txt",
+                "path_type": "hardlink",
+                "sha256": "a284191f19d24939067476ae0990e87432ef363840b36ad30c0f6bdc308375c0",
+                "sha256_in_prefix": "a284191f19d24939067476ae0990e87432ef363840b36ad30c0f6bdc308375c0",
+                "size_in_bytes": 10557
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_pEX.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "509c9cb135f0b6907a4604827de0b26f3f8019b3aad9134b188e36ee079ff904",
+                "sha256_in_prefix": "509c9cb135f0b6907a4604827de0b26f3f8019b3aad9134b188e36ee079ff904",
+                "size_in_bytes": 57592
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_pEX.txt",
+                "path_type": "hardlink",
+                "sha256": "628b046d25d5c141f472dba9757c6f2d77057bf200d81e6c1438f8e5e1e84281",
+                "sha256_in_prefix": "628b046d25d5c141f472dba9757c6f2d77057bf200d81e6c1438f8e5e1e84281",
+                "size_in_bytes": 28503
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_pEXFactoring.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "ab7f85a8e050c97bcde36acbcdeef9f9b1ebd009cdf7f86a4421620782cb8f57",
+                "sha256_in_prefix": "ab7f85a8e050c97bcde36acbcdeef9f9b1ebd009cdf7f86a4421620782cb8f57",
+                "size_in_bytes": 12964
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_pEXFactoring.txt",
+                "path_type": "hardlink",
+                "sha256": "f7915574a79c063083061cdfbf01580078fce0b3c8c616fe10e0982706852608",
+                "sha256_in_prefix": "f7915574a79c063083061cdfbf01580078fce0b3c8c616fe10e0982706852608",
+                "size_in_bytes": 6652
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_pX.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "bf573860553ab1989d69b70922c79ae6c7db1dde371077c1d15766f68d53c8c3",
+                "sha256_in_prefix": "bf573860553ab1989d69b70922c79ae6c7db1dde371077c1d15766f68d53c8c3",
+                "size_in_bytes": 58751
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_pX.txt",
+                "path_type": "hardlink",
+                "sha256": "c02b027908ab8f8c18e41c355b34c855e3f261bae6f784f8482dbe658ad00af0",
+                "sha256_in_prefix": "c02b027908ab8f8c18e41c355b34c855e3f261bae6f784f8482dbe658ad00af0",
+                "size_in_bytes": 29269
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_pXFactoring.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "9d6a5b63a17ecbed6d4703f0ef5c326b0683c588bae71ceba5bc4cb74e77258d",
+                "sha256_in_prefix": "9d6a5b63a17ecbed6d4703f0ef5c326b0683c588bae71ceba5bc4cb74e77258d",
+                "size_in_bytes": 13522
+            },
+            {
+                "_path": "share/doc/NTL/ZZ_pXFactoring.txt",
+                "path_type": "hardlink",
+                "sha256": "ebbafb1ae762efb7dfd5e8ea802e282ca3fda74649c87ac7118ff794c66669ec",
+                "sha256_in_prefix": "ebbafb1ae762efb7dfd5e8ea802e282ca3fda74649c87ac7118ff794c66669ec",
+                "size_in_bytes": 6817
+            },
+            {
+                "_path": "share/doc/NTL/arrow1.gif",
+                "path_type": "hardlink",
+                "sha256": "578d9b35447ddf7283fc6ac3b0ae21f8bddceb55d12fa1e1382f8fce67643cff",
+                "sha256_in_prefix": "578d9b35447ddf7283fc6ac3b0ae21f8bddceb55d12fa1e1382f8fce67643cff",
+                "size_in_bytes": 967
+            },
+            {
+                "_path": "share/doc/NTL/arrow2.gif",
+                "path_type": "hardlink",
+                "sha256": "b161b2e1d3c728f5512a4cdbd78e2ade0a00133ab2395586d462e02049e82481",
+                "sha256_in_prefix": "b161b2e1d3c728f5512a4cdbd78e2ade0a00133ab2395586d462e02049e82481",
+                "size_in_bytes": 942
+            },
+            {
+                "_path": "share/doc/NTL/arrow3.gif",
+                "path_type": "hardlink",
+                "sha256": "58419e6aec859bd8fda31c1a3f86d786719f7615cfe1a05c1553a1885ce7bc24",
+                "sha256_in_prefix": "58419e6aec859bd8fda31c1a3f86d786719f7615cfe1a05c1553a1885ce7bc24",
+                "size_in_bytes": 955
+            },
+            {
+                "_path": "share/doc/NTL/config.txt",
+                "path_type": "hardlink",
+                "sha256": "6f443b41af3396eb7e3491c22ed44b1d3f6bb5b9d69863c5c2730b27dfdcf5c8",
+                "sha256_in_prefix": "6f443b41af3396eb7e3491c22ed44b1d3f6bb5b9d69863c5c2730b27dfdcf5c8",
+                "size_in_bytes": 23125
+            },
+            {
+                "_path": "share/doc/NTL/conversions.txt",
+                "path_type": "hardlink",
+                "sha256": "750d7e64531d79082394cb25ae296d2c0efe1b4b33fe609265860ad90ec4aba5",
+                "sha256_in_prefix": "750d7e64531d79082394cb25ae296d2c0efe1b4b33fe609265860ad90ec4aba5",
+                "size_in_bytes": 6564
+            },
+            {
+                "_path": "share/doc/NTL/copying.txt",
+                "path_type": "hardlink",
+                "sha256": "fd7f73fa98f7e0f1306f2c7cc7aa416a741b718b0ad5758ed7ae19d36f241002",
+                "sha256_in_prefix": "fd7f73fa98f7e0f1306f2c7cc7aa416a741b718b0ad5758ed7ae19d36f241002",
+                "size_in_bytes": 27996
+            },
+            {
+                "_path": "share/doc/NTL/flags.txt",
+                "path_type": "hardlink",
+                "sha256": "40b26bf960b58a8598402cd14200d31dc1bd53935ebce85a713c25801871c536",
+                "sha256_in_prefix": "40b26bf960b58a8598402cd14200d31dc1bd53935ebce85a713c25801871c536",
+                "size_in_bytes": 1379
+            },
+            {
+                "_path": "share/doc/NTL/lzz_p.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "9b55a7967791ed986b22821f588ad37c1d6e1901742cf38bff5b2e96639c93e7",
+                "sha256_in_prefix": "9b55a7967791ed986b22821f588ad37c1d6e1901742cf38bff5b2e96639c93e7",
+                "size_in_bytes": 22518
+            },
+            {
+                "_path": "share/doc/NTL/lzz_p.txt",
+                "path_type": "hardlink",
+                "sha256": "b08535a3ccc21b2ba910f2349d774c8395af441573581df2ca8decbfcaec020b",
+                "sha256_in_prefix": "b08535a3ccc21b2ba910f2349d774c8395af441573581df2ca8decbfcaec020b",
+                "size_in_bytes": 11546
+            },
+            {
+                "_path": "share/doc/NTL/lzz_pE.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "930fd14f785e302b465624109ae73d322c5f80e6ca5dbf42ff88e7ad07b15dbb",
+                "sha256_in_prefix": "930fd14f785e302b465624109ae73d322c5f80e6ca5dbf42ff88e7ad07b15dbb",
+                "size_in_bytes": 22155
+            },
+            {
+                "_path": "share/doc/NTL/lzz_pE.txt",
+                "path_type": "hardlink",
+                "sha256": "b79e107d1e3db0198ef1eabcceb2fcf07f099255245860e5a5de24561bc4574e",
+                "sha256_in_prefix": "b79e107d1e3db0198ef1eabcceb2fcf07f099255245860e5a5de24561bc4574e",
+                "size_in_bytes": 10558
+            },
+            {
+                "_path": "share/doc/NTL/lzz_pEX.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "4f1a2bbcfba52cba7f5e7daf71c2e8da6454c9e06b7672e3f6f5a334f8e42032",
+                "sha256_in_prefix": "4f1a2bbcfba52cba7f5e7daf71c2e8da6454c9e06b7672e3f6f5a334f8e42032",
+                "size_in_bytes": 57487
+            },
+            {
+                "_path": "share/doc/NTL/lzz_pEX.txt",
+                "path_type": "hardlink",
+                "sha256": "58ffcafc1972cb45b76f92579b9d7e76b1c5650bdaa431b395b894f94327ec32",
+                "sha256_in_prefix": "58ffcafc1972cb45b76f92579b9d7e76b1c5650bdaa431b395b894f94327ec32",
+                "size_in_bytes": 28478
+            },
+            {
+                "_path": "share/doc/NTL/lzz_pEXFactoring.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "d82226fe8bb8ec04ea8dc0cdd4cf4e910ccaf9ad59aaab84c9b85c6ddd6704cc",
+                "sha256_in_prefix": "d82226fe8bb8ec04ea8dc0cdd4cf4e910ccaf9ad59aaab84c9b85c6ddd6704cc",
+                "size_in_bytes": 12964
+            },
+            {
+                "_path": "share/doc/NTL/lzz_pEXFactoring.txt",
+                "path_type": "hardlink",
+                "sha256": "cf5d6180d0c89e9287da73eeb6097effb40911b969aa7720a9a02f02befbfcfd",
+                "sha256_in_prefix": "cf5d6180d0c89e9287da73eeb6097effb40911b969aa7720a9a02f02befbfcfd",
+                "size_in_bytes": 6651
+            },
+            {
+                "_path": "share/doc/NTL/lzz_pX.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "b99ff27e192adba0ddc0b7e17b6b2ac993714042bca7dd6407ba7ae0817bc764",
+                "sha256_in_prefix": "b99ff27e192adba0ddc0b7e17b6b2ac993714042bca7dd6407ba7ae0817bc764",
+                "size_in_bytes": 57239
+            },
+            {
+                "_path": "share/doc/NTL/lzz_pX.txt",
+                "path_type": "hardlink",
+                "sha256": "f8f8238e304c9ee72be5e4a0e5be1d7124d3d7fa633cd190f8c2dd2ec34e7673",
+                "sha256_in_prefix": "f8f8238e304c9ee72be5e4a0e5be1d7124d3d7fa633cd190f8c2dd2ec34e7673",
+                "size_in_bytes": 28691
+            },
+            {
+                "_path": "share/doc/NTL/lzz_pXFactoring.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "d031b1895339363dda9e7a423fe7d3a2c263a3fd54e1b2d034796b70cd6e8dca",
+                "sha256_in_prefix": "d031b1895339363dda9e7a423fe7d3a2c263a3fd54e1b2d034796b70cd6e8dca",
+                "size_in_bytes": 12582
+            },
+            {
+                "_path": "share/doc/NTL/lzz_pXFactoring.txt",
+                "path_type": "hardlink",
+                "sha256": "db2ac685fea23ab5bad051d676b00913e374493909f006c123954741646e7c6d",
+                "sha256_in_prefix": "db2ac685fea23ab5bad051d676b00913e374493909f006c123954741646e7c6d",
+                "size_in_bytes": 6256
+            },
+            {
+                "_path": "share/doc/NTL/mat_GF2.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "ac5b6da69eb1838200bceeabbba1c15ee9a16059fe98efd16deb07aec699dd90",
+                "sha256_in_prefix": "ac5b6da69eb1838200bceeabbba1c15ee9a16059fe98efd16deb07aec699dd90",
+                "size_in_bytes": 10942
+            },
+            {
+                "_path": "share/doc/NTL/mat_GF2.txt",
+                "path_type": "hardlink",
+                "sha256": "fef709b0a6edca67b72478676728ef7cece2a696093a1de10bf20ee415a1e6e6",
+                "sha256_in_prefix": "fef709b0a6edca67b72478676728ef7cece2a696093a1de10bf20ee415a1e6e6",
+                "size_in_bytes": 4527
+            },
+            {
+                "_path": "share/doc/NTL/mat_GF2E.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "42133102b70eb66248be9857279aa14ca7eb2fab131f2c93a8fe46f39010149a",
+                "sha256_in_prefix": "42133102b70eb66248be9857279aa14ca7eb2fab131f2c93a8fe46f39010149a",
+                "size_in_bytes": 11524
+            },
+            {
+                "_path": "share/doc/NTL/mat_GF2E.txt",
+                "path_type": "hardlink",
+                "sha256": "9e44e81a95168b3de8ce49cc5fd2974d6b69c4c04bf5d9fade6674025da661fa",
+                "sha256_in_prefix": "9e44e81a95168b3de8ce49cc5fd2974d6b69c4c04bf5d9fade6674025da661fa",
+                "size_in_bytes": 4757
+            },
+            {
+                "_path": "share/doc/NTL/mat_RR.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "9455bf529da045f70d1fb925389a5c7f4b77fdf28c1aa6b4f54edb0a8a21b329",
+                "sha256_in_prefix": "9455bf529da045f70d1fb925389a5c7f4b77fdf28c1aa6b4f54edb0a8a21b329",
+                "size_in_bytes": 9115
+            },
+            {
+                "_path": "share/doc/NTL/mat_RR.txt",
+                "path_type": "hardlink",
+                "sha256": "fd1ed1b5b2dd1c2873afd62065dbacd3afe42a6aed666f3ddb48ad6354541036",
+                "sha256_in_prefix": "fd1ed1b5b2dd1c2873afd62065dbacd3afe42a6aed666f3ddb48ad6354541036",
+                "size_in_bytes": 3387
+            },
+            {
+                "_path": "share/doc/NTL/mat_ZZ.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "5d3f9da40d832ff7eb9912c9cbdb488d932acd28945819ef3cd8d544cb86a215",
+                "sha256_in_prefix": "5d3f9da40d832ff7eb9912c9cbdb488d932acd28945819ef3cd8d544cb86a215",
+                "size_in_bytes": 11575
+            },
+            {
+                "_path": "share/doc/NTL/mat_ZZ.txt",
+                "path_type": "hardlink",
+                "sha256": "4abc1d04ada85ac988ada18fdc6c40aaaca8f809256f15c26de90498c3547e2a",
+                "sha256_in_prefix": "4abc1d04ada85ac988ada18fdc6c40aaaca8f809256f15c26de90498c3547e2a",
+                "size_in_bytes": 4854
+            },
+            {
+                "_path": "share/doc/NTL/mat_ZZ_p.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "e28d69743c6dfc1207b657fb410d54f8e7f42f3014c230af738f185e65bb8c95",
+                "sha256_in_prefix": "e28d69743c6dfc1207b657fb410d54f8e7f42f3014c230af738f185e65bb8c95",
+                "size_in_bytes": 10995
+            },
+            {
+                "_path": "share/doc/NTL/mat_ZZ_p.txt",
+                "path_type": "hardlink",
+                "sha256": "86a3e1b97d28c77b2935100df231aa886847af45e2e935cbd0607a2801e84809",
+                "sha256_in_prefix": "86a3e1b97d28c77b2935100df231aa886847af45e2e935cbd0607a2801e84809",
+                "size_in_bytes": 4510
+            },
+            {
+                "_path": "share/doc/NTL/mat_ZZ_pE.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "0cf214e70c97ed5619434cdc0a5fa4676a557738bb0b2b40d7217b28e8de53db",
+                "sha256_in_prefix": "0cf214e70c97ed5619434cdc0a5fa4676a557738bb0b2b40d7217b28e8de53db",
+                "size_in_bytes": 11841
+            },
+            {
+                "_path": "share/doc/NTL/mat_ZZ_pE.txt",
+                "path_type": "hardlink",
+                "sha256": "c318c740902c9cb801b977f269862df5ec12ec7558d2899bfff0ab8793fca349",
+                "sha256_in_prefix": "c318c740902c9cb801b977f269862df5ec12ec7558d2899bfff0ab8793fca349",
+                "size_in_bytes": 4924
+            },
+            {
+                "_path": "share/doc/NTL/mat_lzz_p.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "7e2c7ad4bd9596bf6f10195c3211cc6f9149b4539462b246973ab2f24359832b",
+                "sha256_in_prefix": "7e2c7ad4bd9596bf6f10195c3211cc6f9149b4539462b246973ab2f24359832b",
+                "size_in_bytes": 15561
+            },
+            {
+                "_path": "share/doc/NTL/mat_lzz_p.txt",
+                "path_type": "hardlink",
+                "sha256": "5ce0c208695e22a7bda4fe74dc01af0d22682b7b9d2e89a98314c265d9f41d7f",
+                "sha256_in_prefix": "5ce0c208695e22a7bda4fe74dc01af0d22682b7b9d2e89a98314c265d9f41d7f",
+                "size_in_bytes": 7171
+            },
+            {
+                "_path": "share/doc/NTL/mat_lzz_pE.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "94d61a128979f20afda2b57502f6dd4a4642967d044f7fab416c3dc45b8f6b5f",
+                "sha256_in_prefix": "94d61a128979f20afda2b57502f6dd4a4642967d044f7fab416c3dc45b8f6b5f",
+                "size_in_bytes": 11844
+            },
+            {
+                "_path": "share/doc/NTL/mat_lzz_pE.txt",
+                "path_type": "hardlink",
+                "sha256": "48b8cb8af25e5d844e4f009c51647e5eeea516e094d67120dcb27e26b8e4e1ce",
+                "sha256_in_prefix": "48b8cb8af25e5d844e4f009c51647e5eeea516e094d67120dcb27e26b8e4e1ce",
+                "size_in_bytes": 4926
+            },
+            {
+                "_path": "share/doc/NTL/mat_poly_ZZ.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "df1cf583281a3c74e7ee55f00159e1a0d5c7f8670181b7a05670869d0fde0bf4",
+                "sha256_in_prefix": "df1cf583281a3c74e7ee55f00159e1a0d5c7f8670181b7a05670869d0fde0bf4",
+                "size_in_bytes": 1838
+            },
+            {
+                "_path": "share/doc/NTL/mat_poly_ZZ.txt",
+                "path_type": "hardlink",
+                "sha256": "671631e2cdfe8ee4cceed426fc01014556c291f1fc6c57a152c2db8aeb4b3951",
+                "sha256_in_prefix": "671631e2cdfe8ee4cceed426fc01014556c291f1fc6c57a152c2db8aeb4b3951",
+                "size_in_bytes": 391
+            },
+            {
+                "_path": "share/doc/NTL/mat_poly_ZZ_p.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "dff61b2c841264be12bd77fc7fa57bbd3ec8cf3fa7f1cb55087585990a8df10e",
+                "sha256_in_prefix": "dff61b2c841264be12bd77fc7fa57bbd3ec8cf3fa7f1cb55087585990a8df10e",
+                "size_in_bytes": 1857
+            },
+            {
+                "_path": "share/doc/NTL/mat_poly_ZZ_p.txt",
+                "path_type": "hardlink",
+                "sha256": "38303acc04799a1848d08777fc57283ee0b79b8061dbbeadd3e4e717b89cbbe3",
+                "sha256_in_prefix": "38303acc04799a1848d08777fc57283ee0b79b8061dbbeadd3e4e717b89cbbe3",
+                "size_in_bytes": 408
+            },
+            {
+                "_path": "share/doc/NTL/mat_poly_lzz_p.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "4bfbb475ef48d05ca30d175f6b65b21644a05e8423a377c496c0da0c2d8fd0fd",
+                "sha256_in_prefix": "4bfbb475ef48d05ca30d175f6b65b21644a05e8423a377c496c0da0c2d8fd0fd",
+                "size_in_bytes": 1853
+            },
+            {
+                "_path": "share/doc/NTL/mat_poly_lzz_p.txt",
+                "path_type": "hardlink",
+                "sha256": "1a66fe55c773d793e998d41dc37072710950932b9a3675a90000ac47e5bc6eb9",
+                "sha256_in_prefix": "1a66fe55c773d793e998d41dc37072710950932b9a3675a90000ac47e5bc6eb9",
+                "size_in_bytes": 395
+            },
+            {
+                "_path": "share/doc/NTL/matrix.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "3f0337f9cf19fd521937e1e19fbdc06b063546f73b6875cc0b90f5929acbb2c3",
+                "sha256_in_prefix": "3f0337f9cf19fd521937e1e19fbdc06b063546f73b6875cc0b90f5929acbb2c3",
+                "size_in_bytes": 12199
+            },
+            {
+                "_path": "share/doc/NTL/matrix.txt",
+                "path_type": "hardlink",
+                "sha256": "8e6f9400f8f4bb4ac3c3e128519ff8da00e8912e45fd1c42717faf343e08dce9",
+                "sha256_in_prefix": "8e6f9400f8f4bb4ac3c3e128519ff8da00e8912e45fd1c42717faf343e08dce9",
+                "size_in_bytes": 5489
+            },
+            {
+                "_path": "share/doc/NTL/names.txt",
+                "path_type": "hardlink",
+                "sha256": "559a3b5ae5c8614cf44a16dee494d8914bc3fdac9b90a9e4b4f507ecfea119c3",
+                "sha256_in_prefix": "559a3b5ae5c8614cf44a16dee494d8914bc3fdac9b90a9e4b4f507ecfea119c3",
+                "size_in_bytes": 3417
+            },
+            {
+                "_path": "share/doc/NTL/pair.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "63998c5113086fde484992f98759f8e9dd100f1b4a24cd148c10bdff8b5b46cd",
+                "sha256_in_prefix": "63998c5113086fde484992f98759f8e9dd100f1b4a24cd148c10bdff8b5b46cd",
+                "size_in_bytes": 4695
+            },
+            {
+                "_path": "share/doc/NTL/pair.txt",
+                "path_type": "hardlink",
+                "sha256": "d1e4b39e3f9a954214d056151c7c118fd72c5a43ac04b903fd87a3d56f7a7d22",
+                "sha256_in_prefix": "d1e4b39e3f9a954214d056151c7c118fd72c5a43ac04b903fd87a3d56f7a7d22",
+                "size_in_bytes": 1648
+            },
+            {
+                "_path": "share/doc/NTL/quad_float.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "e87ee35000802f8fd07bca96801de81582ec6321ca03147ef2e466bdba9d3a1b",
+                "sha256_in_prefix": "e87ee35000802f8fd07bca96801de81582ec6321ca03147ef2e466bdba9d3a1b",
+                "size_in_bytes": 24918
+            },
+            {
+                "_path": "share/doc/NTL/quad_float.txt",
+                "path_type": "hardlink",
+                "sha256": "53109093df74bc62971116d1404f6c9a5bf7a6df04c675b4f372d439c255e41f",
+                "sha256_in_prefix": "53109093df74bc62971116d1404f6c9a5bf7a6df04c675b4f372d439c255e41f",
+                "size_in_bytes": 14080
+            },
+            {
+                "_path": "share/doc/NTL/sedscript.txt",
+                "path_type": "hardlink",
+                "sha256": "b3557abbb51ae83aaabdedb91cb24831fbc935459b6480a53a905d2b7742bf08",
+                "sha256_in_prefix": "b3557abbb51ae83aaabdedb91cb24831fbc935459b6480a53a905d2b7742bf08",
+                "size_in_bytes": 2807
+            },
+            {
+                "_path": "share/doc/NTL/tools.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "0fa3233972fb2daf286b374f282edb710da5a91a1da10ae25704cc5c056f642e",
+                "sha256_in_prefix": "0fa3233972fb2daf286b374f282edb710da5a91a1da10ae25704cc5c056f642e",
+                "size_in_bytes": 14191
+            },
+            {
+                "_path": "share/doc/NTL/tools.txt",
+                "path_type": "hardlink",
+                "sha256": "2f00d612cd3d289fa7cce1b6cf10a32844876f3018bceef75823fb74e9b7e6dd",
+                "sha256_in_prefix": "2f00d612cd3d289fa7cce1b6cf10a32844876f3018bceef75823fb74e9b7e6dd",
+                "size_in_bytes": 5468
+            },
+            {
+                "_path": "share/doc/NTL/tour-ack.html",
+                "path_type": "hardlink",
+                "sha256": "b25eab1d5a50eae196ec51b96e99779edd7f36826615589736c04253e3f201de",
+                "sha256_in_prefix": "b25eab1d5a50eae196ec51b96e99779edd7f36826615589736c04253e3f201de",
+                "size_in_bytes": 2579
+            },
+            {
+                "_path": "share/doc/NTL/tour-changes.html",
+                "path_type": "hardlink",
+                "sha256": "7b550e82784a537a5157735780750ac6be6fef3cdc2595c0478ffdec60f2ae0f",
+                "sha256_in_prefix": "7b550e82784a537a5157735780750ac6be6fef3cdc2595c0478ffdec60f2ae0f",
+                "size_in_bytes": 105190
+            },
+            {
+                "_path": "share/doc/NTL/tour-ex1.html",
+                "path_type": "hardlink",
+                "sha256": "140c17fe930b3659d98efb34eb63135d738c381d75d118411caf544f654a6d65",
+                "sha256_in_prefix": "140c17fe930b3659d98efb34eb63135d738c381d75d118411caf544f654a6d65",
+                "size_in_bytes": 23630
+            },
+            {
+                "_path": "share/doc/NTL/tour-ex2.html",
+                "path_type": "hardlink",
+                "sha256": "428807071aa57279a6377eb4a9673fc61cad445b26cb39f00f784cebfcd3d273",
+                "sha256_in_prefix": "428807071aa57279a6377eb4a9673fc61cad445b26cb39f00f784cebfcd3d273",
+                "size_in_bytes": 12909
+            },
+            {
+                "_path": "share/doc/NTL/tour-ex3.html",
+                "path_type": "hardlink",
+                "sha256": "abbbf970a086176e806d15d5303f3e2ef31fd30db37d9add4e739f64ea0624e3",
+                "sha256_in_prefix": "abbbf970a086176e806d15d5303f3e2ef31fd30db37d9add4e739f64ea0624e3",
+                "size_in_bytes": 11827
+            },
+            {
+                "_path": "share/doc/NTL/tour-ex4.html",
+                "path_type": "hardlink",
+                "sha256": "d44962094191da24eeb56fc3db97f249aebafd9af743c4aa64f156dad7836742",
+                "sha256_in_prefix": "d44962094191da24eeb56fc3db97f249aebafd9af743c4aa64f156dad7836742",
+                "size_in_bytes": 26244
+            },
+            {
+                "_path": "share/doc/NTL/tour-ex5.html",
+                "path_type": "hardlink",
+                "sha256": "214b1126020aabc10c4e90927c3cc6b00dda3907184dc1352c7f8dbbdae0f2f4",
+                "sha256_in_prefix": "214b1126020aabc10c4e90927c3cc6b00dda3907184dc1352c7f8dbbdae0f2f4",
+                "size_in_bytes": 5829
+            },
+            {
+                "_path": "share/doc/NTL/tour-ex6.html",
+                "path_type": "hardlink",
+                "sha256": "9ac715766e28780aed1ea9a54a797016d1bfef8eead465792cdae52825d073bd",
+                "sha256_in_prefix": "9ac715766e28780aed1ea9a54a797016d1bfef8eead465792cdae52825d073bd",
+                "size_in_bytes": 4035
+            },
+            {
+                "_path": "share/doc/NTL/tour-ex7.html",
+                "path_type": "hardlink",
+                "sha256": "553d056eb2509070228f11c681a30fdc58242ddf24fcceab162e6d14c176a674",
+                "sha256_in_prefix": "553d056eb2509070228f11c681a30fdc58242ddf24fcceab162e6d14c176a674",
+                "size_in_bytes": 7044
+            },
+            {
+                "_path": "share/doc/NTL/tour-examples.html",
+                "path_type": "hardlink",
+                "sha256": "189d0a199afc817eb6df097c854dc905e00fea0350971a7eefb747773e134fde",
+                "sha256_in_prefix": "189d0a199afc817eb6df097c854dc905e00fea0350971a7eefb747773e134fde",
+                "size_in_bytes": 1000
+            },
+            {
+                "_path": "share/doc/NTL/tour-gf2x.html",
+                "path_type": "hardlink",
+                "sha256": "d4f6f1576ec3fa6e8629064d3409509dec20b333349eaa3b5d00482cc040a6d1",
+                "sha256_in_prefix": "d4f6f1576ec3fa6e8629064d3409509dec20b333349eaa3b5d00482cc040a6d1",
+                "size_in_bytes": 4538
+            },
+            {
+                "_path": "share/doc/NTL/tour-gmp.html",
+                "path_type": "hardlink",
+                "sha256": "a63db3d1c9a98209d7ad93bf39bac6483802d8cccb39bf525723c478d44b713e",
+                "sha256_in_prefix": "a63db3d1c9a98209d7ad93bf39bac6483802d8cccb39bf525723c478d44b713e",
+                "size_in_bytes": 8577
+            },
+            {
+                "_path": "share/doc/NTL/tour-impl.html",
+                "path_type": "hardlink",
+                "sha256": "24c0283ab262bd47ecc5913988ad35ba813a5d8496eab3393b801bafa638bb0a",
+                "sha256_in_prefix": "24c0283ab262bd47ecc5913988ad35ba813a5d8496eab3393b801bafa638bb0a",
+                "size_in_bytes": 14441
+            },
+            {
+                "_path": "share/doc/NTL/tour-intro.html",
+                "path_type": "hardlink",
+                "sha256": "01422ae8e20cf1ab51303914194b5853948a45b6e08c8578e66a1ea1ccaa414f",
+                "sha256_in_prefix": "01422ae8e20cf1ab51303914194b5853948a45b6e08c8578e66a1ea1ccaa414f",
+                "size_in_bytes": 3380
+            },
+            {
+                "_path": "share/doc/NTL/tour-modules.html",
+                "path_type": "hardlink",
+                "sha256": "f5290e41554349f7159b08329f22748eddec5867fa3af3a71f5aa550f1103fe4",
+                "sha256_in_prefix": "f5290e41554349f7159b08329f22748eddec5867fa3af3a71f5aa550f1103fe4",
+                "size_in_bytes": 19081
+            },
+            {
+                "_path": "share/doc/NTL/tour-roadmap.html",
+                "path_type": "hardlink",
+                "sha256": "6c535fe13ecbc8630991922108491f301caef7c9f8631c684ab13bf32e78fab0",
+                "sha256_in_prefix": "6c535fe13ecbc8630991922108491f301caef7c9f8631c684ab13bf32e78fab0",
+                "size_in_bytes": 5795
+            },
+            {
+                "_path": "share/doc/NTL/tour-struct.html",
+                "path_type": "hardlink",
+                "sha256": "a97460ca89dd84853630ce24c4fa70ea797714c378fca7cf3694b2e1b8aaace4",
+                "sha256_in_prefix": "a97460ca89dd84853630ce24c4fa70ea797714c378fca7cf3694b2e1b8aaace4",
+                "size_in_bytes": 45762
+            },
+            {
+                "_path": "share/doc/NTL/tour-time.html",
+                "path_type": "hardlink",
+                "sha256": "887a80160a7fb78d973996fd5f2229063b247d70710ec93b5b95b3152297483c",
+                "sha256_in_prefix": "887a80160a7fb78d973996fd5f2229063b247d70710ec93b5b95b3152297483c",
+                "size_in_bytes": 3144
+            },
+            {
+                "_path": "share/doc/NTL/tour-tips.html",
+                "path_type": "hardlink",
+                "sha256": "e9fff5261a771ec197fe818168a378bf7d473144106d47a8a221f99a16034335",
+                "sha256_in_prefix": "e9fff5261a771ec197fe818168a378bf7d473144106d47a8a221f99a16034335",
+                "size_in_bytes": 3613
+            },
+            {
+                "_path": "share/doc/NTL/tour-unix.html",
+                "path_type": "hardlink",
+                "sha256": "7b51202cec15b78da2a46161a5893c4fe4a98c6e9d8b0ea218f2be0e6316c6be",
+                "sha256_in_prefix": "7b51202cec15b78da2a46161a5893c4fe4a98c6e9d8b0ea218f2be0e6316c6be",
+                "size_in_bytes": 21956
+            },
+            {
+                "_path": "share/doc/NTL/tour-win.html",
+                "path_type": "hardlink",
+                "sha256": "c99299fd9ac056b021583b95757ded62d6f71166f04a4a6e1188a92efd7e397f",
+                "sha256_in_prefix": "c99299fd9ac056b021583b95757ded62d6f71166f04a4a6e1188a92efd7e397f",
+                "size_in_bytes": 7358
+            },
+            {
+                "_path": "share/doc/NTL/tour.html",
+                "path_type": "hardlink",
+                "sha256": "0ee5ba263b1a9680d655d65f30cc5085b34192c73a798a2246db3ad22b8a2f3c",
+                "sha256_in_prefix": "0ee5ba263b1a9680d655d65f30cc5085b34192c73a798a2246db3ad22b8a2f3c",
+                "size_in_bytes": 1420
+            },
+            {
+                "_path": "share/doc/NTL/vec_GF2.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "f1425cabff73bdc3e79f9b9b7ae0b8342f86ac2bc2601255f8b063defab0ff81",
+                "sha256_in_prefix": "f1425cabff73bdc3e79f9b9b7ae0b8342f86ac2bc2601255f8b063defab0ff81",
+                "size_in_bytes": 18214
+            },
+            {
+                "_path": "share/doc/NTL/vec_GF2.txt",
+                "path_type": "hardlink",
+                "sha256": "7d74b22e157ef726a15256d848848f7c6f9377137a7a275fe2b7f8869c0f642e",
+                "sha256_in_prefix": "7d74b22e157ef726a15256d848848f7c6f9377137a7a275fe2b7f8869c0f642e",
+                "size_in_bytes": 8763
+            },
+            {
+                "_path": "share/doc/NTL/vec_GF2E.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "77ce0e1932086b5e5af388fbed0e937c32064ae38d52557e56466fd219ffa6f2",
+                "sha256_in_prefix": "77ce0e1932086b5e5af388fbed0e937c32064ae38d52557e56466fd219ffa6f2",
+                "size_in_bytes": 7472
+            },
+            {
+                "_path": "share/doc/NTL/vec_GF2E.txt",
+                "path_type": "hardlink",
+                "sha256": "77e9edc9b035dc80f20a3fc44c94b9263799517a92953b57982f497ea6435107",
+                "sha256_in_prefix": "77e9edc9b035dc80f20a3fc44c94b9263799517a92953b57982f497ea6435107",
+                "size_in_bytes": 2990
+            },
+            {
+                "_path": "share/doc/NTL/vec_RR.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "737947f1fde26d0f1659db66373244a8744f52c6277ce62f666ba7b726c35a70",
+                "sha256_in_prefix": "737947f1fde26d0f1659db66373244a8744f52c6277ce62f666ba7b726c35a70",
+                "size_in_bytes": 5358
+            },
+            {
+                "_path": "share/doc/NTL/vec_RR.txt",
+                "path_type": "hardlink",
+                "sha256": "badaddd6fb60941497480aa09cfbaf153539916e9841191c032a02e28098c86b",
+                "sha256_in_prefix": "badaddd6fb60941497480aa09cfbaf153539916e9841191c032a02e28098c86b",
+                "size_in_bytes": 1799
+            },
+            {
+                "_path": "share/doc/NTL/vec_ZZ.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "0856a149ec42188cc82a810ccfee98c0052499fa8812301e46576c27e1e7c78c",
+                "sha256_in_prefix": "0856a149ec42188cc82a810ccfee98c0052499fa8812301e46576c27e1e7c78c",
+                "size_in_bytes": 5347
+            },
+            {
+                "_path": "share/doc/NTL/vec_ZZ.txt",
+                "path_type": "hardlink",
+                "sha256": "19a75d45b485fc8a69ec668694516b084842ee35326cb162ce51782e18e79e49",
+                "sha256_in_prefix": "19a75d45b485fc8a69ec668694516b084842ee35326cb162ce51782e18e79e49",
+                "size_in_bytes": 1788
+            },
+            {
+                "_path": "share/doc/NTL/vec_ZZ_p.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "ea5d96319b8ed005b144cd6bb364541e92150c1ef3436b5c1da40a1b6a7f2d73",
+                "sha256_in_prefix": "ea5d96319b8ed005b144cd6bb364541e92150c1ef3436b5c1da40a1b6a7f2d73",
+                "size_in_bytes": 7066
+            },
+            {
+                "_path": "share/doc/NTL/vec_ZZ_p.txt",
+                "path_type": "hardlink",
+                "sha256": "54e2b12244e63aff9049f44b5be6c2661b1ab75590beb25e06ecd0630b907946",
+                "sha256_in_prefix": "54e2b12244e63aff9049f44b5be6c2661b1ab75590beb25e06ecd0630b907946",
+                "size_in_bytes": 2771
+            },
+            {
+                "_path": "share/doc/NTL/vec_ZZ_pE.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "8119667e45ffea3537e19687d56153053047536f18562fdbd704d7cf9dec65a5",
+                "sha256_in_prefix": "8119667e45ffea3537e19687d56153053047536f18562fdbd704d7cf9dec65a5",
+                "size_in_bytes": 7186
+            },
+            {
+                "_path": "share/doc/NTL/vec_ZZ_pE.txt",
+                "path_type": "hardlink",
+                "sha256": "dfbcf776846dfb8df90daf70c61593178e3f0e96bc8e7a14bcd86c564abe352d",
+                "sha256_in_prefix": "dfbcf776846dfb8df90daf70c61593178e3f0e96bc8e7a14bcd86c564abe352d",
+                "size_in_bytes": 2662
+            },
+            {
+                "_path": "share/doc/NTL/vec_lzz_p.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "6c814f3df474fef8576efc08aef174f805ea17b09365220c8bec409709276eaa",
+                "sha256_in_prefix": "6c814f3df474fef8576efc08aef174f805ea17b09365220c8bec409709276eaa",
+                "size_in_bytes": 6729
+            },
+            {
+                "_path": "share/doc/NTL/vec_lzz_p.txt",
+                "path_type": "hardlink",
+                "sha256": "14c99c75e049b454c879ebcc6325ca02b7eeaa7f244f512bbbeaae3275c6fcac",
+                "sha256_in_prefix": "14c99c75e049b454c879ebcc6325ca02b7eeaa7f244f512bbbeaae3275c6fcac",
+                "size_in_bytes": 2598
+            },
+            {
+                "_path": "share/doc/NTL/vec_lzz_pE.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "a2bef4b93a730092b166915962cbcff7e976284f7d4c714f9bb3739526ba1a98",
+                "sha256_in_prefix": "a2bef4b93a730092b166915962cbcff7e976284f7d4c714f9bb3739526ba1a98",
+                "size_in_bytes": 7189
+            },
+            {
+                "_path": "share/doc/NTL/vec_lzz_pE.txt",
+                "path_type": "hardlink",
+                "sha256": "2fbccb679e4def0c8b7e964c09fb7c51651a0870539b73ae8862fb141c516244",
+                "sha256_in_prefix": "2fbccb679e4def0c8b7e964c09fb7c51651a0870539b73ae8862fb141c516244",
+                "size_in_bytes": 2664
+            },
+            {
+                "_path": "share/doc/NTL/vector.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "617b888addfe812616aa6e1d5761661539c96f5965ea3f7899291bf597e37878",
+                "sha256_in_prefix": "617b888addfe812616aa6e1d5761661539c96f5965ea3f7899291bf597e37878",
+                "size_in_bytes": 37903
+            },
+            {
+                "_path": "share/doc/NTL/vector.txt",
+                "path_type": "hardlink",
+                "sha256": "7c054d3a8bafe205669021e9b735e5d460b673c66ccd14ced28998b468fd4e13",
+                "sha256_in_prefix": "7c054d3a8bafe205669021e9b735e5d460b673c66ccd14ced28998b468fd4e13",
+                "size_in_bytes": 22433
+            },
+            {
+                "_path": "share/doc/NTL/version.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "fe034e2febb7c04ebea1809dada9a2a61b8e213cbb7cfb8ecd1eb86c8d3e9558",
+                "sha256_in_prefix": "fe034e2febb7c04ebea1809dada9a2a61b8e213cbb7cfb8ecd1eb86c8d3e9558",
+                "size_in_bytes": 2301
+            },
+            {
+                "_path": "share/doc/NTL/version.txt",
+                "path_type": "hardlink",
+                "sha256": "6620553860681aca376afaca9351ae8411fa6288b304da966520574be6f39019",
+                "sha256_in_prefix": "6620553860681aca376afaca9351ae8411fa6288b304da966520574be6f39019",
+                "size_in_bytes": 749
+            },
+            {
+                "_path": "share/doc/NTL/xdouble.cpp.html",
+                "path_type": "hardlink",
+                "sha256": "e9082b549fa8e01f102b793f081c7d461dd7d16c8e4bd25d06488ffd49c9dd05",
+                "sha256_in_prefix": "e9082b549fa8e01f102b793f081c7d461dd7d16c8e4bd25d06488ffd49c9dd05",
+                "size_in_bytes": 13881
+            },
+            {
+                "_path": "share/doc/NTL/xdouble.txt",
+                "path_type": "hardlink",
+                "sha256": "48ae6e32cebb556a36507aee0a52d986992570a55321c7d0d9344e86be5aca51",
+                "sha256_in_prefix": "48ae6e32cebb556a36507aee0a52d986992570a55321c7d0d9344e86be5aca51",
+                "size_in_bytes": 6113
+            }
+        ],
+        "paths_version": 1
+    },
+    "platform": "linux",
+    "requested_spec": "",
+    "sha256": "b8d679e081b68780e62c01d7db47e9a9a871b99cb3a70a4540181902db65a621",
+    "size": 22235970,
+    "subdir": "linux-64",
+    "timestamp": 1622251978383,
+    "track_features": "",
+    "url": "https://conda.anaconda.org/conda-forge/linux-64/ntl-11.4.3-hef3c4d3_1.tar.bz2",
+    "version": "11.4.3"
+}

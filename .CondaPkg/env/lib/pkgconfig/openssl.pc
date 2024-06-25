@@ -1,0 +1,7 @@
+libdir=/files/home/part8/qpreiss/Bookworm/Documents/MonitoredQuantumCircuits/.CondaPkg/env/lib
+includedir=/files/home/part8/qpreiss/Bookworm/Documents/MonitoredQuantumCircuits/.CondaPkg/env/include
+
+Name: OpenSSL
+Description: Secure Sockets Layer and cryptography libraries and tools
+Version: 3.3.0
+Requires: libssl libcrypto

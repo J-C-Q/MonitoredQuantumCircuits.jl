@@ -1,0 +1,624 @@
+{
+    "arch": "x86_64",
+    "build": "py312h7900ff3_0",
+    "build_number": 0,
+    "build_string": "py312h7900ff3_0",
+    "channel": "https://conda.anaconda.org/conda-forge/linux-64",
+    "constrains": [
+        "python-gssapi >=1.6.0",
+        "krb5 >=0.3.0"
+    ],
+    "depends": [
+        "cryptography",
+        "python >=3.12,<3.13.0a0",
+        "python_abi 3.12.* *_cp312",
+        "ruamel.yaml"
+    ],
+    "extracted_package_dir": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/pyspnego-0.10.2-py312h7900ff3_0",
+    "files": [
+        "bin/pyspnego-parse",
+        "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/INSTALLER",
+        "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/LICENSE",
+        "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/METADATA",
+        "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/RECORD",
+        "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/REQUESTED",
+        "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/WHEEL",
+        "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/direct_url.json",
+        "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/entry_points.txt",
+        "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/top_level.txt",
+        "lib/python3.12/site-packages/spnego/__init__.py",
+        "lib/python3.12/site-packages/spnego/__main__.py",
+        "lib/python3.12/site-packages/spnego/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/__main__.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_asn1.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_context.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_credential.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_credssp.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_credssp_structures.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_gss.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_kerberos.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_negotiate.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_ntlm.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_spnego.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_sspi.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_text.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_tls_struct.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/_version.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/auth.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/channel_bindings.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/exceptions.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/gss.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/iov.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/negotiate.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/ntlm.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/sspi.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/__pycache__/tls.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/_asn1.py",
+        "lib/python3.12/site-packages/spnego/_context.py",
+        "lib/python3.12/site-packages/spnego/_credential.py",
+        "lib/python3.12/site-packages/spnego/_credssp.py",
+        "lib/python3.12/site-packages/spnego/_credssp_structures.py",
+        "lib/python3.12/site-packages/spnego/_gss.py",
+        "lib/python3.12/site-packages/spnego/_kerberos.py",
+        "lib/python3.12/site-packages/spnego/_negotiate.py",
+        "lib/python3.12/site-packages/spnego/_ntlm.py",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/__init__.py",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/crypto.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/des.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/md4.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/messages.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/security.cpython-312.pyc",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/crypto.py",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/des.py",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/md4.py",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/messages.py",
+        "lib/python3.12/site-packages/spnego/_ntlm_raw/security.py",
+        "lib/python3.12/site-packages/spnego/_spnego.py",
+        "lib/python3.12/site-packages/spnego/_sspi.py",
+        "lib/python3.12/site-packages/spnego/_text.py",
+        "lib/python3.12/site-packages/spnego/_tls_struct.py",
+        "lib/python3.12/site-packages/spnego/_version.py",
+        "lib/python3.12/site-packages/spnego/auth.py",
+        "lib/python3.12/site-packages/spnego/channel_bindings.py",
+        "lib/python3.12/site-packages/spnego/exceptions.py",
+        "lib/python3.12/site-packages/spnego/gss.py",
+        "lib/python3.12/site-packages/spnego/iov.py",
+        "lib/python3.12/site-packages/spnego/negotiate.py",
+        "lib/python3.12/site-packages/spnego/ntlm.py",
+        "lib/python3.12/site-packages/spnego/py.typed",
+        "lib/python3.12/site-packages/spnego/sspi.py",
+        "lib/python3.12/site-packages/spnego/tls.py"
+    ],
+    "fn": "pyspnego-0.10.2-py312h7900ff3_0.conda",
+    "license": "MIT",
+    "link": {
+        "source": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/pyspnego-0.10.2-py312h7900ff3_0",
+        "type": 1
+    },
+    "md5": "06e3432880d46bf95df9c0442ab9599a",
+    "name": "pyspnego",
+    "package_tarball_full_path": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/pyspnego-0.10.2-py312h7900ff3_0.tar.bz2",
+    "paths_data": {
+        "paths": [
+            {
+                "_path": "bin/pyspnego-parse",
+                "path_type": "hardlink",
+                "sha256": "c754fed80d3a34b664d3694d22ca7524be67b93c08d17e7fabb172c6bd4070f8",
+                "sha256_in_prefix": "7525218c4f743487cf758d59635c2090a5aa2d59ea73107e8bdbc97f9f076632",
+                "size_in_bytes": 497
+            },
+            {
+                "_path": "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/INSTALLER",
+                "path_type": "hardlink",
+                "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+                "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+                "size_in_bytes": 5
+            },
+            {
+                "_path": "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/LICENSE",
+                "path_type": "hardlink",
+                "sha256": "286517c93031c343f809f64b38563a783614b762e1367242af6cdd4107335471",
+                "sha256_in_prefix": "286517c93031c343f809f64b38563a783614b762e1367242af6cdd4107335471",
+                "size_in_bytes": 1079
+            },
+            {
+                "_path": "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/METADATA",
+                "path_type": "hardlink",
+                "sha256": "e94f867916df89ba316d542a24869e718dbfa5d9cc7ff9acf6291cb8633df368",
+                "sha256_in_prefix": "e94f867916df89ba316d542a24869e718dbfa5d9cc7ff9acf6291cb8633df368",
+                "size_in_bytes": 5383
+            },
+            {
+                "_path": "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/RECORD",
+                "path_type": "hardlink",
+                "sha256": "7723f871945bd39e4f1f3406720a014ae38b6d5785ff1f61d628968175284865",
+                "sha256_in_prefix": "7723f871945bd39e4f1f3406720a014ae38b6d5785ff1f61d628968175284865",
+                "size_in_bytes": 4822
+            },
+            {
+                "_path": "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/REQUESTED",
+                "path_type": "hardlink",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/WHEEL",
+                "path_type": "hardlink",
+                "sha256": "189eedfe4581172c1b6a02b97a8f48a14c0b5baa3239e4ca990fbd8871553714",
+                "sha256_in_prefix": "189eedfe4581172c1b6a02b97a8f48a14c0b5baa3239e4ca990fbd8871553714",
+                "size_in_bytes": 92
+            },
+            {
+                "_path": "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/direct_url.json",
+                "path_type": "hardlink",
+                "sha256": "9deeb2a77077b5a17f963a136308cedcbf3572546e014d251379e43b9a6e29d0",
+                "sha256_in_prefix": "9deeb2a77077b5a17f963a136308cedcbf3572546e014d251379e43b9a6e29d0",
+                "size_in_bytes": 104
+            },
+            {
+                "_path": "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/entry_points.txt",
+                "path_type": "hardlink",
+                "sha256": "1cf160cca703d73979d7849c2b46368a9c8830fc492d535d057fb9d46160a477",
+                "sha256_in_prefix": "1cf160cca703d73979d7849c2b46368a9c8830fc492d535d057fb9d46160a477",
+                "size_in_bytes": 56
+            },
+            {
+                "_path": "lib/python3.12/site-packages/pyspnego-0.10.2.dist-info/top_level.txt",
+                "path_type": "hardlink",
+                "sha256": "c0529a7068961d646bc740c1a57e6fae1891726320b72b984bbd96e6b1e3efc4",
+                "sha256_in_prefix": "c0529a7068961d646bc740c1a57e6fae1891726320b72b984bbd96e6b1e3efc4",
+                "size_in_bytes": 7
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "87a3e4f4e248220d4e696c4f048f2f828551ba8ea4975a056103861ab9504f6d",
+                "sha256_in_prefix": "87a3e4f4e248220d4e696c4f048f2f828551ba8ea4975a056103861ab9504f6d",
+                "size_in_bytes": 1479
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__main__.py",
+                "path_type": "hardlink",
+                "sha256": "d2db4d58d2ccb8b48e784477f13ad9f1b495a7ff2d7447f4e45db7940cb7193d",
+                "sha256_in_prefix": "d2db4d58d2ccb8b48e784477f13ad9f1b495a7ff2d7447f4e45db7940cb7193d",
+                "size_in_bytes": 33434
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "72c2f2e34441e86d7d421dcaa03af0d7d71c31f3fcb52f7a743a5c0429a09b1a",
+                "sha256_in_prefix": "72c2f2e34441e86d7d421dcaa03af0d7d71c31f3fcb52f7a743a5c0429a09b1a",
+                "size_in_bytes": 1779
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/__main__.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "6fea9de42699c89025c2c347cc940187c482c25f04bcdca039e0e2029ee0dd7a",
+                "sha256_in_prefix": "6fea9de42699c89025c2c347cc940187c482c25f04bcdca039e0e2029ee0dd7a",
+                "size_in_bytes": 40268
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_asn1.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "f960c1fcf382ddc989349ffd36f88386b8a4c59d147e66573e6a95d34f561165",
+                "sha256_in_prefix": "f960c1fcf382ddc989349ffd36f88386b8a4c59d147e66573e6a95d34f561165",
+                "size_in_bytes": 23788
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_context.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "3411b733b43a0db161bcbe104fc7f589a1ed8fe4221b3c5a9a41bc18cabc33d8",
+                "sha256_in_prefix": "3411b733b43a0db161bcbe104fc7f589a1ed8fe4221b3c5a9a41bc18cabc33d8",
+                "size_in_bytes": 38971
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_credential.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "ec079377833543de633619252c9f9f832132b1af9162ecc7ef96618bdc9c75b9",
+                "sha256_in_prefix": "ec079377833543de633619252c9f9f832132b1af9162ecc7ef96618bdc9c75b9",
+                "size_in_bytes": 9963
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_credssp.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "a23f15a456a0948b4ed8e7592829e8474612d031d0daf02710292933f6f01403",
+                "sha256_in_prefix": "a23f15a456a0948b4ed8e7592829e8474612d031d0daf02710292933f6f01403",
+                "size_in_bytes": 31521
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_credssp_structures.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "b5b358846425e12b4a93b0dc472d003f5d81983b89546dac2d91208012afd5cb",
+                "sha256_in_prefix": "b5b358846425e12b4a93b0dc472d003f5d81983b89546dac2d91208012afd5cb",
+                "size_in_bytes": 27641
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_gss.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "76cb2e27997cc2f44de3186a3773854dc0af3225d116ebdd8e5fa69f1515210a",
+                "sha256_in_prefix": "76cb2e27997cc2f44de3186a3773854dc0af3225d116ebdd8e5fa69f1515210a",
+                "size_in_bytes": 28198
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_kerberos.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "04bf09d77281e86e36665e5bfc534438d11ef7420fb63f7da179ca9d233e8724",
+                "sha256_in_prefix": "04bf09d77281e86e36665e5bfc534438d11ef7420fb63f7da179ca9d233e8724",
+                "size_in_bytes": 69342
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_negotiate.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "3b9c0e2d957103bbe95a56f3495efb9fb86019e494de89e25293c556efa7ac36",
+                "sha256_in_prefix": "3b9c0e2d957103bbe95a56f3495efb9fb86019e494de89e25293c556efa7ac36",
+                "size_in_bytes": 21118
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_ntlm.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "e459daac293c9961caaa30b69b37626adf2813549ce55b427f33ae15b410d4e9",
+                "sha256_in_prefix": "e459daac293c9961caaa30b69b37626adf2813549ce55b427f33ae15b410d4e9",
+                "size_in_bytes": 42993
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_spnego.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "30c11c3c18ef125f11a86f02cb033c3e2fb03d604439eadaa764ca2fa82e2baa",
+                "sha256_in_prefix": "30c11c3c18ef125f11a86f02cb033c3e2fb03d604439eadaa764ca2fa82e2baa",
+                "size_in_bytes": 20889
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_sspi.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "6f0ed158e32febed4ae2f08544341dca6c91c8bee6433662d034479329620483",
+                "sha256_in_prefix": "6f0ed158e32febed4ae2f08544341dca6c91c8bee6433662d034479329620483",
+                "size_in_bytes": 25375
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_text.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "8b41588dd756da4b0ba92abc47928a84705466f85de35d6b76ad5c45243389fe",
+                "sha256_in_prefix": "8b41588dd756da4b0ba92abc47928a84705466f85de35d6b76ad5c45243389fe",
+                "size_in_bytes": 2305
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_tls_struct.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "f62d556d549d114d80a964cc6afec944af0c8c9929a2798632764df4777ea76e",
+                "sha256_in_prefix": "f62d556d549d114d80a964cc6afec944af0c8c9929a2798632764df4777ea76e",
+                "size_in_bytes": 40559
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/_version.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "8c592f01ce17bd1b6d4000c1a7bca41c1fc4bd82cbf14032cd8285ab520352e3",
+                "sha256_in_prefix": "8c592f01ce17bd1b6d4000c1a7bca41c1fc4bd82cbf14032cd8285ab520352e3",
+                "size_in_bytes": 173
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/auth.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "6720d7fefbcb66adc168a8445c26d684eae57619f62556cd18d86135aa8e6ba6",
+                "sha256_in_prefix": "6720d7fefbcb66adc168a8445c26d684eae57619f62556cd18d86135aa8e6ba6",
+                "size_in_bytes": 8414
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/channel_bindings.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "aab4e238abbaa0b586c62dcd6e25ec49e53a6d5c86a8ae5846f8de5e1eac44ef",
+                "sha256_in_prefix": "aab4e238abbaa0b586c62dcd6e25ec49e53a6d5c86a8ae5846f8de5e1eac44ef",
+                "size_in_bytes": 7016
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/exceptions.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "6637e410acafc51af688461db25d008d44d996500c41ad1452c12ee0e72f2c4d",
+                "sha256_in_prefix": "6637e410acafc51af688461db25d008d44d996500c41ad1452c12ee0e72f2c4d",
+                "size_in_bytes": 16770
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/gss.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "1e704afd0ff8f5725d6800a5de1387c9bd06398b0f236487cbe0031910b8cd2e",
+                "sha256_in_prefix": "1e704afd0ff8f5725d6800a5de1387c9bd06398b0f236487cbe0031910b8cd2e",
+                "size_in_bytes": 344
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/iov.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "69f99b0bcb2a993ae0fbeafec386b76869c804f404b1d02a938f42b0de84067e",
+                "sha256_in_prefix": "69f99b0bcb2a993ae0fbeafec386b76869c804f404b1d02a938f42b0de84067e",
+                "size_in_bytes": 2553
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/negotiate.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "2c66765c14b68a28fd09221323d5a66de6b14f7b858b4b8977190a1258b8a9d5",
+                "sha256_in_prefix": "2c66765c14b68a28fd09221323d5a66de6b14f7b858b4b8977190a1258b8a9d5",
+                "size_in_bytes": 362
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/ntlm.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "e4cf7a5c7837e14a47471eae68482948bae768429f8c1a85f4001b9067abdd84",
+                "sha256_in_prefix": "e4cf7a5c7837e14a47471eae68482948bae768429f8c1a85f4001b9067abdd84",
+                "size_in_bytes": 347
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/sspi.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "df8116cd73d8c2827c2814118de90e528789cac24beb49295bccdb02cc6e2108",
+                "sha256_in_prefix": "df8116cd73d8c2827c2814118de90e528789cac24beb49295bccdb02cc6e2108",
+                "size_in_bytes": 347
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/__pycache__/tls.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "0c854498c700909076b4745ddf0f5559c69b851d6b00e5b32b41e3e0be7290d5",
+                "sha256_in_prefix": "0c854498c700909076b4745ddf0f5559c69b851d6b00e5b32b41e3e0be7290d5",
+                "size_in_bytes": 8539
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_asn1.py",
+                "path_type": "hardlink",
+                "sha256": "214a9ca6347398d1db7d5d7cb9a9204ff6f137215cda664db6b2a931a98c1c00",
+                "sha256_in_prefix": "214a9ca6347398d1db7d5d7cb9a9204ff6f137215cda664db6b2a931a98c1c00",
+                "size_in_bytes": 20634
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_context.py",
+                "path_type": "hardlink",
+                "sha256": "e556bb0b0636964062b8a79278bdaf2ac913de814e49b9ed0dccdfcaa9ea55b2",
+                "sha256_in_prefix": "e556bb0b0636964062b8a79278bdaf2ac913de814e49b9ed0dccdfcaa9ea55b2",
+                "size_in_bytes": 34578
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_credential.py",
+                "path_type": "hardlink",
+                "sha256": "165fff896fb506780b190c5f63c53dd2fa68538184a4aba1f74f4e1806f1ff51",
+                "sha256_in_prefix": "165fff896fb506780b190c5f63c53dd2fa68538184a4aba1f74f4e1806f1ff51",
+                "size_in_bytes": 11131
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_credssp.py",
+                "path_type": "hardlink",
+                "sha256": "f6e0a62a75650f51e3c0ea66c8fe2a9c657e735c86820d333102cfdc28c16e5b",
+                "sha256_in_prefix": "f6e0a62a75650f51e3c0ea66c8fe2a9c657e735c86820d333102cfdc28c16e5b",
+                "size_in_bytes": 26302
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_credssp_structures.py",
+                "path_type": "hardlink",
+                "sha256": "e0126986b3a70a6bec51de80bc24b8ed2ac90a4f333d337681a9fe2f3e08d115",
+                "sha256_in_prefix": "e0126986b3a70a6bec51de80bc24b8ed2ac90a4f333d337681a9fe2f3e08d115",
+                "size_in_bytes": 23160
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_gss.py",
+                "path_type": "hardlink",
+                "sha256": "273209da37832722aba8bdbeba21e073ab998edb2db792e6d22b82b1a1b4b464",
+                "sha256_in_prefix": "273209da37832722aba8bdbeba21e073ab998edb2db792e6d22b82b1a1b4b464",
+                "size_in_bytes": 24467
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_kerberos.py",
+                "path_type": "hardlink",
+                "sha256": "779f58b6d1974dea4cd59e9a2c4e01d5fb33b6997755578d3d04147ff1b8aa69",
+                "sha256_in_prefix": "779f58b6d1974dea4cd59e9a2c4e01d5fb33b6997755578d3d04147ff1b8aa69",
+                "size_in_bytes": 56199
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_negotiate.py",
+                "path_type": "hardlink",
+                "sha256": "7638a4139c7742f07bd25769abe7aa9f1bd533b75d8eb0d3763347aaaaafaa09",
+                "sha256_in_prefix": "7638a4139c7742f07bd25769abe7aa9f1bd533b75d8eb0d3763347aaaaafaa09",
+                "size_in_bytes": 18885
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm.py",
+                "path_type": "hardlink",
+                "sha256": "7f581ed1d0a006fd65006a2e40a7a08d5c2590d2ff61127f5225b053137d0e7e",
+                "sha256_in_prefix": "7f581ed1d0a006fd65006a2e40a7a08d5c2590d2ff61127f5225b053137d0e7e",
+                "size_in_bytes": 37278
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "41844a1efc77b7a46a424f7a3e10512acb5baad1fdba599d0347d739555e20f2",
+                "sha256_in_prefix": "41844a1efc77b7a46a424f7a3e10512acb5baad1fdba599d0347d739555e20f2",
+                "size_in_bytes": 154
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/crypto.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "4edaf3789538ae9da2f8ff1cab86bb82d7c06b03b936c975a0fd3244f4d65c28",
+                "sha256_in_prefix": "4edaf3789538ae9da2f8ff1cab86bb82d7c06b03b936c975a0fd3244f4d65c28",
+                "size_in_bytes": 22934
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/des.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "fd2a1aa63f389b20d8692fc58e4123106b8386f384894f1bf5da74de8d9f1e7d",
+                "sha256_in_prefix": "fd2a1aa63f389b20d8692fc58e4123106b8386f384894f1bf5da74de8d9f1e7d",
+                "size_in_bytes": 17104
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/md4.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "8bdc7af7899484786f6ff847f4dc5d17a1d76076450e0122adb06a6082dfcf46",
+                "sha256_in_prefix": "8bdc7af7899484786f6ff847f4dc5d17a1d76076450e0122adb06a6082dfcf46",
+                "size_in_bytes": 6449
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/messages.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "d2f97dc9bfcda48d31f4b904e3cf3f073d154f24b1260152d427537958b46b45",
+                "sha256_in_prefix": "d2f97dc9bfcda48d31f4b904e3cf3f073d154f24b1260152d427537958b46b45",
+                "size_in_bytes": 62153
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/__pycache__/security.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "9259f55067241334682655a1b92c40497503d74222c333112effcf2ca137b331",
+                "sha256_in_prefix": "9259f55067241334682655a1b92c40497503d74222c333112effcf2ca137b331",
+                "size_in_bytes": 7428
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/crypto.py",
+                "path_type": "hardlink",
+                "sha256": "436d7203fca17f3c72a4fbe7d47868daca9ed59c9e31c5db40f76911c45fc851",
+                "sha256_in_prefix": "436d7203fca17f3c72a4fbe7d47868daca9ed59c9e31c5db40f76911c45fc851",
+                "size_in_bytes": 19800
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/des.py",
+                "path_type": "hardlink",
+                "sha256": "cf199bd10f977625d04c232770a7c354349eb7e8cdcbc3da7afb6a3124c528c6",
+                "sha256_in_prefix": "cf199bd10f977625d04c232770a7c354349eb7e8cdcbc3da7afb6a3124c528c6",
+                "size_in_bytes": 21201
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/md4.py",
+                "path_type": "hardlink",
+                "sha256": "47826d1241d0ffcb56e7856e629908c3e7f42bfe3d425006939d31eb96183d62",
+                "sha256_in_prefix": "47826d1241d0ffcb56e7856e629908c3e7f42bfe3d425006939d31eb96183d62",
+                "size_in_bytes": 4209
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/messages.py",
+                "path_type": "hardlink",
+                "sha256": "75e90f7908212b513a484320fd1be4389b4778a73a33e5a3c59176461ee405b4",
+                "sha256_in_prefix": "75e90f7908212b513a484320fd1be4389b4778a73a33e5a3c59176461ee405b4",
+                "size_in_bytes": 43976
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_ntlm_raw/security.py",
+                "path_type": "hardlink",
+                "sha256": "10d79d612b14894975f2c99c59e2b553c0a0ef9d785d658a77255c50eb6f738b",
+                "sha256_in_prefix": "10d79d612b14894975f2c99c59e2b553c0a0ef9d785d658a77255c50eb6f738b",
+                "size_in_bytes": 6874
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_spnego.py",
+                "path_type": "hardlink",
+                "sha256": "a18cdeb329e5be7c4d40bb5e044eff6a07f3fc36fe4bb5357d6f35c1ad7f7d71",
+                "sha256_in_prefix": "a18cdeb329e5be7c4d40bb5e044eff6a07f3fc36fe4bb5357d6f35c1ad7f7d71",
+                "size_in_bytes": 19451
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_sspi.py",
+                "path_type": "hardlink",
+                "sha256": "4de2fc3c7b9aeacea0070385f9ae9b6eaa29e0f86b955c40c6da6a67776cd98d",
+                "sha256_in_prefix": "4de2fc3c7b9aeacea0070385f9ae9b6eaa29e0f86b955c40c6da6a67776cd98d",
+                "size_in_bytes": 19018
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_text.py",
+                "path_type": "hardlink",
+                "sha256": "6108a112a2f3b5ac5da4570e5eff5414778a50540627993be284b435abea6667",
+                "sha256_in_prefix": "6108a112a2f3b5ac5da4570e5eff5414778a50540627993be284b435abea6667",
+                "size_in_bytes": 1928
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_tls_struct.py",
+                "path_type": "hardlink",
+                "sha256": "c95a5c8896865083df8060d6309fde841e823c84d7dc1bbdae5d3508ac3936c4",
+                "sha256_in_prefix": "c95a5c8896865083df8060d6309fde841e823c84d7dc1bbdae5d3508ac3936c4",
+                "size_in_bytes": 32305
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/_version.py",
+                "path_type": "hardlink",
+                "sha256": "e5281d19b98b98a35e941820f674bc7b8b3622a1a73aad131565e608ee11090d",
+                "sha256_in_prefix": "e5281d19b98b98a35e941820f674bc7b8b3622a1a73aad131565e608ee11090d",
+                "size_in_bytes": 163
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/auth.py",
+                "path_type": "hardlink",
+                "sha256": "23c30c01087b728ce1f9f3c3076ffb1388d32b35645f741c412964482bb30f65",
+                "sha256_in_prefix": "23c30c01087b728ce1f9f3c3076ffb1388d32b35645f741c412964482bb30f65",
+                "size_in_bytes": 8708
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/channel_bindings.py",
+                "path_type": "hardlink",
+                "sha256": "539c977813adccfcdf98f71fe3e9f9b37abd7e8e290394e74f14ecf13201fabc",
+                "sha256_in_prefix": "539c977813adccfcdf98f71fe3e9f9b37abd7e8e290394e74f14ecf13201fabc",
+                "size_in_bytes": 5692
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/exceptions.py",
+                "path_type": "hardlink",
+                "sha256": "8dc1ec98556d267f5c48bea190d14d166d562c79aa8004cdae217db92393ceed",
+                "sha256_in_prefix": "8dc1ec98556d267f5c48bea190d14d166d562c79aa8004cdae217db92393ceed",
+                "size_in_bytes": 15125
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/gss.py",
+                "path_type": "hardlink",
+                "sha256": "fa331180821dbd0a16a864f1aa69f2b294e3ede6bfea68211e2f494aa9593fa8",
+                "sha256_in_prefix": "fa331180821dbd0a16a864f1aa69f2b294e3ede6bfea68211e2f494aa9593fa8",
+                "size_in_bytes": 311
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/iov.py",
+                "path_type": "hardlink",
+                "sha256": "5bc58c199e7131810911321102e1832d3c2e8fc9096b8f59f20148d7c23c21d1",
+                "sha256_in_prefix": "5bc58c199e7131810911321102e1832d3c2e8fc9096b8f59f20148d7c23c21d1",
+                "size_in_bytes": 2718
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/negotiate.py",
+                "path_type": "hardlink",
+                "sha256": "eecddbc1afc9886b073a7ab710dcd1180d1fd248c79a8e92fe2fb4a3e8a4ead9",
+                "sha256_in_prefix": "eecddbc1afc9886b073a7ab710dcd1180d1fd248c79a8e92fe2fb4a3e8a4ead9",
+                "size_in_bytes": 323
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/ntlm.py",
+                "path_type": "hardlink",
+                "sha256": "3dee58e12ce79289c94e7934e96932a6424090cc8fb0518ad6baf9c35a10d4f5",
+                "sha256_in_prefix": "3dee58e12ce79289c94e7934e96932a6424090cc8fb0518ad6baf9c35a10d4f5",
+                "size_in_bytes": 313
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/py.typed",
+                "path_type": "hardlink",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/sspi.py",
+                "path_type": "hardlink",
+                "sha256": "6ff85f8168a630bc5480834f87028f39c44dc62013d7491a7c4d81920e1d2012",
+                "sha256_in_prefix": "6ff85f8168a630bc5480834f87028f39c44dc62013d7491a7c4d81920e1d2012",
+                "size_in_bytes": 313
+            },
+            {
+                "_path": "lib/python3.12/site-packages/spnego/tls.py",
+                "path_type": "hardlink",
+                "sha256": "5c626affb068cd289879d3a1ed39b04474ae01af55fb06182068da7febfd5e5f",
+                "sha256_in_prefix": "5c626affb068cd289879d3a1ed39b04474ae01af55fb06182068da7febfd5e5f",
+                "size_in_bytes": 6701
+            }
+        ],
+        "paths_version": 1
+    },
+    "platform": "linux",
+    "requested_spec": "",
+    "sha256": "437964a3d66cc25c312fcf0daa0729e1ad7fd8166a3cfbe6192c22703c65b078",
+    "size": 260976,
+    "subdir": "linux-64",
+    "timestamp": 1714424910587,
+    "track_features": "",
+    "url": "https://conda.anaconda.org/conda-forge/linux-64/pyspnego-0.10.2-py312h7900ff3_0.conda",
+    "version": "0.10.2"
+}

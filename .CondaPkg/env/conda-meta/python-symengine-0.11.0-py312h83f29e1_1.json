@@ -1,0 +1,642 @@
+{
+    "arch": "x86_64",
+    "build": "py312h83f29e1_1",
+    "build_number": 1,
+    "build_string": "py312h83f29e1_1",
+    "channel": "https://conda.anaconda.org/conda-forge/linux-64",
+    "constrains": [],
+    "depends": [
+        "gmp >=6.3.0,<7.0a0",
+        "libflint >=2.9.0,<2.10.0a0",
+        "libgcc-ng >=12",
+        "libstdcxx-ng >=12",
+        "mpc >=1.3.1,<2.0a0",
+        "mpfr >=4.2.1,<5.0a0",
+        "python >=3.12,<3.13.0a0",
+        "python_abi 3.12.* *_cp312",
+        "symengine >=0.11.1,<0.12.0a0"
+    ],
+    "extracted_package_dir": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/python-symengine-0.11.0-py312h83f29e1_1",
+    "files": [
+        "lib/python3.12/site-packages/symengine-0.11.0.dist-info/AUTHORS",
+        "lib/python3.12/site-packages/symengine-0.11.0.dist-info/INSTALLER",
+        "lib/python3.12/site-packages/symengine-0.11.0.dist-info/LICENSE",
+        "lib/python3.12/site-packages/symengine-0.11.0.dist-info/METADATA",
+        "lib/python3.12/site-packages/symengine-0.11.0.dist-info/RECORD",
+        "lib/python3.12/site-packages/symengine-0.11.0.dist-info/REQUESTED",
+        "lib/python3.12/site-packages/symengine-0.11.0.dist-info/WHEEL",
+        "lib/python3.12/site-packages/symengine-0.11.0.dist-info/direct_url.json",
+        "lib/python3.12/site-packages/symengine-0.11.0.dist-info/top_level.txt",
+        "lib/python3.12/site-packages/symengine/__init__.py",
+        "lib/python3.12/site-packages/symengine/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/__pycache__/functions.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/__pycache__/printing.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/__pycache__/sympy_compat.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/__pycache__/test_utilities.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/__pycache__/utilities.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/functions.py",
+        "lib/python3.12/site-packages/symengine/lib/__init__.py",
+        "lib/python3.12/site-packages/symengine/lib/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/lib/pywrapper.h",
+        "lib/python3.12/site-packages/symengine/lib/symengine.pxd",
+        "lib/python3.12/site-packages/symengine/lib/symengine_wrapper.cpython-312-x86_64-linux-gnu.so",
+        "lib/python3.12/site-packages/symengine/lib/symengine_wrapper.pxd",
+        "lib/python3.12/site-packages/symengine/printing.py",
+        "lib/python3.12/site-packages/symengine/sympy_compat.py",
+        "lib/python3.12/site-packages/symengine/test_utilities.py",
+        "lib/python3.12/site-packages/symengine/tests/__init__.py",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_arit.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_cse.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_dict_basic.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_eval.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_expr.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_functions.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_lambdify.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_logic.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_matrices.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_ntheory.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_number.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_pickling.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_printing.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_sage.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_series_expansion.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_sets.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_solve.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_subs.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_symbol.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_sympify.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_sympy_compat.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_sympy_conv.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/__pycache__/test_var.cpython-312.pyc",
+        "lib/python3.12/site-packages/symengine/tests/test_arit.py",
+        "lib/python3.12/site-packages/symengine/tests/test_cse.py",
+        "lib/python3.12/site-packages/symengine/tests/test_dict_basic.py",
+        "lib/python3.12/site-packages/symengine/tests/test_eval.py",
+        "lib/python3.12/site-packages/symengine/tests/test_expr.py",
+        "lib/python3.12/site-packages/symengine/tests/test_functions.py",
+        "lib/python3.12/site-packages/symengine/tests/test_lambdify.py",
+        "lib/python3.12/site-packages/symengine/tests/test_logic.py",
+        "lib/python3.12/site-packages/symengine/tests/test_matrices.py",
+        "lib/python3.12/site-packages/symengine/tests/test_ntheory.py",
+        "lib/python3.12/site-packages/symengine/tests/test_number.py",
+        "lib/python3.12/site-packages/symengine/tests/test_pickling.py",
+        "lib/python3.12/site-packages/symengine/tests/test_printing.py",
+        "lib/python3.12/site-packages/symengine/tests/test_sage.py",
+        "lib/python3.12/site-packages/symengine/tests/test_series_expansion.py",
+        "lib/python3.12/site-packages/symengine/tests/test_sets.py",
+        "lib/python3.12/site-packages/symengine/tests/test_solve.py",
+        "lib/python3.12/site-packages/symengine/tests/test_subs.py",
+        "lib/python3.12/site-packages/symengine/tests/test_symbol.py",
+        "lib/python3.12/site-packages/symengine/tests/test_sympify.py",
+        "lib/python3.12/site-packages/symengine/tests/test_sympy_compat.py",
+        "lib/python3.12/site-packages/symengine/tests/test_sympy_conv.py",
+        "lib/python3.12/site-packages/symengine/tests/test_var.py",
+        "lib/python3.12/site-packages/symengine/utilities.py"
+    ],
+    "fn": "python-symengine-0.11.0-py312h83f29e1_1.conda",
+    "license": "MIT",
+    "link": {
+        "source": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/python-symengine-0.11.0-py312h83f29e1_1",
+        "type": 1
+    },
+    "md5": "4711cf83c28e62faf11f455f0da18a37",
+    "name": "python-symengine",
+    "package_tarball_full_path": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/python-symengine-0.11.0-py312h83f29e1_1.tar.bz2",
+    "paths_data": {
+        "paths": [
+            {
+                "_path": "lib/python3.12/site-packages/symengine-0.11.0.dist-info/AUTHORS",
+                "path_type": "hardlink",
+                "sha256": "954d2e876af1f72ee83dd0c81d59fa50f84aafe0ba5d588bf2c39d626dc36c03",
+                "sha256_in_prefix": "954d2e876af1f72ee83dd0c81d59fa50f84aafe0ba5d588bf2c39d626dc36c03",
+                "size_in_bytes": 1553
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine-0.11.0.dist-info/INSTALLER",
+                "path_type": "hardlink",
+                "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+                "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+                "size_in_bytes": 5
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine-0.11.0.dist-info/LICENSE",
+                "path_type": "hardlink",
+                "sha256": "a8bc8ef31222848b34e867fdf2509101ba9b3cebd071feef9aa9bda306ff548f",
+                "sha256_in_prefix": "a8bc8ef31222848b34e867fdf2509101ba9b3cebd071feef9aa9bda306ff548f",
+                "size_in_bytes": 1071
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine-0.11.0.dist-info/METADATA",
+                "path_type": "hardlink",
+                "sha256": "c0af5a642710976e85f39ab937471695d54bd579258d76b3b6f0d37cd2b07b09",
+                "sha256_in_prefix": "c0af5a642710976e85f39ab937471695d54bd579258d76b3b6f0d37cd2b07b09",
+                "size_in_bytes": 1155
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine-0.11.0.dist-info/RECORD",
+                "path_type": "hardlink",
+                "sha256": "96ee00cc840e2075f15d31f74e29e1fa0e78cd556b77f4c9d7ad65607fb63584",
+                "sha256_in_prefix": "96ee00cc840e2075f15d31f74e29e1fa0e78cd556b77f4c9d7ad65607fb63584",
+                "size_in_bytes": 5649
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine-0.11.0.dist-info/REQUESTED",
+                "path_type": "hardlink",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine-0.11.0.dist-info/WHEEL",
+                "path_type": "hardlink",
+                "sha256": "534d96963bacec16b1cb7e473924a3d644e7b56f70920f73c1885776cfff3789",
+                "sha256_in_prefix": "534d96963bacec16b1cb7e473924a3d644e7b56f70920f73c1885776cfff3789",
+                "size_in_bytes": 105
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine-0.11.0.dist-info/direct_url.json",
+                "path_type": "hardlink",
+                "sha256": "9cc5726dd855996d092602e14c4c332e3f0dd1492e31df92d895b3c16e7df6f1",
+                "sha256_in_prefix": "9cc5726dd855996d092602e14c4c332e3f0dd1492e31df92d895b3c16e7df6f1",
+                "size_in_bytes": 112
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine-0.11.0.dist-info/top_level.txt",
+                "path_type": "hardlink",
+                "sha256": "012c5fefa968f1fd67ffa50bfd9e6ddbba1e3149a44523334c0b5877373564cf",
+                "sha256_in_prefix": "012c5fefa968f1fd67ffa50bfd9e6ddbba1e3149a44523334c0b5877373564cf",
+                "size_in_bytes": 10
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "8e2bdd27065bc051e04c183678e2d63dada4180bf24e9fd53a18565ae6a4b31e",
+                "sha256_in_prefix": "8e2bdd27065bc051e04c183678e2d63dada4180bf24e9fd53a18565ae6a4b31e",
+                "size_in_bytes": 2403
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "85c48376148987525b44d44b1f87d5b0cc666a78c39b720f4b038c242595f4af",
+                "sha256_in_prefix": "85c48376148987525b44d44b1f87d5b0cc666a78c39b720f4b038c242595f4af",
+                "size_in_bytes": 4242
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/__pycache__/functions.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "6dba2db37042b0ef6009c4ffeb28db2dc36e536b93026c81294775efa7dc2136",
+                "sha256_in_prefix": "6dba2db37042b0ef6009c4ffeb28db2dc36e536b93026c81294775efa7dc2136",
+                "size_in_bytes": 1032
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/__pycache__/printing.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "6eca9eb21eb136dc6478c05fab4d26cc52d9ee044382f311c45d172f57a8a709",
+                "sha256_in_prefix": "6eca9eb21eb136dc6478c05fab4d26cc52d9ee044382f311c45d172f57a8a709",
+                "size_in_bytes": 1842
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/__pycache__/sympy_compat.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "9ef2b0f4880cfd705e232d8cfdffe8313f02738d864406953285b4ff50ade873",
+                "sha256_in_prefix": "9ef2b0f4880cfd705e232d8cfdffe8313f02738d864406953285b4ff50ade873",
+                "size_in_bytes": 380
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/__pycache__/test_utilities.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "20965c3013c0658e8ce36f846c4c5916c62cdabef0bacce7c57e0ed81cbbcff8",
+                "sha256_in_prefix": "20965c3013c0658e8ce36f846c4c5916c62cdabef0bacce7c57e0ed81cbbcff8",
+                "size_in_bytes": 3628
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/__pycache__/utilities.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "bdb0aa2353745953ecf46c8508a8a82754989df06aa44b432c4a2d04229ae259",
+                "sha256_in_prefix": "bdb0aa2353745953ecf46c8508a8a82754989df06aa44b432c4a2d04229ae259",
+                "size_in_bytes": 11357
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/functions.py",
+                "path_type": "hardlink",
+                "sha256": "2cd7c66fec88e9a5e8f41b337662567c58d9850142498178e1f5c630384bc1bf",
+                "sha256_in_prefix": "2cd7c66fec88e9a5e8f41b337662567c58d9850142498178e1f5c630384bc1bf",
+                "size_in_bytes": 425
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/lib/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/lib/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "4f2ede892bb114a22b2d7716d1c16a5c13fa9bb00d1114186ce6f7378ced0d7a",
+                "sha256_in_prefix": "4f2ede892bb114a22b2d7716d1c16a5c13fa9bb00d1114186ce6f7378ced0d7a",
+                "size_in_bytes": 151
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/lib/pywrapper.h",
+                "path_type": "hardlink",
+                "sha256": "e457825efb61d5d9677ed1b33cd62f4a25137049747970aeb49399e5081d55b8",
+                "sha256_in_prefix": "e457825efb61d5d9677ed1b33cd62f4a25137049747970aeb49399e5081d55b8",
+                "size_in_bytes": 8503
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/lib/symengine.pxd",
+                "path_type": "hardlink",
+                "sha256": "eb485d45c09129606abb8e041b226518b723e3faa5cccc59413650bb15c99aac",
+                "sha256_in_prefix": "eb485d45c09129606abb8e041b226518b723e3faa5cccc59413650bb15c99aac",
+                "size_in_bytes": 44443
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/lib/symengine_wrapper.cpython-312-x86_64-linux-gnu.so",
+                "path_type": "hardlink",
+                "sha256": "83e6479317cad6fd0a2b0f0300f131eb1ccb538bacff42b173186b0cd0f161d8",
+                "sha256_in_prefix": "74e5409512b567879e7cabbb621c8a792577a0778119583693b4ee7a30acc578",
+                "size_in_bytes": 3775712
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/lib/symengine_wrapper.pxd",
+                "path_type": "hardlink",
+                "sha256": "c1183cc0028aa3131f7e53cdc7c2d54fe45d8fb651a7794c17c1f5b74cb03349",
+                "sha256_in_prefix": "c1183cc0028aa3131f7e53cdc7c2d54fe45d8fb651a7794c17c1f5b74cb03349",
+                "size_in_bytes": 3250
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/printing.py",
+                "path_type": "hardlink",
+                "sha256": "04a393ae3defa13e9e9e461962f8a6337da26d570174b3551787888088c71d6f",
+                "sha256_in_prefix": "04a393ae3defa13e9e9e461962f8a6337da26d570174b3551787888088c71d6f",
+                "size_in_bytes": 1115
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/sympy_compat.py",
+                "path_type": "hardlink",
+                "sha256": "a66212c20870fa0c04df233e7292768185b2ccee37190ac5540cde0c22de1513",
+                "sha256_in_prefix": "a66212c20870fa0c04df233e7292768185b2ccee37190ac5540cde0c22de1513",
+                "size_in_bytes": 171
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/test_utilities.py",
+                "path_type": "hardlink",
+                "sha256": "3e4f111daa5ef447866ad0b79d413933e209a0bf94dff587452e9375155683a8",
+                "sha256_in_prefix": "3e4f111daa5ef447866ad0b79d413933e209a0bf94dff587452e9375155683a8",
+                "size_in_bytes": 3086
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "638fbfda8379a8c4f4d4c039aa7fc46547f789163d75ea2a9a38ecf2b644d659",
+                "sha256_in_prefix": "638fbfda8379a8c4f4d4c039aa7fc46547f789163d75ea2a9a38ecf2b644d659",
+                "size_in_bytes": 153
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_arit.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "f1870b2814d61b7f09933f429536328da6b6a375e68207e993e60f4ce4500819",
+                "sha256_in_prefix": "f1870b2814d61b7f09933f429536328da6b6a375e68207e993e60f4ce4500819",
+                "size_in_bytes": 13897
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_cse.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "a0c620259a25deab3c6ec61bc61c0986e3f95646417d4f3f7f4a7ab90aa81dff",
+                "sha256_in_prefix": "a0c620259a25deab3c6ec61bc61c0986e3f95646417d4f3f7f4a7ab90aa81dff",
+                "size_in_bytes": 1153
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_dict_basic.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "2a3c038fa94a4f003cc62eece83d5cfb825704e7e6d2e7a3d629a0ffa3265fa6",
+                "sha256_in_prefix": "2a3c038fa94a4f003cc62eece83d5cfb825704e7e6d2e7a3d629a0ffa3265fa6",
+                "size_in_bytes": 1609
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_eval.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "e96c16c0ebeae80f00b0556328769fd406c2d43ea6e74741387dc9e4641d11cf",
+                "sha256_in_prefix": "e96c16c0ebeae80f00b0556328769fd406c2d43ea6e74741387dc9e4641d11cf",
+                "size_in_bytes": 5071
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_expr.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "4e4d5d874cbb59e91786a39dbdee9ac2c379574c07fd58e04b3ed5a556194b82",
+                "sha256_in_prefix": "4e4d5d874cbb59e91786a39dbdee9ac2c379574c07fd58e04b3ed5a556194b82",
+                "size_in_bytes": 2385
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_functions.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "2ece4bab3c86acf60f65275b508cdbcfcb64cdba454873aab4cde001d194a942",
+                "sha256_in_prefix": "2ece4bab3c86acf60f65275b508cdbcfcb64cdba454873aab4cde001d194a942",
+                "size_in_bytes": 25786
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_lambdify.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "efc305a12dcccbefc47ab54e4132859247b0e7850058ff30bcf810a594fe9fe0",
+                "sha256_in_prefix": "efc305a12dcccbefc47ab54e4132859247b0e7850058ff30bcf810a594fe9fe0",
+                "size_in_bytes": 63258
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_logic.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "5597d26c6cb824cee48ba4327f321ace685a4a204953e8613611103aa92ccd87",
+                "sha256_in_prefix": "5597d26c6cb824cee48ba4327f321ace685a4a204953e8613611103aa92ccd87",
+                "size_in_bytes": 7870
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_matrices.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "66987621e2d7794a8c36a7ce72a8e9145b8452df1f50cae444729c4297247258",
+                "sha256_in_prefix": "66987621e2d7794a8c36a7ce72a8e9145b8452df1f50cae444729c4297247258",
+                "size_in_bytes": 42044
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_ntheory.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "a9cd50bfbcd16d1d85974fd923720ea3be1533a792d640d9f822d77d9428045f",
+                "sha256_in_prefix": "a9cd50bfbcd16d1d85974fd923720ea3be1533a792d640d9f822d77d9428045f",
+                "size_in_bytes": 14875
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_number.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "59a6c44623f0753746422e9f8ddec2e6272d29ffa03367c4cd190e1ff1599693",
+                "sha256_in_prefix": "59a6c44623f0753746422e9f8ddec2e6272d29ffa03367c4cd190e1ff1599693",
+                "size_in_bytes": 9413
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_pickling.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "336809580d76d4afa6e9f2d6d82985826d42bf2bf4911206012ae6b4060bef64",
+                "sha256_in_prefix": "336809580d76d4afa6e9f2d6d82985826d42bf2bf4911206012ae6b4060bef64",
+                "size_in_bytes": 4108
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_printing.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "3cee845822426f61ec4b8aa7b43d2968bdc3e514eb77746967f829ff7f7c88f3",
+                "sha256_in_prefix": "3cee845822426f61ec4b8aa7b43d2968bdc3e514eb77746967f829ff7f7c88f3",
+                "size_in_bytes": 3058
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_sage.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "eeadd4742b7ff4051e8c333c8e60eafe06a15f2964bc2993b052d029c80fed8a",
+                "sha256_in_prefix": "eeadd4742b7ff4051e8c333c8e60eafe06a15f2964bc2993b052d029c80fed8a",
+                "size_in_bytes": 9955
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_series_expansion.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "4cca42b715e40bf3d42550f21211e4218d83377586c5545ff56c9981533724e9",
+                "sha256_in_prefix": "4cca42b715e40bf3d42550f21211e4218d83377586c5545ff56c9981533724e9",
+                "size_in_bytes": 1848
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_sets.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "afa94c43294d61c114cf19804859c4bde5cf6136bbbf6b50b31f33ee5d10e821",
+                "sha256_in_prefix": "afa94c43294d61c114cf19804859c4bde5cf6136bbbf6b50b31f33ee5d10e821",
+                "size_in_bytes": 8873
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_solve.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "110885f191024009b77b422bd96be1392c75767d7b35f023869d005fd11c2eb6",
+                "sha256_in_prefix": "110885f191024009b77b422bd96be1392c75767d7b35f023869d005fd11c2eb6",
+                "size_in_bytes": 2130
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_subs.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "e0ed315a0d52cab7ffed3a08ce541ceb8cbcee0f49b50c4e9bdfe19f80cb66c4",
+                "sha256_in_prefix": "e0ed315a0d52cab7ffed3a08ce541ceb8cbcee0f49b50c4e9bdfe19f80cb66c4",
+                "size_in_bytes": 4274
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_symbol.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "f73c5eff7c48e371ebb695ffa3e8d78726b3345a2d0bf9d469a103199f6361b6",
+                "sha256_in_prefix": "f73c5eff7c48e371ebb695ffa3e8d78726b3345a2d0bf9d469a103199f6361b6",
+                "size_in_bytes": 9846
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_sympify.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "ebaad0e0e924bc18ab53d4654bff3b04b3db45dad770b648435bfb535dc69493",
+                "sha256_in_prefix": "ebaad0e0e924bc18ab53d4654bff3b04b3db45dad770b648435bfb535dc69493",
+                "size_in_bytes": 4766
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_sympy_compat.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "8f8eac10c1ba9939973576df241bf33945849498b6173e6a54bc16abc66d5661",
+                "sha256_in_prefix": "8f8eac10c1ba9939973576df241bf33945849498b6173e6a54bc16abc66d5661",
+                "size_in_bytes": 10848
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_sympy_conv.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "481d0f7945eccac278c0e297947b607e2aba2f33a01f0ee15e8bba3933e10d88",
+                "sha256_in_prefix": "481d0f7945eccac278c0e297947b607e2aba2f33a01f0ee15e8bba3933e10d88",
+                "size_in_bytes": 61165
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/__pycache__/test_var.cpython-312.pyc",
+                "path_type": "hardlink",
+                "sha256": "55af692a2e971fb56765c9b695107492a2b909c68bb708ac1f55c9a1d5cde504",
+                "sha256_in_prefix": "55af692a2e971fb56765c9b695107492a2b909c68bb708ac1f55c9a1d5cde504",
+                "size_in_bytes": 3028
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_arit.py",
+                "path_type": "hardlink",
+                "sha256": "a68229e1b6f5a409cb0add04bc92f507f9bb029d305499474a2d48be5123c629",
+                "sha256_in_prefix": "a68229e1b6f5a409cb0add04bc92f507f9bb029d305499474a2d48be5123c629",
+                "size_in_bytes": 5611
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_cse.py",
+                "path_type": "hardlink",
+                "sha256": "f5231f0ab750ed90e84e46dc3a4dbc5215c3d990c515b0c5880c4e8d633939f9",
+                "sha256_in_prefix": "f5231f0ab750ed90e84e46dc3a4dbc5215c3d990c515b0c5880c4e8d633939f9",
+                "size_in_bytes": 469
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_dict_basic.py",
+                "path_type": "hardlink",
+                "sha256": "81eaf6b1ec5bbae6b5b40c5cdc97d79571ab9c6da24404e1c462dcd358f78c67",
+                "sha256_in_prefix": "81eaf6b1ec5bbae6b5b40c5cdc97d79571ab9c6da24404e1c462dcd358f78c67",
+                "size_in_bytes": 640
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_eval.py",
+                "path_type": "hardlink",
+                "sha256": "c483e00e89544572e873ba9e86460a76bf05e2b78dcf96fe1b2f69b497136c27",
+                "sha256_in_prefix": "c483e00e89544572e873ba9e86460a76bf05e2b78dcf96fe1b2f69b497136c27",
+                "size_in_bytes": 1743
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_expr.py",
+                "path_type": "hardlink",
+                "sha256": "a639147ee2d25d0b4042fd75d2e885d21249cb0ffc8b75d753603eab9d461e5d",
+                "sha256_in_prefix": "a639147ee2d25d0b4042fd75d2e885d21249cb0ffc8b75d753603eab9d461e5d",
+                "size_in_bytes": 1037
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_functions.py",
+                "path_type": "hardlink",
+                "sha256": "6c12581c1de6b4e87cda84c0dcd30766e9822682aa5a68809d33758f5f422080",
+                "sha256_in_prefix": "6c12581c1de6b4e87cda84c0dcd30766e9822682aa5a68809d33758f5f422080",
+                "size_in_bytes": 11297
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_lambdify.py",
+                "path_type": "hardlink",
+                "sha256": "d3a8d2f62be11e74e52d21ce0a553960efbdcd34c7406a2603ce43fa56ae3d0a",
+                "sha256_in_prefix": "d3a8d2f62be11e74e52d21ce0a553960efbdcd34c7406a2603ce43fa56ae3d0a",
+                "size_in_bytes": 29318
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_logic.py",
+                "path_type": "hardlink",
+                "sha256": "8fa714c11c3819712ba163f16d09c9012ad228b7b0f0c5c85af345d01495c584",
+                "sha256_in_prefix": "8fa714c11c3819712ba163f16d09c9012ad228b7b0f0c5c85af345d01495c584",
+                "size_in_bytes": 3441
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_matrices.py",
+                "path_type": "hardlink",
+                "sha256": "24dcdbe29cae8925fa039224accc0751fbc81431f79c175f7733a71ed287ead7",
+                "sha256_in_prefix": "24dcdbe29cae8925fa039224accc0751fbc81431f79c175f7733a71ed287ead7",
+                "size_in_bytes": 20620
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_ntheory.py",
+                "path_type": "hardlink",
+                "sha256": "8cc8c955cd69a264433965d1aaa8504c71d413e9e93a48b82b128cbd683a9b59",
+                "sha256_in_prefix": "8cc8c955cd69a264433965d1aaa8504c71d413e9e93a48b82b128cbd683a9b59",
+                "size_in_bytes": 6312
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_number.py",
+                "path_type": "hardlink",
+                "sha256": "1775882b00707d67721da63b72ef723ad4e6e006863ceef5b36e7ab508a1ddd0",
+                "sha256_in_prefix": "1775882b00707d67721da63b72ef723ad4e6e006863ceef5b36e7ab508a1ddd0",
+                "size_in_bytes": 5041
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_pickling.py",
+                "path_type": "hardlink",
+                "sha256": "96446a26492683c0a8b7d9e0d969e85645501ff2f278eb6ac7e499a2ba992e3d",
+                "sha256_in_prefix": "96446a26492683c0a8b7d9e0d969e85645501ff2f278eb6ac7e499a2ba992e3d",
+                "size_in_bytes": 1562
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_printing.py",
+                "path_type": "hardlink",
+                "sha256": "f7fb79ae5575350519be896f14a8aeb82b69c234bfea16fc14131792818a57ea",
+                "sha256_in_prefix": "f7fb79ae5575350519be896f14a8aeb82b69c234bfea16fc14131792818a57ea",
+                "size_in_bytes": 1286
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_sage.py",
+                "path_type": "hardlink",
+                "sha256": "929fd4cde4babee2252c873a7f73e7ca474130d54a3fc936959a69b17dbd68e2",
+                "sha256_in_prefix": "929fd4cde4babee2252c873a7f73e7ca474130d54a3fc936959a69b17dbd68e2",
+                "size_in_bytes": 5400
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_series_expansion.py",
+                "path_type": "hardlink",
+                "sha256": "19f828b9b3263c1df49dab0c07ab7d251fb9b95837c583a4f680160ebd035986",
+                "sha256_in_prefix": "19f828b9b3263c1df49dab0c07ab7d251fb9b95837c583a4f680160ebd035986",
+                "size_in_bytes": 741
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_sets.py",
+                "path_type": "hardlink",
+                "sha256": "4167191d694ae690f9499ac5ef6ba16198e16179b87db995e4eceb430a987984",
+                "sha256_in_prefix": "4167191d694ae690f9499ac5ef6ba16198e16179b87db995e4eceb430a987984",
+                "size_in_bytes": 4177
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_solve.py",
+                "path_type": "hardlink",
+                "sha256": "32701d5e6dd9c97d3d167422c5a30d0c6eefa8c5feaebe3a53d505e41a416686",
+                "sha256_in_prefix": "32701d5e6dd9c97d3d167422c5a30d0c6eefa8c5feaebe3a53d505e41a416686",
+                "size_in_bytes": 935
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_subs.py",
+                "path_type": "hardlink",
+                "sha256": "7b8a35bda753b9cc1faa03c99151fd1d9a9d98c083524bdb59bcca58d026db88",
+                "sha256_in_prefix": "7b8a35bda753b9cc1faa03c99151fd1d9a9d98c083524bdb59bcca58d026db88",
+                "size_in_bytes": 1681
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_symbol.py",
+                "path_type": "hardlink",
+                "sha256": "e40470855b68c7e7c7e6448180cf09b8f6d424ae012771c2528f8b8957f7f53a",
+                "sha256_in_prefix": "e40470855b68c7e7c7e6448180cf09b8f6d424ae012771c2528f8b8957f7f53a",
+                "size_in_bytes": 5296
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_sympify.py",
+                "path_type": "hardlink",
+                "sha256": "c8bf09451767a1cb3008740cd12dfc2836cb07fe95c2064997747f1c1d4cfafe",
+                "sha256_in_prefix": "c8bf09451767a1cb3008740cd12dfc2836cb07fe95c2064997747f1c1d4cfafe",
+                "size_in_bytes": 1868
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_sympy_compat.py",
+                "path_type": "hardlink",
+                "sha256": "4f6e0d5de16e4ad54abf37d95381cbdba4715e41ffd821c206f76926c58e77cb",
+                "sha256_in_prefix": "4f6e0d5de16e4ad54abf37d95381cbdba4715e41ffd821c206f76926c58e77cb",
+                "size_in_bytes": 4959
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_sympy_conv.py",
+                "path_type": "hardlink",
+                "sha256": "b91ffa4e1204c834aaf9d6eb944f31e76782df06dd9e28f4b4b6c4a242ea174e",
+                "sha256_in_prefix": "b91ffa4e1204c834aaf9d6eb944f31e76782df06dd9e28f4b4b6c4a242ea174e",
+                "size_in_bytes": 27637
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/tests/test_var.py",
+                "path_type": "hardlink",
+                "sha256": "abee91d86562f40179783d7a8e2cbf924b36c47e11794aae759fd2f997fb3bdd",
+                "sha256_in_prefix": "abee91d86562f40179783d7a8e2cbf924b36c47e11794aae759fd2f997fb3bdd",
+                "size_in_bytes": 1286
+            },
+            {
+                "_path": "lib/python3.12/site-packages/symengine/utilities.py",
+                "path_type": "hardlink",
+                "sha256": "6e7db6b1b2ed29141547f1b5ecee3e88edcaec1a3690ebd166792397b20fad1f",
+                "sha256_in_prefix": "6e7db6b1b2ed29141547f1b5ecee3e88edcaec1a3690ebd166792397b20fad1f",
+                "size_in_bytes": 9604
+            }
+        ],
+        "paths_version": 1
+    },
+    "platform": "linux",
+    "requested_spec": "",
+    "sha256": "5423caaf90a644d2cd7e15955c19735fdafa3a18a196d27deef806a06e6a37a1",
+    "size": 1086662,
+    "subdir": "linux-64",
+    "timestamp": 1701792000753,
+    "track_features": "",
+    "url": "https://conda.anaconda.org/conda-forge/linux-64/python-symengine-0.11.0-py312h83f29e1_1.conda",
+    "version": "0.11.0"
+}

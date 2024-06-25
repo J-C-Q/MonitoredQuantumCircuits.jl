@@ -1,0 +1,1175 @@
+{
+    "arch": "x86_64",
+    "build": "h2f819a4_ntl_100",
+    "build_number": 100,
+    "build_string": "h2f819a4_ntl_100",
+    "channel": "https://conda.anaconda.org/conda-forge/linux-64",
+    "constrains": [],
+    "depends": [
+        "gmp >=6.2.1,<7.0a0",
+        "libgcc-ng >=12",
+        "libstdcxx-ng >=12",
+        "mpfr >=4.1.0,<5.0a0",
+        "ntl 11.4.3.*"
+    ],
+    "extracted_package_dir": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/libflint-2.9.0-h2f819a4_ntl_100",
+    "files": [
+        "include/flint/NTL-interface.h",
+        "include/flint/aprcl.h",
+        "include/flint/arith.h",
+        "include/flint/arithxx.h",
+        "include/flint/d_mat.h",
+        "include/flint/d_vec.h",
+        "include/flint/double_extras.h",
+        "include/flint/exception.h",
+        "include/flint/fft.h",
+        "include/flint/fft_tuning.h",
+        "include/flint/flint-config.h",
+        "include/flint/flint.h",
+        "include/flint/flintxx.h",
+        "include/flint/flintxx/default_rules.h",
+        "include/flint/flintxx/evaluation_tools.h",
+        "include/flint/flintxx/expression.h",
+        "include/flint/flintxx/expression_traits.h",
+        "include/flint/flintxx/flint_classes.h",
+        "include/flint/flintxx/flint_exception.h",
+        "include/flint/flintxx/forwarding.h",
+        "include/flint/flintxx/frandxx.h",
+        "include/flint/flintxx/ltuple.h",
+        "include/flint/flintxx/matrix.h",
+        "include/flint/flintxx/mp.h",
+        "include/flint/flintxx/rules.h",
+        "include/flint/flintxx/stdmath.h",
+        "include/flint/flintxx/traits.h",
+        "include/flint/flintxx/traits_fwd.h",
+        "include/flint/flintxx/tuple.h",
+        "include/flint/flintxx/vector.h",
+        "include/flint/fmpq.h",
+        "include/flint/fmpq_mat.h",
+        "include/flint/fmpq_matxx.h",
+        "include/flint/fmpq_mpoly.h",
+        "include/flint/fmpq_mpoly_factor.h",
+        "include/flint/fmpq_poly.h",
+        "include/flint/fmpq_polyxx.h",
+        "include/flint/fmpq_vec.h",
+        "include/flint/fmpqxx.h",
+        "include/flint/fmpz-conversions.h",
+        "include/flint/fmpz.h",
+        "include/flint/fmpz_factor.h",
+        "include/flint/fmpz_factorxx.h",
+        "include/flint/fmpz_lll.h",
+        "include/flint/fmpz_mat.h",
+        "include/flint/fmpz_matxx.h",
+        "include/flint/fmpz_mod.h",
+        "include/flint/fmpz_mod_mat.h",
+        "include/flint/fmpz_mod_mpoly.h",
+        "include/flint/fmpz_mod_mpoly_factor.h",
+        "include/flint/fmpz_mod_poly.h",
+        "include/flint/fmpz_mod_poly_factor.h",
+        "include/flint/fmpz_mod_poly_factorxx.h",
+        "include/flint/fmpz_mod_polyxx.h",
+        "include/flint/fmpz_mod_vec.h",
+        "include/flint/fmpz_mpoly.h",
+        "include/flint/fmpz_mpoly_factor.h",
+        "include/flint/fmpz_poly.h",
+        "include/flint/fmpz_poly_factor.h",
+        "include/flint/fmpz_poly_factorxx.h",
+        "include/flint/fmpz_poly_mat.h",
+        "include/flint/fmpz_poly_matxx.h",
+        "include/flint/fmpz_poly_q.h",
+        "include/flint/fmpz_poly_qxx.h",
+        "include/flint/fmpz_polyxx.h",
+        "include/flint/fmpz_vec.h",
+        "include/flint/fmpz_vecxx.h",
+        "include/flint/fmpzxx.h",
+        "include/flint/fq.h",
+        "include/flint/fq_default.h",
+        "include/flint/fq_default_mat.h",
+        "include/flint/fq_default_poly.h",
+        "include/flint/fq_default_poly_factor.h",
+        "include/flint/fq_embed.h",
+        "include/flint/fq_embed_templates.h",
+        "include/flint/fq_mat.h",
+        "include/flint/fq_mat_templates.h",
+        "include/flint/fq_nmod.h",
+        "include/flint/fq_nmod_embed.h",
+        "include/flint/fq_nmod_mat.h",
+        "include/flint/fq_nmod_mpoly.h",
+        "include/flint/fq_nmod_mpoly_factor.h",
+        "include/flint/fq_nmod_poly.h",
+        "include/flint/fq_nmod_poly_factor.h",
+        "include/flint/fq_nmod_vec.h",
+        "include/flint/fq_poly.h",
+        "include/flint/fq_poly_factor.h",
+        "include/flint/fq_poly_factor_templates.h",
+        "include/flint/fq_poly_templates.h",
+        "include/flint/fq_templates.h",
+        "include/flint/fq_vec.h",
+        "include/flint/fq_vec_templates.h",
+        "include/flint/fq_zech.h",
+        "include/flint/fq_zech_embed.h",
+        "include/flint/fq_zech_mat.h",
+        "include/flint/fq_zech_mpoly.h",
+        "include/flint/fq_zech_mpoly_factor.h",
+        "include/flint/fq_zech_poly.h",
+        "include/flint/fq_zech_poly_factor.h",
+        "include/flint/fq_zech_vec.h",
+        "include/flint/gmpcompat.h",
+        "include/flint/hashmap.h",
+        "include/flint/long_extras.h",
+        "include/flint/longlong.h",
+        "include/flint/mpf_mat.h",
+        "include/flint/mpf_vec.h",
+        "include/flint/mpfr_mat.h",
+        "include/flint/mpfr_vec.h",
+        "include/flint/mpn_extras.h",
+        "include/flint/mpoly.h",
+        "include/flint/n_poly.h",
+        "include/flint/nmod.h",
+        "include/flint/nmod_mat.h",
+        "include/flint/nmod_matxx.h",
+        "include/flint/nmod_mpoly.h",
+        "include/flint/nmod_mpoly_factor.h",
+        "include/flint/nmod_poly.h",
+        "include/flint/nmod_poly_factor.h",
+        "include/flint/nmod_poly_mat.h",
+        "include/flint/nmod_poly_matxx.h",
+        "include/flint/nmod_polyxx.h",
+        "include/flint/nmod_vec.h",
+        "include/flint/nmod_vecxx.h",
+        "include/flint/padic.h",
+        "include/flint/padic_mat.h",
+        "include/flint/padic_matxx.h",
+        "include/flint/padic_poly.h",
+        "include/flint/padic_polyxx.h",
+        "include/flint/padicxx.h",
+        "include/flint/perm.h",
+        "include/flint/permxx.h",
+        "include/flint/profiler.h",
+        "include/flint/qadic.h",
+        "include/flint/qadicxx.h",
+        "include/flint/qsieve.h",
+        "include/flint/templates.h",
+        "include/flint/thread_pool.h",
+        "include/flint/thread_support.h",
+        "include/flint/ulong_extras.h",
+        "lib/libflint.so",
+        "lib/libflint.so.17",
+        "lib/libflint.so.17.0.0"
+    ],
+    "fn": "libflint-2.9.0-h2f819a4_ntl_100.tar.bz2",
+    "license": "LGPL-2.1-or-later",
+    "link": {
+        "source": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/libflint-2.9.0-h2f819a4_ntl_100",
+        "type": 1
+    },
+    "md5": "3fbcd92289468667b54c985cc0d192e2",
+    "name": "libflint",
+    "package_tarball_full_path": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/libflint-2.9.0-h2f819a4_ntl_100.tar.bz2",
+    "paths_data": {
+        "paths": [
+            {
+                "_path": "include/flint/NTL-interface.h",
+                "path_type": "hardlink",
+                "sha256": "edfe6748b1ad8bb0a92e37b3a3980d1ade7f33e7ae9ce348b68e299573be2ffb",
+                "sha256_in_prefix": "edfe6748b1ad8bb0a92e37b3a3980d1ade7f33e7ae9ce348b68e299573be2ffb",
+                "size_in_bytes": 3909
+            },
+            {
+                "_path": "include/flint/aprcl.h",
+                "path_type": "hardlink",
+                "sha256": "2306fb63a76bc27e6310ae69272eb5b3e2cf9ea0a79c7087ed4299883a05fabd",
+                "sha256_in_prefix": "2306fb63a76bc27e6310ae69272eb5b3e2cf9ea0a79c7087ed4299883a05fabd",
+                "size_in_bytes": 10410
+            },
+            {
+                "_path": "include/flint/arith.h",
+                "path_type": "hardlink",
+                "sha256": "3849ebb25faea9c9afd62656ab104e7c551e7483a7c4a6fd2854a2a3971ab7df",
+                "sha256_in_prefix": "3849ebb25faea9c9afd62656ab104e7c551e7483a7c4a6fd2854a2a3971ab7df",
+                "size_in_bytes": 8107
+            },
+            {
+                "_path": "include/flint/arithxx.h",
+                "path_type": "hardlink",
+                "sha256": "1727ba5846dea3ae979ea34536e0be4aeb8e964f8082b74e3bf45b3a4894686c",
+                "sha256_in_prefix": "1727ba5846dea3ae979ea34536e0be4aeb8e964f8082b74e3bf45b3a4894686c",
+                "size_in_bytes": 12194
+            },
+            {
+                "_path": "include/flint/d_mat.h",
+                "path_type": "hardlink",
+                "sha256": "7eefc646a09b90df1bb0bb7292938fef7b4afc65db376081bad7cdec163e1236",
+                "sha256_in_prefix": "7eefc646a09b90df1bb0bb7292938fef7b4afc65db376081bad7cdec163e1236",
+                "size_in_bytes": 3537
+            },
+            {
+                "_path": "include/flint/d_vec.h",
+                "path_type": "hardlink",
+                "sha256": "3b6924cd91eb030e02d96a4fca1fe9fb901e8e946a3949e40729ed30e81a0be8",
+                "sha256_in_prefix": "3b6924cd91eb030e02d96a4fca1fe9fb901e8e946a3949e40729ed30e81a0be8",
+                "size_in_bytes": 2359
+            },
+            {
+                "_path": "include/flint/double_extras.h",
+                "path_type": "hardlink",
+                "sha256": "f10f3cb68c9745e0d84e6d0db0873ff2e040f9af35337133ecea9a0849656814",
+                "sha256_in_prefix": "f10f3cb68c9745e0d84e6d0db0873ff2e040f9af35337133ecea9a0849656814",
+                "size_in_bytes": 1480
+            },
+            {
+                "_path": "include/flint/exception.h",
+                "path_type": "hardlink",
+                "sha256": "72ea9109b07aa92974edbe5b38e889115abed59264890928e5257527b6d7cdec",
+                "sha256_in_prefix": "72ea9109b07aa92974edbe5b38e889115abed59264890928e5257527b6d7cdec",
+                "size_in_bytes": 761
+            },
+            {
+                "_path": "include/flint/fft.h",
+                "path_type": "hardlink",
+                "sha256": "0fb62bb924fa4e91ec7a32d034bd3f310ba2a839a3b0c9270be4fade598fe78e",
+                "sha256_in_prefix": "0fb62bb924fa4e91ec7a32d034bd3f310ba2a839a3b0c9270be4fade598fe78e",
+                "size_in_bytes": 11246
+            },
+            {
+                "_path": "include/flint/fft_tuning.h",
+                "path_type": "hardlink",
+                "sha256": "381628bf9f2a0b9cbcf905ce463377ab26716e172b45a0d8c55d71ac9787ba06",
+                "sha256_in_prefix": "381628bf9f2a0b9cbcf905ce463377ab26716e172b45a0d8c55d71ac9787ba06",
+                "size_in_bytes": 338
+            },
+            {
+                "_path": "include/flint/flint-config.h",
+                "path_type": "hardlink",
+                "sha256": "4e64b97187c416137c1c1bce1bfb69c88caf485dc199cf8dc7cffb87f7c30176",
+                "sha256_in_prefix": "4e64b97187c416137c1c1bce1bfb69c88caf485dc199cf8dc7cffb87f7c30176",
+                "size_in_bytes": 347
+            },
+            {
+                "_path": "include/flint/flint.h",
+                "path_type": "hardlink",
+                "sha256": "e313e59ac493e48a35f1ab98d92c3ffb7a7270929256a517b055b9cadceaf5e2",
+                "sha256_in_prefix": "e313e59ac493e48a35f1ab98d92c3ffb7a7270929256a517b055b9cadceaf5e2",
+                "size_in_bytes": 13076
+            },
+            {
+                "_path": "include/flint/flintxx.h",
+                "path_type": "hardlink",
+                "sha256": "81332cb9a8c835190b8baf3724b83ddd125aea01558fa49e79eda931bfc62b32",
+                "sha256_in_prefix": "81332cb9a8c835190b8baf3724b83ddd125aea01558fa49e79eda931bfc62b32",
+                "size_in_bytes": 434
+            },
+            {
+                "_path": "include/flint/flintxx/default_rules.h",
+                "path_type": "hardlink",
+                "sha256": "fb3b543694cd236db82a32812c7a822ad5fc779e99889a687604afb6163fe5c6",
+                "sha256_in_prefix": "fb3b543694cd236db82a32812c7a822ad5fc779e99889a687604afb6163fe5c6",
+                "size_in_bytes": 15290
+            },
+            {
+                "_path": "include/flint/flintxx/evaluation_tools.h",
+                "path_type": "hardlink",
+                "sha256": "5d413d7d57e8a79cc18ac4f7513f2ec6f8b15599e724e7020ab27e028402867e",
+                "sha256_in_prefix": "5d413d7d57e8a79cc18ac4f7513f2ec6f8b15599e724e7020ab27e028402867e",
+                "size_in_bytes": 37361
+            },
+            {
+                "_path": "include/flint/flintxx/expression.h",
+                "path_type": "hardlink",
+                "sha256": "ee15fc935f6db7a03c8c85e20f4ba59c7912bdc06b49b28ff2e7bbc516fd49ae",
+                "sha256_in_prefix": "ee15fc935f6db7a03c8c85e20f4ba59c7912bdc06b49b28ff2e7bbc516fd49ae",
+                "size_in_bytes": 29620
+            },
+            {
+                "_path": "include/flint/flintxx/expression_traits.h",
+                "path_type": "hardlink",
+                "sha256": "bb2c8022e065d9798035baed8226c41ae7f150032e9e49761ebc36783b4deab5",
+                "sha256_in_prefix": "bb2c8022e065d9798035baed8226c41ae7f150032e9e49761ebc36783b4deab5",
+                "size_in_bytes": 2702
+            },
+            {
+                "_path": "include/flint/flintxx/flint_classes.h",
+                "path_type": "hardlink",
+                "sha256": "123605715726bce5f5a49eb03a7006d5b48e0cd31abd9073c8f5c7850d12e6dc",
+                "sha256_in_prefix": "123605715726bce5f5a49eb03a7006d5b48e0cd31abd9073c8f5c7850d12e6dc",
+                "size_in_bytes": 34586
+            },
+            {
+                "_path": "include/flint/flintxx/flint_exception.h",
+                "path_type": "hardlink",
+                "sha256": "fd40dbe2843d7226d546e47362f7d2f15afa6c74fd6f6c0571d100b86b97f0f4",
+                "sha256_in_prefix": "fd40dbe2843d7226d546e47362f7d2f15afa6c74fd6f6c0571d100b86b97f0f4",
+                "size_in_bytes": 1195
+            },
+            {
+                "_path": "include/flint/flintxx/forwarding.h",
+                "path_type": "hardlink",
+                "sha256": "f457ad2641e5e23e12daae04def24205305909e6e798ed14716b33228a4f39b7",
+                "sha256_in_prefix": "f457ad2641e5e23e12daae04def24205305909e6e798ed14716b33228a4f39b7",
+                "size_in_bytes": 6479
+            },
+            {
+                "_path": "include/flint/flintxx/frandxx.h",
+                "path_type": "hardlink",
+                "sha256": "d85dd5fca81436400ae39ed8d1ce61cae9446085c725f911231f863f59196936",
+                "sha256_in_prefix": "d85dd5fca81436400ae39ed8d1ce61cae9446085c725f911231f863f59196936",
+                "size_in_bytes": 874
+            },
+            {
+                "_path": "include/flint/flintxx/ltuple.h",
+                "path_type": "hardlink",
+                "sha256": "bc67e64b9f5f3964fffd6d646612c0969f77a72b72caf06c98df1be6ed5e5f9a",
+                "sha256_in_prefix": "bc67e64b9f5f3964fffd6d646612c0969f77a72b72caf06c98df1be6ed5e5f9a",
+                "size_in_bytes": 13001
+            },
+            {
+                "_path": "include/flint/flintxx/matrix.h",
+                "path_type": "hardlink",
+                "sha256": "ea718835179ab043b32506171ac0711329464549c6a333f2de3a551e58ae7a22",
+                "sha256_in_prefix": "ea718835179ab043b32506171ac0711329464549c6a333f2de3a551e58ae7a22",
+                "size_in_bytes": 13235
+            },
+            {
+                "_path": "include/flint/flintxx/mp.h",
+                "path_type": "hardlink",
+                "sha256": "0dd05f89665257ce284ffcab036dfd5244b905291b2c69edc0f506cf665e8a0b",
+                "sha256_in_prefix": "0dd05f89665257ce284ffcab036dfd5244b905291b2c69edc0f506cf665e8a0b",
+                "size_in_bytes": 4085
+            },
+            {
+                "_path": "include/flint/flintxx/rules.h",
+                "path_type": "hardlink",
+                "sha256": "cad091e67ecfec6c02116a4f34cf515c7dd05ab3a4e161633b8225b638bc6fa2",
+                "sha256_in_prefix": "cad091e67ecfec6c02116a4f34cf515c7dd05ab3a4e161633b8225b638bc6fa2",
+                "size_in_bytes": 13740
+            },
+            {
+                "_path": "include/flint/flintxx/stdmath.h",
+                "path_type": "hardlink",
+                "sha256": "0197d1b7eb2c55f035192ab927c4df746f3e583b95f52022a5a8cc766d544e3f",
+                "sha256_in_prefix": "0197d1b7eb2c55f035192ab927c4df746f3e583b95f52022a5a8cc766d544e3f",
+                "size_in_bytes": 4063
+            },
+            {
+                "_path": "include/flint/flintxx/traits.h",
+                "path_type": "hardlink",
+                "sha256": "d631eb9d8d7f47dd0cbb2242bce20d49afe1443911f69f0db2fd4cc765a96a50",
+                "sha256_in_prefix": "d631eb9d8d7f47dd0cbb2242bce20d49afe1443911f69f0db2fd4cc765a96a50",
+                "size_in_bytes": 4519
+            },
+            {
+                "_path": "include/flint/flintxx/traits_fwd.h",
+                "path_type": "hardlink",
+                "sha256": "98a86802963aa08f2172e1ae6d37179a162d629ee0ace585e09ebe7bbb54467b",
+                "sha256_in_prefix": "98a86802963aa08f2172e1ae6d37179a162d629ee0ace585e09ebe7bbb54467b",
+                "size_in_bytes": 781
+            },
+            {
+                "_path": "include/flint/flintxx/tuple.h",
+                "path_type": "hardlink",
+                "sha256": "56a7b18ad6afa186544c4694b8db182e84e7e7fa517d9b74d050c9184e141a28",
+                "sha256_in_prefix": "56a7b18ad6afa186544c4694b8db182e84e7e7fa517d9b74d050c9184e141a28",
+                "size_in_bytes": 17952
+            },
+            {
+                "_path": "include/flint/flintxx/vector.h",
+                "path_type": "hardlink",
+                "sha256": "b24d278204bd5594145366f729b60f3e934c26b46963f7467495ee671622c15e",
+                "sha256_in_prefix": "b24d278204bd5594145366f729b60f3e934c26b46963f7467495ee671622c15e",
+                "size_in_bytes": 12612
+            },
+            {
+                "_path": "include/flint/fmpq.h",
+                "path_type": "hardlink",
+                "sha256": "e3ab5341bd7a521f05c45a32152fdd02c24c694037ccf86e797368dd9b83bda4",
+                "sha256_in_prefix": "e3ab5341bd7a521f05c45a32152fdd02c24c694037ccf86e797368dd9b83bda4",
+                "size_in_bytes": 17119
+            },
+            {
+                "_path": "include/flint/fmpq_mat.h",
+                "path_type": "hardlink",
+                "sha256": "d61b427dc0a322a7f76e975cbd8eaa2a4142cdd9ad66f8124fb2588342ea5030",
+                "sha256_in_prefix": "d61b427dc0a322a7f76e975cbd8eaa2a4142cdd9ad66f8124fb2588342ea5030",
+                "size_in_bytes": 12172
+            },
+            {
+                "_path": "include/flint/fmpq_matxx.h",
+                "path_type": "hardlink",
+                "sha256": "3116cd0bb97ac6d1eba7c5c94abe4df9a0d24953c20366298905ad2ec069af74",
+                "sha256_in_prefix": "3116cd0bb97ac6d1eba7c5c94abe4df9a0d24953c20366298905ad2ec069af74",
+                "size_in_bytes": 16833
+            },
+            {
+                "_path": "include/flint/fmpq_mpoly.h",
+                "path_type": "hardlink",
+                "sha256": "946fac4de4a1a858666d67efc29e3606e5ade696616d72997bc69ef24f181785",
+                "sha256_in_prefix": "946fac4de4a1a858666d67efc29e3606e5ade696616d72997bc69ef24f181785",
+                "size_in_bytes": 33960
+            },
+            {
+                "_path": "include/flint/fmpq_mpoly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "2b41c0ccd239d57c5ab0f7810a173b63a0d5b4a1d19f3df0eb0dc3d7eb3915b6",
+                "sha256_in_prefix": "2b41c0ccd239d57c5ab0f7810a173b63a0d5b4a1d19f3df0eb0dc3d7eb3915b6",
+                "size_in_bytes": 3835
+            },
+            {
+                "_path": "include/flint/fmpq_poly.h",
+                "path_type": "hardlink",
+                "sha256": "07262c61e84016f07fa1042e259f38b5d0e8ae76a751cede446f0fee9572693a",
+                "sha256_in_prefix": "07262c61e84016f07fa1042e259f38b5d0e8ae76a751cede446f0fee9572693a",
+                "size_in_bytes": 34725
+            },
+            {
+                "_path": "include/flint/fmpq_polyxx.h",
+                "path_type": "hardlink",
+                "sha256": "3e5f57d903fec5b2e032c3661b8082cb40f453cc170fec4a0c5cc05a319b9ea3",
+                "sha256_in_prefix": "3e5f57d903fec5b2e032c3661b8082cb40f453cc170fec4a0c5cc05a319b9ea3",
+                "size_in_bytes": 21231
+            },
+            {
+                "_path": "include/flint/fmpq_vec.h",
+                "path_type": "hardlink",
+                "sha256": "d01d064e0bc6e3a4d48c52175f60a0d4b706bc32b91f12447642d92ce45f7d29",
+                "sha256_in_prefix": "d01d064e0bc6e3a4d48c52175f60a0d4b706bc32b91f12447642d92ce45f7d29",
+                "size_in_bytes": 2211
+            },
+            {
+                "_path": "include/flint/fmpqxx.h",
+                "path_type": "hardlink",
+                "sha256": "5c832d7b064f17dc0d09ee96f6aacc632a9c2d0540f8eb2be67a05f44de011bc",
+                "sha256_in_prefix": "5c832d7b064f17dc0d09ee96f6aacc632a9c2d0540f8eb2be67a05f44de011bc",
+                "size_in_bytes": 16944
+            },
+            {
+                "_path": "include/flint/fmpz-conversions.h",
+                "path_type": "hardlink",
+                "sha256": "0ec884234273f65a3331b0c3706ba5c758bec6dc3a5902ece763b5888f6b188e",
+                "sha256_in_prefix": "0ec884234273f65a3331b0c3706ba5c758bec6dc3a5902ece763b5888f6b188e",
+                "size_in_bytes": 326
+            },
+            {
+                "_path": "include/flint/fmpz.h",
+                "path_type": "hardlink",
+                "sha256": "7f717a48978e42d9e85195f455cda4a7bd5897b85ec96001fb9b5c49e11b1080",
+                "sha256_in_prefix": "7f717a48978e42d9e85195f455cda4a7bd5897b85ec96001fb9b5c49e11b1080",
+                "size_in_bytes": 31868
+            },
+            {
+                "_path": "include/flint/fmpz_factor.h",
+                "path_type": "hardlink",
+                "sha256": "42f6249147c09f7b6adf39da6269306120535894aec8006ef0e73881b32f5eff",
+                "sha256_in_prefix": "42f6249147c09f7b6adf39da6269306120535894aec8006ef0e73881b32f5eff",
+                "size_in_bytes": 6544
+            },
+            {
+                "_path": "include/flint/fmpz_factorxx.h",
+                "path_type": "hardlink",
+                "sha256": "d7247e6717c0cbbfeeef651d975101b335c8ed5a44548065fa53a09fd4bb2088",
+                "sha256_in_prefix": "d7247e6717c0cbbfeeef651d975101b335c8ed5a44548065fa53a09fd4bb2088",
+                "size_in_bytes": 5001
+            },
+            {
+                "_path": "include/flint/fmpz_lll.h",
+                "path_type": "hardlink",
+                "sha256": "5b2794cd3df895feb287b3cf78d7fb0402881ada0ff618ca3c66bd50e215f00c",
+                "sha256_in_prefix": "5b2794cd3df895feb287b3cf78d7fb0402881ada0ff618ca3c66bd50e215f00c",
+                "size_in_bytes": 6101
+            },
+            {
+                "_path": "include/flint/fmpz_mat.h",
+                "path_type": "hardlink",
+                "sha256": "2146e11d9bf4e7d7dfcb7ddb13f850dd38257588c1c778d46bf9ea6f6add46f4",
+                "sha256_in_prefix": "2146e11d9bf4e7d7dfcb7ddb13f850dd38257588c1c778d46bf9ea6f6add46f4",
+                "size_in_bytes": 23822
+            },
+            {
+                "_path": "include/flint/fmpz_matxx.h",
+                "path_type": "hardlink",
+                "sha256": "96be5b9b163e8e80f992088a985907817138fc9f05832019160fb9ca83daaa59",
+                "sha256_in_prefix": "96be5b9b163e8e80f992088a985907817138fc9f05832019160fb9ca83daaa59",
+                "size_in_bytes": 19306
+            },
+            {
+                "_path": "include/flint/fmpz_mod.h",
+                "path_type": "hardlink",
+                "sha256": "dd438280a1283365f802ecf0d3fcdcfbadaf4ff2b54a7ca1966bf6aac4022fc7",
+                "sha256_in_prefix": "dd438280a1283365f802ecf0d3fcdcfbadaf4ff2b54a7ca1966bf6aac4022fc7",
+                "size_in_bytes": 11078
+            },
+            {
+                "_path": "include/flint/fmpz_mod_mat.h",
+                "path_type": "hardlink",
+                "sha256": "8f320d60b5a61f1cec802919dfee47b1aa761f7f38d2717449373319ca31e6f8",
+                "sha256_in_prefix": "8f320d60b5a61f1cec802919dfee47b1aa761f7f38d2717449373319ca31e6f8",
+                "size_in_bytes": 11974
+            },
+            {
+                "_path": "include/flint/fmpz_mod_mpoly.h",
+                "path_type": "hardlink",
+                "sha256": "f243c1c49adb162eaea0e9215f23958b7e7f9918799004c72fb8ef0c1ed79f36",
+                "sha256_in_prefix": "f243c1c49adb162eaea0e9215f23958b7e7f9918799004c72fb8ef0c1ed79f36",
+                "size_in_bytes": 45714
+            },
+            {
+                "_path": "include/flint/fmpz_mod_mpoly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "70fef2a87253c73e0b37597105179cb27e3d91fae038b949ca57fe6693271007",
+                "sha256_in_prefix": "70fef2a87253c73e0b37597105179cb27e3d91fae038b949ca57fe6693271007",
+                "size_in_bytes": 46220
+            },
+            {
+                "_path": "include/flint/fmpz_mod_poly.h",
+                "path_type": "hardlink",
+                "sha256": "bf1c283a84f12a4f583ee85fb69adaa5a9537350cbeb8228dd638b37e95048b5",
+                "sha256_in_prefix": "bf1c283a84f12a4f583ee85fb69adaa5a9537350cbeb8228dd638b37e95048b5",
+                "size_in_bytes": 64312
+            },
+            {
+                "_path": "include/flint/fmpz_mod_poly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "7cee314a71aae3c25a8fea32c97de59bb9f643f334e07bf9fc5af1ecd79332a8",
+                "sha256_in_prefix": "7cee314a71aae3c25a8fea32c97de59bb9f643f334e07bf9fc5af1ecd79332a8",
+                "size_in_bytes": 7838
+            },
+            {
+                "_path": "include/flint/fmpz_mod_poly_factorxx.h",
+                "path_type": "hardlink",
+                "sha256": "877db64f732f0c4664f3525382e835536d6163e081d8a56a09a9eb10e3d95603",
+                "sha256_in_prefix": "877db64f732f0c4664f3525382e835536d6163e081d8a56a09a9eb10e3d95603",
+                "size_in_bytes": 4988
+            },
+            {
+                "_path": "include/flint/fmpz_mod_polyxx.h",
+                "path_type": "hardlink",
+                "sha256": "ef5ce6bf4cfd0a383896c314b7fd966d48b13817f7cacc226fee18a9d0bd136c",
+                "sha256_in_prefix": "ef5ce6bf4cfd0a383896c314b7fd966d48b13817f7cacc226fee18a9d0bd136c",
+                "size_in_bytes": 30664
+            },
+            {
+                "_path": "include/flint/fmpz_mod_vec.h",
+                "path_type": "hardlink",
+                "sha256": "e2ce22bbdcd2af57494ea09986b06da577b028caa87987230c349175cd1152ba",
+                "sha256_in_prefix": "e2ce22bbdcd2af57494ea09986b06da577b028caa87987230c349175cd1152ba",
+                "size_in_bytes": 2229
+            },
+            {
+                "_path": "include/flint/fmpz_mpoly.h",
+                "path_type": "hardlink",
+                "sha256": "e9226ddf66545dbe781d0d8cb9995be39193fdf55a73ee2699efa35ebd2f27d5",
+                "sha256_in_prefix": "e9226ddf66545dbe781d0d8cb9995be39193fdf55a73ee2699efa35ebd2f27d5",
+                "size_in_bytes": 63303
+            },
+            {
+                "_path": "include/flint/fmpz_mpoly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "b31f5933da8eaca7c58490540b93f52ba8d2bd738ae12ee5ec931c8cf73ae42b",
+                "sha256_in_prefix": "b31f5933da8eaca7c58490540b93f52ba8d2bd738ae12ee5ec931c8cf73ae42b",
+                "size_in_bytes": 21250
+            },
+            {
+                "_path": "include/flint/fmpz_poly.h",
+                "path_type": "hardlink",
+                "sha256": "27df0acb89a2c9d6b6184c4b4bda628fb6be214551cde3a393c022fc1345e039",
+                "sha256_in_prefix": "27df0acb89a2c9d6b6184c4b4bda628fb6be214551cde3a393c022fc1345e039",
+                "size_in_bytes": 57544
+            },
+            {
+                "_path": "include/flint/fmpz_poly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "031a96cf3db8726adb79df4d929ea59d21d4e0c8df702f728db32c473a037be3",
+                "sha256_in_prefix": "031a96cf3db8726adb79df4d929ea59d21d4e0c8df702f728db32c473a037be3",
+                "size_in_bytes": 5626
+            },
+            {
+                "_path": "include/flint/fmpz_poly_factorxx.h",
+                "path_type": "hardlink",
+                "sha256": "57c0a019dede74dec5e58154a734c68fac2bf5339b78d6cffb479940021f5976",
+                "sha256_in_prefix": "57c0a019dede74dec5e58154a734c68fac2bf5339b78d6cffb479940021f5976",
+                "size_in_bytes": 4691
+            },
+            {
+                "_path": "include/flint/fmpz_poly_mat.h",
+                "path_type": "hardlink",
+                "sha256": "0d509e7f2a4d1a4f2783cf7cc0e31f8fd590c9cd2a9675245ab7a24e5cb7cc7d",
+                "sha256_in_prefix": "0d509e7f2a4d1a4f2783cf7cc0e31f8fd590c9cd2a9675245ab7a24e5cb7cc7d",
+                "size_in_bytes": 9068
+            },
+            {
+                "_path": "include/flint/fmpz_poly_matxx.h",
+                "path_type": "hardlink",
+                "sha256": "192a9dcaee119dcacf293e46ad90c3dfed5c17cd210c1c9264b8658379eb0e63",
+                "sha256_in_prefix": "192a9dcaee119dcacf293e46ad90c3dfed5c17cd210c1c9264b8658379eb0e63",
+                "size_in_bytes": 17366
+            },
+            {
+                "_path": "include/flint/fmpz_poly_q.h",
+                "path_type": "hardlink",
+                "sha256": "9540c4295f3c1ed6612abcd618781673a5f88e1d766d18f271759cb3ceaadd7f",
+                "sha256_in_prefix": "9540c4295f3c1ed6612abcd618781673a5f88e1d766d18f271759cb3ceaadd7f",
+                "size_in_bytes": 5898
+            },
+            {
+                "_path": "include/flint/fmpz_poly_qxx.h",
+                "path_type": "hardlink",
+                "sha256": "3f948450e926181d4b8a220ec67f188c6a525b3490baba92ea16a24d4446de42",
+                "sha256_in_prefix": "3f948450e926181d4b8a220ec67f188c6a525b3490baba92ea16a24d4446de42",
+                "size_in_bytes": 10878
+            },
+            {
+                "_path": "include/flint/fmpz_polyxx.h",
+                "path_type": "hardlink",
+                "sha256": "1ce10fe8881064dcfd4554eb9b5e5c382bd52a4051586e4fad722b96f1150c6c",
+                "sha256_in_prefix": "1ce10fe8881064dcfd4554eb9b5e5c382bd52a4051586e4fad722b96f1150c6c",
+                "size_in_bytes": 36258
+            },
+            {
+                "_path": "include/flint/fmpz_vec.h",
+                "path_type": "hardlink",
+                "sha256": "fa44c415b8845553fc265b8c9d8c499cc344d4da58295aa03c56366425a80d1c",
+                "sha256_in_prefix": "fa44c415b8845553fc265b8c9d8c499cc344d4da58295aa03c56366425a80d1c",
+                "size_in_bytes": 10686
+            },
+            {
+                "_path": "include/flint/fmpz_vecxx.h",
+                "path_type": "hardlink",
+                "sha256": "2b3e0688df59fad02f12b0ce490398d4e7938054e8b02e31191d3b9b81747350",
+                "sha256_in_prefix": "2b3e0688df59fad02f12b0ce490398d4e7938054e8b02e31191d3b9b81747350",
+                "size_in_bytes": 2615
+            },
+            {
+                "_path": "include/flint/fmpzxx.h",
+                "path_type": "hardlink",
+                "sha256": "29e34647063d69dbfae7f9e00c5e9e862076e400bb1fd854227b610c06eb5f59",
+                "sha256_in_prefix": "29e34647063d69dbfae7f9e00c5e9e862076e400bb1fd854227b610c06eb5f59",
+                "size_in_bytes": 26260
+            },
+            {
+                "_path": "include/flint/fq.h",
+                "path_type": "hardlink",
+                "sha256": "9bde7084d3ece2bcd5f22251adbc038ab6b597bf0c1908bf8dbcc5416a65f026",
+                "sha256_in_prefix": "9bde7084d3ece2bcd5f22251adbc038ab6b597bf0c1908bf8dbcc5416a65f026",
+                "size_in_bytes": 11558
+            },
+            {
+                "_path": "include/flint/fq_default.h",
+                "path_type": "hardlink",
+                "sha256": "2c3553891b03f3bf7b62645d651f0ad964b84a908addd731ca1dc4953bf05069",
+                "sha256_in_prefix": "2c3553891b03f3bf7b62645d651f0ad964b84a908addd731ca1dc4953bf05069",
+                "size_in_bytes": 43676
+            },
+            {
+                "_path": "include/flint/fq_default_mat.h",
+                "path_type": "hardlink",
+                "sha256": "bd5c4dea0caf40e6ecd2c1fea6afa3276f6f66bd29dc9b2c2be32401afda04d9",
+                "sha256_in_prefix": "bd5c4dea0caf40e6ecd2c1fea6afa3276f6f66bd29dc9b2c2be32401afda04d9",
+                "size_in_bytes": 41968
+            },
+            {
+                "_path": "include/flint/fq_default_poly.h",
+                "path_type": "hardlink",
+                "sha256": "fc9f0a8a739f48684ae583805116787aef54aaafee89641e1473cbc20da965ea",
+                "sha256_in_prefix": "fc9f0a8a739f48684ae583805116787aef54aaafee89641e1473cbc20da965ea",
+                "size_in_bytes": 73765
+            },
+            {
+                "_path": "include/flint/fq_default_poly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "4959423b9c1d28f7300e19a68f464824e4d9ca5dc692fca5b6a5f35e509c8853",
+                "sha256_in_prefix": "4959423b9c1d28f7300e19a68f464824e4d9ca5dc692fca5b6a5f35e509c8853",
+                "size_in_bytes": 19168
+            },
+            {
+                "_path": "include/flint/fq_embed.h",
+                "path_type": "hardlink",
+                "sha256": "b90daee098f50a8a8d626539e81470f9f990761f03c05be2f29512d6a84291c0",
+                "sha256_in_prefix": "b90daee098f50a8a8d626539e81470f9f990761f03c05be2f29512d6a84291c0",
+                "size_in_bytes": 1729
+            },
+            {
+                "_path": "include/flint/fq_embed_templates.h",
+                "path_type": "hardlink",
+                "sha256": "2bb82b7ec5ed99a4f2b70daa0d62f31d269981f479313e546d36370c7e5c00af",
+                "sha256_in_prefix": "2bb82b7ec5ed99a4f2b70daa0d62f31d269981f479313e546d36370c7e5c00af",
+                "size_in_bytes": 4027
+            },
+            {
+                "_path": "include/flint/fq_mat.h",
+                "path_type": "hardlink",
+                "sha256": "a76d25fe431cf9f6e1d5436d8ac2ba657af3c516103a04b9c8d06cfc5b678038",
+                "sha256_in_prefix": "a76d25fe431cf9f6e1d5436d8ac2ba657af3c516103a04b9c8d06cfc5b678038",
+                "size_in_bytes": 1175
+            },
+            {
+                "_path": "include/flint/fq_mat_templates.h",
+                "path_type": "hardlink",
+                "sha256": "6258b490b1618b807aa2ce81644aadbd7bf16be74fae70f52571786e361d7bc4",
+                "sha256_in_prefix": "6258b490b1618b807aa2ce81644aadbd7bf16be74fae70f52571786e361d7bc4",
+                "size_in_bytes": 16260
+            },
+            {
+                "_path": "include/flint/fq_nmod.h",
+                "path_type": "hardlink",
+                "sha256": "0c6357ac62ee40b4a548e620d61624d09a79b22c9084a321ae708dd89d2c6863",
+                "sha256_in_prefix": "0c6357ac62ee40b4a548e620d61624d09a79b22c9084a321ae708dd89d2c6863",
+                "size_in_bytes": 14048
+            },
+            {
+                "_path": "include/flint/fq_nmod_embed.h",
+                "path_type": "hardlink",
+                "sha256": "b2142d77d4931884c9e5ff0b01ca3b97316e7e30db41be200e4b329fe2c303cc",
+                "sha256_in_prefix": "b2142d77d4931884c9e5ff0b01ca3b97316e7e30db41be200e4b329fe2c303cc",
+                "size_in_bytes": 1553
+            },
+            {
+                "_path": "include/flint/fq_nmod_mat.h",
+                "path_type": "hardlink",
+                "sha256": "989025b3974a274d51baeca67281bed7b7abcb5f3244281e54ca2cd2fa5663e2",
+                "sha256_in_prefix": "989025b3974a274d51baeca67281bed7b7abcb5f3244281e54ca2cd2fa5663e2",
+                "size_in_bytes": 1279
+            },
+            {
+                "_path": "include/flint/fq_nmod_mpoly.h",
+                "path_type": "hardlink",
+                "sha256": "2ff5c745c7f2c882327e819d7906e41dcd5f459a8e535de7b9a8a7ba6b181bfc",
+                "sha256_in_prefix": "2ff5c745c7f2c882327e819d7906e41dcd5f459a8e535de7b9a8a7ba6b181bfc",
+                "size_in_bytes": 71242
+            },
+            {
+                "_path": "include/flint/fq_nmod_mpoly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "79260e6d8ee5526561a364e85b094c33dfc6bd14b18e38058c255498dfc44e87",
+                "sha256_in_prefix": "79260e6d8ee5526561a364e85b094c33dfc6bd14b18e38058c255498dfc44e87",
+                "size_in_bytes": 17171
+            },
+            {
+                "_path": "include/flint/fq_nmod_poly.h",
+                "path_type": "hardlink",
+                "sha256": "d9688dd49a8471900bea650491d1efe4a9a0106e7f2dbe17fed9d640eae21cad",
+                "sha256_in_prefix": "d9688dd49a8471900bea650491d1efe4a9a0106e7f2dbe17fed9d640eae21cad",
+                "size_in_bytes": 1339
+            },
+            {
+                "_path": "include/flint/fq_nmod_poly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "c991ec207052a585dcc72e429fc0a931df95016cf9dd0b4613dc034853612bf7",
+                "sha256_in_prefix": "c991ec207052a585dcc72e429fc0a931df95016cf9dd0b4613dc034853612bf7",
+                "size_in_bytes": 1398
+            },
+            {
+                "_path": "include/flint/fq_nmod_vec.h",
+                "path_type": "hardlink",
+                "sha256": "5eecee20f54e92217108bdde6abac4691a89546bdd1a8ed17972b38c4d28d507",
+                "sha256_in_prefix": "5eecee20f54e92217108bdde6abac4691a89546bdd1a8ed17972b38c4d28d507",
+                "size_in_bytes": 1508
+            },
+            {
+                "_path": "include/flint/fq_poly.h",
+                "path_type": "hardlink",
+                "sha256": "afdb0f3e6bbc6710860c05c17773c6e6e7d9714494715217349ff04152b55930",
+                "sha256_in_prefix": "afdb0f3e6bbc6710860c05c17773c6e6e7d9714494715217349ff04152b55930",
+                "size_in_bytes": 1214
+            },
+            {
+                "_path": "include/flint/fq_poly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "401cba7f2868dbbd86368409cbcc899e15de25e5cbb6e3d78750974ed588bee2",
+                "sha256_in_prefix": "401cba7f2868dbbd86368409cbcc899e15de25e5cbb6e3d78750974ed588bee2",
+                "size_in_bytes": 1315
+            },
+            {
+                "_path": "include/flint/fq_poly_factor_templates.h",
+                "path_type": "hardlink",
+                "sha256": "39de7f6cee7e6412c1dfbb41fcbfbeb3e1b730e6783fc2c0addb1fefc9804fd4",
+                "sha256_in_prefix": "39de7f6cee7e6412c1dfbb41fcbfbeb3e1b730e6783fc2c0addb1fefc9804fd4",
+                "size_in_bytes": 7024
+            },
+            {
+                "_path": "include/flint/fq_poly_templates.h",
+                "path_type": "hardlink",
+                "sha256": "8ee562b7242e98feb94757d1dfefcd0e2498053b8c2b66e7ffa99913613105de",
+                "sha256_in_prefix": "8ee562b7242e98feb94757d1dfefcd0e2498053b8c2b66e7ffa99913613105de",
+                "size_in_bytes": 58365
+            },
+            {
+                "_path": "include/flint/fq_templates.h",
+                "path_type": "hardlink",
+                "sha256": "509187cd43cfaa453f68aba63937d29a79226fe42f9065503a2e69e31a55fd9b",
+                "sha256_in_prefix": "509187cd43cfaa453f68aba63937d29a79226fe42f9065503a2e69e31a55fd9b",
+                "size_in_bytes": 1847
+            },
+            {
+                "_path": "include/flint/fq_vec.h",
+                "path_type": "hardlink",
+                "sha256": "66a93668cc8ec2a7405311514a754c1d08a34899f5b3d99f9ab6339ac88f696e",
+                "sha256_in_prefix": "66a93668cc8ec2a7405311514a754c1d08a34899f5b3d99f9ab6339ac88f696e",
+                "size_in_bytes": 1448
+            },
+            {
+                "_path": "include/flint/fq_vec_templates.h",
+                "path_type": "hardlink",
+                "sha256": "d0c4fdff3a8e98060f28cbb6b97859860cc4d1fafddb9be174e283e3bb9812bd",
+                "sha256_in_prefix": "d0c4fdff3a8e98060f28cbb6b97859860cc4d1fafddb9be174e283e3bb9812bd",
+                "size_in_bytes": 5155
+            },
+            {
+                "_path": "include/flint/fq_zech.h",
+                "path_type": "hardlink",
+                "sha256": "42f4c201fb8111aa1557e9f0d54ec2385c4cd4d1cde1fab476a0572da89eee9d",
+                "sha256_in_prefix": "42f4c201fb8111aa1557e9f0d54ec2385c4cd4d1cde1fab476a0572da89eee9d",
+                "size_in_bytes": 10991
+            },
+            {
+                "_path": "include/flint/fq_zech_embed.h",
+                "path_type": "hardlink",
+                "sha256": "3d22ca2ce93e647bcfc59a33ba393fac2772863f5b7d6070e5c8bf91a70b0aff",
+                "sha256_in_prefix": "3d22ca2ce93e647bcfc59a33ba393fac2772863f5b7d6070e5c8bf91a70b0aff",
+                "size_in_bytes": 1880
+            },
+            {
+                "_path": "include/flint/fq_zech_mat.h",
+                "path_type": "hardlink",
+                "sha256": "958d0185c7d7bbeaf9f7b3c7491fb594dfac961c8add22e55ee7e1a9a7d80150",
+                "sha256_in_prefix": "958d0185c7d7bbeaf9f7b3c7491fb594dfac961c8add22e55ee7e1a9a7d80150",
+                "size_in_bytes": 1254
+            },
+            {
+                "_path": "include/flint/fq_zech_mpoly.h",
+                "path_type": "hardlink",
+                "sha256": "c0e2a3193662a3409ac6b6c33fb74c003d9cd41fa5991e870255bef39f839264",
+                "sha256_in_prefix": "c0e2a3193662a3409ac6b6c33fb74c003d9cd41fa5991e870255bef39f839264",
+                "size_in_bytes": 34327
+            },
+            {
+                "_path": "include/flint/fq_zech_mpoly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "cc441b77b19a6995e99ec4efbb8d7f531304972c25b07b56909decdcfcb66fe5",
+                "sha256_in_prefix": "cc441b77b19a6995e99ec4efbb8d7f531304972c25b07b56909decdcfcb66fe5",
+                "size_in_bytes": 21494
+            },
+            {
+                "_path": "include/flint/fq_zech_poly.h",
+                "path_type": "hardlink",
+                "sha256": "e4e56adf4ac1a0fc6bb28c52ad24a371f68e03eb572aeedda79c5d6c76e7ec3b",
+                "sha256_in_prefix": "e4e56adf4ac1a0fc6bb28c52ad24a371f68e03eb572aeedda79c5d6c76e7ec3b",
+                "size_in_bytes": 1319
+            },
+            {
+                "_path": "include/flint/fq_zech_poly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "dad5306b02ae3b36826a41c60b6b4e4265ad27d61c8f13a07ce795ff4f8fc812",
+                "sha256_in_prefix": "dad5306b02ae3b36826a41c60b6b4e4265ad27d61c8f13a07ce795ff4f8fc812",
+                "size_in_bytes": 1317
+            },
+            {
+                "_path": "include/flint/fq_zech_vec.h",
+                "path_type": "hardlink",
+                "sha256": "c344fc605ecb3faf59826f23313922e75cb1d906fa98cf8e651bbade49c344b5",
+                "sha256_in_prefix": "c344fc605ecb3faf59826f23313922e75cb1d906fa98cf8e651bbade49c344b5",
+                "size_in_bytes": 1508
+            },
+            {
+                "_path": "include/flint/gmpcompat.h",
+                "path_type": "hardlink",
+                "sha256": "981791126c1bad71b193952a1c6efafa4840053d20e291f71723ad98110283f8",
+                "sha256_in_prefix": "981791126c1bad71b193952a1c6efafa4840053d20e291f71723ad98110283f8",
+                "size_in_bytes": 27567
+            },
+            {
+                "_path": "include/flint/hashmap.h",
+                "path_type": "hardlink",
+                "sha256": "2b56ee97f1482adf91511a4393affba3927b8960d1d8ef9aa260449b15844fa5",
+                "sha256_in_prefix": "2b56ee97f1482adf91511a4393affba3927b8960d1d8ef9aa260449b15844fa5",
+                "size_in_bytes": 2623
+            },
+            {
+                "_path": "include/flint/long_extras.h",
+                "path_type": "hardlink",
+                "sha256": "c01c27ef43adfd3554069a0219029107e6cebde4e9b265f2663676129ea4d071",
+                "sha256_in_prefix": "c01c27ef43adfd3554069a0219029107e6cebde4e9b265f2663676129ea4d071",
+                "size_in_bytes": 1994
+            },
+            {
+                "_path": "include/flint/longlong.h",
+                "path_type": "hardlink",
+                "sha256": "5778041307de5dbfd3d21b8a3ac5ef4ce5fc8ae5a04facb2d0f2ad6e4bfe11d8",
+                "sha256_in_prefix": "5778041307de5dbfd3d21b8a3ac5ef4ce5fc8ae5a04facb2d0f2ad6e4bfe11d8",
+                "size_in_bytes": 39849
+            },
+            {
+                "_path": "include/flint/mpf_mat.h",
+                "path_type": "hardlink",
+                "sha256": "460e082310f80be48c7547a4eb343e43c2a1995bb34de6c6c11ec438bb4b3a5e",
+                "sha256_in_prefix": "460e082310f80be48c7547a4eb343e43c2a1995bb34de6c6c11ec438bb4b3a5e",
+                "size_in_bytes": 3150
+            },
+            {
+                "_path": "include/flint/mpf_vec.h",
+                "path_type": "hardlink",
+                "sha256": "2048eb97635102bcbc5dedf765f6c30ca751c700f05988c3a5aaed8de0c490ba",
+                "sha256_in_prefix": "2048eb97635102bcbc5dedf765f6c30ca751c700f05988c3a5aaed8de0c490ba",
+                "size_in_bytes": 2569
+            },
+            {
+                "_path": "include/flint/mpfr_mat.h",
+                "path_type": "hardlink",
+                "sha256": "946a3adc3bd36a275889bc14fcb01fd386bc0b2b8d61f5ff4c3da10c188cdba7",
+                "sha256_in_prefix": "946a3adc3bd36a275889bc14fcb01fd386bc0b2b8d61f5ff4c3da10c188cdba7",
+                "size_in_bytes": 2147
+            },
+            {
+                "_path": "include/flint/mpfr_vec.h",
+                "path_type": "hardlink",
+                "sha256": "b583284a43394a660203aede29a1811bcfe50c33b73759b1ee099b5b37ac7e14",
+                "sha256_in_prefix": "b583284a43394a660203aede29a1811bcfe50c33b73759b1ee099b5b37ac7e14",
+                "size_in_bytes": 1583
+            },
+            {
+                "_path": "include/flint/mpn_extras.h",
+                "path_type": "hardlink",
+                "sha256": "ec99d48d7a00de2819f516bef82bd092a5a5e44a095e773febd8c771e9a0cfb8",
+                "sha256_in_prefix": "ec99d48d7a00de2819f516bef82bd092a5a5e44a095e773febd8c771e9a0cfb8",
+                "size_in_bytes": 12707
+            },
+            {
+                "_path": "include/flint/mpoly.h",
+                "path_type": "hardlink",
+                "sha256": "c779303f8ba980c68746a54aaa485bf0d6f7e29b9b6ed69f0665ce5ce2d90b5f",
+                "sha256_in_prefix": "c779303f8ba980c68746a54aaa485bf0d6f7e29b9b6ed69f0665ce5ce2d90b5f",
+                "size_in_bytes": 53762
+            },
+            {
+                "_path": "include/flint/n_poly.h",
+                "path_type": "hardlink",
+                "sha256": "5c4d44e21b99fd8a0da75158ee03ea91273d15faed7d5ea7eb9eaef155dfec78",
+                "sha256_in_prefix": "5c4d44e21b99fd8a0da75158ee03ea91273d15faed7d5ea7eb9eaef155dfec78",
+                "size_in_bytes": 51546
+            },
+            {
+                "_path": "include/flint/nmod.h",
+                "path_type": "hardlink",
+                "sha256": "7eec01d75bfcb6fe1be06aba2c3f3cd31e58278f6c79597a1d442a1498659456",
+                "sha256_in_prefix": "7eec01d75bfcb6fe1be06aba2c3f3cd31e58278f6c79597a1d442a1498659456",
+                "size_in_bytes": 7132
+            },
+            {
+                "_path": "include/flint/nmod_mat.h",
+                "path_type": "hardlink",
+                "sha256": "1a647dfcceae707a5b371d235c3c17efd7191a7bd114f800b6154fd7722d4ae2",
+                "sha256_in_prefix": "1a647dfcceae707a5b371d235c3c17efd7191a7bd114f800b6154fd7722d4ae2",
+                "size_in_bytes": 13257
+            },
+            {
+                "_path": "include/flint/nmod_matxx.h",
+                "path_type": "hardlink",
+                "sha256": "1ccbfd5a820984de69bd476a8caf0c4afd0e776c201164892927dad58670608a",
+                "sha256_in_prefix": "1ccbfd5a820984de69bd476a8caf0c4afd0e776c201164892927dad58670608a",
+                "size_in_bytes": 18354
+            },
+            {
+                "_path": "include/flint/nmod_mpoly.h",
+                "path_type": "hardlink",
+                "sha256": "edb23aefcf4d06320b6e2dd141a6ebc69e5991f65b156ceb93420b834330a3c2",
+                "sha256_in_prefix": "edb23aefcf4d06320b6e2dd141a6ebc69e5991f65b156ceb93420b834330a3c2",
+                "size_in_bytes": 75718
+            },
+            {
+                "_path": "include/flint/nmod_mpoly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "29616e10f53d16d0f303b0cbd65a8664d4c9e752bc6ed91493e34cb6d46217d0",
+                "sha256_in_prefix": "29616e10f53d16d0f303b0cbd65a8664d4c9e752bc6ed91493e34cb6d46217d0",
+                "size_in_bytes": 19511
+            },
+            {
+                "_path": "include/flint/nmod_poly.h",
+                "path_type": "hardlink",
+                "sha256": "b6259df83c688cba748364427bf67a13e9f3ac7cd41b65421005a97b245fcced",
+                "sha256_in_prefix": "b6259df83c688cba748364427bf67a13e9f3ac7cd41b65421005a97b245fcced",
+                "size_in_bytes": 60207
+            },
+            {
+                "_path": "include/flint/nmod_poly_factor.h",
+                "path_type": "hardlink",
+                "sha256": "3e88039d93ec754e40e2e19546a5f9b6f5b4d922545001369712aacbd2c00f9f",
+                "sha256_in_prefix": "3e88039d93ec754e40e2e19546a5f9b6f5b4d922545001369712aacbd2c00f9f",
+                "size_in_bytes": 5334
+            },
+            {
+                "_path": "include/flint/nmod_poly_mat.h",
+                "path_type": "hardlink",
+                "sha256": "36d0beb47ff96a9e6fa16ed09f724de112c4b6d4a241ca47859250ed54f99286",
+                "sha256_in_prefix": "36d0beb47ff96a9e6fa16ed09f724de112c4b6d4a241ca47859250ed54f99286",
+                "size_in_bytes": 8424
+            },
+            {
+                "_path": "include/flint/nmod_poly_matxx.h",
+                "path_type": "hardlink",
+                "sha256": "d65eaa5131da35a7a38caa3a7ebcada5346e963b9968593f9c5a9ed676a40a70",
+                "sha256_in_prefix": "d65eaa5131da35a7a38caa3a7ebcada5346e963b9968593f9c5a9ed676a40a70",
+                "size_in_bytes": 15120
+            },
+            {
+                "_path": "include/flint/nmod_polyxx.h",
+                "path_type": "hardlink",
+                "sha256": "bcee15f17da7ffce4d931b3451aa71eaa613af41a75f1cf7b8f5c56f9545036f",
+                "sha256_in_prefix": "bcee15f17da7ffce4d931b3451aa71eaa613af41a75f1cf7b8f5c56f9545036f",
+                "size_in_bytes": 37548
+            },
+            {
+                "_path": "include/flint/nmod_vec.h",
+                "path_type": "hardlink",
+                "sha256": "61d914a2f4e3737bc751ceff1a9207391f0aad2a5e51f9443ac07f40dc086b08",
+                "sha256_in_prefix": "61d914a2f4e3737bc751ceff1a9207391f0aad2a5e51f9443ac07f40dc086b08",
+                "size_in_bytes": 8305
+            },
+            {
+                "_path": "include/flint/nmod_vecxx.h",
+                "path_type": "hardlink",
+                "sha256": "9781792f242cfd6faa117388483a2536b96d2fa28dd61a94e9c69714a01602de",
+                "sha256_in_prefix": "9781792f242cfd6faa117388483a2536b96d2fa28dd61a94e9c69714a01602de",
+                "size_in_bytes": 11698
+            },
+            {
+                "_path": "include/flint/padic.h",
+                "path_type": "hardlink",
+                "sha256": "be3c31ff234d1e17bf2683c0529e655b6ddf69e0faf00a617f342ec7f29312f9",
+                "sha256_in_prefix": "be3c31ff234d1e17bf2683c0529e655b6ddf69e0faf00a617f342ec7f29312f9",
+                "size_in_bytes": 10542
+            },
+            {
+                "_path": "include/flint/padic_mat.h",
+                "path_type": "hardlink",
+                "sha256": "09c176849272ed29976c57f69324abd2dfd911a3dbcdf5b9edd7681a8afb617b",
+                "sha256_in_prefix": "09c176849272ed29976c57f69324abd2dfd911a3dbcdf5b9edd7681a8afb617b",
+                "size_in_bytes": 8493
+            },
+            {
+                "_path": "include/flint/padic_matxx.h",
+                "path_type": "hardlink",
+                "sha256": "9899293880fdd6914c3283a94e1327ef52a0728ebc66d64229fb715c2b5e3250",
+                "sha256_in_prefix": "9899293880fdd6914c3283a94e1327ef52a0728ebc66d64229fb715c2b5e3250",
+                "size_in_bytes": 11051
+            },
+            {
+                "_path": "include/flint/padic_poly.h",
+                "path_type": "hardlink",
+                "sha256": "5d3640930dbca7c47470e2e46e7bd0503274e096a4c03dddbf46e283e4ae1c4e",
+                "sha256_in_prefix": "5d3640930dbca7c47470e2e46e7bd0503274e096a4c03dddbf46e283e4ae1c4e",
+                "size_in_bytes": 13985
+            },
+            {
+                "_path": "include/flint/padic_polyxx.h",
+                "path_type": "hardlink",
+                "sha256": "29e2d7970ba885037a8e51e1ef2c89c1f0557c577723b19fe70dfe3c3a70b735",
+                "sha256_in_prefix": "29e2d7970ba885037a8e51e1ef2c89c1f0557c577723b19fe70dfe3c3a70b735",
+                "size_in_bytes": 14097
+            },
+            {
+                "_path": "include/flint/padicxx.h",
+                "path_type": "hardlink",
+                "sha256": "d4e0c955ee534f8faf0d09812dc026f74cda9a6c7d07f4610b3e4308078b86ce",
+                "sha256_in_prefix": "d4e0c955ee534f8faf0d09812dc026f74cda9a6c7d07f4610b3e4308078b86ce",
+                "size_in_bytes": 23375
+            },
+            {
+                "_path": "include/flint/perm.h",
+                "path_type": "hardlink",
+                "sha256": "3d27010c15fe6af4d00013236105890762209b11abe43e2459b6d5237bcf5932",
+                "sha256_in_prefix": "3d27010c15fe6af4d00013236105890762209b11abe43e2459b6d5237bcf5932",
+                "size_in_bytes": 3671
+            },
+            {
+                "_path": "include/flint/permxx.h",
+                "path_type": "hardlink",
+                "sha256": "78f138d9d3ff3f681f6b0534bb5073658d181ddb1b41ec60f9e543ffe7566aa7",
+                "sha256_in_prefix": "78f138d9d3ff3f681f6b0534bb5073658d181ddb1b41ec60f9e543ffe7566aa7",
+                "size_in_bytes": 2807
+            },
+            {
+                "_path": "include/flint/profiler.h",
+                "path_type": "hardlink",
+                "sha256": "021ad061b3890c054d2462c6673ba4d46ccc18a9070c6570651d81c4c1c918da",
+                "sha256_in_prefix": "021ad061b3890c054d2462c6673ba4d46ccc18a9070c6570651d81c4c1c918da",
+                "size_in_bytes": 5819
+            },
+            {
+                "_path": "include/flint/qadic.h",
+                "path_type": "hardlink",
+                "sha256": "c9d62f31344ad0727f1f9ccf7c12a8fb4fc206f532c8c04382005b422cc4fe06",
+                "sha256_in_prefix": "c9d62f31344ad0727f1f9ccf7c12a8fb4fc206f532c8c04382005b422cc4fe06",
+                "size_in_bytes": 13024
+            },
+            {
+                "_path": "include/flint/qadicxx.h",
+                "path_type": "hardlink",
+                "sha256": "2f3f5ae62127fd993c33cc923beffd32cbf1413b62fe3050e804a8cba0f428dc",
+                "sha256_in_prefix": "2f3f5ae62127fd993c33cc923beffd32cbf1413b62fe3050e804a8cba0f428dc",
+                "size_in_bytes": 13246
+            },
+            {
+                "_path": "include/flint/qsieve.h",
+                "path_type": "hardlink",
+                "sha256": "bd098390d6db0c23378c03914da455a98fac65048192e119a0a001e1be841f20",
+                "sha256_in_prefix": "bd098390d6db0c23378c03914da455a98fac65048192e119a0a001e1be841f20",
+                "size_in_bytes": 16271
+            },
+            {
+                "_path": "include/flint/templates.h",
+                "path_type": "hardlink",
+                "sha256": "434a6c7eeedf87709cf23d139789b7f5f9702e8d58d9eefe8f788802b1a4443c",
+                "sha256_in_prefix": "434a6c7eeedf87709cf23d139789b7f5f9702e8d58d9eefe8f788802b1a4443c",
+                "size_in_bytes": 1266
+            },
+            {
+                "_path": "include/flint/thread_pool.h",
+                "path_type": "hardlink",
+                "sha256": "6c97d354cc3dd836023564611cc7157950af6cbbf80f9cd846e847d8d2fc986c",
+                "sha256_in_prefix": "6c97d354cc3dd836023564611cc7157950af6cbbf80f9cd846e847d8d2fc986c",
+                "size_in_bytes": 2786
+            },
+            {
+                "_path": "include/flint/thread_support.h",
+                "path_type": "hardlink",
+                "sha256": "f3fb3713187ebcbd6e5257b5ea3860938a4b509412a9a4145c5621dc9e8cd31b",
+                "sha256_in_prefix": "f3fb3713187ebcbd6e5257b5ea3860938a4b509412a9a4145c5621dc9e8cd31b",
+                "size_in_bytes": 1796
+            },
+            {
+                "_path": "include/flint/ulong_extras.h",
+                "path_type": "hardlink",
+                "sha256": "101bfb45b73bae89729bf9d603bdf5bf90eca1572015dc62d3045c43545d394e",
+                "sha256_in_prefix": "101bfb45b73bae89729bf9d603bdf5bf90eca1572015dc62d3045c43545d394e",
+                "size_in_bytes": 14759
+            },
+            {
+                "_path": "lib/libflint.so",
+                "path_type": "softlink",
+                "sha256_in_prefix": "28e918f2543cad6243b9afef6f56f77122f8e9a24ca261222b2d630c412babed",
+                "size_in_bytes": 60581048
+            },
+            {
+                "_path": "lib/libflint.so.17",
+                "path_type": "softlink",
+                "sha256_in_prefix": "28e918f2543cad6243b9afef6f56f77122f8e9a24ca261222b2d630c412babed",
+                "size_in_bytes": 60581048
+            },
+            {
+                "_path": "lib/libflint.so.17.0.0",
+                "path_type": "hardlink",
+                "sha256": "28e918f2543cad6243b9afef6f56f77122f8e9a24ca261222b2d630c412babed",
+                "sha256_in_prefix": "28e918f2543cad6243b9afef6f56f77122f8e9a24ca261222b2d630c412babed",
+                "size_in_bytes": 60581048
+            }
+        ],
+        "paths_version": 1
+    },
+    "platform": "linux",
+    "requested_spec": "",
+    "sha256": "077faca38e526f0c6d153ee24291b925fa2cef184ff7fabfa3b0493d16d85d1a",
+    "size": 16787963,
+    "subdir": "linux-64",
+    "timestamp": 1659679441269,
+    "track_features": "",
+    "url": "https://conda.anaconda.org/conda-forge/linux-64/libflint-2.9.0-h2f819a4_ntl_100.tar.bz2",
+    "version": "2.9.0"
+}

@@ -1,0 +1,10 @@
+prefix=/files/home/part8/qpreiss/Bookworm/Documents/MonitoredQuantumCircuits/.CondaPkg/env
+exec_prefix=${prefix}
+libdir=/files/home/part8/qpreiss/Bookworm/Documents/MonitoredQuantumCircuits/.CondaPkg/env/lib
+includedir=/files/home/part8/qpreiss/Bookworm/Documents/MonitoredQuantumCircuits/.CondaPkg/env/include
+
+Name: gf2x
+Description: C library for multiplying polynomials over the binary field
+Version: 1.3.0
+Libs: -L${libdir} -lgf2x
+Cflags: -I${includedir}

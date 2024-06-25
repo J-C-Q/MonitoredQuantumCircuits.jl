@@ -1,0 +1,813 @@
+{
+    "arch": null,
+    "build": "pyhd8ed1ab_0",
+    "build_number": 0,
+    "build_string": "pyhd8ed1ab_0",
+    "channel": "https://conda.anaconda.org/conda-forge/noarch",
+    "constrains": [],
+    "depends": [
+        "pyjwt <3.0.0,>=2.8.0",
+        "python >=3.7",
+        "python-dateutil <3.0.0,>=2.8.2",
+        "requests <3.0.0,>=2.31.0",
+        "urllib3 <3.0.0,>=2.1.0"
+    ],
+    "extracted_package_dir": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/ibm-cloud-sdk-core-3.20.0-pyhd8ed1ab_0",
+    "files": [
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/INSTALLER",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/LICENSE",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/METADATA",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/RECORD",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/REQUESTED",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/WHEEL",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/direct_url.json",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/top_level.txt",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/zip-safe",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/__init__.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/api_exception.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__init__.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/authenticator.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/basic_authenticator.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/bearer_token_authenticator.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/container_authenticator.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/cp4d_authenticator.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/iam_authenticator.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/iam_request_based_authenticator.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/mcsp_authenticator.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/no_auth_authenticator.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/vpc_instance_authenticator.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/base_service.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/detailed_response.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/get_authenticator.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/private_helpers.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__init__.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/container_token_manager.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/cp4d_token_manager.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/iam_request_based_token_manager.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/iam_token_manager.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/jwt_token_manager.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/mcsp_token_manager.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/token_manager.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/vpc_instance_token_manager.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/utils.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/version.py",
+        "lib/python3.12/site-packages/test/__init__.py",
+        "lib/python3.12/site-packages/test/test_api_exception.py",
+        "lib/python3.12/site-packages/test/test_authenticator.py",
+        "lib/python3.12/site-packages/test/test_base_service.py",
+        "lib/python3.12/site-packages/test/test_basic_authenticator.py",
+        "lib/python3.12/site-packages/test/test_bearer_authenticator.py",
+        "lib/python3.12/site-packages/test/test_container_authenticator.py",
+        "lib/python3.12/site-packages/test/test_container_token_manager.py",
+        "lib/python3.12/site-packages/test/test_cp4d_authenticator.py",
+        "lib/python3.12/site-packages/test/test_cp4d_token_manager.py",
+        "lib/python3.12/site-packages/test/test_detailed_response.py",
+        "lib/python3.12/site-packages/test/test_iam_authenticator.py",
+        "lib/python3.12/site-packages/test/test_iam_token_manager.py",
+        "lib/python3.12/site-packages/test/test_jwt_token_manager.py",
+        "lib/python3.12/site-packages/test/test_mcsp_authenticator.py",
+        "lib/python3.12/site-packages/test/test_mcsp_token_manager.py",
+        "lib/python3.12/site-packages/test/test_no_auth_authenticator.py",
+        "lib/python3.12/site-packages/test/test_token_manager.py",
+        "lib/python3.12/site-packages/test/test_utils.py",
+        "lib/python3.12/site-packages/test/test_vpc_instance_authenticator.py",
+        "lib/python3.12/site-packages/test/test_vpc_instance_token_manager.py",
+        "lib/python3.12/site-packages/test_integration/__init__.py",
+        "lib/python3.12/site-packages/test_integration/test_cp4d_authenticator_integration.py",
+        "lib/python3.12/site-packages/test_integration/test_iam_authenticator_integration.py",
+        "lib/python3.12/site-packages/test_integration/test_mcsp_authenticator_integration.py",
+        "lib/python3.12/site-packages/test_integration/test_ssl_verification.py",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/api_exception.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/basic_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/bearer_token_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/container_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/cp4d_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/iam_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/iam_request_based_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/mcsp_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/no_auth_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/vpc_instance_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/base_service.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/detailed_response.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/get_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/private_helpers.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/container_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/cp4d_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/iam_request_based_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/iam_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/jwt_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/mcsp_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/vpc_instance_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/utils.cpython-312.pyc",
+        "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/version.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_api_exception.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_base_service.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_basic_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_bearer_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_container_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_container_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_cp4d_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_cp4d_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_detailed_response.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_iam_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_iam_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_jwt_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_mcsp_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_mcsp_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_no_auth_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_utils.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_vpc_instance_authenticator.cpython-312.pyc",
+        "lib/python3.12/site-packages/test/__pycache__/test_vpc_instance_token_manager.cpython-312.pyc",
+        "lib/python3.12/site-packages/test_integration/__pycache__/__init__.cpython-312.pyc",
+        "lib/python3.12/site-packages/test_integration/__pycache__/test_cp4d_authenticator_integration.cpython-312.pyc",
+        "lib/python3.12/site-packages/test_integration/__pycache__/test_iam_authenticator_integration.cpython-312.pyc",
+        "lib/python3.12/site-packages/test_integration/__pycache__/test_mcsp_authenticator_integration.cpython-312.pyc",
+        "lib/python3.12/site-packages/test_integration/__pycache__/test_ssl_verification.cpython-312.pyc"
+    ],
+    "fn": "ibm-cloud-sdk-core-3.20.0-pyhd8ed1ab_0.conda",
+    "license": "Apache-2.0",
+    "link": {
+        "source": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/ibm-cloud-sdk-core-3.20.0-pyhd8ed1ab_0",
+        "type": 1
+    },
+    "md5": "967912f75161d8f07510ed9fea7e0454",
+    "name": "ibm-cloud-sdk-core",
+    "noarch": "python",
+    "package_tarball_full_path": "/files/home/part8/qpreiss/Bookworm/.julia/scratchspaces/0b3b1443-0f03-428d-bdfb-f27f9c1191ea/root/pkgs/ibm-cloud-sdk-core-3.20.0-pyhd8ed1ab_0.tar.bz2",
+    "paths_data": {
+        "paths": [
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/INSTALLER",
+                "path_type": "hardlink",
+                "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+                "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+                "size_in_bytes": 5
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/LICENSE",
+                "path_type": "hardlink",
+                "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+                "sha256_in_prefix": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+                "size_in_bytes": 11357
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/METADATA",
+                "path_type": "hardlink",
+                "sha256": "43284bdf479ec643a5d5b755e6bc5a85cc9d715f3e44baa60059910d5b318700",
+                "sha256_in_prefix": "43284bdf479ec643a5d5b755e6bc5a85cc9d715f3e44baa60059910d5b318700",
+                "size_in_bytes": 4483
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/RECORD",
+                "path_type": "hardlink",
+                "sha256": "b6141e5057d5dfe3c096f00b5e92e28c5444ab2573958f735456c0ab48abe1b4",
+                "sha256_in_prefix": "b6141e5057d5dfe3c096f00b5e92e28c5444ab2573958f735456c0ab48abe1b4",
+                "size_in_bytes": 10078
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/REQUESTED",
+                "path_type": "hardlink",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/WHEEL",
+                "path_type": "hardlink",
+                "sha256": "189eedfe4581172c1b6a02b97a8f48a14c0b5baa3239e4ca990fbd8871553714",
+                "sha256_in_prefix": "189eedfe4581172c1b6a02b97a8f48a14c0b5baa3239e4ca990fbd8871553714",
+                "size_in_bytes": 92
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/direct_url.json",
+                "path_type": "hardlink",
+                "sha256": "92a561ad2fef77bf55f74f0efe23dfc5b72f1b5f67289c17cc44b1aa9352422b",
+                "sha256_in_prefix": "92a561ad2fef77bf55f74f0efe23dfc5b72f1b5f67289c17cc44b1aa9352422b",
+                "size_in_bytes": 114
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/top_level.txt",
+                "path_type": "hardlink",
+                "sha256": "d7a9538823a82793d46131b0f513a013ddd85abc2a811d6c454e9f25c53b8745",
+                "sha256_in_prefix": "d7a9538823a82793d46131b0f513a013ddd85abc2a811d6c454e9f25c53b8745",
+                "size_in_bytes": 41
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core-3.20.0.dist-info/zip-safe",
+                "path_type": "hardlink",
+                "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+                "size_in_bytes": 1
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "11fecfdebf8a995c2861057d6cfd33bda0d296026d8da4dc0d8417995be6d19b",
+                "sha256_in_prefix": "11fecfdebf8a995c2861057d6cfd33bda0d296026d8da4dc0d8417995be6d19b",
+                "size_in_bytes": 2853
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/api_exception.py",
+                "path_type": "hardlink",
+                "sha256": "60d77b0e0ff28b070793e000facb8d962be0cab03d037d83a35aad61e2b3b967",
+                "sha256_in_prefix": "60d77b0e0ff28b070793e000facb8d962be0cab03d037d83a35aad61e2b3b967",
+                "size_in_bytes": 3654
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "65efc0ac3a8c5a4d57af7d75757a474ed254258376bbc8c2a61a064cb068c3d3",
+                "sha256_in_prefix": "65efc0ac3a8c5a4d57af7d75757a474ed254258376bbc8c2a61a064cb068c3d3",
+                "size_in_bytes": 2133
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "7724d00c402195c378cbec326d380cc9c48ee5d0b6a4b9edc772822532461dd4",
+                "sha256_in_prefix": "7724d00c402195c378cbec326d380cc9c48ee5d0b6a4b9edc772822532461dd4",
+                "size_in_bytes": 1979
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/basic_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "9a81dfaa62342de920b2b9749232ef87251b70c861eed3cf640aca9fd396fe04",
+                "sha256_in_prefix": "9a81dfaa62342de920b2b9749232ef87251b70c861eed3cf640aca9fd396fe04",
+                "size_in_bytes": 3129
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/bearer_token_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "2ada0de258042086d18962c91dfb4f8cafc22d08ffb31e659ab736c66d44ee69",
+                "sha256_in_prefix": "2ada0de258042086d18962c91dfb4f8cafc22d08ffb31e659ab736c66d44ee69",
+                "size_in_bytes": 2623
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/container_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "18a6074df94b88a866f7117929901c8d85cf377c84d8fced744af66ce654c0a1",
+                "sha256_in_prefix": "18a6074df94b88a866f7117929901c8d85cf377c84d8fced744af66ce654c0a1",
+                "size_in_bytes": 7042
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/cp4d_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "2c628ef6916d22038ce6f8317098cbcb36cb9dfcc734180f733f72c5b4e64382",
+                "sha256_in_prefix": "2c628ef6916d22038ce6f8317098cbcb36cb9dfcc734180f733f72c5b4e64382",
+                "size_in_bytes": 6751
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/iam_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "ce0a00d4b82f78682c85e4b0fd9433665fd4572b4384ef675c1f16042b57f892",
+                "sha256_in_prefix": "ce0a00d4b82f78682c85e4b0fd9433665fd4572b4384ef675c1f16042b57f892",
+                "size_in_bytes": 4596
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/iam_request_based_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "25451917f520590980f54e96c6c7521f3b8bdd1e9fc440dd0b45601c7b756209",
+                "sha256_in_prefix": "25451917f520590980f54e96c6c7521f3b8bdd1e9fc440dd0b45601c7b756209",
+                "size_in_bytes": 4515
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/mcsp_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "17a6f8b3b41792a58fff996cdb58d93eabb1233ec77c59bb313a2d56d558ddf0",
+                "sha256_in_prefix": "17a6f8b3b41792a58fff996cdb58d93eabb1233ec77c59bb313a2d56d558ddf0",
+                "size_in_bytes": 5179
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/no_auth_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "773b94e88242d7d4a87151f2ec5ca59fac6b7c6be5aa75c6794351f6596ca58a",
+                "sha256_in_prefix": "773b94e88242d7d4a87151f2ec5ca59fac6b7c6be5aa75c6794351f6596ca58a",
+                "size_in_bytes": 979
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/vpc_instance_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "c5d5878c6585a12cdfd1b0747e79d3f5f4ecf8def4f1c9d4c5127623e91440c1",
+                "sha256_in_prefix": "c5d5878c6585a12cdfd1b0747e79d3f5f4ecf8def4f1c9d4c5127623e91440c1",
+                "size_in_bytes": 5243
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/base_service.py",
+                "path_type": "hardlink",
+                "sha256": "df841621637d5d47a78d794b7d5b771f0ebef378b3e88893760e40551fa372b5",
+                "sha256_in_prefix": "df841621637d5d47a78d794b7d5b771f0ebef378b3e88893760e40551fa372b5",
+                "size_in_bytes": 20804
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/detailed_response.py",
+                "path_type": "hardlink",
+                "sha256": "09c2ebb9955e7c09ed703e665ee5a747506a1e8777a7783a33f60b54c150f0d5",
+                "sha256_in_prefix": "09c2ebb9955e7c09ed703e665ee5a747506a1e8777a7783a33f60b54c150f0d5",
+                "size_in_bytes": 3100
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/get_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "19c2a4f0b235c57d400b44b9c77490c686902677b82b469efca3dff1b3608b9d",
+                "sha256_in_prefix": "19c2a4f0b235c57d400b44b9c77490c686902677b82b469efca3dff1b3608b9d",
+                "size_in_bytes": 4577
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/private_helpers.py",
+                "path_type": "hardlink",
+                "sha256": "e5e8bd80dc2e37e8a7349d96a8c5dc5c43df2ccd4d00b38b8b8b9c2cc718a216",
+                "sha256_in_prefix": "e5e8bd80dc2e37e8a7349d96a8c5dc5c43df2ccd4d00b38b8b8b9c2cc718a216",
+                "size_in_bytes": 1181
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "3448a29aceaa07c768c6aeb0b654c160221dc1fdb0462313ad5d1b81fbfb5808",
+                "sha256_in_prefix": "3448a29aceaa07c768c6aeb0b654c160221dc1fdb0462313ad5d1b81fbfb5808",
+                "size_in_bytes": 606
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/container_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "8e4389a32f52bad22f62bc2841f9bd390e257e7d252388c935f70816202a87d3",
+                "sha256_in_prefix": "8e4389a32f52bad22f62bc2841f9bd390e257e7d252388c935f70816202a87d3",
+                "size_in_bytes": 9505
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/cp4d_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "50367f282edf8fd75dd6d58250c51284b1d869eae1125e94a014a153e1ea4132",
+                "sha256_in_prefix": "50367f282edf8fd75dd6d58250c51284b1d869eae1125e94a014a153e1ea4132",
+                "size_in_bytes": 4947
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/iam_request_based_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "28ecf96978c77d8582416a92a6f7fbbcd2c4cd9ab464a2c01d5b47cdc9d029f6",
+                "sha256_in_prefix": "28ecf96978c77d8582416a92a6f7fbbcd2c4cd9ab464a2c01d5b47cdc9d029f6",
+                "size_in_bytes": 8314
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/iam_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "608f5ffe9fa27b00fd73512232a0ad022eda4b13b64ee8c11c566d0109708f7e",
+                "sha256_in_prefix": "608f5ffe9fa27b00fd73512232a0ad022eda4b13b64ee8c11c566d0109708f7e",
+                "size_in_bytes": 4357
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/jwt_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "14305dbe2ae651c26ee6f21be69761aa841e152ea3d060520ec1741ed2e3838f",
+                "sha256_in_prefix": "14305dbe2ae651c26ee6f21be69761aa841e152ea3d060520ec1741ed2e3838f",
+                "size_in_bytes": 3785
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/mcsp_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "aa8dac94e2d47f1676f7a88ee9f95011b259b582930fd5d786e1ca0af05eb093",
+                "sha256_in_prefix": "aa8dac94e2d47f1676f7a88ee9f95011b259b582930fd5d786e1ca0af05eb093",
+                "size_in_bytes": 3992
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "bdef37ce5111e9389f94685aeaaa3f0d7ca4bba6f6c6878c4f83c1a4434179ca",
+                "sha256_in_prefix": "bdef37ce5111e9389f94685aeaaa3f0d7ca4bba6f6c6878c4f83c1a4434179ca",
+                "size_in_bytes": 7715
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/vpc_instance_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "8593fed07f583e807a478993259d33641c4c08984c512aef55fcd565755db62f",
+                "sha256_in_prefix": "8593fed07f583e807a478993259d33641c4c08984c512aef55fcd565755db62f",
+                "size_in_bytes": 6998
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/utils.py",
+                "path_type": "hardlink",
+                "sha256": "b4545e681e95210ba8dcd08a71caf96f6637ca4e003c5f0c994c2cc18b389cd5",
+                "sha256_in_prefix": "b4545e681e95210ba8dcd08a71caf96f6637ca4e003c5f0c994c2cc18b389cd5",
+                "size_in_bytes": 16551
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/version.py",
+                "path_type": "hardlink",
+                "sha256": "6f60dba8c5b8415ec713e07e80194a8ed0e9dae2c08782443254444039927165",
+                "sha256_in_prefix": "6f60dba8c5b8415ec713e07e80194a8ed0e9dae2c08782443254444039927165",
+                "size_in_bytes": 23
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_api_exception.py",
+                "path_type": "hardlink",
+                "sha256": "bcc65d77652d47fab0e1603489563dd85e43d914a7a7e06a11bf2f9afcd7fee1",
+                "sha256_in_prefix": "bcc65d77652d47fab0e1603489563dd85e43d914a7a7e06a11bf2f9afcd7fee1",
+                "size_in_bytes": 2800
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "c8be1933968f4b958371e92adbc2313de6b102073fba3cfae17515c14855bf5a",
+                "sha256_in_prefix": "c8be1933968f4b958371e92adbc2313de6b102073fba3cfae17515c14855bf5a",
+                "size_in_bytes": 592
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_base_service.py",
+                "path_type": "hardlink",
+                "sha256": "d2f5d00061c9b4e7152d3ad8333bc99b29d64d08d78accfa6a6edfa35774e94c",
+                "sha256_in_prefix": "d2f5d00061c9b4e7152d3ad8333bc99b29d64d08d78accfa6a6edfa35774e94c",
+                "size_in_bytes": 40644
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_basic_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "f0968ee97d6cd60974b858b3e7d5f47df1b3a33965947cf880e1aaa27840c615",
+                "sha256_in_prefix": "f0968ee97d6cd60974b858b3e7d5f47df1b3a33965947cf880e1aaa27840c615",
+                "size_in_bytes": 1593
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_bearer_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "285b2c7c164cd74f7fd635a56333e566bde8a37bd561490b55f2167d9648f54b",
+                "sha256_in_prefix": "285b2c7c164cd74f7fd635a56333e566bde8a37bd561490b55f2167d9648f54b",
+                "size_in_bytes": 1069
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_container_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "4aefcea0f9ee87246dfb57d87009f446526af2651f904c11649ad5e6e61ed57b",
+                "sha256_in_prefix": "4aefcea0f9ee87246dfb57d87009f446526af2651f904c11649ad5e6e61ed57b",
+                "size_in_bytes": 4329
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_container_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "995a3cfe571fc45c992713e7b3c1bb1028c8b1fd4b0a954bede30fc7f78c7862",
+                "sha256_in_prefix": "995a3cfe571fc45c992713e7b3c1bb1028c8b1fd4b0a954bede30fc7f78c7862",
+                "size_in_bytes": 12136
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_cp4d_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "2017874ad5d32393e6858deefb445af6c3317ead32577119a2ad0a89ed3dcea0",
+                "sha256_in_prefix": "2017874ad5d32393e6858deefb445af6c3317ead32577119a2ad0a89ed3dcea0",
+                "size_in_bytes": 6643
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_cp4d_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "7dc4a503802a988518435c30940307d7daa3f26cbd11e11f5888f6eaa364ae42",
+                "sha256_in_prefix": "7dc4a503802a988518435c30940307d7daa3f26cbd11e11f5888f6eaa364ae42",
+                "size_in_bytes": 2386
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_detailed_response.py",
+                "path_type": "hardlink",
+                "sha256": "826d42c566440383b9b56443a202a80bcae2d6f73b83654fc68cad82679cb736",
+                "sha256_in_prefix": "826d42c566440383b9b56443a202a80bcae2d6f73b83654fc68cad82679cb736",
+                "size_in_bytes": 2255
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_iam_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "8d6fa26b8d6233ba8decb2ecc1d08377f7babb2c5a10de6d28cfc59ef459d6d1",
+                "sha256_in_prefix": "8d6fa26b8d6233ba8decb2ecc1d08377f7babb2c5a10de6d28cfc59ef459d6d1",
+                "size_in_bytes": 5632
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_iam_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "d5b2cd6746c6072b38851d8c11802b122740266f7712c3e0e8f44feeb6561a6e",
+                "sha256_in_prefix": "d5b2cd6746c6072b38851d8c11802b122740266f7712c3e0e8f44feeb6561a6e",
+                "size_in_bytes": 16678
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_jwt_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "3f8e4cdc45a8e11e1c413d08344c26d9612bc2e1183ed176edec7f2d7915fe3e",
+                "sha256_in_prefix": "3f8e4cdc45a8e11e1c413d08344c26d9612bc2e1183ed176edec7f2d7915fe3e",
+                "size_in_bytes": 3589
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_mcsp_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "99f664a2fa3b7a39955850d0b1b5dec3000acac083e2b8f9f460b6b6e9c4dc6a",
+                "sha256_in_prefix": "99f664a2fa3b7a39955850d0b1b5dec3000acac083e2b8f9f460b6b6e9c4dc6a",
+                "size_in_bytes": 7143
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_mcsp_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "7d017a6ff26701bc99d1984b66778cda140764bad7ba92d2666bb0bd4664a8da",
+                "sha256_in_prefix": "7d017a6ff26701bc99d1984b66778cda140764bad7ba92d2666bb0bd4664a8da",
+                "size_in_bytes": 2919
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_no_auth_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "2d5cad59aefb8a59bb62171cf6ab46d1686cbd826901480fba56e7c29bec2c97",
+                "sha256_in_prefix": "2d5cad59aefb8a59bb62171cf6ab46d1686cbd826901480fba56e7c29bec2c97",
+                "size_in_bytes": 448
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "0a1841c87f42aa25e5c88bc750a4cc4b5a3717e89041bcda006419e6ed1c40e4",
+                "sha256_in_prefix": "0a1841c87f42aa25e5c88bc750a4cc4b5a3717e89041bcda006419e6ed1c40e4",
+                "size_in_bytes": 2943
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_utils.py",
+                "path_type": "hardlink",
+                "sha256": "60e6cc7ccde641e39d4f60de0eb494d3e5e08adc0e8ffa40381cf3c61fecaf7a",
+                "sha256_in_prefix": "60e6cc7ccde641e39d4f60de0eb494d3e5e08adc0e8ffa40381cf3c61fecaf7a",
+                "size_in_bytes": 29694
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_vpc_instance_authenticator.py",
+                "path_type": "hardlink",
+                "sha256": "8925a7f0d6f8430efb18db0f5c4265e74d51df3897933d0a432bbc434ba71231",
+                "sha256_in_prefix": "8925a7f0d6f8430efb18db0f5c4265e74d51df3897933d0a432bbc434ba71231",
+                "size_in_bytes": 2640
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/test_vpc_instance_token_manager.py",
+                "path_type": "hardlink",
+                "sha256": "a5f91ebb8964d4f7166753ac1172bb62d32f3af51d9f820eb39878417dfe87e7",
+                "sha256_in_prefix": "a5f91ebb8964d4f7166753ac1172bb62d32f3af51d9f820eb39878417dfe87e7",
+                "size_in_bytes": 12888
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test_integration/__init__.py",
+                "path_type": "hardlink",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test_integration/test_cp4d_authenticator_integration.py",
+                "path_type": "hardlink",
+                "sha256": "053c3d9963efff73b3d4ad38492ec3928f463e7b90e2967e03cc11bb7c985fc2",
+                "sha256_in_prefix": "053c3d9963efff73b3d4ad38492ec3928f463e7b90e2967e03cc11bb7c985fc2",
+                "size_in_bytes": 1671
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test_integration/test_iam_authenticator_integration.py",
+                "path_type": "hardlink",
+                "sha256": "162652739e9c562b40856e4bc0bbed2f43d47f40afb657c18d00a39be51afb00",
+                "sha256_in_prefix": "162652739e9c562b40856e4bc0bbed2f43d47f40afb657c18d00a39be51afb00",
+                "size_in_bytes": 870
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test_integration/test_mcsp_authenticator_integration.py",
+                "path_type": "hardlink",
+                "sha256": "83e600c1ac6c0a8784b6c4c5085fb9e3d56d5f22b151201a75255927a3dbd2da",
+                "sha256_in_prefix": "83e600c1ac6c0a8784b6c4c5085fb9e3d56d5f22b151201a75255927a3dbd2da",
+                "size_in_bytes": 883
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test_integration/test_ssl_verification.py",
+                "path_type": "hardlink",
+                "sha256": "fd651b97609a1d4748adea325e16cd1245487d2ad1c3ce7f78f143a3ea59c678",
+                "sha256_in_prefix": "fd651b97609a1d4748adea325e16cd1245487d2ad1c3ce7f78f143a3ea59c678",
+                "size_in_bytes": 2272
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/api_exception.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/basic_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/bearer_token_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/container_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/cp4d_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/iam_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/iam_request_based_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/mcsp_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/no_auth_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/authenticators/__pycache__/vpc_instance_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/base_service.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/detailed_response.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/get_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/private_helpers.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/container_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/cp4d_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/iam_request_based_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/iam_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/jwt_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/mcsp_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/token_managers/__pycache__/vpc_instance_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/utils.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/ibm_cloud_sdk_core/__pycache__/version.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_api_exception.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_base_service.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_basic_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_bearer_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_container_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_container_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_cp4d_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_cp4d_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_detailed_response.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_iam_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_iam_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_jwt_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_mcsp_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_mcsp_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_no_auth_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_utils.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_vpc_instance_authenticator.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test/__pycache__/test_vpc_instance_token_manager.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test_integration/__pycache__/__init__.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test_integration/__pycache__/test_cp4d_authenticator_integration.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test_integration/__pycache__/test_iam_authenticator_integration.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test_integration/__pycache__/test_mcsp_authenticator_integration.cpython-312.pyc",
+                "path_type": "pyc_file"
+            },
+            {
+                "_path": "lib/python3.12/site-packages/test_integration/__pycache__/test_ssl_verification.cpython-312.pyc",
+                "path_type": "pyc_file"
+            }
+        ],
+        "paths_version": 1
+    },
+    "platform": null,
+    "requested_spec": "",
+    "sha256": "daeae11597307b5c506a43722f6fbc8e222b8f30e86c705b46e67f61a547d59d",
+    "size": 58083,
+    "subdir": "noarch",
+    "timestamp": 1713393646984,
+    "track_features": "",
+    "url": "https://conda.anaconda.org/conda-forge/noarch/ibm-cloud-sdk-core-3.20.0-pyhd8ed1ab_0.conda",
+    "version": "3.20.0"
+}
