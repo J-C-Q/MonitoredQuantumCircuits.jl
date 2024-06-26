@@ -1,3 +1,13 @@
+"""
+    Circuit
+
+A circuit is a sequence of operations that are applied to a lattice. The operations are applied in the order they are added to the circuit. The circuit keeps track of the operations, the positions where they are applied, the order in which they are applied, and the pointers to the operations that are applied at each position.
+
+# Constructors
+- `EmptyCircuit(lattice::Lattice)`: Create an empty circuit for a given lattice.
+- `NishimoriCircuit(lattice::Lattice)`: Create a circuit with a single ZZ operation on all bonds of the lattice.
+
+"""
 struct Circuit{T<:Lattice,M<:Integer}
     lattice::T
     operations::Vector{Operation} # the (unique) operations
