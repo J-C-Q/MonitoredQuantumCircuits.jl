@@ -1,10 +1,3 @@
-<style>
-a{
-   color: #007bff;
-    text-decoration: none;
-}
-</style>
-
 ```@meta
 CurrentModule = MonitoredQuantumCircuits
 ```
