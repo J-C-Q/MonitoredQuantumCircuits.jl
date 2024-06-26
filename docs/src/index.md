@@ -15,5 +15,5 @@ Modules = [MonitoredQuantumCircuits]
 ```
 
 ```@docs
-DAG_Circuit
+Circuit
 ```
