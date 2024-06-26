@@ -12,7 +12,7 @@ makedocs(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://J-C-Q.github.io/MonitoredQuantumCircuits.jl",
         edit_link="main",
-        assets=String["assets/favicon.ico"],
+        assets=String["assets/favicon.ico", "assets/style.css"],
         sidebar_sitename=false
     ),
     pages=[
