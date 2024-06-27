@@ -4,7 +4,19 @@ include("operations.jl")
 include("lattice.jl")
 include("circuit.jl")
 
+export Circuit
+export EmptyCircuit
+export NishimoriCircuit
+export apply!
 
-export Chain, Square, EmptyChain, EmptySquare, apply!, ZZ, YY, XX, Circuit, EmptyCircuit
+export Operation
+export ZZ
+export XX
+export YY
+
+export Lattice
+export SquareLattice
+export ChainLattice
+
 
 end

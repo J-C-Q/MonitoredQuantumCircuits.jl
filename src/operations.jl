@@ -1,32 +1,32 @@
+# a general Operation type. All operations need to be subtypes of this abstract type. The operations need to implement the following methods:
 abstract type Operation end
+"""
+    nQubits(operation::Operation)
 
-# this structure defines a singelton operation
-struct ZZ <: Operation end
+Return the number of qubits the operation acts on.
+"""
+function nQubits(operation::Operation)
+    throw(ArgumentError("nQubits not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+end
+"""
+    isClifford(operation::Operation)
 
-function nQubits(operation::ZZ)
-    return 2
+Return whether the operation is a Clifford operation.
+"""
+function isClifford(operation::Operation)
+    throw(ArgumentError("isClifford not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
-function isClifford(operation::ZZ)
-    return true
-end
-function qiskitRepresentation(operation::ZZ)
-    # return the qiskit representation of the operation
+"""
+    qiskitRepresentation(operation::Operation)
+
+Return the qiskit representation of the operation.
+"""
+function qiskitRepresentation(operation::Operation)
+    throw(ArgumentError("qiskitRepresentation not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 
-struct XX <: Operation end
+include("operations/ZZ.jl")
+include("operations/XX.jl")
+include("operations/YY.jl")
 
-function nQubits(operation::XX)
-    return 2
-end
-function isClifford(operation::XX)
-    return true
-end
-struct YY <: Operation end
-
-function nQubits(operation::YY)
-    return 2
-end
-function isClifford(operation::YY)
-    return true
-end
 Base.show(io::IO, operation::Operation) = print(io, "$(typeof(operation))")

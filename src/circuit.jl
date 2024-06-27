@@ -1,13 +1,3 @@
-"""
-    Circuit
-
-A circuit is a sequence of operations that are applied to a lattice. The operations are applied in the order they are added to the circuit. The circuit keeps track of the operations, the positions where they are applied, the order in which they are applied, and the pointers to the operations that are applied at each position.
-
-# Constructors
-- `EmptyCircuit(lattice::Lattice)`: Create an empty circuit for a given lattice.
-- `NishimoriCircuit(lattice::Lattice)`: Create a circuit with a single ZZ operation on all bonds of the lattice.
-
-"""
 struct Circuit{T<:Lattice,M<:Integer}
     lattice::T
     operations::Vector{Operation} # the (unique) operations
@@ -24,7 +14,17 @@ struct Circuit{T<:Lattice,M<:Integer}
     end
 end
 
+"""
+    EmptyCircuit(lattice::Lattice)
+
+Create an empty circuit on the given lattice.
+"""
 EmptyCircuit(lattice::Lattice) = Circuit(lattice)
+"""
+    NishimoriCircuit(lattice::Lattice)
+
+Create a Nishimori circuit on the given lattice, i.e. a circuit with one layer of ZZ operations on all bonds.
+"""
 function NishimoriCircuit(lattice::Lattice)
     operations = [ZZ()]
     operationPositions = getBonds(lattice)
@@ -32,7 +32,11 @@ function NishimoriCircuit(lattice::Lattice)
     executionOrder = fill(1, length(operationPositions))
     return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
 end
+"""
+    apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
 
+Apply the given operation at the given position(s) in the circuit. Operations that act on more than one qubit need to have the same number of position arguments as qubits they act on.
+"""
 function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
     if length(position) != nQubits(operation)
         throw(ArgumentError("Invalid number of position arguments for operation. Expected $(nQubits(operation)), got $(length(position)) $(position)"))
@@ -40,7 +44,10 @@ function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer
     if any([pos < 1 || pos > length(circuit.lattice) for pos in position])
         throw(ArgumentError("Invalid position argument for operation. Expected between 1 and $(length(circuit.lattice)), got $(position)"))
     end
-
+    bonds = getBonds(circuit.lattice)
+    if !(position in bonds) && !(reverse(position) in bonds)
+        throw(ArgumentError("$(position) is not a bond in $(typeof(circuit.lattice))"))
+    end
     if operation in circuit.operations
         index = findfirst([op == operation for op in circuit.operations])
     else
@@ -56,7 +63,11 @@ function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer
     end
     return circuit
 end
+"""
+    apply!(circuit::Circuit, executionPosition::Integer, operation::Operation, position::Vararg{Integer})
 
+Apply the given operation at a given execution time step at the given position(s) in the circuit. The executionPosition can be used to schedule multiple operations at the same time step. However it is important to first check if the operations are compatible with each other (as of now this will show a warning which can be muted with ```mute=true```).
+"""
 function apply!(circuit::Circuit, executionPosition::Integer, operation::Operation, position::Vararg{Integer}; mute::Bool=false)
     # TODO check if operation is compatible with other operations at the same execution position
     simultaniusOperations = _getOperations(circuit, executionPosition)
@@ -77,18 +88,35 @@ function Base.show(io::IO, circuit::Circuit)
     if isempty(circuit.operationPointers)
         println(io, "No operations defined")
     else
-        println(io, "Operations: ")
+        # as many execution steps as operations -> step count is redundant
         if all(circuit.executionOrder .== 1:length(circuit.executionOrder))
-            for (i, ptr) in enumerate(circuit.operationPointers)
-                println(io, "  ", circuit.operations[ptr], " at ", circuit.operationPositions[i])
+            # too many operations to show all
+            if length(circuit.operationPointers) > 10
+                println(io, "with $(length(circuit.operationPointers)) operations")
+            else
+                println(io, "Operations: ")
+                for (i, ptr) in enumerate(circuit.operationPointers)
+                    println(io, "  ", circuit.operations[ptr], " at ", circuit.operationPositions[i])
+                end
             end
         else
             uniqueExecutionSteps = sort(unique(circuit.executionOrder))
-            for (i, step) in enumerate(uniqueExecutionSteps)
-                println(io, "  Step $step:")
-                operationsInStep = findall(circuit.executionOrder .== step)
-                for operation in operationsInStep
-                    println(io, "    ", circuit.operations[circuit.operationPointers[operation]], " at ", circuit.operationPositions[operation])
+            # too many operations to show all
+            if length(circuit.operationPointers) > 10
+                # print steps/step depending on if more than one step
+                if length(uniqueExecutionSteps) > 1
+                    println(io, "with $(length(circuit.operationPointers)) operations in $(length(uniqueExecutionSteps)) steps")
+                else
+                    println(io, "with $(length(circuit.operationPointers)) operations in 1 step")
+                end
+            else
+                println(io, "Operations: ")
+                for (i, step) in enumerate(uniqueExecutionSteps)
+                    println(io, "  Step $step:")
+                    operationsInStep = findall(circuit.executionOrder .== step)
+                    for operation in operationsInStep
+                        println(io, "    ", circuit.operations[circuit.operationPointers[operation]], " at ", circuit.operationPositions[operation])
+                    end
                 end
             end
         end
@@ -100,7 +128,12 @@ function _getOperations(circuit::Circuit, executionPosition::Integer)
     operationsInStep = findall(circuit.executionOrder .== executionPosition)
     return operationsInStep
 end
+"""
+    isClifford(circuit::Circuit)
 
+Check if the circuit is a Clifford circuit, i.e. only contains Clifford operations.
+Returns true if all operations are Clifford operations, false otherwise.
+"""
 function isClifford(circuit::Circuit)
     return all([isClifford(operation) for operation in circuit.operations])
 end
