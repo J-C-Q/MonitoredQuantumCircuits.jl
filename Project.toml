@@ -3,5 +3,8 @@ uuid = "d8bf802c-9929-44b5-8e59-9c739daaeb6f"
 authors = ["Quinten Preiss"]
 version = "0.1.0-DEV"
 
+[deps]
+PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
+
 [compat]
 julia = "1.9.2"

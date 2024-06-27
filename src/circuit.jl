@@ -137,3 +137,8 @@ Returns true if all operations are Clifford operations, false otherwise.
 function isClifford(circuit::Circuit)
     return all([isClifford(operation) for operation in circuit.operations])
 end
+
+
+function qiskitRepresentation(circuit::Circuit)
+    qc = qiskit.QuantumCircuit(nQubits(circuit.lattice))
+end

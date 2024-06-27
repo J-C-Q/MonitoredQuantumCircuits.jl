@@ -1,5 +1,13 @@
 module MonitoredQuantumCircuits
 
+using PythonCall
+
+# import qiskit at run time
+const qiskit = PythonCall.pynew()
+function __init__()
+    PythonCall.pycopy!(qiskit, pyimport("qiskit"))
+end
+
 include("operations.jl")
 include("lattice.jl")
 include("circuit.jl")
