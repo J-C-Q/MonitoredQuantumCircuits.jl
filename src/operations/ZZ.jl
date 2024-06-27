@@ -6,7 +6,7 @@ A singelton type representing the XX operation.
 struct ZZ <: Operation end
 
 function nQubits(operation::ZZ)
-    return 2
+    return 3
 end
 function isClifford(operation::ZZ)
     return true

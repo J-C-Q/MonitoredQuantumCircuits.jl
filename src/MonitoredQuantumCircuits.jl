@@ -1,6 +1,7 @@
 module MonitoredQuantumCircuits
 
 using PythonCall
+using Graphs
 
 # import qiskit at run time
 const qiskit = PythonCall.pynew()
@@ -23,8 +24,9 @@ export XX
 export YY
 
 export Lattice
-export SquareLattice
-export ChainLattice
+export HeavyChainLattice
+export HeavySquareLattice
+export HeavyHexagonLattice
 
 
 end
