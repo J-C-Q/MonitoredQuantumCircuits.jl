@@ -7,7 +7,7 @@
   
 </p>
 <p align="center">
-  <a href="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl/actions/workflows/CI.yml?query=branch%3Amain"><img src="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl/actions/workflows/CI.yml/badge.svg?branch=main" alt="Build Status"></a>
+  <a href="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl/actions/workflows/CI.yml?query=branch%3Amain"><img src="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl/actions/workflows/CI.yml/badge.svg?branch=main" alt="Build Status" width=100></a>
   <a href="https://codecov.io/gh/J-C-Q/MonitoredQuantumCircuits.jl"><img src="https://codecov.io/gh/J-C-Q/MonitoredQuantumCircuits.jl/branch/main/graph/badge.svg?token=UUCGN8AJKM" alt="Coverage"></a>
   <a href="https://github.com/JuliaTesting/Aqua.jl"><img src="https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg" alt="Aqua"></a>
 </p>
