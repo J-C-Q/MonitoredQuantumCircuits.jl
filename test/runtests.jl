@@ -3,8 +3,7 @@ using Test
 using Aqua
 
 @testset "MonitoredQuantumCircuits.jl" begin
-    # @testset "Code quality (Aqua.jl)" begin
-    #     Aqua.test_all(MonitoredQuantumCircuits)
-    # end
-
+    @testset "Code quality (Aqua.jl)" begin
+        Aqua.test_all(MonitoredQuantumCircuits)
+    end
 end
