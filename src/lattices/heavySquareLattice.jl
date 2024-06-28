@@ -26,9 +26,9 @@ end
 function visualize(io::IO, lattice::HeavySquareLattice)
     for _ in 1:lattice.sizeY-1
         for _ in 1:2lattice.sizeX-2
-            print(io, "o - ")
+            print(io, "○ ─ ")
         end
-        println(io, "o")
+        println(io, "○")
         for i in 1:2lattice.sizeX-2
             if i % 2 == 1
                 print(io, "|   ")
@@ -39,12 +39,12 @@ function visualize(io::IO, lattice::HeavySquareLattice)
         println(io, "|")
         for i in 1:2lattice.sizeX-2
             if i % 2 == 1
-                print(io, "o   ")
+                print(io, "○   ")
             else
                 print(io, "    ")
             end
         end
-        println(io, "o")
+        println(io, "○")
         for i in 1:2lattice.sizeX-2
             if i % 2 == 1
                 print(io, "|   ")
@@ -56,9 +56,9 @@ function visualize(io::IO, lattice::HeavySquareLattice)
 
     end
     for _ in 1:2lattice.sizeX-2
-        print(io, "o - ")
+        print(io, "○ ─ ")
     end
-    println(io, "o")
+    println(io, "○")
 
 
     return nothing

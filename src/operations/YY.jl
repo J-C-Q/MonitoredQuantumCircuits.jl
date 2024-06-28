@@ -1,7 +1,7 @@
 """
     YY() <: Operation
 
-A singelton type representing the XX operation.
+A singelton type representing the YY operation.
 """
 struct YY <: Operation end
 
@@ -11,6 +11,14 @@ end
 function isClifford(operation::YY)
     return true
 end
-function qiskitRepresentation(operation::YY)
-    # return the qiskit representation of the operation
+function applyToQiskit!(operation::YY, qc::Qiskit.QuantumCircuit, position::Vararg{Integer})
+    qc.reset(position[2] - 1)
+    qc.sdg(position[2] - 1)
+    qc.cx(position[2] - 1, position[1] - 1)
+    qc.cx(position[2] - 1, position[3] - 1)
+    qc.measure(position[2] - 1, position[2] - 1)
+end
+function connectionGraph(operation::YY)
+    # return the connection graph of the operation
+    return path_graph(3)
 end

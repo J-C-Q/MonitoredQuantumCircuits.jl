@@ -11,8 +11,8 @@ end
 
 function visualize(io::IO, chain::HeavyChainLattice)
     for i in 1:nv(chain.graph)-1
-        print(io, "o - ")
+        print(io, "○─")
     end
-    println(io, "o")
+    println(io, "○")
     return nothing
 end

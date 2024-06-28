@@ -20,34 +20,28 @@ end
 Create an empty circuit on the given lattice.
 """
 EmptyCircuit(lattice::Lattice) = Circuit(lattice)
-"""
-    NishimoriCircuit(lattice::Lattice)
+# """
+#     NishimoriCircuit(lattice::Lattice)
 
-Create a Nishimori circuit on the given lattice, i.e. a circuit with one layer of ZZ operations on all bonds.
-"""
-function NishimoriCircuit(lattice::Lattice)
-    operations = [ZZ()]
-    operationPositions = getBonds(lattice)
-    operationPointers = fill(1, length(operationPositions))
-    executionOrder = fill(1, length(operationPositions))
-    return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
-end
+# Create a Nishimori circuit on the given lattice, i.e. a circuit with one layer of ZZ operations on all bonds.
+# """
+# function NishimoriCircuit(lattice::Lattice)
+#     operations = [ZZ()]
+
+#     operationPositions = getBonds(lattice)
+#     operationPointers = fill(1, length(operationPositions))
+#     executionOrder = fill(1, length(operationPositions))
+#     return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
+# end
+
 """
     apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
 
-Apply the given operation at the given position(s) in the circuit. Operations that act on more than one qubit need to have the same number of position arguments as qubits they act on.
+Apply the given operation at the given position(s) in the circuit. Operations that act on more than one qubit need to have the same number of position arguments as qubits they act on, as well as a connection structure that is part of the lattice.
 """
 function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
-    if length(position) != nQubits(operation)
-        throw(ArgumentError("Invalid number of position arguments for operation. Expected $(nQubits(operation)), got $(length(position)) $(position)"))
-    end
-    if any([pos < 1 || pos > length(circuit.lattice) for pos in position])
-        throw(ArgumentError("Invalid position argument for operation. Expected between 1 and $(length(circuit.lattice)), got $(position)"))
-    end
-    bonds = getBonds(circuit.lattice)
-    if !(position in bonds) && !(reverse(position) in bonds)
-        throw(ArgumentError("$(position) is not a bond in $(typeof(circuit.lattice))"))
-    end
+    _checkInBounds(circuit, operation, position...)
+
     if operation in circuit.operations
         index = findfirst([op == operation for op in circuit.operations])
     else
@@ -81,6 +75,21 @@ function apply!(circuit::Circuit, executionPosition::Integer, operation::Operati
     circuit = apply!(circuit, operation, position...)
     circuit.executionOrder[end] = executionPosition
     return circuit
+end
+
+#! there is a bug in this function. There needs to be an extra constraint on the has_induced_subgraphisomorph function. E.g. apply!(cirucit,XX(),2,1,3), where circuit.lattice is a path graph with 3 nodes. This should not be allowed, but passes the test.
+function _checkInBounds(circuit::Circuit, operation::Operation, position::Vararg{Integer})
+    if length(position) != nQubits(operation)
+        throw(ArgumentError("Invalid number of position arguments for operation. Expected $(nQubits(operation)), got $(length(position)) $(position)"))
+    end
+    if any([pos < 1 || pos > length(circuit.lattice) for pos in position])
+        throw(ArgumentError("Invalid position argument for operation. Expected between 1 and $(length(circuit.lattice)), got $(position)"))
+    end
+    # check that the connectionGraph of the operation is a subgraph of the lattice graph between the given positions
+    subgraph = induced_subgraph(circuit.lattice.graph, [position...])
+    if !Graphs.Experimental.has_induced_subgraphisomorph(subgraph[1], connectionGraph(operation))
+        throw(ArgumentError("The connection graph of the operation is not a subgraph of the lattice graph between the given positions"))
+    end
 end
 
 function Base.show(io::IO, circuit::Circuit)
@@ -140,5 +149,19 @@ end
 
 
 function qiskitRepresentation(circuit::Circuit)
-    qc = qiskit.QuantumCircuit(nQubits(circuit.lattice))
+    qc = Qiskit.QuantumCircuit(length(circuit.lattice))
+    for i in unique(circuit.executionOrder)
+        operationsInStep = _getOperations(circuit, i)
+        for j in operationsInStep
+            ptr = circuit.operationPointers[j]
+            applyToQiskit!(circuit.operations[ptr], qc, circuit.operationPositions[j]...)
+        end
+        qc.barrier()
+    end
+    return qc
+end
+
+function runIBMQ(cirucit::Circuit)
+    qc = qiskitRepresentation(circuit)
+
 end
