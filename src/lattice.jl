@@ -32,6 +32,7 @@ include("lattices/heavyChainLattice.jl")
 include("lattices/heavySquareLattice.jl")
 include("lattices/heavyHexagonLattice.jl")
 
+#TODO add vertex numbers to visualization
 function visualize(io::IO, lattice::Lattice)
     return nothing
 end

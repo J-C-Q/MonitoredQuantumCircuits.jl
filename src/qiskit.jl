@@ -7,6 +7,7 @@ const qiskit = PythonCall.pynew()
 function __init__()
     PythonCall.pycopy!(qiskit, pyimport("qiskit"))
 end
+
 struct QuantumCircuit
     python_interface::Py
     QuantumCircuit(nQubits::Integer) = new(qiskit.QuantumCircuit(nQubits, nQubits))
@@ -18,7 +19,6 @@ function Base.getproperty(qc::QuantumCircuit, prop::Symbol)
         getproperty(qc.python_interface, prop)
     end
 end
-
 Base.show(io::IO, ::MIME"text/plain", obj::QuantumCircuit) = print(io, obj.python_interface)
 
 end
