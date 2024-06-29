@@ -154,14 +154,39 @@ function qiskitRepresentation(circuit::Circuit)
         operationsInStep = _getOperations(circuit, i)
         for j in operationsInStep
             ptr = circuit.operationPointers[j]
-            applyToQiskit!(circuit.operations[ptr], qc, circuit.operationPositions[j]...)
+            applyToQiskit!(qc, circuit.operations[ptr], circuit.operationPositions[j]...)
         end
         qc.barrier()
     end
     return qc
 end
 
-function runIBMQ(cirucit::Circuit)
+function runIBMQ(circuit::Circuit, backend::String; verbose::Bool=false)
+    verbose && print("Transpiling circuit to Qiskit...")
     qc = qiskitRepresentation(circuit)
+    verbose && println("✓")
 
+    verbose && print("Connecting to IBM Quantum...")
+    runtime = Qiskit.QiskitRuntimeService()
+    verbose && println("✓")
+
+    verbose && print("Getting the backend...")
+    backend = Qiskit.getBackend(runtime, backend)
+    verbose && println("✓")
+
+    verbose && print("Transpiling circuit to backend...")
+    Qiskit.transpile!(qc, backend)
+    verbose && println("✓")
+
+    verbose && print("Initializing sampler...")
+    sampler = Qiskit.Sampler(backend)
+    verbose && println("✓")
+
+    verbose && print("Submitting job...")
+    job = Qiskit.run(sampler, qc)
+    verbose && println("✓")
+
+    verbose && println("Job ID: $(job.job_id())")
 end
+
+function

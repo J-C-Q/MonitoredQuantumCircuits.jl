@@ -4,7 +4,7 @@ module MonitoredQuantumCircuits
 using Graphs
 
 
-include("qiskit.jl")
+include("Qiskit/Qiskit.jl")
 include("operations.jl")
 include("lattice.jl")
 include("circuit.jl")

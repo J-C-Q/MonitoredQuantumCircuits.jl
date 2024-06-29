@@ -80,7 +80,6 @@ function visualize(io::IO, lattice::HeavyHexagonLattice)
                 end
                 println(io, "|")
             end
-
         else
             for _ in 1:2lattice.sizeX-2
                 print(io, "o - ")

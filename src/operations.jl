@@ -21,7 +21,7 @@ end
 
 Apply the operation to a Qiskit QuantumCircuit.
 """
-function applyToQiskit!(operation::Operation, qc::Qiskit.QuantumCircuit, position::Vararg{Integer})
+function applyToQiskit!(qc::Qiskit.QuantumCircuit, operation::Operation, position::Vararg{Integer})
     throw(ArgumentError("applyToQiskit not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 

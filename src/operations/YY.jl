@@ -11,7 +11,7 @@ end
 function isClifford(operation::YY)
     return true
 end
-function applyToQiskit!(operation::YY, qc::Qiskit.QuantumCircuit, position::Vararg{Integer})
+function applyToQiskit!(qc::Qiskit.QuantumCircuit, operation::YY, position::Vararg{Integer})
     qc.reset(position[2] - 1)
     qc.sdg(position[2] - 1)
     qc.cx(position[2] - 1, position[1] - 1)
