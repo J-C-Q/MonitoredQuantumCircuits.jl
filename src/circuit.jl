@@ -77,7 +77,7 @@ function apply!(circuit::Circuit, executionPosition::Integer, operation::Operati
     return circuit
 end
 
-#! there is a bug in this function. There needs to be an extra constraint on the has_induced_subgraphisomorph function. E.g. apply!(cirucit,XX(),2,1,3), where circuit.lattice is a path graph with 3 nodes. This should not be allowed, but passes the test.
+
 function _checkInBounds(circuit::Circuit, operation::Operation, position::Vararg{Integer})
     if length(position) != nQubits(operation)
         throw(ArgumentError("Invalid number of position arguments for operation. Expected $(nQubits(operation)), got $(length(position)) $(position)"))
@@ -87,7 +87,7 @@ function _checkInBounds(circuit::Circuit, operation::Operation, position::Vararg
     end
     # check that the connectionGraph of the operation is a subgraph of the lattice graph between the given positions
     subgraph = induced_subgraph(circuit.lattice.graph, [position...])
-    if !Graphs.Experimental.has_induced_subgraphisomorph(subgraph[1], connectionGraph(operation))
+    if !Graphs.Experimental.has_induced_subgraphisomorph(subgraph[1], connectionGraph(operation), vertex_relation=(g1, g2) -> g1 == g2)
         throw(ArgumentError("The connection graph of the operation is not a subgraph of the lattice graph between the given positions"))
     end
 end
@@ -188,5 +188,3 @@ function runIBMQ(circuit::Circuit, backend::String; verbose::Bool=false)
 
     verbose && println("Job ID: $(job.job_id())")
 end
-
-function
