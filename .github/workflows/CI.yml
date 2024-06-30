@@ -52,10 +52,6 @@ jobs:
       - uses: julia-actions/setup-julia@v1
         with:
           version: "1"
-      - name: Install OpenSSL
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openssl libssl-dev
       - name: Configure doc environment
         run: |
           julia --project=docs/ -e '

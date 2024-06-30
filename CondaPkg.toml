@@ -1,4 +1,4 @@
 [deps]
 qiskit-ibm-runtime = ""
-openssl = ""
+openssl = "3.3.0"
 qiskit = ""
