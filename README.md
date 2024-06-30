@@ -44,12 +44,12 @@ Then create an empty circuit on it
 circuit = EmptyCircuit(lattice)
 ```
 
-You can now apply operations to the circuit, like so
+You can now apply operations to the circuit, specifying the operation type (currently supported are `ZZ`, `XX` and `YY`) as well as the location on the lattice
 ```julia
 apply!(circuit, ZZ(), 1, 2, 3)
 ```
 
-Finally submit the circuit to be run on an IBM Quantum QPU
+Finally, submit the circuit to be run on an IBM Quantum QPU
 ```julia
 runIBMQ(circuit, "ibm_sherbrooke")
 ```
