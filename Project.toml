@@ -9,3 +9,5 @@ PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 
 [compat]
 julia = "1.9.2"
+Graphs = "1.11.1"
+PythonCall = "0.9.20"

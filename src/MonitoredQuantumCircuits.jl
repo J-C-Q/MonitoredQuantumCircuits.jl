@@ -11,16 +11,14 @@ include("circuit.jl")
 
 export Circuit
 export EmptyCircuit
-export NishimoriCircuit
 export apply!
-export qiskitRepresentation
+export isClifford
+export runIBMQ
 
-export Operation
 export ZZ
 export XX
 export YY
 
-export Lattice
 export HeavyChainLattice
 export HeavySquareLattice
 export HeavyHexagonLattice

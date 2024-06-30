@@ -161,7 +161,7 @@ function qiskitRepresentation(circuit::Circuit)
     return qc
 end
 
-function runIBMQ(circuit::Circuit, backend::String; verbose::Bool=false)
+function runIBMQ(circuit::Circuit, backend::String; verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
     qc = qiskitRepresentation(circuit)
     verbose && println("✓")
