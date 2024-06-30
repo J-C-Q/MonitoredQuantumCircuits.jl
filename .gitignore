@@ -9,3 +9,5 @@
 .env
 .vscode/*
 .vscode
+.CondaPkg/*
+.CondaPkg

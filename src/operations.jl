@@ -17,12 +17,16 @@ function isClifford(operation::Operation)
     throw(ArgumentError("isClifford not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 """
-    qiskitRepresentation(operation::Operation)
+    applyToQiskit(operation::Operation, qc::Qiskit.QuantumCircuit, position::Vararg{Integer})
 
-Return the qiskit representation of the operation.
+Apply the operation to a Qiskit QuantumCircuit.
 """
-function qiskitRepresentation(operation::Operation)
-    throw(ArgumentError("qiskitRepresentation not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+function applyToQiskit!(qc::Qiskit.QuantumCircuit, operation::Operation, position::Vararg{Integer})
+    throw(ArgumentError("applyToQiskit not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+end
+
+function connectionGraph(operation::Operation)
+    throw(ArgumentError("connectionGraph not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 
 include("operations/ZZ.jl")

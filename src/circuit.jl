@@ -20,34 +20,28 @@ end
 Create an empty circuit on the given lattice.
 """
 EmptyCircuit(lattice::Lattice) = Circuit(lattice)
-"""
-    NishimoriCircuit(lattice::Lattice)
+# """
+#     NishimoriCircuit(lattice::Lattice)
 
-Create a Nishimori circuit on the given lattice, i.e. a circuit with one layer of ZZ operations on all bonds.
-"""
-function NishimoriCircuit(lattice::Lattice)
-    operations = [ZZ()]
-    operationPositions = getBonds(lattice)
-    operationPointers = fill(1, length(operationPositions))
-    executionOrder = fill(1, length(operationPositions))
-    return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
-end
+# Create a Nishimori circuit on the given lattice, i.e. a circuit with one layer of ZZ operations on all bonds.
+# """
+# function NishimoriCircuit(lattice::Lattice)
+#     operations = [ZZ()]
+
+#     operationPositions = getBonds(lattice)
+#     operationPointers = fill(1, length(operationPositions))
+#     executionOrder = fill(1, length(operationPositions))
+#     return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
+# end
+
 """
     apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
 
-Apply the given operation at the given position(s) in the circuit. Operations that act on more than one qubit need to have the same number of position arguments as qubits they act on.
+Apply the given operation at the given position(s) in the circuit. Operations that act on more than one qubit need to have the same number of position arguments as qubits they act on, as well as a connection structure that is part of the lattice.
 """
 function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
-    if length(position) != nQubits(operation)
-        throw(ArgumentError("Invalid number of position arguments for operation. Expected $(nQubits(operation)), got $(length(position)) $(position)"))
-    end
-    if any([pos < 1 || pos > length(circuit.lattice) for pos in position])
-        throw(ArgumentError("Invalid position argument for operation. Expected between 1 and $(length(circuit.lattice)), got $(position)"))
-    end
-    bonds = getBonds(circuit.lattice)
-    if !(position in bonds) && !(reverse(position) in bonds)
-        throw(ArgumentError("$(position) is not a bond in $(typeof(circuit.lattice))"))
-    end
+    _checkInBounds(circuit, operation, position...)
+
     if operation in circuit.operations
         index = findfirst([op == operation for op in circuit.operations])
     else
@@ -81,6 +75,21 @@ function apply!(circuit::Circuit, executionPosition::Integer, operation::Operati
     circuit = apply!(circuit, operation, position...)
     circuit.executionOrder[end] = executionPosition
     return circuit
+end
+
+
+function _checkInBounds(circuit::Circuit, operation::Operation, position::Vararg{Integer})
+    if length(position) != nQubits(operation)
+        throw(ArgumentError("Invalid number of position arguments for operation. Expected $(nQubits(operation)), got $(length(position)) $(position)"))
+    end
+    if any([pos < 1 || pos > length(circuit.lattice) for pos in position])
+        throw(ArgumentError("Invalid position argument for operation. Expected between 1 and $(length(circuit.lattice)), got $(position)"))
+    end
+    # check that the connectionGraph of the operation is a subgraph of the lattice graph between the given positions
+    subgraph = induced_subgraph(circuit.lattice.graph, [position...])
+    if !Graphs.Experimental.has_induced_subgraphisomorph(subgraph[1], connectionGraph(operation), vertex_relation=(g1, g2) -> g1 == g2)
+        throw(ArgumentError("The connection graph of the operation is not a subgraph of the lattice graph between the given positions"))
+    end
 end
 
 function Base.show(io::IO, circuit::Circuit)
@@ -136,4 +145,46 @@ Returns true if all operations are Clifford operations, false otherwise.
 """
 function isClifford(circuit::Circuit)
     return all([isClifford(operation) for operation in circuit.operations])
+end
+
+
+function qiskitRepresentation(circuit::Circuit)
+    qc = Qiskit.QuantumCircuit(length(circuit.lattice))
+    for i in unique(circuit.executionOrder)
+        operationsInStep = _getOperations(circuit, i)
+        for j in operationsInStep
+            ptr = circuit.operationPointers[j]
+            applyToQiskit!(qc, circuit.operations[ptr], circuit.operationPositions[j]...)
+        end
+        qc.barrier()
+    end
+    return qc
+end
+
+function runIBMQ(circuit::Circuit, backend::String; verbose::Bool=true)
+    verbose && print("Transpiling circuit to Qiskit...")
+    qc = qiskitRepresentation(circuit)
+    verbose && println("✓")
+
+    verbose && print("Connecting to IBM Quantum...")
+    runtime = Qiskit.QiskitRuntimeService()
+    verbose && println("✓")
+
+    verbose && print("Getting the backend...")
+    backend = Qiskit.getBackend(runtime, backend)
+    verbose && println("✓")
+
+    verbose && print("Transpiling circuit to backend...")
+    Qiskit.transpile!(qc, backend)
+    verbose && println("✓")
+
+    verbose && print("Initializing sampler...")
+    sampler = Qiskit.Sampler(backend)
+    verbose && println("✓")
+
+    verbose && print("Submitting job...")
+    job = Qiskit.run(sampler, qc)
+    verbose && println("✓")
+
+    verbose && println("Job ID: $(job.job_id())")
 end

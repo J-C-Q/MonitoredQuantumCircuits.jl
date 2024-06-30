@@ -7,8 +7,6 @@ on:
   pull_request:
   workflow_dispatch:
 concurrency:
-  # Skip intermediate builds: always.
-  # Cancel intermediate builds: only if it is a pull request build.
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 jobs:
@@ -19,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - "1.9"
+          - "1.10"
           - "nightly"
         os:
           - ubuntu-latest
@@ -42,6 +40,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           files: lcov.info
+
   docs:
     name: Documentation
     runs-on: ubuntu-latest
