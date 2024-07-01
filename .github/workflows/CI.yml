@@ -66,5 +66,5 @@ jobs:
           julia --project=docs -e '
             using Documenter: DocMeta, doctest
             using MonitoredQuantumCircuits
-            DocMeta.setdocmeta!(MonitoredQuantumCircuits, :DocTestSetup, :(using MonitoredQuantumCircuits); recursive=true)
+            DocMeta.setdocmeta!(MonitoredQuantumCircuits, :DocTestSetup, :(using MonitoredQuantumCircuits); recursive=false)
             doctest(MonitoredQuantumCircuits)'
