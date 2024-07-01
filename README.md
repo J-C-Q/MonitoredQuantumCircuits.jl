@@ -53,3 +53,8 @@ Finally, submit the circuit to be run on an IBM Quantum QPU
 ```julia
 runIBMQ(circuit, "ibm_sherbrooke")
 ```
+
+or simulate the circuit using Qiskit Aer
+```julia
+runQiskitSimulate(circuit)
+```
