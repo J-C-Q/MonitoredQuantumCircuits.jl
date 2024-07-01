@@ -6,6 +6,9 @@ struct Sampler
     function Sampler(backend::IBMBackend)
         new(qiskit_ibm_runtime.SamplerV2(backend=backend.python_interface))
     end
+    function Sampler(backend::AerSimulator)
+        new(qiskit_ibm_runtime.SamplerV2(backend=backend.python_interface))
+    end
 end
 function Base.getproperty(qc::Sampler, prop::Symbol)
     if prop == :python_interface

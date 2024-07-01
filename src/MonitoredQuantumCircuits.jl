@@ -14,6 +14,7 @@ export EmptyCircuit
 export apply!
 export isClifford
 export runIBMQ
+export runQiskitSimulate
 
 export ZZ
 export XX

@@ -188,3 +188,27 @@ function runIBMQ(circuit::Circuit, backend::String; verbose::Bool=true)
 
     verbose && println("Job ID: $(job.job_id())")
 end
+
+function runQiskitSimulate(circuit::Circuit; verbose::Bool=true)
+    verbose && print("Transpiling circuit to Qiskit...")
+    qc = qiskitRepresentation(circuit)
+    verbose && println("✓")
+
+    verbose && print("Initializing the simulator...")
+    backend = Qiskit.QiskitSimulator()
+    verbose && println("✓")
+
+    verbose && print("Transpiling circuit to backend...")
+    Qiskit.transpile!(qc, backend)
+    verbose && println("✓")
+
+    verbose && print("Initializing sampler...")
+    sampler = Qiskit.Sampler(backend)
+    verbose && println("✓")
+
+    verbose && print("Simulating circuit...")
+    job = Qiskit.run(sampler, qc)
+    verbose && println("✓")
+
+    verbose && println("Job ID: $(job.job_id())")
+end
