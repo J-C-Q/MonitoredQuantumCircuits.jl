@@ -163,7 +163,7 @@ function qiskitRepresentation(circuit::Circuit)
                 ptr = circuit.operationPointers[j]
                 # only apply the k-th instruction of the operation, if deep enough
                 if k <= depth(circuit.operations[ptr])
-                    applyToQiskit!(qc, circuit.operations[ptr], Val(k), circuit.operationPositions[j]...)
+                    applyToQiskit!(qc, circuit.operations[ptr], k, circuit.operationPositions[j]...)
                 end
             end
         end

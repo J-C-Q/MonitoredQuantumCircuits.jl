@@ -25,8 +25,16 @@ function applyToQiskit!(qc::Qiskit.QuantumCircuit, operation::Operation, positio
     throw(ArgumentError("applyToQiskit not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 
+function applyToQiskit!(qc::Qiskit.QuantumCircuit, operation::Operation, ::Val, position::Vararg{Integer})
+    throw(ArgumentError("operation dosent have this many steps."))
+end
+
 function connectionGraph(operation::Operation)
     throw(ArgumentError("connectionGraph not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+end
+
+function depth(operation::Operation)
+    throw(ArgumentError("depth not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 
 include("operations/ZZ.jl")
