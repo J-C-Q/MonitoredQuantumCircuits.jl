@@ -211,4 +211,5 @@ function runQiskitSimulate(circuit::Circuit; verbose::Bool=true)
     verbose && println("✓")
 
     verbose && println("Job ID: $(job.job_id())")
+    return job
 end

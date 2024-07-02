@@ -5,13 +5,13 @@ A singelton type representing the XX operation.
 """
 struct XX <: Operation end
 
-function nQubits(operation::XX)
+function nQubits(::XX)
     return 3
 end
-function isClifford(operation::XX)
+function isClifford(::XX)
     return true
 end
-function applyToQiskit!(qc::Qiskit.QuantumCircuit, operation::XX, position::Vararg{Integer})
+function applyToQiskit!(qc::Qiskit.QuantumCircuit, ::XX, position::Vararg{Integer})
     qc.reset(position[2] - 1)
     qc.h(position[2] - 1)
     qc.cx(position[2] - 1, position[1] - 1)
