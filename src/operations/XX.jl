@@ -18,7 +18,7 @@ function applyToQiskit!(qc::Qiskit.QuantumCircuit, ::XX, position::Vararg{Intege
     qc.cx(position[2] - 1, position[3] - 1)
     qc.measure(position[2] - 1, position[2] - 1)
 end
-function connectionGraph(operation::XX)
+function connectionGraph(::XX)
     # return the connection graph of the operation
     return path_graph(3)
 end
