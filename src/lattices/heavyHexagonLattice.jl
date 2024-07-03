@@ -2,6 +2,7 @@ struct HeavyHexagonLattice <: Lattice
     graph::Graph
     sizeX::Int64
     sizeY::Int64
+    isAncilla::Vector{Bool} # whether the qubit is an ancilla
     physicalMap::Vector{Int64} # the mapping to the physical qubits indices on a device
     function HeavyHexagonLattice(sizeX::Integer, sizeY::Integer)
         sizeX > 0 || throw(ArgumentError("size must be positive"))
@@ -13,18 +14,6 @@ struct HeavyHexagonLattice <: Lattice
                 rem_edge!(graph, i, i + sizeX)
             end
         end
-        # rem_edge!(graph, sizeX, sizeX + 1)
-        # rem_edge!(graph, (sizeY - 1) * (sizeX + 1), (sizeY - 1) * (sizeX + 1) + 1)
-        # if isodd(sizeY) && isodd(sizeX)
-        #     rem_vertex!(graph, sizeX + 1)
-        #     rem_vertex!(graph, (sizeY - 1) * (sizeX + 1) + 1)
-        # elseif isodd(sizeY) && iseven(sizeX)
-        #     rem_vertex!(graph, nv(graph))
-        #     rem_vertex!(graph, (sizeY - 1) * (sizeX + 1) + 1)
-        # elseif iseven(sizeY) && isodd(sizeX)
-        #     rem_vertex!(graph, nv(graph))
-        #     rem_vertex!(graph, sizeX + 1)
-        # end
 
         nNodes = nv(graph)
         for e in collect(edges(graph))
@@ -37,8 +26,11 @@ struct HeavyHexagonLattice <: Lattice
             add_edge!(graph, src, nNodes)
             add_edge!(graph, nNodes, dst)
         end
+        isAncilla = Vector{Bool}(undef, nv(graph))
+        isAncilla[1:sizeX*sizeY] .= false
+        isAncilla[sizeX*sizeY+1:end] .= true
         physicalMap = fill(-1, nv(graph))
-        return new(graph, sizeX, sizeY, physicalMap)
+        return new(graph, sizeX, sizeY, isAncilla, physicalMap)
     end
 end
 function visualize(io::IO, lattice::HeavyHexagonLattice)

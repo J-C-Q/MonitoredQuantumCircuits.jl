@@ -2,6 +2,7 @@ struct HeavySquareLattice <: Lattice
     graph::Graph
     sizeX::Int64
     sizeY::Int64
+    isAncilla::Vector{Bool} # whether the qubit is an ancilla
     physicalMap::Vector{Int64} # the mapping to the physical qubits indices on a device
     function HeavySquareLattice(sizeX::Integer, sizeY::Integer)
         sizeX > 0 || throw(ArgumentError("size must be positive"))
@@ -18,8 +19,11 @@ struct HeavySquareLattice <: Lattice
             add_edge!(graph, src, nNodes)
             add_edge!(graph, nNodes, dst)
         end
+        isAncilla = Vector{Bool}(undef, nv(graph))
+        isAncilla[1:sizeX*sizeY] .= false
+        isAncilla[sizeX*sizeY+1:end] .= true
         physicalMap = fill(-1, nv(graph))
-        return new(graph, sizeX, sizeY, physicalMap)
+        return new(graph, sizeX, sizeY, isAncilla, physicalMap)
     end
 end
 
