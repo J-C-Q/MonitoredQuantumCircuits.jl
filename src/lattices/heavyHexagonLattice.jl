@@ -3,6 +3,7 @@ struct HeavyHexagonLattice <: Lattice
     sizeX::Int64
     sizeY::Int64
     isAncilla::Vector{Bool} # whether the qubit is an ancilla
+    gridPositions::Vector{Tuple{Int64,Int64}} # the grid positions of the qubits
     physicalMap::Vector{Int64} # the mapping to the physical qubits indices on a device
     function HeavyHexagonLattice(sizeX::Integer, sizeY::Integer)
         sizeX > 0 || throw(ArgumentError("size must be positive"))
@@ -14,7 +15,7 @@ struct HeavyHexagonLattice <: Lattice
                 rem_edge!(graph, i, i + sizeX)
             end
         end
-
+        gridPositions = [(2i - 1, 2j - 1) for j in 1:sizeY for i in 1:sizeX]
         nNodes = nv(graph)
         for e in collect(edges(graph))
             src = Graphs.src(e)
@@ -22,7 +23,7 @@ struct HeavyHexagonLattice <: Lattice
             rem_edge!(graph, e)
             add_vertex!(graph)
             nNodes += 1
-
+            push!(gridPositions, (round(Int64, (gridPositions[src][1] + gridPositions[dst][1]) / 2), round(Int64, (gridPositions[src][2] + gridPositions[dst][2]) / 2)))
             add_edge!(graph, src, nNodes)
             add_edge!(graph, nNodes, dst)
         end
@@ -30,59 +31,95 @@ struct HeavyHexagonLattice <: Lattice
         isAncilla[1:sizeX*sizeY] .= false
         isAncilla[sizeX*sizeY+1:end] .= true
         physicalMap = fill(-1, nv(graph))
-        return new(graph, sizeX, sizeY, isAncilla, physicalMap)
+        return new(graph, sizeX, sizeY, isAncilla, gridPositions, physicalMap)
     end
 end
+
 function visualize(io::IO, lattice::HeavyHexagonLattice)
-
-    for _ in 1:2lattice.sizeX-2
-        print(io, "o - ")
+    grid = fill(" ", 2 * maximum([pos[2] for pos in lattice.gridPositions]) + 1, 5 * maximum([pos[1] for pos in lattice.gridPositions]) + 3)
+    for (i, gridPosition) in enumerate(lattice.gridPositions)
+        zeroString = String["0", "0", "0"]
+        i_as_string = string(i)
+        zeroString[end-length(i_as_string)+1:end] .= [string(i_as_string[i]) for i in 1:length(i_as_string)]
+        grid[2gridPosition[2]-1, 5gridPosition[1]-4] = zeroString[1]
+        grid[2gridPosition[2]-1, 5gridPosition[1]-3] = zeroString[2]
+        grid[2gridPosition[2]-1, 5gridPosition[1]-2] = zeroString[3]
     end
-    println(io, "o")
-    for j in 2:2lattice.sizeY-1
-        if j % 2 == 0
-            if j % 4 == 0
-                print(io, "        ")
-                for i in 1:2:lattice.sizeX-3
-                    print(io, "|               ")
-                end
-                println(io, "|")
-                print(io, "        ")
-                for i in 1:2:lattice.sizeX-3
-                    print(io, "o               ")
-                end
-                println(io, "o")
-                print(io, "        ")
-                for i in 1:2:lattice.sizeX-3
-                    print(io, "|               ")
-                end
-                println(io, "|")
-
-            else
-                for i in 1:2:lattice.sizeX-2
-                    print(io, "|               ")
-                end
-                println(io, "|")
-                for i in 1:2:lattice.sizeX-2
-                    print(io, "o               ")
-                end
-                println(io, "o")
-                for i in 1:2:lattice.sizeX-2
-                    print(io, "|               ")
-                end
-                println(io, "|")
-            end
+    for e in collect(edges(lattice.graph))
+        src = Graphs.src(e)
+        dst = Graphs.dst(e)
+        gridPositionSrc = (2lattice.gridPositions[src][2] - 1, 5lattice.gridPositions[src][1] - 3)
+        gridPositionDst = (2lattice.gridPositions[dst][2] - 1, 5lattice.gridPositions[dst][1] - 3)
+        meanPosition = (round(Int64, (gridPositionSrc[1] + gridPositionDst[1]) / 2), floor(Int64, (gridPositionSrc[2] + gridPositionDst[2]) / 2))
+        if gridPositionSrc[1] == gridPositionDst[1]
+            grid[meanPosition[1], meanPosition[2]] = "─"
+            grid[meanPosition[1], meanPosition[2]+1] = "─"
         else
-            for _ in 1:2lattice.sizeX-2
-                print(io, "o - ")
-            end
-            println(io, "o")
+            grid[meanPosition[1], meanPosition[2]] = "|"
         end
+
     end
-    # print(io, "        ")
-    # for _ in 1:2lattice.sizeX-2
-    #     print(io, "o - ")
-    # end
-    # println(io, "o")
+
+
+    for j in eachindex(grid[:, 1])
+        for i in eachindex(grid[j, :])
+            print(io, grid[j, i])
+        end
+        println(io)
+    end
     return nothing
 end
+
+# function visualize(io::IO, lattice::HeavyHexagonLattice)
+
+#     for _ in 1:2lattice.sizeX-2
+#         print(io, "o - ")
+#     end
+#     println(io, "o")
+#     for j in 2:2lattice.sizeY-1
+#         if j % 2 == 0
+#             if j % 4 == 0
+#                 print(io, "        ")
+#                 for i in 1:2:lattice.sizeX-3
+#                     print(io, "|               ")
+#                 end
+#                 println(io, "|")
+#                 print(io, "        ")
+#                 for i in 1:2:lattice.sizeX-3
+#                     print(io, "o               ")
+#                 end
+#                 println(io, "o")
+#                 print(io, "        ")
+#                 for i in 1:2:lattice.sizeX-3
+#                     print(io, "|               ")
+#                 end
+#                 println(io, "|")
+
+#             else
+#                 for i in 1:2:lattice.sizeX-2
+#                     print(io, "|               ")
+#                 end
+#                 println(io, "|")
+#                 for i in 1:2:lattice.sizeX-2
+#                     print(io, "o               ")
+#                 end
+#                 println(io, "o")
+#                 for i in 1:2:lattice.sizeX-2
+#                     print(io, "|               ")
+#                 end
+#                 println(io, "|")
+#             end
+#         else
+#             for _ in 1:2lattice.sizeX-2
+#                 print(io, "o - ")
+#             end
+#             println(io, "o")
+#         end
+#     end
+#     # print(io, "        ")
+#     # for _ in 1:2lattice.sizeX-2
+#     #     print(io, "o - ")
+#     # end
+#     # println(io, "o")
+#     return nothing
+# end
