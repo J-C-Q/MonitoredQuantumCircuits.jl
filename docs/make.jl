@@ -4,7 +4,7 @@ using Documenter
 DocMeta.setdocmeta!(MonitoredQuantumCircuits, :DocTestSetup, :(using MonitoredQuantumCircuits); recursive=true)
 
 makedocs(;
-    modules=[MonitoredQuantumCircuits],
+    modules=[MonitoredQuantumCircuits, Qiskit],
     authors="Quinten Preiss",
     repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl/blob/{commit}{path}#{line}",
     sitename="MonitoredQuantumCircuits.jl",
