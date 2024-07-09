@@ -14,7 +14,12 @@
 
 ## Overview
 
-`MonitoredQuantumCircuits.jl` is a Julia package that simplifies research on quantum circuits focused on measurements. It offers an easy-to-use command line interface to create, simulate, and run (on IBM Quantum) quantum circuits  on various lattice geometries. The package is designed to be modular and extendable.
+`MonitoredQuantumCircuits.jl` is a Julia package that simplifies research on quantum circuits focused on measurements. It offers an easy-to-use command line interface to create, simulate, and run (on IBM Quantum) quantum circuits on various lattice geometries. The package is designed to be modular and extendable.
+
+1. Construct a lattice
+2. Create a circuit
+3. 
+
 
 ## Disclaimer
 

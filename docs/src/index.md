@@ -7,9 +7,12 @@ CurrentModule = MonitoredQuantumCircuits
 Documentation for [MonitoredQuantumCircuits](https://github.com/J-C-Q/MonitoredQuantumCircuits.jl).
 
 ```@index
-
 ```
 
-```@autodocs
+```@docs
+nQubits(operation::Operation)
+```
+
+<!-- ```@autodocs
 Modules = [MonitoredQuantumCircuits]
-```
+``` -->
