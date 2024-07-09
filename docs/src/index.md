@@ -9,9 +9,9 @@ Documentation for [MonitoredQuantumCircuits](https://github.com/J-C-Q/MonitoredQ
 ```@index
 ```
 
-```@docs
+<!-- ```@docs
 nQubits(operation::Operation)
-```
+``` -->
 
 ```@autodocs
 Modules = [MonitoredQuantumCircuits, Qiskit]
