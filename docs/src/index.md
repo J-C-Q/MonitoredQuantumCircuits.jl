@@ -13,6 +13,6 @@ Documentation for [MonitoredQuantumCircuits](https://github.com/J-C-Q/MonitoredQ
 nQubits(operation::Operation)
 ```
 
-<!-- ```@autodocs
+```@autodocs
 Modules = [MonitoredQuantumCircuits]
-``` -->
+```
