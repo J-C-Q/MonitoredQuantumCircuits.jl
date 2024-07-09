@@ -1,6 +1,6 @@
 module GraphLayout
-using Random
-using NetworkLayout
+# using Random
+# using NetworkLayout
 
 function gridLayout(g::Graph, Lx::Integer, Ly::Integer)
     # Perform monte carlo simulated annealing to find a good layout
