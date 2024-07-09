@@ -14,5 +14,5 @@ nQubits(operation::Operation)
 ```
 
 ```@autodocs
-Modules = [MonitoredQuantumCircuits]
+Modules = [MonitoredQuantumCircuits, Qiskit]
 ```
