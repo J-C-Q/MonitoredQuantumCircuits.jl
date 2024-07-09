@@ -8,10 +8,6 @@ Documentation for [MonitoredQuantumCircuits](https://github.com/J-C-Q/MonitoredQ
 
 ```@index
 ```
-<!-- 
-```@docs
-MonitoredQuantumCircuits
-``` -->
 
 ```@autodocs
 Modules = [MonitoredQuantumCircuits]
