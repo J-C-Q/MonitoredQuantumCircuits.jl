@@ -1,10 +1,10 @@
 using Documenter, DocumenterVitepress
 
-using YourPackage
+using MonitoredQunatumCircuits
 
 makedocs(;
-    modules=[YourPackage],
-    authors="Your Name Here",
+    modules=[MonitoredQunatumCircuits],
+    authors="J-C-Q",
     repo="https://github.com/J-C-Q/MonitoredQunatumCircuits.jl",
     sitename="MonitoredQunatumCircuits.jl",
     format=DocumenterVitepress.MarkdownVitepress(
