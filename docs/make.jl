@@ -1,30 +1,24 @@
-using MonitoredQuantumCircuits
-using Documenter
+using Documenter, DocumenterVitepress
 
-# DocMeta.setdocmeta!(MonitoredQuantumCircuits, :DocTestSetup, :(using MonitoredQuantumCircuits); recursive=true)
+using YourPackage
 
 makedocs(;
+    modules=[YourPackage],
+    authors="Your Name Here",
+    repo="https://github.com/J-C-Q/MonitoredQunatumCircuits.jl",
+    sitename="MonitoredQunatumCircuits.jl",
+    format=DocumenterVitepress.MarkdownVitepress(
+        repo="https://github.com/J-C-Q/MonitoredQunatumCircuits.jl",
+        devurl="dev",
+        deploy_url="J-C-Q.github.io/MonitoredQunatumCircuits.jl",
+    ),
     pages=[
         "Home" => "index.md",
-        "Tutorial" => "tutorial.md",
-        "API Reference" => "api.md",
     ],
-    modules=[MonitoredQuantumCircuits],
     warnonly=true,
-    authors="Quinten Preiss",
-    repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl/blob/{commit}{path}#{line}",
-    sitename="MonitoredQuantumCircuits.jl",
-    format=Documenter.HTML(;
-        prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://J-C-Q.github.io/MonitoredQuantumCircuits.jl",
-        repolink="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
-        edit_link="main",
-        assets=String["assets/favicon.ico", "assets/style.css"],
-        sidebar_sitename=false
-    )
 )
 
 deploydocs(;
-    repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl.git",
-    # devbranch="main"
+    repo="github.com/J-C-Q/MonitoredQunatumCircuits.jl",
+    push_preview=true,
 )
