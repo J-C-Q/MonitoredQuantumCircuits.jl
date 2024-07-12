@@ -1,16 +1,16 @@
 using Documenter, DocumenterVitepress
 
-using MonitoredQunatumCircuits
+using MonitoredQuantumCircuits
 
 makedocs(;
-    modules=[MonitoredQunatumCircuits],
+    modules=[MonitoredQuantumCircuits],
     authors="J-C-Q",
-    repo="https://github.com/J-C-Q/MonitoredQunatumCircuits.jl",
-    sitename="MonitoredQunatumCircuits.jl",
+    repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
+    sitename="MonitoredQuantumCircuits.jl",
     format=DocumenterVitepress.MarkdownVitepress(
-        repo="https://github.com/J-C-Q/MonitoredQunatumCircuits.jl",
+        repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
         devurl="dev",
-        deploy_url="J-C-Q.github.io/MonitoredQunatumCircuits.jl",
+        deploy_url="J-C-Q.github.io/MonitoredQuantumCircuits.jl",
     ),
     pages=[
         "Home" => "index.md",
@@ -19,6 +19,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/J-C-Q/MonitoredQunatumCircuits.jl",
+    repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
     push_preview=true,
 )
