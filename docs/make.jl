@@ -12,16 +12,16 @@ makedocs(;
     modules=[MonitoredQuantumCircuits],
     warnonly=true,
     authors="Quinten Preiss",
-    repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
+    repo="https://github.com/j-c-q/MonitoredQuantumCircuits.jl",
     sitename="MonitoredQuantumCircuits.jl",
     format=DocumenterVitepress.MarkdownVitepress(
         # prettyurls=get(ENV, "CI", "false") == "true",
         # canonical="https://J-C-Q.github.io/MonitoredQuantumCircuits.jl",
-        repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
+        repo="https://github.com/j-c-q/MonitoredQuantumCircuits.jl",
         # edit_link="main",
-        # devurl="dev",
+        devurl="dev",
         # assets=String["assets/favicon.ico", "assets/style.css"],
-        deploy_url="https://J-C-Q.github.io/MonitoredQuantumCircuits.jl"
+        deploy_url="https://j-c-q.github.io/MonitoredQuantumCircuits.jl"
     )
 )
 
