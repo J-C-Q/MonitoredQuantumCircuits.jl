@@ -1,5 +1,5 @@
 using MonitoredQuantumCircuits
-using Documenter
+using Documenter, DocumenterVitepress
 
 # DocMeta.setdocmeta!(MonitoredQuantumCircuits, :DocTestSetup, :(using MonitoredQuantumCircuits); recursive=true)
 
@@ -12,19 +12,20 @@ makedocs(;
     modules=[MonitoredQuantumCircuits],
     warnonly=true,
     authors="Quinten Preiss",
-    repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl/blob/{commit}{path}#{line}",
+    repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
     sitename="MonitoredQuantumCircuits.jl",
-    format=Documenter.HTML(;
-        prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://J-C-Q.github.io/MonitoredQuantumCircuits.jl",
-        repolink="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
-        edit_link="main",
-        assets=String["assets/favicon.ico", "assets/style.css"],
-        sidebar_sitename=false
+    format=DocumenterVitepress.MarkdownVitepress(
+        # prettyurls=get(ENV, "CI", "false") == "true",
+        # canonical="https://J-C-Q.github.io/MonitoredQuantumCircuits.jl",
+        repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
+        # edit_link="main",
+        # devurl="dev",
+        # assets=String["assets/favicon.ico", "assets/style.css"],
+        deploy_url="https://J-C-Q.github.io/MonitoredQuantumCircuits.jl"
     )
 )
 
-deploydocs(;
-    repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl.git",
-    # devbranch="main"
-)
+# deploydocs(;
+#     repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl.git",
+#     # devbranch="main"
+# )
