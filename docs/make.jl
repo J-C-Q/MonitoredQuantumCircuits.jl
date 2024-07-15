@@ -25,7 +25,7 @@ makedocs(;
     )
 )
 
-# deploydocs(;
-#     repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl.git",
-#     # devbranch="main"
-# )
+deploydocs(;
+    repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl.git",
+    # devbranch="main"
+)
