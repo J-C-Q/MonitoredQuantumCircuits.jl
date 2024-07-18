@@ -43,8 +43,11 @@ jobs:
           # An access token must be provided to "push" the documentation build.
           # GitHub automates this via your account with this line:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }} # For authentication with SSH deploy key
           # See the discussion around "TagBot" in the Documenter.jl website:
           # https://documenter.juliadocs.org/stable/man/hosting/#GitHub-Actions
           # for automating creating tagged documentation builds after
           # registering your package in the Julia General Registry
-        run: julia --project=docs/ docs/make.jl
+          DATADEPS_ALWAYS_ACCEPT: true
+        uses: julia-actions/julia-docdeploy@v1
+        #   run: julia --project=docs/ docs/make.jl
