@@ -16,7 +16,7 @@ makedocs(;
     sitename="MonitoredQuantumCircuits.jl",
     format=DocumenterVitepress.MarkdownVitepress(
         # prettyurls=get(ENV, "CI", "false") == "true",
-        # canonical="https://J-C-Q.github.io/MonitoredQuantumCircuits.jl",
+        canonical="https://j-c-q.github.io/MonitoredQuantumCircuits.jl",
         repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
         # edit_link="main",
         devurl="dev",
