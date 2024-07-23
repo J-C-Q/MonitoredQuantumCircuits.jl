@@ -2,19 +2,19 @@ module MonitoredQuantumCircuits
 
 
 using Graphs
-
+# TODO think about include order this is not working.
 include("backend.jl")
+include("lattice.jl")
 include("Qiskit/Qiskit.jl")
 include("operations.jl")
-include("lattice.jl")
 include("circuit.jl")
+
 
 export Circuit
 export EmptyCircuit
 export apply!
 export isClifford
-export runIBMQ
-export runQiskitSimulate
+export run
 
 export ZZ
 export XX

@@ -147,70 +147,10 @@ function isClifford(circuit::Circuit)
     return all([isClifford(operation) for operation in circuit.operations])
 end
 
-#TODO apply indentitiy operation to all other qubits/maybe with transpile pass.
-function qiskitRepresentation(circuit::Circuit)
-    qc = Qiskit.QuantumCircuit(length(circuit.lattice))
-    # iterate execution steps
-    for i in unique(circuit.executionOrder)
-        # get all operations in the step
-        operationsInStep = _getOperations(circuit, i)
-        # get depth of the deepest operation in the step
-        maximumDepth = maximum([depth(circuit.operations[circuit.operationPointers[j]]) for j in operationsInStep])
-        # iterate depth of the operations
-        for k in 1:maximumDepth
-            # iterate operations in the step
-            for j in operationsInStep
-                ptr = circuit.operationPointers[j]
-                # only apply the k-th instruction of the operation, if deep enough
-                if k <= depth(circuit.operations[ptr])
-                    applyToQiskit!(qc, circuit.operations[ptr], k, circuit.operationPositions[j]...)
-                end
-            end
-        end
-    end
-    return qc
-end
 
-function run(circuit::Circuit, backend::IBMBackend; verbose::Bool=true)
-    verbose && print("Transpiling circuit to Qiskit...")
-    qc = qiskitRepresentation(circuit)
-    verbose && println("✓")
 
-    verbose && print("Transpiling circuit to backend...")
-    Qiskit.transpile!(qc, backend)
-    verbose && println("✓")
-
-    verbose && print("Initializing sampler...")
-    sampler = Qiskit.Sampler(backend)
-    verbose && println("✓")
-
-    verbose && print("Submitting job...")
-    job = Qiskit.run(sampler, qc)
-    verbose && println("✓")
-
-    verbose && println("Job ID: $(job.job_id())")
-end
 # job.result()[0].data.c.get_counts().items()
-function run(circuit::Circuit, backend::AerSimulator; verbose::Bool=true)
-    verbose && print("Transpiling circuit to Qiskit...")
-    qc = qiskitRepresentation(circuit)
-    verbose && println("✓")
 
-    verbose && print("Transpiling circuit to backend...")
-    Qiskit.transpile!(qc, backend)
-    verbose && println("✓")
-
-    verbose && print("Initializing sampler...")
-    sampler = Qiskit.Sampler(backend)
-    verbose && println("✓")
-
-    verbose && print("Simulating circuit...")
-    job = Qiskit.run(sampler, qc)
-    verbose && println("✓")
-
-    verbose && println("Job ID: $(job.job_id())")
-    return job
-end
 
 function run(::Circuit, backend::Backend; ::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))

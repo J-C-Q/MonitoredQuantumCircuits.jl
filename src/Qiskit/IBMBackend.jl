@@ -30,6 +30,26 @@ function Base.show(io::IO, ::MIME"text/plain", obj::IBMBackend)
     println(io, "Max shots: $(obj.max_shots)")
 end
 
+function run(circuit::Circuit, backend::IBMBackend; verbose::Bool=true)
+    verbose && print("Transpiling circuit to Qiskit...")
+    qc = qiskitRepresentation(circuit)
+    verbose && println("✓")
+
+    verbose && print("Transpiling circuit to backend...")
+    Qiskit.transpile!(qc, backend)
+    verbose && println("✓")
+
+    verbose && print("Initializing sampler...")
+    sampler = Sampler(backend)
+    verbose && println("✓")
+
+    verbose && print("Submitting job...")
+    job = run(sampler, qc)
+    verbose && println("✓")
+
+    verbose && println("Job ID: $(job.job_id())")
+end
+
 function isSimulator(::IBMBackend)
     return false
 end

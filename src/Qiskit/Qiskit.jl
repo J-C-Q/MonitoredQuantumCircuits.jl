@@ -24,4 +24,28 @@ include("Simulation.jl")
 include("Sampler.jl")
 include("Transpiler.jl")
 
+#TODO apply indentitiy operation to all other qubits/maybe with transpile pass.
+function qiskitRepresentation(circuit::Circuit)
+    qc = Qiskit.QuantumCircuit(length(circuit.lattice))
+    # iterate execution steps
+    for i in unique(circuit.executionOrder)
+        # get all operations in the step
+        operationsInStep = _getOperations(circuit, i)
+        # get depth of the deepest operation in the step
+        maximumDepth = maximum([depth(circuit.operations[circuit.operationPointers[j]]) for j in operationsInStep])
+        # iterate depth of the operations
+        for k in 1:maximumDepth
+            # iterate operations in the step
+            for j in operationsInStep
+                ptr = circuit.operationPointers[j]
+                # only apply the k-th instruction of the operation, if deep enough
+                if k <= depth(circuit.operations[ptr])
+                    applyToQiskit!(qc, circuit.operations[ptr], k, circuit.operationPositions[j]...)
+                end
+            end
+        end
+    end
+    return qc
+end
+
 end
