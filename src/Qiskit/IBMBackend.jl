@@ -29,3 +29,7 @@ function Base.show(io::IO, ::MIME"text/plain", obj::IBMBackend)
     println(io, "Qubits: $(obj.num_qubits)")
     println(io, "Max shots: $(obj.max_shots)")
 end
+
+function isSimulator(::IBMBackend)
+    return false
+end

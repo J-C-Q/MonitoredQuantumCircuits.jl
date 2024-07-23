@@ -8,3 +8,6 @@ end
 function QiskitClifforSimulator()
     AerSimulator(qiskit_aer.AerSimulator(method="stabilizer"))
 end
+function isSimulator(::AerSimulator)
+    return true
+end
