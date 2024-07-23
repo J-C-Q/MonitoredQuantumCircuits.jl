@@ -18,6 +18,9 @@ function connectionGraph(::ZZ)
     # return the connection graph of the operation
     return path_graph(3)
 end
+
+
+
 function applyToQiskit!(qc::Qiskit.QuantumCircuit, ::ZZ, p1::Integer, p2::Integer, p3::Integer)
     qc.reset(p2 - 1)
     qc.cx(p1 - 1, p2 - 1)

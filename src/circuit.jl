@@ -171,17 +171,9 @@ function qiskitRepresentation(circuit::Circuit)
     return qc
 end
 
-function runIBMQ(circuit::Circuit, backend::String; verbose::Bool=true)
+function run(circuit::Circuit, backend::IBMBackend; verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
     qc = qiskitRepresentation(circuit)
-    verbose && println("✓")
-
-    verbose && print("Connecting to IBM Quantum...")
-    runtime = Qiskit.QiskitRuntimeService()
-    verbose && println("✓")
-
-    verbose && print("Getting the backend...")
-    backend = Qiskit.getBackend(runtime, backend)
     verbose && println("✓")
 
     verbose && print("Transpiling circuit to backend...")
@@ -199,13 +191,9 @@ function runIBMQ(circuit::Circuit, backend::String; verbose::Bool=true)
     verbose && println("Job ID: $(job.job_id())")
 end
 # job.result()[0].data.c.get_counts().items()
-function runQiskitSimulate(circuit::Circuit; verbose::Bool=true)
+function run(circuit::Circuit, backend::AerSimulator; verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
     qc = qiskitRepresentation(circuit)
-    verbose && println("✓")
-
-    verbose && print("Initializing the simulator...")
-    backend = Qiskit.QiskitSimulator()
     verbose && println("✓")
 
     verbose && print("Transpiling circuit to backend...")
@@ -222,4 +210,8 @@ function runQiskitSimulate(circuit::Circuit; verbose::Bool=true)
 
     verbose && println("Job ID: $(job.job_id())")
     return job
+end
+
+function run(::Circuit, backend::Backend; ::Bool=true)
+    throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end

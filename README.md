@@ -53,13 +53,15 @@ You can now apply operations to the circuit, specifying the operation type (curr
 ```julia
 apply!(circuit, ZZ(), 1, 2, 3)
 ```
-
-Finally, submit the circuit to be run on an IBM Quantum QPU
+Now, create an instance of the backend that you want the circuit to run on. This can be a physical IBM Quantum QPU 
 ```julia
-runIBMQ(circuit, "ibm_sherbrooke")
+backend = IBMBackend("ibm_sherbrooke")
 ```
-
-or simulate the circuit using Qiskit Aer
+or a simulator. 
 ```julia
-runQiskitSimulate(circuit)
+backend = QiskitSimulator()
+```
+Finally, submit the circuit to be run on the backend you defined
+```julia
+run(circuit, backend)
 ```

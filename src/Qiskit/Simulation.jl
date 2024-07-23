@@ -1,5 +1,5 @@
-abstract type Simulator end
-struct AerSimulator <: Simulator
+
+struct AerSimulator <: Backend
     python_interface::Py
 end
 function QiskitSimulator()
