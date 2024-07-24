@@ -26,6 +26,19 @@ const qiskit_aer = PythonCall.pynew()
 function __init__()
     PythonCall.pycopy!(qiskit, pyimport("qiskit"))
     PythonCall.pycopy!(qiskit_ibm_runtime, pyimport("qiskit_ibm_runtime"))
+
+    if Sys.islinux()
+        try
+            CondaPkg.pip_add("qiskit-aer-gpu")
+            println("qiskit-aer-gpu installed successfully.")
+        catch
+            println("Failed to install qiskit-aer-gpu, using qiskit-aer instead.")
+        end
+    else
+        println("Non-Linux OS detected, gpu support diesabled for qiskit-aer.")
+    end
+
+
     PythonCall.pycopy!(qiskit_aer, pyimport("qiskit_aer"))
 end
 
