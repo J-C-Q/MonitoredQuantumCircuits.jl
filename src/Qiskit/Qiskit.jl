@@ -24,7 +24,10 @@ const qiskit = PythonCall.pynew()
 const qiskit_ibm_runtime = PythonCall.pynew()
 const qiskit_aer = PythonCall.pynew()
 function __init__()
-    PythonCall.pycopy!(qiskit, pyimport("qiskit"))
+    original_stdout = stdout
+    redirect_stdout(devnull) do
+        PythonCall.pycopy!(qiskit, pyimport("qiskit"))
+    end
     PythonCall.pycopy!(qiskit_ibm_runtime, pyimport("qiskit_ibm_runtime"))
 
     if Sys.islinux()
@@ -35,7 +38,7 @@ function __init__()
             println("Failed to install qiskit-aer-gpu, using qiskit-aer instead.")
         end
     else
-        println("Non-Linux OS detected, gpu support diesabled for qiskit-aer.")
+        println("Non-Linux OS detected, gpu support disabled for qiskit-aer.")
     end
 
 
