@@ -5,16 +5,23 @@ end
 function QiskitSimulator()
     AerSimulator(qiskit_aer.AerSimulator())
 end
-function QiskitClifforSimulator()
+function QiskitCliffordSimulator()
     AerSimulator(qiskit_aer.AerSimulator(method="stabilizer"))
+end
+function QiskitTensorNetworkSimulator()
+    AerSimulator(qiskit_aer.AerSimulator(method="tensor_network"))
 end
 function isSimulator(::AerSimulator)
     return true
 end
 
-function run(circuit::Circuit, backend::AerSimulator; verbose::Bool=true)
+function Base.show(io::IO, ::MIME"text/plain", obj::AerSimulator)
+    println(io, "AerSimulator")
+end
+
+function execute(circuit::Circuit, backend::AerSimulator; verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
-    qc = qiskitRepresentation(circuit)
+    qc = convert(QuantumCircuit, circuit)
     verbose && println("✓")
 
     verbose && print("Transpiling circuit to backend...")

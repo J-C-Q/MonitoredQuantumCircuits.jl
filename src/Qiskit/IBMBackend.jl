@@ -1,3 +1,5 @@
+
+
 struct IBMBackend <: Backend
     python_interface::Py
 
@@ -6,13 +8,13 @@ struct IBMBackend <: Backend
     end
 
     function IBMBackend(name::String)
-        runtime = Qiskit.QiskitRuntimeService()
+        runtime = QiskitRuntimeService()
         backend = getBackend(runtime, name)
         new(backend)
     end
     function IBMBackend(name::String, api_key::String)
-        runtime = Qiskit.QiskitRuntimeService(api_key)
-        backend = getBackend(runtime, name)
+        runtime = QiskitRuntimeService(api_key)
+        backend = runtime.get_backend(name)
         new(backend)
     end
 end
@@ -30,13 +32,13 @@ function Base.show(io::IO, ::MIME"text/plain", obj::IBMBackend)
     println(io, "Max shots: $(obj.max_shots)")
 end
 
-function run(circuit::Circuit, backend::IBMBackend; verbose::Bool=true)
+function execute(circuit::Circuit, backend::IBMBackend; verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
-    qc = qiskitRepresentation(circuit)
+    qc = convert(QuantumCircuit, circuit)
     verbose && println("✓")
 
     verbose && print("Transpiling circuit to backend...")
-    Qiskit.transpile!(qc, backend)
+    transpile!(qc, backend)
     verbose && println("✓")
 
     verbose && print("Initializing sampler...")

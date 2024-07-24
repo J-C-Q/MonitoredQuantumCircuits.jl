@@ -17,18 +17,7 @@ function isClifford(operation::Operation)
     throw(ArgumentError("isClifford not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 
-"""
-    applyToQiskit(qc::Qiskit.QuantumCircuit, operation::Operation, position::Vararg{Integer})
 
-Apply the operation to a Qiskit QuantumCircuit.
-"""
-function applyToQiskit!(::Qiskit.QuantumCircuit, operation::Operation, ::Vararg{Integer})
-    throw(ArgumentError("applyToQiskit not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
-end
-
-function applyToQiskit!(qc::Qiskit.QuantumCircuit, operation::Operation, ::Val, position::Vararg{Integer})
-    throw(ArgumentError("operation  $(typeof(operation)) dosent have this many steps."))
-end
 
 """
     connectionGraph(operation::Operation)
@@ -48,8 +37,6 @@ function depth(operation::Operation)
     throw(ArgumentError("depth not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 
-include("operations/ZZ.jl")
-include("operations/XX.jl")
-include("operations/YY.jl")
+
 
 Base.show(io::IO, operation::Operation) = print(io, "$(typeof(operation))")

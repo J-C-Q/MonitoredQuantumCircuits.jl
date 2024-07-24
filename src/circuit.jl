@@ -9,7 +9,7 @@ struct Circuit{T<:Lattice,M<:Integer}
         M = Int64
         return new{typeof(lattice),M}(lattice, Operation[], Tuple{M,Vararg{M}}[], M[], M[])
     end
-    function Circuit(lattice::Lattice, operations::Vector{O}, operationPositions::Vector{NTuple{N,M}}, operationPointers::Vector{M}, executionOrder::Vector{M}) where {O<:Operation,M<:Integer,N}
+    function Circuit(lattice::Lattice, operations::Vector{Operation}, operationPositions::Vector{NTuple{N,M}}, operationPointers::Vector{M}, executionOrder::Vector{M}) where {M<:Integer,N}
         return new{typeof(lattice),M}(lattice, operations, operationPositions, operationPointers, executionOrder)
     end
 end
@@ -152,6 +152,6 @@ end
 # job.result()[0].data.c.get_counts().items()
 
 
-function run(::Circuit, backend::Backend; ::Bool=true)
+function execute(::Circuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
