@@ -28,6 +28,7 @@ function __init__()
     redirect_stdout(devnull) do
         PythonCall.pycopy!(qiskit, pyimport("qiskit"))
     end
+    redirect_stdout(original_stdout)
     PythonCall.pycopy!(qiskit_ibm_runtime, pyimport("qiskit_ibm_runtime"))
 
     if Sys.islinux()
