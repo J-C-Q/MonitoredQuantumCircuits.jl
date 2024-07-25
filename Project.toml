@@ -4,6 +4,7 @@ authors = ["Quinten Preiss"]
 version = "0.1.0-DEV"
 
 [deps]
+CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
 Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
 MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
 PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
@@ -12,4 +13,5 @@ PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 Graphs = "1.11.1"
 MacroTools = "0.5.13"
 PythonCall = "0.9.20"
+CondaPkg = "0.2.23"
 julia = "1.9.2"

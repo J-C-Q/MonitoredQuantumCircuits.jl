@@ -12,7 +12,7 @@ end
 Base.show(io::IO, ::MIME"text/plain", obj::QuantumCircuit) = print(io, obj.python_interface)
 
 #TODO apply indentitiy operation to all other qubits/maybe with transpile pass.
-function convert(::Type{QuantumCircuit}, circuit::Circuit)
+function translate(::Type{QuantumCircuit}, circuit::Circuit)
     qc = QuantumCircuit(length(circuit.lattice))
     # iterate execution steps
     for i in unique(circuit.executionOrder)

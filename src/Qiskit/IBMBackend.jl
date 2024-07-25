@@ -34,7 +34,7 @@ end
 
 function execute(circuit::Circuit, backend::IBMBackend; verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
-    qc = convert(QuantumCircuit, circuit)
+    qc = translate(QuantumCircuit, circuit)
     verbose && println("✓")
 
     verbose && print("Transpiling circuit to backend...")

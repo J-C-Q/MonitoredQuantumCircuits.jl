@@ -2,3 +2,6 @@
 qiskit-aer = ""
 qiskit-ibm-runtime = ""
 qiskit = ""
+
+[pip.deps]
+qiskit-aer-gpu = ""

@@ -14,26 +14,41 @@ import ..Backend
 import ..execute
 import .._getOperations
 import ..depth
+import ..translate
 
 
 using PythonCall
+using CondaPkg
 
+function replaceOutput(f::Function, new_output::String)
+    print(new_output)
+    original_stdout = stdout
+    redirect_stdout(devnull) do
+        f()
+    end
+    redirect_stdout(original_stdout)
+    println("✓")
+end
 
 # import qiskit at run time
 const qiskit = PythonCall.pynew()
 const qiskit_ibm_runtime = PythonCall.pynew()
 const qiskit_aer = PythonCall.pynew()
 function __init__()
-    original_stdout = stdout
-    redirect_stdout(devnull) do
-        PythonCall.pycopy!(qiskit, pyimport("qiskit"))
-    end
-    redirect_stdout(original_stdout)
-    PythonCall.pycopy!(qiskit_ibm_runtime, pyimport("qiskit_ibm_runtime"))
+    replaceOutput(
+        () -> PythonCall.pycopy!(qiskit, pyimport("qiskit")),
+        "Importing qiskit...")
+
+    replaceOutput(
+        () -> PythonCall.pycopy!(qiskit_ibm_runtime, pyimport("qiskit_ibm_runtime")),
+        "Importing qiskit_ibm_runtime...")
 
     if Sys.islinux()
         try
-            CondaPkg.pip_add("qiskit-aer-gpu")
+            replaceOutput(
+                () -> CondaPkg.add_pip("qiskit-aer-gpu"),
+                "Downloading qiskit_aer_gpu...")
+
             println("qiskit-aer-gpu installed successfully.")
         catch
             println("Failed to install qiskit-aer-gpu, using qiskit-aer instead.")
@@ -42,8 +57,9 @@ function __init__()
         println("Non-Linux OS detected, gpu support disabled for qiskit-aer.")
     end
 
-
-    PythonCall.pycopy!(qiskit_aer, pyimport("qiskit_aer"))
+    replaceOutput(
+        () -> PythonCall.pycopy!(qiskit_aer, pyimport("qiskit_aer")),
+        "Importing qiskit-aer...")
 end
 
 include("QuantumCircuit.jl")

@@ -14,6 +14,9 @@ struct HeavyChainLattice <: Lattice
 end
 
 function visualize(io::IO, chain::HeavyChainLattice)
+    if nv(chain.graph) > 20
+        return nothing
+    end
     for i in 1:nv(chain.graph)-1
         print(io, "○─")
     end

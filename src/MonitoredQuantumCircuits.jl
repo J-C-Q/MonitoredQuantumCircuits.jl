@@ -12,6 +12,7 @@ include("operations/XX.jl")
 include("operations/YY.jl")
 include("Qiskit/Qiskit.jl")
 include("circuits/nishimori.jl")
+include("circuits/random.jl")
 
 
 export Circuit
@@ -19,6 +20,7 @@ export EmptyCircuit
 export apply!
 export isClifford
 export execute
+export translate
 
 export ZZ
 export XX
@@ -30,6 +32,7 @@ export HeavyHexagonLattice
 
 export Qiskit
 export NishimoriCircuit
+export RandomCircuit
 
 
 end
