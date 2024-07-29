@@ -3,7 +3,7 @@ using BenchmarkTools
 using JLD2
 using MonitoredQuantumCircuits
 
-function random_circuit_with_measurements(num_qubits,depth)
+function random_circuit_with_measurements(num_qubits,depth,measure_prob)
     qc = Qiskit.QuantumCircuit(num_qubits)
 
     gates = ["h", "x", "y", "z", "s", "t", "rx", "ry", "rz"]
@@ -39,7 +39,10 @@ function random_circuit_with_measurements(num_qubits,depth)
                     qc.cx(q1, q2)
                 end
             end
-            qc.measure(0:num_qubits-1, 0:num_qubits-1)
+            measure_qubits = StatsBase.sample(0:num_qubits-1, round(Integer,num_qubits*measure_prob),replace=false)
+            if !isempty(measure_qubits)
+                qc.measure(measure_qubits, measure_qubits)
+            end
             qc.barrier()
         end
     end
@@ -74,8 +77,9 @@ function nearest_neighbor_circuit(num_qubits, depth)
     return qc
 end
 
-num_qubits = [1,2,3,4,5,10,15,20,30]
-depths = [1,5,10,20]
+num_qubits = [1,2,3,4,5,10,15,20]
+depths = [5,10]
+measure_probs = 0.0:0.1:1.0
 jldopen("Benchmark.jld2", "w") do file
     file["Ns"] = num_qubits
     file["depths"] = depths
@@ -83,11 +87,13 @@ end
 backend = Qiskit.GPUStateVectorSimulator()
 println("Starting Benchmark...")
 for depth in depths
-    for num_qubit in num_qubits
-        println("depth: $depth, qubits: $num_qubit")
-        b = @benchmark backend.run($(random_circuit_with_measurements(num_qubit,depth).python_interface)).result() evals=1 samples=20 seconds=600
-        jldopen("Benchmark.jld2", "r+") do file
-            file["$depth/$num_qubit/benchmark"] = b
+    for measure_prob in measure_probs
+        for num_qubit in num_qubits
+            println("depth: $depth, qubits: $num_qubit, measure prob: $measure_prob")
+            b = @benchmark backend.run($(random_circuit_with_measurements(num_qubit,depth,measure_prob).python_interface)).result() evals=1 samples=20 seconds=600
+            jldopen("Benchmark.jld2", "r+") do file
+                file["$depth/$measure_prob/$num_qubit/benchmark"] = b
+            end
         end
     end
 end
