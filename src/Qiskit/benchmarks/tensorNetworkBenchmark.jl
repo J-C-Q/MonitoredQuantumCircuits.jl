@@ -1,5 +1,6 @@
 using StatsBase
 using BenchmarkTools
+using JLD2
 using MonitoredQuantumCircuits
 
 function random_circuit_with_measurements(num_qubits,depth)
@@ -73,14 +74,28 @@ function nearest_neighbor_circuit(num_qubits, depth)
     return qc
 end
 
-
-
-# backend = Qiskit.GPUTensorNetworkSimulator()
+num_qubits = [1,2,3,4,5,10,15,20,30]
+depths = [1,5,10,20]
+jldopen("Benchmark.jld2", "w") do file
+    file["Ns"] = num_qubits
+    file["depths"] = depths
+end
 backend = Qiskit.GPUStateVectorSimulator()
-circuit = random_circuit_with_measurements(5,5)
+println("Starting Benchmark...")
+for depth in depths
+    for num_qubit in num_qubits
+        println("depth: $depth, qubits: $num_qubit")
+        b = @benchmark backend.run($(random_circuit_with_measurements(num_qubit,depth).python_interface)).result() evals=1 samples=20 seconds=600
+        jldopen("Benchmark.jld2", "r+") do file
+            file["$depth/$num_qubit/benchmark"] = b
+        end
+    end
+end
+# backend = Qiskit.GPUTensorNetworkSimulator()
+
+# circuit = random_circuit_with_measurements(5,5)
 # circuit = nearest_neighbor_circuit(30,10)
 
-@benchmark backend.run(circuit.python_interface).result() evals=1 samples=20 seconds=600
 
 #backend = Qiskit.Simulator(;device="GPU")
 # ramses: 31.984 +- 2.662, min 28.775 max 36.979
