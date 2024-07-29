@@ -2,8 +2,8 @@
 struct AerSimulator <: Backend
     python_interface::Py
 end
-function Simulator()
-    AerSimulator(qiskit_aer.AerSimulator())
+function Simulator(;device="CPU")
+    AerSimulator(qiskit_aer.AerSimulator(device=device,cuStateVec_enable=true))
 end
 function CliffordSimulator()
     AerSimulator(qiskit_aer.AerSimulator(method="stabilizer"))
@@ -28,7 +28,7 @@ function Base.getproperty(qc::AerSimulator, prop::Symbol)
     end
 end
 
-function execute(circuit::Circuit, backend::AerSimulator; verbose::Bool=true)
+function execute(circuit::Circuit, backend::AerSimulator;shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
     qc = translate(QuantumCircuit, circuit)
     verbose && println("✓")
@@ -42,7 +42,7 @@ function execute(circuit::Circuit, backend::AerSimulator; verbose::Bool=true)
     verbose && println("✓")
 
     verbose && print("Simulating circuit...")
-    job = run(sampler, qc)
+    job = run(sampler, qc; shots)
     verbose && println("✓")
 
     verbose && println("Job ID: $(job.job_id())")

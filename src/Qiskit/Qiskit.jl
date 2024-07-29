@@ -43,19 +43,19 @@ function __init__()
         () -> PythonCall.pycopy!(qiskit_ibm_runtime, pyimport("qiskit_ibm_runtime")),
         "Importing qiskit_ibm_runtime...")
 
-    if Sys.islinux()
-        try
-            replaceOutput(
-                () -> CondaPkg.add_pip("qiskit-aer-gpu"),
-                "Downloading qiskit_aer_gpu...")
+    # if Sys.islinux()
+    #     try
+    #         replaceOutput(
+    #             () -> CondaPkg.add_pip("qiskit-aer-gpu"),
+    #             "Downloading qiskit_aer_gpu...")
 
-            println("qiskit-aer-gpu installed successfully.")
-        catch
-            println("Failed to install qiskit-aer-gpu, using qiskit-aer instead.")
-        end
-    else
-        println("Non-Linux OS detected, gpu support disabled for qiskit-aer.")
-    end
+    #         println("qiskit-aer-gpu installed successfully.")
+    #     catch
+    #         println("Failed to install qiskit-aer-gpu, using qiskit-aer instead.")
+    #     end
+    # else
+    #     println("Non-Linux OS detected, gpu support disabled for qiskit-aer.")
+    # end
 
     replaceOutput(
         () -> PythonCall.pycopy!(qiskit_aer, pyimport("qiskit_aer")),

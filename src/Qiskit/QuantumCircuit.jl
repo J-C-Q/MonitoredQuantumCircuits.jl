@@ -32,5 +32,6 @@ function translate(::Type{QuantumCircuit}, circuit::Circuit)
             end
         end
     end
+    qc.measure_all()
     return qc
 end
