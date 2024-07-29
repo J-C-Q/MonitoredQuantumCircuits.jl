@@ -2,14 +2,33 @@
 struct AerSimulator <: Backend
     python_interface::Py
 end
-function Simulator(;device="CPU")
-    AerSimulator(qiskit_aer.AerSimulator(device=device,cuStateVec_enable=true))
+function GPUStateVectorSimulator()
+    AerSimulator(qiskit_aer.AerSimulator(
+        method="statevector",
+        device="GPU",
+        cuStateVec_enable=true,
+        enable_truncation=false,
+        target=[0]
+        ))
+end
+function StateVectorSimulator()
+    AerSimulator(qiskit_aer.AerSimulator(
+        method="statevector",
+        enable_truncation=false
+        ))
 end
 function CliffordSimulator()
     AerSimulator(qiskit_aer.AerSimulator(method="stabilizer"))
 end
-function TensorNetworkSimulator()
-    AerSimulator(qiskit_aer.AerSimulator(method="tensor_network", device="GPU"))
+function GPUTensorNetworkSimulator()
+    AerSimulator(qiskit_aer.AerSimulator(
+        method="tensor_network",
+        device="GPU",
+        cuStateVec_enable=true,
+        use_cuTensorNet_autotuning=true,
+        enable_truncation=false,
+        target=[0]
+        ))
 end
 function isSimulator(::AerSimulator)
     return true

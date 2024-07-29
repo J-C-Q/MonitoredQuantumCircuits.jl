@@ -1,4 +1,5 @@
 using StatsBase
+using BenchmarkTools
 using MonitoredQuantumCircuits
 
 function random_circuit_with_measurements(num_qubits,depth)
@@ -45,8 +46,42 @@ function random_circuit_with_measurements(num_qubits,depth)
     return qc
 end
 
-backend = Qiskit.Simulator(;device="GPU")
+function nearest_neighbor_circuit(num_qubits, depth)
+    """Generate a 1D nearest-neighbor quantum circuit with low entanglement."""
+    qc = Qiskit.QuantumCircuit(num_qubits)
 
-circuit = random_circuit_with_measurements(15,10)
+    for d in 1:depth
+        # Apply Hadamard gates to all qubits
+        for q in 0:num_qubits-1
+            qc.h(q)
+        end
 
-@time backend.run(circuit.python_interface).result()
+        # Apply Controlled-Z gates between nearest neighbors
+        for q in 0:num_qubits - 2
+            qc.cz(q, q + 1)
+        end
+
+        # Optionally, add a barrier for visual clarity (not necessary for simulation)
+        qc.barrier()
+    end
+    # Final layer of Hadamard gates
+    for q in 0:num_qubits-1
+        qc.h(q)
+    end
+
+    qc.measure_all()
+    return qc
+end
+
+
+
+# backend = Qiskit.GPUTensorNetworkSimulator()
+backend = Qiskit.GPUStateVectorSimulator()
+circuit = random_circuit_with_measurements(5,5)
+# circuit = nearest_neighbor_circuit(30,10)
+
+@benchmark backend.run(circuit.python_interface).result() evals=1 samples=20 seconds=600
+
+#backend = Qiskit.Simulator(;device="GPU")
+# ramses: 31.984 +- 2.662, min 28.775 max 36.979
+# gh200: 26.706 +- 39.439e-3, min 26.612 max 26.788
