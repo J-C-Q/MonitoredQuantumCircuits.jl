@@ -1,7 +1,7 @@
 [deps]
-qiskit-aer = ""
-qiskit-ibm-runtime = ""
-qiskit = ""
+qiskit-aer = "0.14.2"
+qiskit-ibm-runtime = "0.25.0"
+qiskit = "1.1.1"
 
 [pip.deps]
 qiskit-aer-gpu = ""

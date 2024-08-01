@@ -17,7 +17,7 @@ struct HeavySquareLattice <: Lattice
             rem_edge!(graph, e)
             add_vertex!(graph)
             nNodes += 1
-            push!(gridPositions, (round(Int64, mean(gridPositions[src][1], gridPositions[dst][1])), round(Int64, mean(gridPositions[src][2], gridPositions[dst][2]))))
+            push!(gridPositions, (round(Int64, (gridPositions[src][1] + gridPositions[dst][1]) / 2), round(Int64, (gridPositions[src][2] + gridPositions[dst][2]) / 2)))
             add_edge!(graph, src, nNodes)
             add_edge!(graph, nNodes, dst)
         end
