@@ -11,3 +11,5 @@
 .vscode
 .CondaPkg/*
 .CondaPkg
+
+*.log

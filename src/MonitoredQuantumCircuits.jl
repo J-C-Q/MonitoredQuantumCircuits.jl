@@ -14,6 +14,8 @@ include("Qiskit/Qiskit.jl")
 include("circuits/nishimori.jl")
 include("circuits/random.jl")
 
+include("Remote/Remote.jl")
+
 
 export Circuit
 export EmptyCircuit
@@ -33,6 +35,8 @@ export HeavyHexagonLattice
 export Qiskit
 export NishimoriCircuit
 export RandomCircuit
+
+export Remote
 
 
 end
