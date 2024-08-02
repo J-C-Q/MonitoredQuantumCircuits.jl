@@ -9,13 +9,13 @@ function GPUStateVectorSimulator()
         cuStateVec_enable=true,
         enable_truncation=false,
         target=[0]
-        ))
+    ))
 end
 function StateVectorSimulator()
     AerSimulator(qiskit_aer.AerSimulator(
         method="statevector",
         enable_truncation=false
-        ))
+    ))
 end
 function CliffordSimulator()
     AerSimulator(qiskit_aer.AerSimulator(method="stabilizer"))
@@ -28,7 +28,7 @@ function GPUTensorNetworkSimulator()
         use_cuTensorNet_autotuning=true,
         enable_truncation=false,
         target=[0]
-        ))
+    ))
 end
 function isSimulator(::AerSimulator)
     return true
@@ -47,7 +47,7 @@ function Base.getproperty(qc::AerSimulator, prop::Symbol)
     end
 end
 
-function execute(circuit::Circuit, backend::AerSimulator;shots=1024, verbose::Bool=true)
+function execute(circuit::Circuit, backend::AerSimulator; shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
     qc = translate(QuantumCircuit, circuit)
     verbose && println("✓")
@@ -66,4 +66,9 @@ function execute(circuit::Circuit, backend::AerSimulator;shots=1024, verbose::Bo
 
     verbose && println("Job ID: $(job.job_id())")
     return job
+end
+
+function execute(circuit::Circuit, backend::AerSimulator, cluster::Remote.Cluster; shots=1024, verbose::Bool=true)
+    Remote.connect(cluster)
+
 end

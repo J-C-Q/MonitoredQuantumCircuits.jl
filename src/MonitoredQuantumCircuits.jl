@@ -4,6 +4,7 @@ module MonitoredQuantumCircuits
 using Graphs
 
 include("backend.jl")
+include("Remote/Remote.jl")
 include("lattice.jl")
 include("operations.jl")
 include("circuit.jl")
@@ -14,7 +15,7 @@ include("Qiskit/Qiskit.jl")
 include("circuits/nishimori.jl")
 include("circuits/random.jl")
 
-include("Remote/Remote.jl")
+
 
 
 export Circuit

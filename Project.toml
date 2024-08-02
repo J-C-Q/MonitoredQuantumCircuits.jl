@@ -4,7 +4,11 @@ authors = ["Quinten Preiss"]
 version = "0.1.0-DEV"
 
 [deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+FileWatching = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
 Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
 MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
 PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"

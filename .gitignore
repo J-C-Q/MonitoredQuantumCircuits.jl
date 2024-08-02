@@ -13,3 +13,7 @@
 .CondaPkg
 
 *.log
+
+remotes.csv
+remote/*
+remote
