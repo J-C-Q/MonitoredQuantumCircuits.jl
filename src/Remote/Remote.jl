@@ -6,6 +6,7 @@ using FileWatching
 export addCluster
 export loadCluster
 
+include("sbatchScriptGenerator.jl")
 
 struct Cluster
     host_name::String
@@ -59,7 +60,7 @@ end
 
 function connect(cluster::Cluster)
     try
-        rm("remote/$(cluster.host_name)/$(cluster.host_name).log")
+        rm("remotes/$(cluster.host_name)/$(cluster.host_name).log")
         disconnect(cluster)
     catch
     end
@@ -123,19 +124,19 @@ end
 
 function getQueue(cluster::Cluster)
     println("Getting queue from \"$(cluster.host_name)\"...")
-    line1 = open("remote/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
+    line1 = open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
         countlines(file)
     end
     run(`screen -S $(cluster.host_name) -X stuff "squeue -u $(cluster.user)\n"`)
 
     waitForRemote(cluster)
 
-    line2 = open("remote/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
+    line2 = open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
         countlines(file)
     end
 
     nlines = line2 - line1
-    lines = open("remote/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
+    lines = open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
         last(eachline(file), nlines)
     end
 

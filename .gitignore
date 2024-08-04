@@ -15,5 +15,5 @@
 *.log
 
 remotes.csv
-remote/*
-remote
+remotes/*
+remotes

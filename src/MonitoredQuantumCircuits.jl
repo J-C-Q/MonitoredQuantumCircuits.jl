@@ -12,6 +12,7 @@ include("operations/ZZ.jl")
 include("operations/XX.jl")
 include("operations/YY.jl")
 include("Qiskit/Qiskit.jl")
+include("Stim/Stim.jl")
 include("circuits/nishimori.jl")
 include("circuits/random.jl")
 

@@ -4,4 +4,4 @@ qiskit-ibm-runtime = "0.25.0"
 qiskit = "1.1.1"
 
 [pip.deps]
-qiskit-aer-gpu = ""
+stim = ""
