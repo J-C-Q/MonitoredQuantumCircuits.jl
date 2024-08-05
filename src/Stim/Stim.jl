@@ -34,6 +34,12 @@ function __init__()
         () -> PythonCall.pycopy!(stim, pyimport("stim")),
         "Importing stim...")
 end
+include("StimCircuit.jl")
+include("CompileSampler.jl")
+include("Simulation.jl")
+include("operations/ZZ.jl")
+include("operations/XX.jl")
+include("operations/YY.jl")
 
 # include("QuantumCircuit.jl")
 # include("IBMBackend.jl")

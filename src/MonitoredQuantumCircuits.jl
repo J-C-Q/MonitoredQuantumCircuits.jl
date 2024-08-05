@@ -40,5 +40,7 @@ export RandomCircuit
 
 export Remote
 
+export Stim
+
 
 end

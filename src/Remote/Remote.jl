@@ -6,7 +6,7 @@ using FileWatching
 export addCluster
 export loadCluster
 
-include("sbatchScriptGenerator.jl")
+# include("sbatchScriptGenerator.jl")
 
 struct Cluster
     host_name::String
