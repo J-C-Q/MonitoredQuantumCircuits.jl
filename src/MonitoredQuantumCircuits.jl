@@ -11,8 +11,9 @@ include("circuit.jl")
 include("operations/ZZ.jl")
 include("operations/XX.jl")
 include("operations/YY.jl")
-include("Qiskit/Qiskit.jl")
-include("Stim/Stim.jl")
+include("Backends/Qiskit/Qiskit.jl")
+include("Backends/Stim/Stim.jl")
+include("Backends/ITensorNetworks/ITensorNetworks.jl")
 include("circuits/nishimori.jl")
 include("circuits/random.jl")
 
@@ -34,13 +35,14 @@ export HeavyChainLattice
 export HeavySquareLattice
 export HeavyHexagonLattice
 
-export Qiskit
 export NishimoriCircuit
 export RandomCircuit
 
 export Remote
 
+export Qiskit
 export Stim
+export ITensorNetworks
 
 
 end
