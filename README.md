@@ -54,19 +54,31 @@ You can now apply operations to the circuit, specifying the operation type (curr
 apply!(circuit, ZZ(), 1, 2, 3)
 ```
 
-Alternatively you can use one of the predefined circuits `RandomCircuit`, `NishimoriCircuit`.
+Alternatively, you can use one of the predefined circuits `RandomCircuit`, `NishimoriCircuit`.
 ```julia
 circuit = NishimoriCircuit(lattice)
 ```
 Now, create an instance of the backend that you want the circuit to run on. This can be a physical IBM Quantum QPU 
 ```julia
-backend = IBMBackend("ibm_sherbrooke")
+backend = Qiskit.IBMBackend("ibm_sherbrooke")
 ```
 or a simulator. 
 ```julia
-backend = StateVectorSimulator()
+backend = Qiskit.StateVectorSimulator()
 ```
 Finally, submit the circuit to be run on the backend you defined
 ```julia
 execute(circuit, backend)
 ```
+
+### Experimental
+Alternatively, you can also run the simulation on a remote machine using the Remote module.
+Add a cluster 
+```julia
+remote = Remote.addCluster(user::String, host_name::String, identity_file::String)
+```
+Wait for the setup to finish, then just run the simulation on the cluster
+```julia
+execute(circuit, backend, remote)
+```
+
