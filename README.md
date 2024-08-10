@@ -53,15 +53,20 @@ You can now apply operations to the circuit, specifying the operation type (curr
 ```julia
 apply!(circuit, ZZ(), 1, 2, 3)
 ```
+
+Alternatively you can use one of the predefined circuits `RandomCircuit`, `NishimoriCircuit`.
+```julia
+circuit = NishimoriCircuit(lattice)
+```
 Now, create an instance of the backend that you want the circuit to run on. This can be a physical IBM Quantum QPU 
 ```julia
 backend = IBMBackend("ibm_sherbrooke")
 ```
 or a simulator. 
 ```julia
-backend = QiskitSimulator()
+backend = StateVectorSimulator()
 ```
 Finally, submit the circuit to be run on the backend you defined
 ```julia
-run(circuit, backend)
+execute(circuit, backend)
 ```
