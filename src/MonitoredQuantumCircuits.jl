@@ -42,7 +42,7 @@ export Remote
 
 export Qiskit
 export Stim
-export ITensorNetworks
+# export ITensorNetworks
 
 
 end
