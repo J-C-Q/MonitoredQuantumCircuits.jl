@@ -2,7 +2,7 @@
 struct StimSimulator <: Backend
 end
 
-function execute(circuit::Circuit, backend::StimSimulator; shots=1024, verbose::Bool=true)
+function execute(circuit::Circuit, ::StimSimulator; shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Stim...")
     qc = translate(StimCircuit, circuit)
     verbose && println("✓")

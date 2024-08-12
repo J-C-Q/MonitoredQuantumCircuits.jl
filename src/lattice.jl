@@ -24,7 +24,7 @@ function Base.show(io::IO, lattice::Lattice)
         end
     end
     allequal([lattice.physicalMap[i] == -1 for i in 1:length(lattice)]) ? println(io, "No mapping to chip defined") : println(io, "physicalMap: ", lattice.physicalMap)
-    visualize(io, lattice)
+    nv(lattice.graph) <= 100 && visualize(io, lattice)
 end
 
 

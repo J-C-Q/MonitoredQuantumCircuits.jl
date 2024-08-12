@@ -27,46 +27,79 @@ struct HeavySquareLattice <: Lattice
 
 
         physicalMap = fill(-1, nv(graph))
-        return new(graph, sizeX, sizeY, isAncilla, physicalMap)
+        return new(graph, sizeX, sizeY, isAncilla, gridPositions, physicalMap)
     end
 end
 
 function visualize(io::IO, lattice::HeavySquareLattice)
-    for _ in 1:lattice.sizeY-1
-        for _ in 1:2lattice.sizeX-2
-            print(io, "○ ─ ")
+    grid = fill(" ", 2 * maximum([pos[2] for pos in lattice.gridPositions]) + 1, 5 * maximum([pos[1] for pos in lattice.gridPositions]) + 3)
+    for (i, gridPosition) in enumerate(lattice.gridPositions)
+        zeroString = String["0", "0", "0"]
+        i_as_string = string(i)
+        zeroString[end-length(i_as_string)+1:end] .= [string(i_as_string[i]) for i in 1:length(i_as_string)]
+        grid[2gridPosition[2]-1, 5gridPosition[1]-4] = zeroString[1]
+        grid[2gridPosition[2]-1, 5gridPosition[1]-3] = zeroString[2]
+        grid[2gridPosition[2]-1, 5gridPosition[1]-2] = zeroString[3]
+    end
+    for e in collect(edges(lattice.graph))
+        src = Graphs.src(e)
+        dst = Graphs.dst(e)
+        gridPositionSrc = (2lattice.gridPositions[src][2] - 1, 5lattice.gridPositions[src][1] - 3)
+        gridPositionDst = (2lattice.gridPositions[dst][2] - 1, 5lattice.gridPositions[dst][1] - 3)
+        meanPosition = (round(Int64, (gridPositionSrc[1] + gridPositionDst[1]) / 2), floor(Int64, (gridPositionSrc[2] + gridPositionDst[2]) / 2))
+        if gridPositionSrc[1] == gridPositionDst[1]
+            grid[meanPosition[1], meanPosition[2]] = "─"
+            grid[meanPosition[1], meanPosition[2]+1] = "─"
+        else
+            grid[meanPosition[1], meanPosition[2]] = "|"
         end
-        println(io, "○")
-        for i in 1:2lattice.sizeX-2
-            if i % 2 == 1
-                print(io, "|   ")
-            else
-                print(io, "    ")
-            end
-        end
-        println(io, "|")
-        for i in 1:2lattice.sizeX-2
-            if i % 2 == 1
-                print(io, "○   ")
-            else
-                print(io, "    ")
-            end
-        end
-        println(io, "○")
-        for i in 1:2lattice.sizeX-2
-            if i % 2 == 1
-                print(io, "|   ")
-            else
-                print(io, "    ")
-            end
-        end
-        println(io, "|")
 
     end
-    for _ in 1:2lattice.sizeX-2
-        print(io, "○ ─ ")
+
+
+    for j in eachindex(grid[:, 1])
+        for i in eachindex(grid[j, :])
+            print(io, grid[j, i])
+        end
+        println(io)
     end
-    println(io, "○")
+
+
+    # for _ in 1:lattice.sizeY-1
+    #     for _ in 1:2lattice.sizeX-2
+    #         print(io, "○ ─ ")
+    #     end
+    #     println(io, "○")
+    #     for i in 1:2lattice.sizeX-2
+    #         if i % 2 == 1
+    #             print(io, "|   ")
+    #         else
+    #             print(io, "    ")
+    #         end
+    #     end
+    #     println(io, "|")
+    #     for i in 1:2lattice.sizeX-2
+    #         if i % 2 == 1
+    #             print(io, "○   ")
+    #         else
+    #             print(io, "    ")
+    #         end
+    #     end
+    #     println(io, "○")
+    #     for i in 1:2lattice.sizeX-2
+    #         if i % 2 == 1
+    #             print(io, "|   ")
+    #         else
+    #             print(io, "    ")
+    #         end
+    #     end
+    #     println(io, "|")
+
+    # end
+    # for _ in 1:2lattice.sizeX-2
+    #     print(io, "○ ─ ")
+    # end
+    # println(io, "○")
 
 
     return nothing

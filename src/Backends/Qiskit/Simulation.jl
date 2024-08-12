@@ -68,7 +68,7 @@ function execute(circuit::Circuit, backend::AerSimulator; shots=1024, verbose::B
     return job
 end
 
-function execute(circuit::Circuit, backend::AerSimulator, cluster::Remote.Cluster; shots=1024, verbose::Bool=true)
+function execute(circuit::Circuit, backend::AerSimulator, cluster::Remote.Cluster; shots=1024, verbose::Bool=true, email::String="", node::String="")
     Remote.connect(cluster)
 
 end
