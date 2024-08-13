@@ -8,6 +8,7 @@ import ..Circuit
 import ..EmptyCircuit
 import ..apply!
 import ..ZZ
+import ..connectionGraph
 
 function CircuitComposer(lattice::Lattice)
     circuit = EmptyCircuit(lattice)
@@ -54,32 +55,37 @@ function makie_plot(circuit::Circuit)
             # Delete marker
             plt, i = pick(fig)
             if plt == p
-                colors[][i] = :black
-                push!(selected[], i)
-                notify(selected)
+                apply!(circuit, ZZ(), selected[]...)
+                println(circuit)
                 notify(colors)
                 return Consume(true)
             end
 
         end
-        if event.button == Mouse.right && event.action == Mouse.press
-            if Keyboard.left_control in events(fig).keyboardstate
-                apply!(circuit, ZZ(), selected[]...)
-                println(circuit)
-                empty!(selected[])
-                colors[] = fill(:gray, length(lattice))
-                notify(colors)
-                notify(selected)
-                return Consume(true)
-            else
-                empty!(selected[])
-                colors[] = fill(:gray, length(lattice))
-                notify(colors)
-                notify(selected)
-                return Consume(true)
+        return Consume(false)
+    end
+
+    on(events(fig).mouseposition, priority=2) do event
+        # println("Position = ", mouseposition(ax))
+        mousePos = mouseposition(ax)
+        distances = [sqrt(sum((mousePos .- point) .^ 2)) for point in lattice.gridPositions]
+        perm = sortperm(distances)
+        subgraph = induced_subgraph(lattice.graph, [perm[1:3]...])
+        if Graphs.Experimental.has_induced_subgraphisomorph(subgraph[1], connectionGraph(ZZ()))
+            colors[] = fill(:gray, length(lattice))
+            for point in perm[1:3]
+                colors[][point] = :red
             end
-
-
+            selected[] = perm[1:3]
+            notify(selected)
+            notify(colors)
+            return Consume(true)
+        else
+            colors[] = fill(:gray, length(lattice))
+            empty!(selected[])
+            notify(selected)
+            notify(colors)
+            return Consume(true)
 
         end
         return Consume(false)
@@ -88,4 +94,5 @@ function makie_plot(circuit::Circuit)
     # println(interactions(ax))
     fig
 end
+
 end
