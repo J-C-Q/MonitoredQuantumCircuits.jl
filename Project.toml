@@ -6,6 +6,7 @@ version = "0.1.0-DEV"
 [deps]
 Bonito = "824d6782-a2ef-11e9-3a09-e5662e0c26f8"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+Combinatorics = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
 CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
