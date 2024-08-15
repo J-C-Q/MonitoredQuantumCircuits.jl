@@ -14,7 +14,7 @@ import ...MonitoredQuantumCircuits
 
 
 function CircuitComposer(lattice::MonitoredQuantumCircuits.Lattice)
-    circuit = EmptyCircuit(lattice)
+    circuit = MonitoredQuantumCircuits.EmptyCircuit(lattice)
     println(subtypes(MonitoredQuantumCircuits.Operation))
     app = App() do
         buttons = [Button("$operation") for operation in subtypes(MonitoredQuantumCircuits.Operation)]
