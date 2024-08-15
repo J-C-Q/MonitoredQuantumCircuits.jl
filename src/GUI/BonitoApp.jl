@@ -122,6 +122,19 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         return Consume(true)
     end
 
+    on(events(fig).keyboardbutton, priority=2) do event
+        if event.key == Keyboard.backspace
+            if Keyboard.left_shift in events(fig).keyboardstate
+                scrollSelect -= Int(sign(dy))
+            else
+                scrollSelect += Int(sign(dy))
+            end
+            notify(events(fig).mouseposition)
+            return Consume(true)
+        end
+        return Consume(false)
+    end
+
     on(events(fig).mouseposition, priority=2) do event
         # println("Position = ", mouseposition(ax))
         mousePos = mouseposition(ax)
