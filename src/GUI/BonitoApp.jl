@@ -130,7 +130,7 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         distance, index = findmin([sqrt(sum((mousePos .- point) .^ 2)) for point in lattice.gridPositions])
         if distance < 0.2
             tree, mapping = construct_tree(lattice.graph, index, MonitoredQuantumCircuits.nQubits(currentOperation()))
-            possibleMappings = collect(Graphs.Experimental.all_subgraphisomorph(tree, connectionGraph(currentOperation()), vertex_relation=(g1, g2) -> (
+            possibleMappings = collect(Graphs.Experimental.all_subgraphisomorph(tree, MonitoredQuantumCircuits.connectionGraph(currentOperation()), vertex_relation=(g1, g2) -> (
                 g2 != 1 ? true : mapping[g1] == index
             )))
             if !isempty(possibleMappings)
