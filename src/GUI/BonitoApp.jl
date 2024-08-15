@@ -30,7 +30,7 @@ function CircuitComposer(lattice::MonitoredQuantumCircuits.Lattice)
     # server = Bonito.Server(app, "134.95.67.139", 2000)
     app
 end
-function makie_plot(circuit::Circuit, buttons)
+function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
     lattice = circuit.lattice
     WGLMakie.activate!(resize_to=:parent)
     fig = Figure()
