@@ -18,3 +18,9 @@ function connectionGraph(::YY)
     # return the connection graph of the operation
     return path_graph(3)
 end
+function plotPositions(::YY)
+    return [(0, 0), (1, 0), (2, 0)]
+end
+function color(::YY)
+    return :green
+end

@@ -18,3 +18,9 @@ function connectionGraph(::ZZ)
     # return the connection graph of the operation
     return path_graph(3)
 end
+function plotPositions(::ZZ)
+    return [(0, 0), (1, 0), (2, 0)]
+end
+function color(::ZZ)
+    return :blue
+end

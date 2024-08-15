@@ -37,6 +37,14 @@ function depth(operation::Operation)
     throw(ArgumentError("depth not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 
+function plotPositions(operation::Operation)
+    throw(ArgumentError("plotPositions not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+end
+
+function color(operation::Operation)
+    throw(ArgumentError("color not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+end
+
 
 
 Base.show(io::IO, operation::Operation) = print(io, "$(typeof(operation))")
