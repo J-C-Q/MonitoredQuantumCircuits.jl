@@ -15,15 +15,33 @@ import ...MonitoredQuantumCircuits
 
 function CircuitComposer(lattice::MonitoredQuantumCircuits.Lattice)
     circuit = MonitoredQuantumCircuits.EmptyCircuit(lattice)
-    println(subtypes(MonitoredQuantumCircuits.Operation))
     app = App() do
-        buttons = [Button("$operation") for operation in subtypes(MonitoredQuantumCircuits.Operation)]
+        buttons = [Button("$operation", style=Styles(
+            CSS("font-size" => "24px",
+                "max-height" => "100px",
+                "margin-top" => "20px",
+                "margin-right" => "20px",
+                "grid-column" => "$(i+1) / $(i+2)",
+                "grid-row" => "1 / 2",),
+            CSS(":hover", "background-color" => "silver"),
+            CSS(":focus", "box-shadow" => "rgba(0, 0, 0, 0.5) 0px 0px 5px"),
+        )) for (i, operation) in enumerate(subtypes(MonitoredQuantumCircuits.Operation))]
 
-        plot_div = DOM.div(makie_plot(circuit, buttons), style="width: 50vw; height: auto; aspect-ratio: 1 / 1;")
-
+        plot_div = DOM.div(makie_plot(circuit, buttons), style="width: 100%; height: auto; grid-column: 1 / $(length(buttons)+2); grid-row: 1 / 2;")
 
         return DOM.div(
-            Bonito.Grid(plot_div, Bonito.Grid(buttons...;); columns="50% 50%")
+            Bonito.Grid(plot_div, buttons...,
+                columns="50% repeat($(length(buttons)), 1fr)",
+                rows="1fr",
+                style=Styles(
+                    CSS("margin" => "0px",
+                        "padding" => "0px",
+                        "height" => "100%"),)),
+            style=Styles(
+                CSS("margin" => "0px",
+                    "padding" => "0px",
+                    "height" => "calc(100vh - 16px)"),
+            )
         )
     end
     # example_app = App(DOM.div("hello world"), title="hello world")
@@ -32,40 +50,65 @@ function CircuitComposer(lattice::MonitoredQuantumCircuits.Lattice)
 end
 function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
     lattice = circuit.lattice
+    gridPositions = lattice.gridPositions
+    graph = lattice.graph
+    limits = (
+        minimum([pos[1] for pos in gridPositions]) - 0.5,
+        maximum([pos[1] for pos in gridPositions]) + 0.5,
+        minimum([pos[2] for pos in gridPositions]) - 0.5,
+        maximum([pos[2] for pos in gridPositions]) + 0.5,)
     WGLMakie.activate!(resize_to=:parent)
     fig = Figure()
-    ax = Axis(fig[1, 1], aspect=DataAspect())
-    ax.yreversed = true
-    hidedecorations!(ax)
-    hidespines!(ax)
+    ax = LScene(fig[1, 1],
+        show_axis=false, scenekw=(lights=[],))
+    cam = Makie.Camera3D(ax.scene,
+        projectiontype=Makie.Orthographic,
+        eyeposition=Vec3(limits[2], (limits[4] + limits[3]) / 2, -10),
+        lookat=Vec3(limits[2], (limits[4] + limits[3]) / 2, 0),
+        upvector=Vec3(0, -1, 0),
+        center=false)
+    # aspect=:data,
+    # limits=(
+    #     minimum([pos[1] for pos in gridPositions]) - 0.5,
+    #     2 * maximum([pos[1] for pos in lattice.gridPositions]) + 0.5,
+    #     minimum([pos[2] for pos in lattice.gridPositions]) - 0.5,
+    #     maximum([pos[2] for pos in lattice.gridPositions]) + 0.5,
+    #     0,
+    #     1),
+    # perspectiveness=0,
+    # elevation=π / 2,
+    # azimuth=-π / 2,
+    # yreversed=true,
+    # viewmode=:fitzoom)
+    # hidedecorations!(ax)
+    # hidespines!(ax)
     connections = []
-    for e in collect(edges(lattice.graph))
+    for e in collect(edges(graph))
         src = Graphs.src(e)
         dst = Graphs.dst(e)
-        push!(connections, Point2f(lattice.gridPositions[src]))
-        push!(connections, Point2f(lattice.gridPositions[dst]))
+        push!(connections, Point3f(gridPositions[src]..., 0))
+        push!(connections, Point3f(gridPositions[dst]..., 0))
     end
 
 
     linesColors = Observable([:gray for _ in 1:length(connections)])
     linesegments!(ax, connections, color=linesColors, linewidth=2)
     colors = Observable([:gray for _ in 1:length(lattice)])
-    marker = Observable(fill(:circle, length(lattice)))
-    markerSize = Observable(fill(1, length(lattice)))
+    markerSize = Observable(fill(0.2, length(lattice)))
 
-    p = scatter!(ax, Point2f.(lattice.gridPositions), markerspace=:data, markersize=markerSize, marker=marker, color=colors)
+    meshscatter!(ax, Point3f.([(pos..., 0) for pos in gridPositions]), markersize=markerSize, color=colors)
 
     operations = subtypes(MonitoredQuantumCircuits.Operation)
 
     currentOperation = operations[1]
     currentColor = Observable(MonitoredQuantumCircuits.color(currentOperation()))
 
-    gateRelation = Point2f[Point2f(i, j) for (i, j) in MonitoredQuantumCircuits.plotPositions(currentOperation())]
+    gateRelation = Point3f[Point3f(i, j, -1) for (i, j) in MonitoredQuantumCircuits.plotPositions(currentOperation())]
     currentGatePositions = Observable(gateRelation)
     showOperation = Observable(false)
     linewidth = Observable(0.0)
     #1000 / (ax.finallimits[].widths[1] * ax.finallimits[].widths[2])
-    lines!(ax, currentGatePositions, color=currentColor, linewidth=linewidth, visible=showOperation)
+    meshscatter!(ax, currentGatePositions, color=currentColor, markersize=0.2, visible=true)
     # scatter!(ax, currentGatePositions, markersize=1, color=currentColor, markerspace=:data, visible=showOperation, marker=:rect)
     text!(ax, currentGatePositions, text=["1", "2", "3"], fontsize=16, color=:black, align=(:center, :center), visible=showOperation)
 
@@ -82,25 +125,22 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
             notify(currentColor)
             showOperation[] = true
             notify(showOperation)
-            linewidth[] = (15288.35 / (ax.finallimits[].widths[1] * ax.finallimits[].widths[2])) * 0.6
-            notify(linewidth)
         end
     end
 
-    deregister_interaction!(ax, :rectanglezoom)
-    deregister_interaction!(ax, :dragpan)
-    deregister_interaction!(ax, :scrollzoom)
+    # deregister_interaction!(ax, :rectanglezoom)
+    # deregister_interaction!(ax, :dragpan)
+    # deregister_interaction!(ax, :scrollzoom)
 
-    on(events(fig).mousebutton, priority=2) do event
+    on(events(fig).mousebutton, priority=1) do event
         if event.button == Mouse.left && event.action == Mouse.press
 
             if !isempty(selected[]) && showOperation[]
-                apply!(circuit, currentOperation(), selected[]...)
+                MonitoredQuantumCircuits.apply!(circuit, currentOperation(), selected[]...)
                 println(circuit)
                 for pos in selected[]
                     colors[][pos] = MonitoredQuantumCircuits.color(currentOperation())
-                    marker[][pos] = :rect
-                    markerSize[][pos] = 1.6
+                    markerSize[][pos] = 0.2
                 end
                 notify(colors)
                 notify(marker)
@@ -122,12 +162,13 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         return Consume(true)
     end
 
-    on(events(fig).keyboardbutton, priority=2) do event
-        if event.key == Keyboard.backspace
-            if Keyboard.left_shift in events(fig).keyboardstate
-                scrollSelect -= Int(sign(dy))
-            else
-                scrollSelect += Int(sign(dy))
+    on(events(fig).keyboardbutton, priority=1) do event
+
+        if event.action == Keyboard.press || event.action == Keyboard.repeat
+            if event.key == Keyboard.a
+                scrollSelect -= 1
+            elseif event.key == Keyboard.d
+                scrollSelect += 1
             end
             notify(events(fig).mouseposition)
             return Consume(true)
@@ -137,17 +178,18 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
 
     on(events(fig).mouseposition, priority=2) do event
         # println("Position = ", mouseposition(ax))
-        mousePos = mouseposition(ax)
-
+        mousePos = mouseposition(ax.scene)
+        # to_world(ax, mousePos)
+        # println(mousePos)
         # println(ax.finallimits[].widths[1])
         distance, index = findmin([sqrt(sum((mousePos .- point) .^ 2)) for point in lattice.gridPositions])
         if distance < 0.2
-            tree, mapping = construct_tree(lattice.graph, index, MonitoredQuantumCircuits.nQubits(currentOperation()))
+            tree, mapping = construct_tree(graph, index, MonitoredQuantumCircuits.nQubits(currentOperation()))
             possibleMappings = collect(Graphs.Experimental.all_subgraphisomorph(tree, MonitoredQuantumCircuits.connectionGraph(currentOperation()), vertex_relation=(g1, g2) -> (
                 g2 != 1 ? true : mapping[g1] == index
             )))
             if !isempty(possibleMappings)
-                currentGatePositions[] = [lattice.gridPositions[mapping[n[1]]] for n in possibleMappings[mod1(scrollSelect, length(possibleMappings))]]
+                currentGatePositions[] = [Point3f(gridPositions[mapping[n[1]]]..., 0) for n in possibleMappings[mod1(scrollSelect, length(possibleMappings))]]
                 # println("selecting", mod1(scrollSelect, length(possibleMappings)), "out of", length(possibleMappings))
                 notify(currentGatePositions)
                 selected[] = [mapping[n[1]] for n in possibleMappings[mod1(scrollSelect, length(possibleMappings))]]
@@ -155,14 +197,14 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
                 return Consume(true)
             end
         end
-        currentGatePositions[] = [Point2f(mousePos) .+ pos for pos in gateRelation]
+        currentGatePositions[] = [Point3f(mousePos..., 0) .+ pos for pos in gateRelation]
         notify(currentGatePositions)
         empty!(selected[])
         notify(selected)
         return Consume(true)
     end
-
-    # println(interactions(ax))
+    # println(interactions(ax.scene))
+    # println(WGLMakie.Observables.listeners(events(fig).mousebutton))
     fig
 end
 
