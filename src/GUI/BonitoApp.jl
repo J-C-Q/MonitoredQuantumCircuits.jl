@@ -13,7 +13,7 @@ using InteractiveUtils
 import ...MonitoredQuantumCircuits
 
 
-function CircuitComposer(circuit::MonitoredQuantumCircuits.Circuit)
+function CircuitComposer!(circuit::MonitoredQuantumCircuits.Circuit)
     # circuit = MonitoredQuantumCircuits.EmptyCircuit(lattice)
     app = App() do
         buttons = [Button("$operation", style=Styles(
@@ -22,7 +22,9 @@ function CircuitComposer(circuit::MonitoredQuantumCircuits.Circuit)
                 "margin-top" => "20px",
                 "margin-right" => "20px",
                 "grid-column" => "$(i+1) / $(i+2)",
-                "grid-row" => "1 / 2",),
+                "grid-row" => "1 / 2",
+                "backgraound-color" => "white",
+                "border" => "0px solid white",),
             CSS(":hover", "background-color" => "silver"),
             CSS(":focus", "box-shadow" => "rgba(0, 0, 0, 0.5) 0px 0px 5px"),
         )) for (i, operation) in enumerate(subtypes(MonitoredQuantumCircuits.Operation))]
@@ -67,7 +69,8 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         eyeposition=Vec3(limits[2], (limits[4] + limits[3]) / 2, -max(abs(limits[2] - limits[1]), abs(limits[4] - limits[3])) / 2),
         lookat=Vec3(limits[2], (limits[4] + limits[3]) / 2, 0),
         upvector=Vec3(0, -1, 0),
-        center=false)
+        center=false,
+        cad=true)
     # aspect=:data,
     # limits=(
     #     minimum([pos[1] for pos in gridPositions]) - 0.5,
@@ -119,13 +122,13 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
     currentHeight = -0.1
     currentHeights = zeros(Float32, length(lattice))
     meshscatter!(ax, gatePositions, markersize=0.2, color=gateColors)
-    for pos in circuit.operationPositions
+    for (i, pos) in enumerate(circuit.operationPositions)
         height = minimum([currentHeights[i] for i in pos])
         if height == currentHeight
             currentHeight -= 0.1
         end
         height -= 0.1
-        for (i, p) in enumerate(pos)
+        for p in pos
             push!(gateColors[], MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[i]]))
             push!(gatePositions[], Point3f(gridPositions[p]..., height))
             currentHeights[p] = height
@@ -181,11 +184,15 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
                 notify(showOperation)
                 empty!(selected[])
                 return Consume(true)
+            else
+                showOperation[] = false
+                notify(showOperation)
+                return Consume(true)
             end
 
 
         end
-        return Consume(false)
+        return Consume(true)
     end
 
     on(events(fig).scroll, priority=2) do (dx, dy)
@@ -209,11 +216,16 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
     end
 
     on(events(fig).mouseposition, priority=2) do event
-        # println("Position = ", mouseposition(ax))
+        if !showOperation[]
+            mousePos = mouseposition(ax.scene)
+            currentGatePositions[] = [Point3f(mousePos..., currentHeight - 0.1) .+ pos for pos in gateRelation]
+            notify(currentGatePositions)
+            empty!(selected[])
+            notify(selected)
+            return Consume(true)
+        end
         mousePos = mouseposition(ax.scene)
-        # to_world(ax, mousePos)
-        # println(mousePos)
-        # println(ax.finallimits[].widths[1])
+
         distance, index = findmin([sqrt(sum((mousePos .- point) .^ 2)) for point in lattice.gridPositions])
         if distance < 0.2
             tree, mapping = construct_tree(graph, index, MonitoredQuantumCircuits.nQubits(currentOperation()))

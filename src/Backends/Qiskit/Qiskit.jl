@@ -48,7 +48,7 @@ function __init__()
         try
             replaceOutput(
                 () -> CondaPkg.add_pip("qiskit-aer-gpu"),
-                "Downloading qiskit_aer_gpu...")
+                "Downloading qiskit_aer_gpu...\n")
 
             println("qiskit-aer-gpu installed successfully.")
         catch
