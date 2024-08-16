@@ -54,6 +54,7 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
     lattice = circuit.lattice
     gridPositions = lattice.gridPositions
     graph = lattice.graph
+    allOperations = subtypes(MonitoredQuantumCircuits.Operation)
     limits = (
         minimum([pos[1] for pos in gridPositions]) - 0.5,
         maximum([pos[1] for pos in gridPositions]) + 0.5,
@@ -71,83 +72,96 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         upvector=Vec3(0, -1, 0),
         center=false,
         cad=true)
-    update_cam!(ax.scene, Rect(limits...))
-    # aspect=:data,
-    # limits=(
-    #     minimum([pos[1] for pos in gridPositions]) - 0.5,
-    #     2 * maximum([pos[1] for pos in lattice.gridPositions]) + 0.5,
-    #     minimum([pos[2] for pos in lattice.gridPositions]) - 0.5,
-    #     maximum([pos[2] for pos in lattice.gridPositions]) + 0.5,
-    #     0,
-    #     1),
-    # perspectiveness=0,
-    # elevation=π / 2,
-    # azimuth=-π / 2,
-    # yreversed=true,
-    # viewmode=:fitzoom)
-    # hidedecorations!(ax)
-    # hidespines!(ax)
-    connections = []
-    for e in collect(edges(graph))
-        src = Graphs.src(e)
-        dst = Graphs.dst(e)
-        push!(connections, Point3f(gridPositions[src]..., 0))
-        push!(connections, Point3f(gridPositions[dst]..., 0))
+    # update_cam!(ax.scene, Vec3(limits[2], limits[4], -max(abs(limits[2] - limits[1]), abs(limits[4] - limits[3])) * 0.3), Vec3(limits[2], (limits[4] + limits[3]) / 2, 0), Vec3(0, -1, 0))
+    begin #! Graph plot
+        connections = []
+        for e in collect(edges(graph))
+            src = Graphs.src(e)
+            dst = Graphs.dst(e)
+            push!(connections, Point3f(gridPositions[src]..., 0))
+            push!(connections, Point3f(gridPositions[dst]..., 0))
+        end
+        linesegments!(ax,
+            connections,
+            color=:gray,
+            linewidth=2)
+        meshscatter!(ax,
+            Point3f.([(pos..., 0) for pos in gridPositions]),
+            markersize=0.2,
+            color=:gray)
     end
 
+    begin #! select plot
+        selectorOperation = allOperations[1]
+        selectorColor = Observable(MonitoredQuantumCircuits.color(selectorOperation()))
+        selectorLabels = ["$i" for i in 1:MonitoredQuantumCircuits.nQubits(selectorOperation())]
+        scrollSelect = 1
 
-    linesColors = Observable([:gray for _ in 1:length(connections)])
-    linesegments!(ax, connections, color=linesColors, linewidth=2)
-    colors = Observable([:gray for _ in 1:length(lattice)])
-    markerSize = Observable(fill(0.2, length(lattice)))
+        gateRelation = Point3f[Point3f(i, j, -1) for (i, j) in MonitoredQuantumCircuits.plotPositions(selectorOperation())]
+        selectorPositions = Observable(gateRelation)
+        showSelector = Observable(false)
 
-    meshscatter!(ax, Point3f.([(pos..., 0) for pos in gridPositions]), markersize=markerSize, color=colors)
+        lines!(ax,
+            selectorPositions,
+            linewidth=4,
+            color=:black,
+            visible=showSelector)
+        meshscatter!(ax,
+            selectorPositions,
+            color=selectorColor,
+            markersize=0.2,
+            visible=showSelector)
 
-    operations = subtypes(MonitoredQuantumCircuits.Operation)
-
-    currentOperation = operations[1]
-    currentColor = Observable(MonitoredQuantumCircuits.color(currentOperation()))
-
-    gateRelation = Point3f[Point3f(i, j, -1) for (i, j) in MonitoredQuantumCircuits.plotPositions(currentOperation())]
-    currentGatePositions = Observable(gateRelation)
-    showOperation = Observable(false)
-    linewidth = Observable(0.0)
-    #1000 / (ax.finallimits[].widths[1] * ax.finallimits[].widths[2])
-    meshscatter!(ax, currentGatePositions, color=currentColor, markersize=0.2, visible=showOperation)
-    # scatter!(ax, currentGatePositions, markersize=1, color=currentColor, markerspace=:data, visible=showOperation, marker=:rect)
-    # text!(ax, currentGatePositions, text=["1", "2", "3"], fontsize=16, color=:black, align=(:center, :center), visible=showOperation)
-
-    # circuit plot
-    gatePositions = Observable(Point3f[])
-    gateConnections = Observable(Point3f[])
-    gateConnectionColors = Observable(Symbol[])
-    gateColors = Observable(Symbol[])
-    currentHeight = -0.1
-    currentHeights = zeros(Float32, length(lattice))
-    meshscatter!(ax, gatePositions, markersize=0.2, color=gateColors)
-    lines!(ax, gateConnections, linewidth=2, color=:black)
-    for (i, pos) in enumerate(circuit.operationPositions)
-        height = minimum([currentHeights[i] for i in pos])
-        if height == currentHeight
-            currentHeight -= 0.1
-        end
-        height -= 0.1
-        for p in pos
-            push!(gateColors[], MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[i]]))
-            push!(gatePositions[], Point3f(gridPositions[p]..., height))
-            push!(gateConnections[], Point3f(gridPositions[p]..., height))
-            push!(gateConnectionColors[], MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[i]]))
-            currentHeights[p] = height
-            notify(gatePositions)
-            notify(gateColors)
-            notify(gateConnectionColors)
-
-        end
-        push!(gateConnections[], Point3f(NaN))
-        notify(gateConnections)
+        # text!(ax,
+        #     selectorPositions,
+        #     text=selectorLabels,
+        #     markerspace=:data,
+        #     fontsize=0.1,
+        #     rotation=π,
+        #     transform_marker=true,
+        #     color=:black,
+        #     align=(:center, :center),
+        #     visible=showSelector)
     end
 
-    scrollSelect = 1
+    begin #! circuit plot
+        gatePositions = Observable(Point3f[])
+        gateConnections = Observable(Point3f[])
+        gateConnectionColors = Observable(Symbol[])
+        gateColors = Observable(Symbol[])
+        currentHeight = -0.4
+        currentHeights = zeros(Float32, length(lattice))
+        for (i, pos) in enumerate(circuit.operationPositions)
+            height = minimum([currentHeights[i] for i in pos])
+            if height == currentHeight
+                currentHeight -= 0.4
+            end
+            height -= 0.4
+            for p in pos
+                push!(gateColors[], MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[i]]))
+                push!(gatePositions[], Point3f(gridPositions[p]..., height))
+                push!(gateConnections[], Point3f(gridPositions[p]..., height))
+                push!(gateConnectionColors[], MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[i]]))
+                currentHeights[p] = height
+                notify(gatePositions)
+                notify(gateColors)
+                notify(gateConnectionColors)
+
+            end
+            push!(gateConnections[], Point3f(NaN))
+            notify(gateConnections)
+        end
+
+        meshscatter!(ax,
+            gatePositions,
+            markersize=0.2,
+            color=gateColors)
+        lines!(ax,
+            gateConnections,
+            linewidth=4,
+            color=:black)
+    end
+
 
     selected = Observable(Int64[])
 
@@ -155,33 +169,26 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
 
     for (i, button) in enumerate(buttons)
         on(button.value) do click::Bool
-            currentOperation = operations[i]
-            currentColor[] = MonitoredQuantumCircuits.color(currentOperation())
-            notify(currentColor)
-            showOperation[] = true
-            notify(showOperation)
+            selectorOperation = allOperations[i]
+            selectorColor[] = MonitoredQuantumCircuits.color(selectorOperation())
+            showSelector[] = true
+            notify(selectorColor)
+            notify(showSelector)
         end
     end
 
-    # deregister_interaction!(ax, :rectanglezoom)
-    # deregister_interaction!(ax, :dragpan)
-    # deregister_interaction!(ax, :scrollzoom)
-
     on(events(fig).mousebutton, priority=1) do event
         if event.button == Mouse.left && event.action == Mouse.press
-
-            if !isempty(selected[]) && showOperation[]
-                MonitoredQuantumCircuits.apply!(circuit, currentOperation(), selected[]...)
+            if !isempty(selected[]) && showSelector[]
+                MonitoredQuantumCircuits.apply!(circuit, selectorOperation(), selected[]...)
                 println(circuit)
                 height = minimum([currentHeights[i] for i in selected[]])
                 if height == currentHeight
-                    currentHeight -= 0.1
+                    currentHeight -= 0.4
                 end
-                height -= 0.1
+                height -= 0.4
                 for pos in selected[]
-                    # colors[][pos] = MonitoredQuantumCircuits.color(currentOperation())
-                    push!(gateColors[], MonitoredQuantumCircuits.color(currentOperation()))
-                    markerSize[][pos] = 0.2
+                    push!(gateColors[], MonitoredQuantumCircuits.color(selectorOperation()))
                     push!(gatePositions[], Point3f(gridPositions[pos]..., height))
                     currentHeights[pos] = height
                     push!(gateConnections[], Point3f(gridPositions[pos]..., height))
@@ -190,78 +197,63 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
                 notify(gateConnections)
                 notify(gatePositions)
                 notify(gateColors)
-                # notify(colors)
-                notify(markerSize)
-                showOperation[] = false
-                notify(showOperation)
+
+                showSelector[] = false
+                notify(showSelector)
                 empty!(selected[])
                 return Consume(true)
             else
-                showOperation[] = false
-                notify(showOperation)
+                showSelector[] = false
+                notify(showSelector)
                 return Consume(true)
             end
-
-
+        elseif event.button == Mouse.right && event.action == Mouse.press
+            scrollSelect += 1
+            notify(events(fig).mouseposition)
+            return Consume(true)
         end
         return Consume(true)
     end
 
-    on(events(fig).scroll, priority=2) do (dx, dy)
+    on(events(fig).scroll, priority=1) do (dx, dy)
         scrollSelect += Int(sign(dy))
         notify(events(fig).mouseposition)
         return Consume(true)
     end
 
     on(events(fig).keyboardbutton, priority=1) do event
-
-        if event.action == Keyboard.press || event.action == Keyboard.repeat
-            if event.key == Keyboard.a
-                scrollSelect -= 1
-            elseif event.key == Keyboard.d
-                scrollSelect += 1
-            end
-            notify(events(fig).mouseposition)
-            return Consume(true)
-        end
-        return Consume(false)
+        return Consume(true)
     end
 
-    on(events(fig).mouseposition, priority=2) do event
-        # println(ax.scene.size)
-        if !showOperation[]
+    on(events(fig).mouseposition, priority=1) do event
+        if !showSelector[]
             mousePos = mouseposition(ax.scene)
-            currentGatePositions[] = [Point3f(mousePos..., currentHeight - 0.1) .+ pos for pos in gateRelation]
-            notify(currentGatePositions)
-            empty!(selected[])
-            notify(selected)
+            selectorPositions[] = [Point3f(mousePos..., currentHeight - 0.4) .+ pos for pos in gateRelation]
+            notify(selectorPositions)
             return Consume(true)
         end
         mousePos = mouseposition(ax.scene)
-
+        println(mousePos)
         distance, index = findmin([sqrt(sum((mousePos .- point) .^ 2)) for point in lattice.gridPositions])
         if distance < 0.2
-            tree, mapping = construct_tree(graph, index, MonitoredQuantumCircuits.nQubits(currentOperation()))
-            possibleMappings = collect(Graphs.Experimental.all_subgraphisomorph(tree, MonitoredQuantumCircuits.connectionGraph(currentOperation()), vertex_relation=(g1, g2) -> (
+            tree, mapping = construct_tree(graph, index, MonitoredQuantumCircuits.nQubits(selectorOperation()))
+            possibleMappings = collect(Graphs.Experimental.all_subgraphisomorph(tree, MonitoredQuantumCircuits.connectionGraph(selectorOperation()), vertex_relation=(g1, g2) -> (
                 g2 != 1 ? true : mapping[g1] == index
             )))
             if !isempty(possibleMappings)
-                currentGatePositions[] = [Point3f(gridPositions[mapping[n[1]]]..., currentHeight - 0.1) for n in possibleMappings[mod1(scrollSelect, length(possibleMappings))]]
-                # println("selecting", mod1(scrollSelect, length(possibleMappings)), "out of", length(possibleMappings))
-                notify(currentGatePositions)
+                selectorPositions[] = [Point3f(gridPositions[mapping[n[1]]]..., currentHeight - 0.1) for n in possibleMappings[mod1(scrollSelect, length(possibleMappings))]]
+                notify(selectorPositions)
                 selected[] = [mapping[n[1]] for n in possibleMappings[mod1(scrollSelect, length(possibleMappings))]]
                 notify(selected)
                 return Consume(true)
             end
         end
-        currentGatePositions[] = [Point3f(mousePos..., currentHeight - 0.1) .+ pos for pos in gateRelation]
-        notify(currentGatePositions)
+        selectorPositions[] = [Point3f(mousePos..., currentHeight - 0.2) .+ pos for pos in gateRelation]
+        notify(selectorPositions)
         empty!(selected[])
         notify(selected)
         return Consume(true)
     end
-    # println(interactions(ax.scene))
-    # println(WGLMakie.Observables.listeners(events(fig).mousebutton))
     fig
 end
 
