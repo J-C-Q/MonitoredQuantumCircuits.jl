@@ -1,4 +1,4 @@
-include("utils/cycles.jl")
+# include("utils/cycles.jl")
 function KitaevCircuit(lattice::HeavyHexagonLattice)
     cycles = mysimplecycles_limited_length(lattice.graph, 12, 10^6)
 

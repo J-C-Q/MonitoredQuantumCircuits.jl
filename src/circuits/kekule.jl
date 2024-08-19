@@ -1,4 +1,5 @@
-include("utils/cycles.jl")
+# include("utils/cycles.jl")
+
 function KekuleCircuit(lattice::HeavyHexagonLattice)
     cycles = mysimplecycles_limited_length(lattice.graph, 12, 10^6)
     a = [1, 2, 3]

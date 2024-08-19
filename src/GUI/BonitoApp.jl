@@ -4,6 +4,7 @@ using Graphs
 using WGLMakie
 using Combinatorics
 using InteractiveUtils
+using FileIO
 # import ..Lattice
 # import ..Circuit
 # import ..EmptyCircuit
@@ -130,6 +131,8 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         gatePositions = Observable(Point3f[])
         gateConnections = Observable(Point3f[])
         gateConnectionColors = Observable(Symbol[])
+        gateConnectionRotations = Observable(Vec3f[])
+        gateConnectionScale = Observable(Vec3f[])
         gateColors = Observable(Symbol[])
         currentHeight = -0.4
         currentHeights = zeros(Float32, length(lattice))
@@ -142,22 +145,27 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
                 for p in pos
                     push!(gateColors[], MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[ops[i]]]))
                     push!(gatePositions[], Point3f(gridPositions[p]..., height))
-                    push!(gateConnections[], Point3f(gridPositions[p]..., height))
+
 
 
                     currentHeights[p] = height
-                    notify(gatePositions)
-                    notify(gateColors)
-                    notify(gateConnectionColors)
+
 
                 end
-                for p in pos[1:end-1]
+                for (i, p) in enumerate(pos[1:end-1])
+                    push!(gateConnections[], Point3f(((gridPositions[p] .+ gridPositions[pos[i+1]]) ./ 2)..., height))
+                    push!(gateConnectionRotations[], Vec3f(((gridPositions[pos[i+1]] .- gridPositions[p]))..., 0))
+                    push!(gateConnectionScale[], Vec3f(0.2, 0.2, sqrt(sum((gridPositions[pos[i+1]] .- gridPositions[p]) .^ 2))))
                     push!(gateConnectionColors[], MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[ops[i]]]))
                 end
-                push!(gateConnectionColors[], :transparent)
-                push!(gateConnectionColors[], :transparent)
-                push!(gateConnections[], Point3f(NaN))
+                # push!(gateConnectionColors[], :transparent)
+                # push!(gateConnectionColors[], :transparent)
+                # push!(gateConnections[], Point3f(NaN))
+                notify(gateConnectionRotations)
                 notify(gateConnections)
+                notify(gatePositions)
+                notify(gateColors)
+                notify(gateConnectionColors)
             end
         end
 
@@ -165,10 +173,16 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
             gatePositions,
             markersize=0.2,
             color=:black)
-        lines!(ax,
+        meshscatter!(ax,
             gateConnections,
-            linewidth=4,
-            color=gateConnectionColors)
+            color=gateConnectionColors,
+            marker=load("src/GUI/meshes/cylinder.stl"),
+            markersize=gateConnectionScale,
+            rotation=gateConnectionRotations)
+        # lines!(ax,
+        #     gateConnections,
+        #     linewidth=4,
+        #     color=gateConnectionColors)
     end
 
 

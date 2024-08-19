@@ -1,4 +1,4 @@
-include("utils/cycles.jl")
+
 function NishimoriCircuit(lattice::HeavyChainLattice)
     operations = Operation[ZZ()]
 
