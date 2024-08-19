@@ -16,6 +16,8 @@ include("Backends/Qiskit/Qiskit.jl")
 include("Backends/Stim/Stim.jl")
 # include("Backends/ITensorNetworks/ITensorNetworks.jl")
 include("circuits/nishimori.jl")
+include("circuits/kitaev.jl")
+include("circuits/kekule.jl")
 include("circuits/random.jl")
 
 
@@ -37,6 +39,8 @@ export HeavySquareLattice
 export HeavyHexagonLattice
 
 export NishimoriCircuit
+export KitaevCircuit
+export KekuleCircuit
 export RandomCircuit
 
 export GUI
