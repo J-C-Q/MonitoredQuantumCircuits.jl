@@ -74,7 +74,9 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         lookat=Vec3((limits[2] + limits[1]) / 2, (limits[4] + limits[3]) / 2, 0),
         upvector=Vec3(0, -1, 0),
         center=false,
-        cad=false,)
+        cad=false,
+        zoom_shift_lookat=false, fixed_axis=true,)
+    # update_cam!(ax.scene, bbox)
     # zoom!(ax.scene, 0.6)
     # update_cam!(ax.scene, Vec3(limits[2], limits[4], -max(abs(limits[2] - limits[1]), abs(limits[4] - limits[3])) * 0.3), Vec3(limits[2], (limits[4] + limits[3]) / 2, 0), Vec3(0, -1, 0))
 
@@ -252,9 +254,10 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
                     push!(gateConnectionScale[], Vec3f(0.2, 0.2, sqrt(sum((gridPositions[selected[][i+1]] .- gridPositions[p]) .^ 2))))
                     push!(gateConnectionColors[], parse(Colorant, MonitoredQuantumCircuits.color(selectorOperation())))
                 end
+                notify(gateConnections)
                 notify(gateConnectionRotations)
                 notify(gateConnectionColors)
-                notify(gateConnections)
+                println(gateConnections[])
                 notify(gatePositions)
                 notify(gateColors)
 
@@ -264,6 +267,7 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
                 return Consume(true)
             else
                 showSelector[] = false
+                movable = true
                 notify(showSelector)
                 return Consume(true)
             end
