@@ -22,5 +22,5 @@ function plotPositions(::ZZ)
     return [(0, 0), (1, 0), (2, 0)]
 end
 function color(::ZZ)
-    return :blue
+    return "#4063D8"
 end

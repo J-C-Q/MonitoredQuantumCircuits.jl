@@ -5,6 +5,7 @@ using WGLMakie
 using Combinatorics
 using InteractiveUtils
 using FileIO
+using Colors
 # import ..Lattice
 # import ..Circuit
 # import ..EmptyCircuit
@@ -55,6 +56,7 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
     lattice = circuit.lattice
     gridPositions = lattice.gridPositions
     graph = lattice.graph
+    cyclinderMesh = load("src/GUI/meshes/cylinder.stl")
     allOperations = subtypes(MonitoredQuantumCircuits.Operation)
     limits = (
         minimum([pos[1] for pos in gridPositions]) - 0.5,
@@ -77,17 +79,28 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
     # update_cam!(ax.scene, Vec3(limits[2], limits[4], -max(abs(limits[2] - limits[1]), abs(limits[4] - limits[3])) * 0.3), Vec3(limits[2], (limits[4] + limits[3]) / 2, 0), Vec3(0, -1, 0))
 
     begin #! Graph plot
-        connections = []
+        connections = Point3f[]
+        connectionRotations = Vec3f[]
+        connectionScale = Vec3f[]
         for e in collect(edges(graph))
             src = Graphs.src(e)
             dst = Graphs.dst(e)
-            push!(connections, Point3f(gridPositions[src]..., 0))
-            push!(connections, Point3f(gridPositions[dst]..., 0))
+            push!(connections, Point3f(((gridPositions[src] .+ gridPositions[dst]) ./ 2)..., 0))
+            push!(connectionRotations, Point3f((gridPositions[dst] .- gridPositions[src])..., 0))
+            push!(connectionScale, Vec3f(0.1, 0.1, sqrt(sum((gridPositions[dst] .- gridPositions[src]) .^ 2))))
+            # push!(connections, Point3f(gridPositions[src]..., 0))
+            # push!(connections, Point3f(gridPositions[dst]..., 0))
         end
-        linesegments!(ax,
+        # linesegments!(ax,
+        #     connections,
+        #     color=:gray,
+        #     linewidth=2)
+        meshscatter!(ax,
             connections,
             color=:gray,
-            linewidth=2)
+            marker=cyclinderMesh,
+            rotation=connectionRotations,
+            markersize=connectionScale)
         meshscatter!(ax,
             Point3f.([(pos..., 0) for pos in gridPositions]),
             markersize=0.2,
@@ -102,13 +115,19 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
 
         gateRelation = Point3f[Point3f(i, j, -1) for (i, j) in MonitoredQuantumCircuits.plotPositions(selectorOperation())]
         selectorPositions = Observable(gateRelation)
+        selectorConnections = Observable([gateRelation[i+1] .- gateRelation[i] for i in 1:length(gateRelation)-1])
         showSelector = Observable(false)
 
-        lines!(ax,
-            selectorPositions,
-            linewidth=4,
-            color=:black,
-            visible=showSelector)
+        # lines!(ax,
+        #     selectorPositions,
+        #     linewidth=4,
+        #     color=:black,
+        #     visible=showSelector)
+        meshscatter!(ax,
+            selectorConnections,
+            marker=cyclinderMesh,
+            color=:black
+        )
         meshscatter!(ax,
             selectorPositions,
             color=selectorColor,
@@ -130,10 +149,10 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
     begin #! circuit plot
         gatePositions = Observable(Point3f[])
         gateConnections = Observable(Point3f[])
-        gateConnectionColors = Observable(Symbol[])
+        gateConnectionColors = Observable(Colorant[])
         gateConnectionRotations = Observable(Vec3f[])
         gateConnectionScale = Observable(Vec3f[])
-        gateColors = Observable(Symbol[])
+        gateColors = Observable(Colorant[])
         currentHeight = -0.4
         currentHeights = zeros(Float32, length(lattice))
         for exec in sort(unique(circuit.executionOrder))
@@ -143,7 +162,7 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
             currentHeight = height
             for (i, pos) in enumerate(operations)
                 for p in pos
-                    push!(gateColors[], MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[ops[i]]]))
+                    push!(gateColors[], parse(Colorant, MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[ops[i]]])))
                     push!(gatePositions[], Point3f(gridPositions[p]..., height))
 
 
@@ -156,7 +175,7 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
                     push!(gateConnections[], Point3f(((gridPositions[p] .+ gridPositions[pos[i+1]]) ./ 2)..., height))
                     push!(gateConnectionRotations[], Vec3f(((gridPositions[pos[i+1]] .- gridPositions[p]))..., 0))
                     push!(gateConnectionScale[], Vec3f(0.2, 0.2, sqrt(sum((gridPositions[pos[i+1]] .- gridPositions[p]) .^ 2))))
-                    push!(gateConnectionColors[], MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[ops[i]]]))
+                    push!(gateConnectionColors[], parse(Colorant, MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[ops[i]]])))
                 end
                 # push!(gateConnectionColors[], :transparent)
                 # push!(gateConnectionColors[], :transparent)
@@ -176,13 +195,9 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         meshscatter!(ax,
             gateConnections,
             color=gateConnectionColors,
-            marker=load("src/GUI/meshes/cylinder.stl"),
+            marker=cyclinderMesh,
             markersize=gateConnectionScale,
             rotation=gateConnectionRotations)
-        # lines!(ax,
-        #     gateConnections,
-        #     linewidth=4,
-        #     color=gateConnectionColors)
     end
 
 
@@ -277,6 +292,8 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
             )))
             if !isempty(possibleMappings)
                 selectorPositions[] = [Point3f(gridPositions[mapping[n[1]]]..., currentHeight - 0.1) for n in possibleMappings[mod1(scrollSelect, length(possibleMappings))]]
+                selectorConnections[] = [selectorPositions[][i+1] .- selectorPositions[][i] for i in 1:length(selectorPositions[])-1]
+                notify(selectorConnections)
                 notify(selectorPositions)
                 selected[] = [mapping[n[1]] for n in possibleMappings[mod1(scrollSelect, length(possibleMappings))]]
                 notify(selected)
@@ -284,6 +301,8 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
             end
         end
         selectorPositions[] = [Point3f(mousePos..., currentHeight - 0.2) .+ pos for pos in gateRelation]
+        selectorConnections[] = [selectorPositions[][i+1] .- selectorPositions[][i] for i in 1:length(selectorPositions[])-1]
+        notify(selectorConnections)
         notify(selectorPositions)
         empty!(selected[])
         notify(selected)

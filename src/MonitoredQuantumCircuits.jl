@@ -1,6 +1,5 @@
 module MonitoredQuantumCircuits
 
-
 using Graphs
 
 include("backend.jl")
@@ -15,6 +14,7 @@ include("GUI/BonitoApp.jl")
 include("Backends/Qiskit/Qiskit.jl")
 include("Backends/Stim/Stim.jl")
 # include("Backends/ITensorNetworks/ITensorNetworks.jl")
+include("circuits/utils/cycles.jl")
 include("circuits/nishimori.jl")
 include("circuits/kitaev.jl")
 include("circuits/kekule.jl")

@@ -23,5 +23,5 @@ function plotPositions(::XX)
 end
 
 function color(::XX)
-    return :red
+    return "#CB3C33"
 end

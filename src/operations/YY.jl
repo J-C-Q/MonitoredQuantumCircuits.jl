@@ -22,5 +22,5 @@ function plotPositions(::YY)
     return [(0, 0), (1, 0), (2, 0)]
 end
 function color(::YY)
-    return :green
+    return "#389826"
 end
