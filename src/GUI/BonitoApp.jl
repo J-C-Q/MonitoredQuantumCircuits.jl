@@ -109,13 +109,18 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
 
     begin #! select plot
         selectorOperation = allOperations[1]
-        selectorColor = Observable(MonitoredQuantumCircuits.color(selectorOperation()))
+        selectorColor = Observable(parse(Colorant, MonitoredQuantumCircuits.color(selectorOperation())))
+        selectorConnectionColor = Observable(parse(Colorant, MonitoredQuantumCircuits.color(selectorOperation())))
         selectorLabels = ["$i" for i in 1:MonitoredQuantumCircuits.nQubits(selectorOperation())]
         scrollSelect = 1
 
         gateRelation = Point3f[Point3f(i, j, -1) for (i, j) in MonitoredQuantumCircuits.plotPositions(selectorOperation())]
         selectorPositions = Observable(gateRelation)
-        selectorConnections = Observable([gateRelation[i+1] .- gateRelation[i] for i in 1:length(gateRelation)-1])
+
+        selectorConnections = Observable([(gateRelation[i+1] .+ gateRelation[i]) ./ 2 for i in 1:length(gateRelation)-1])
+        selectorRotations = Observable([gateRelation[i+1] .- gateRelation[i] for i in 1:length(gateRelation)-1])
+        selectorScale = Observable([Vec3f(0.2, 0.2, sqrt(sum((gateRelation[i+1] .- gateRelation[i]) .^ 2))) for i in 1:length(gateRelation)-1])
+
         showSelector = Observable(false)
 
         # lines!(ax,
@@ -126,7 +131,10 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         meshscatter!(ax,
             selectorConnections,
             marker=cyclinderMesh,
-            color=:black
+            color=selectorConnectionColor,
+            rotation=selectorRotations,
+            markersize=selectorScale,
+            visible=showSelector
         )
         meshscatter!(ax,
             selectorPositions,
@@ -171,10 +179,10 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
 
 
                 end
-                for (i, p) in enumerate(pos[1:end-1])
-                    push!(gateConnections[], Point3f(((gridPositions[p] .+ gridPositions[pos[i+1]]) ./ 2)..., height))
-                    push!(gateConnectionRotations[], Vec3f(((gridPositions[pos[i+1]] .- gridPositions[p]))..., 0))
-                    push!(gateConnectionScale[], Vec3f(0.2, 0.2, sqrt(sum((gridPositions[pos[i+1]] .- gridPositions[p]) .^ 2))))
+                for (j, p) in enumerate(pos[1:end-1])
+                    push!(gateConnections[], Point3f(((gridPositions[p] .+ gridPositions[pos[j+1]]) ./ 2)..., height))
+                    push!(gateConnectionRotations[], Vec3f(((gridPositions[pos[j+1]] .- gridPositions[p]))..., 0))
+                    push!(gateConnectionScale[], Vec3f(0.2, 0.2, sqrt(sum((gridPositions[pos[j+1]] .- gridPositions[p]) .^ 2))))
                     push!(gateConnectionColors[], parse(Colorant, MonitoredQuantumCircuits.color(circuit.operations[circuit.operationPointers[ops[i]]])))
                 end
                 # push!(gateConnectionColors[], :transparent)
@@ -210,9 +218,11 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
             movable = false
             update_cam!(ax.scene, Vec3((limits[2] + limits[1]) / 2, (limits[4] + limits[3]) / 2, -max(abs(limits[2] - limits[1]), abs(limits[4] - limits[3])) * 1), Vec3((limits[2] + limits[1]) / 2, (limits[4] + limits[3]) / 2, 0), Vec3(0, -1, 0))
             selectorOperation = allOperations[i]
-            selectorColor[] = MonitoredQuantumCircuits.color(selectorOperation())
+            selectorColor[] = parse(Colorant, MonitoredQuantumCircuits.color(selectorOperation()))
+            selectorConnectionColor[] = parse(Colorant, MonitoredQuantumCircuits.color(selectorOperation()))
             showSelector[] = true
             notify(selectorColor)
+            notify(selectorConnectionColor)
             notify(showSelector)
         end
     end
@@ -231,12 +241,19 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
                 end
                 height -= 0.4
                 for pos in selected[]
-                    push!(gateColors[], MonitoredQuantumCircuits.color(selectorOperation()))
+                    push!(gateColors[], parse(Colorant, MonitoredQuantumCircuits.color(selectorOperation())))
                     push!(gatePositions[], Point3f(gridPositions[pos]..., height))
                     currentHeights[pos] = height
-                    push!(gateConnections[], Point3f(gridPositions[pos]..., height))
+
                 end
-                push!(gateConnections[], Point3f(NaN))
+                for (i, p) in enumerate(selected[][1:end-1])
+                    push!(gateConnections[], Point3f(((gridPositions[p] .+ gridPositions[selected[][i+1]]) ./ 2)..., height))
+                    push!(gateConnectionRotations[], Vec3f(((gridPositions[selected[][i+1]] .- gridPositions[p]))..., 0))
+                    push!(gateConnectionScale[], Vec3f(0.2, 0.2, sqrt(sum((gridPositions[selected[][i+1]] .- gridPositions[p]) .^ 2))))
+                    push!(gateConnectionColors[], parse(Colorant, MonitoredQuantumCircuits.color(selectorOperation())))
+                end
+                notify(gateConnectionRotations)
+                notify(gateConnectionColors)
                 notify(gateConnections)
                 notify(gatePositions)
                 notify(gateColors)
@@ -279,6 +296,12 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         if !showSelector[]
             mousePos = mouseposition(ax.scene)
             selectorPositions[] = [Point3f(mousePos..., currentHeight - 0.4) .+ pos for pos in gateRelation]
+            selectorConnections[] = [(selectorPositions[][i+1] .+ selectorPositions[][i]) ./ 2 for i in 1:length(selectorPositions[])-1]
+            selectorRotations[] = [selectorPositions[][i+1] .- selectorPositions[][i] for i in 1:length(selectorPositions[])-1]
+            selectorScale[] = [Vec3f(0.2, 0.2, sqrt(sum((selectorPositions[][i+1] .- selectorPositions[][i]) .^ 2))) for i in 1:length(selectorPositions[])-1]
+            notify(selectorScale)
+            notify(selectorRotations)
+            notify(selectorConnections)
             notify(selectorPositions)
             return Consume(true)
         end
@@ -292,7 +315,11 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
             )))
             if !isempty(possibleMappings)
                 selectorPositions[] = [Point3f(gridPositions[mapping[n[1]]]..., currentHeight - 0.1) for n in possibleMappings[mod1(scrollSelect, length(possibleMappings))]]
-                selectorConnections[] = [selectorPositions[][i+1] .- selectorPositions[][i] for i in 1:length(selectorPositions[])-1]
+                selectorConnections[] = [(selectorPositions[][i+1] .+ selectorPositions[][i]) ./ 2 for i in 1:length(selectorPositions[])-1]
+                selectorRotations[] = [selectorPositions[][i+1] .- selectorPositions[][i] for i in 1:length(selectorPositions[])-1]
+                selectorScale[] = [Vec3f(0.2, 0.2, sqrt(sum((selectorPositions[][i+1] .- selectorPositions[][i]) .^ 2))) for i in 1:length(selectorPositions[])-1]
+                notify(selectorScale)
+                notify(selectorRotations)
                 notify(selectorConnections)
                 notify(selectorPositions)
                 selected[] = [mapping[n[1]] for n in possibleMappings[mod1(scrollSelect, length(possibleMappings))]]
@@ -301,7 +328,11 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
             end
         end
         selectorPositions[] = [Point3f(mousePos..., currentHeight - 0.2) .+ pos for pos in gateRelation]
-        selectorConnections[] = [selectorPositions[][i+1] .- selectorPositions[][i] for i in 1:length(selectorPositions[])-1]
+        selectorConnections[] = [(selectorPositions[][i+1] .+ selectorPositions[][i]) ./ 2 for i in 1:length(selectorPositions[])-1]
+        selectorRotations[] = [selectorPositions[][i+1] .- selectorPositions[][i] for i in 1:length(selectorPositions[])-1]
+        selectorScale[] = [Vec3f(0.2, 0.2, sqrt(sum((selectorPositions[][i+1] .- selectorPositions[][i]) .^ 2))) for i in 1:length(selectorPositions[])-1]
+        notify(selectorScale)
+        notify(selectorRotations)
         notify(selectorConnections)
         notify(selectorPositions)
         empty!(selected[])
