@@ -1,6 +1,6 @@
 
 
-struct IBMBackend <: Backend
+struct IBMBackend <: MonitoredQuantumCircuits.Backend
     python_interface::Py
 
     function IBMBackend(backend::Py)
@@ -32,7 +32,7 @@ function Base.show(io::IO, ::MIME"text/plain", obj::IBMBackend)
     println(io, "Max shots: $(obj.max_shots)")
 end
 
-function execute(circuit::Circuit, backend::IBMBackend; verbose::Bool=true)
+function execute(circuit::MonitoredQuantumCircuits.Circuit, backend::IBMBackend; verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
     qc = translate(QuantumCircuit, circuit)
     verbose && println("✓")

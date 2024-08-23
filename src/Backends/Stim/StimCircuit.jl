@@ -11,22 +11,25 @@ function Base.getproperty(qc::StimCircuit, prop::Symbol)
 end
 Base.show(io::IO, ::MIME"text/plain", obj::StimCircuit) = print(io, obj.python_interface)
 
+function depth(operation::MonitoredQuantumCircuits.Operation, ::Type{StimCircuit})
+    throw(ArgumentError("depth in Stim is not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+end
 
-function translate(::Type{StimCircuit}, circuit::Circuit)
+function MonitoredQuantumCircuits.translate(::Type{StimCircuit}, circuit::MonitoredQuantumCircuits.Circuit)
     qc = StimCircuit()
     # iterate execution steps
     for i in unique(circuit.executionOrder)
         # get all operations in the step
-        operationsInStep = _getOperations(circuit, i)
+        operationsInStep = MonitoredQuantumCircuits._getOperations(circuit, i)
         # get depth of the deepest operation in the step
-        maximumDepth = maximum([depth(circuit.operations[circuit.operationPointers[j]]) for j in operationsInStep])
+        maximumDepth = maximum([depth(circuit.operations[circuit.operationPointers[j]], StimCircuit) for j in operationsInStep])
         # iterate depth of the operations
         for k in 1:maximumDepth
             # iterate operations in the step
             for j in operationsInStep
                 ptr = circuit.operationPointers[j]
                 # only apply the k-th instruction of the operation, if deep enough
-                if k <= depth(circuit.operations[ptr])
+                if k <= depth(circuit.operations[ptr], StimCircuit)
                     apply!(qc, circuit.operations[ptr], k, circuit.operationPositions[j]...)
                 end
             end

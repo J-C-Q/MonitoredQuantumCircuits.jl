@@ -5,17 +5,7 @@
 # """
 module Qiskit
 
-import ..XX
-import ..YY
-import ..ZZ
-import ..Circuit
-import ..Operation
-import ..Backend
-import ..execute
-import .._getOperations
-import ..depth
-import ..translate
-import ..Remote
+import ...MonitoredQuantumCircuits
 
 
 using PythonCall

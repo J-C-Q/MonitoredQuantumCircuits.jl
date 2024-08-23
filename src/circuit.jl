@@ -156,6 +156,6 @@ function execute(::Circuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
 
-function translate(type::Type, circuit::Circuit)
+function translate(type::Type, ::Circuit)
     throw(ArgumentError("Conversion from Circuit to $(typeof(type)) not supported"))
 end

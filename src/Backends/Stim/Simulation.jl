@@ -1,10 +1,10 @@
 
-struct StimSimulator <: Backend
+struct StimSimulator <: MonitoredQuantumCircuits.Backend
 end
 
-function execute(circuit::Circuit, ::StimSimulator; shots=1024, verbose::Bool=true)
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, ::StimSimulator; shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Stim...")
-    qc = translate(StimCircuit, circuit)
+    qc = MonitoredQuantumCircuits.translate(StimCircuit, circuit)
     verbose && println("✓")
 
     verbose && print("Initializing compile sampler...")
@@ -12,7 +12,8 @@ function execute(circuit::Circuit, ::StimSimulator; shots=1024, verbose::Bool=tr
     verbose && println("✓")
 
     verbose && print("Simulating circuit...")
-    job = sample(sampler; shots)
+    stimResult = pyconvert(Vector{Vector{Bool}}, sample(sampler; shots))
+
     verbose && println("✓")
-    return job
+    return stimResult
 end

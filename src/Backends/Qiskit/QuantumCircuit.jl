@@ -11,22 +11,28 @@ function Base.getproperty(qc::QuantumCircuit, prop::Symbol)
 end
 Base.show(io::IO, ::MIME"text/plain", obj::QuantumCircuit) = print(io, obj.python_interface)
 
+
+
+function depth(operation::MonitoredQuantumCircuits.Operation, ::Type{QuantumCircuit})
+    throw(ArgumentError("depth in Qiskit is not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+end
+
 #TODO apply indentitiy operation to all other qubits/maybe with transpile pass.
-function translate(::Type{QuantumCircuit}, circuit::Circuit)
+function MonitoredQuantumCircuits.translate(::Type{QuantumCircuit}, circuit::MonitoredQuantumCircuits.Circuit)
     qc = QuantumCircuit(length(circuit.lattice))
     # iterate execution steps
     for i in unique(circuit.executionOrder)
         # get all operations in the step
-        operationsInStep = _getOperations(circuit, i)
+        operationsInStep = MonitoredQuantumCircuits._getOperations(circuit, i)
         # get depth of the deepest operation in the step
-        maximumDepth = maximum([depth(circuit.operations[circuit.operationPointers[j]]) for j in operationsInStep])
+        maximumDepth = maximum([depth(circuit.operations[circuit.operationPointers[j]], QuantumCircuit) for j in operationsInStep])
         # iterate depth of the operations
         for k in 1:maximumDepth
             # iterate operations in the step
             for j in operationsInStep
                 ptr = circuit.operationPointers[j]
                 # only apply the k-th instruction of the operation, if deep enough
-                if k <= depth(circuit.operations[ptr])
+                if k <= depth(circuit.operations[ptr], QuantumCircuit)
                     apply!(qc, circuit.operations[ptr], k, circuit.operationPositions[j]...)
                 end
             end

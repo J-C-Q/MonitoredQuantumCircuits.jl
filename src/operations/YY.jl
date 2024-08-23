@@ -11,9 +11,7 @@ end
 function isClifford(::YY)
     return true
 end
-function depth(::YY)
-    return 6
-end
+
 function connectionGraph(::YY)
     # return the connection graph of the operation
     return path_graph(3)

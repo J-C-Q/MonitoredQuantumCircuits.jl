@@ -1,5 +1,5 @@
 
-struct AerSimulator <: Backend
+struct AerSimulator <: MonitoredQuantumCircuits.Backend
     python_interface::Py
 end
 function GPUStateVectorSimulator()
@@ -47,7 +47,7 @@ function Base.getproperty(qc::AerSimulator, prop::Symbol)
     end
 end
 
-function execute(circuit::Circuit, backend::AerSimulator; shots=1024, verbose::Bool=true)
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, backend::AerSimulator; shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
     qc = translate(QuantumCircuit, circuit)
     verbose && println("✓")
@@ -68,7 +68,7 @@ function execute(circuit::Circuit, backend::AerSimulator; shots=1024, verbose::B
     return job
 end
 
-function execute(circuit::Circuit, backend::AerSimulator, cluster::Remote.Cluster; shots=1024, verbose::Bool=true, email::String="", node::String="")
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, backend::AerSimulator, cluster::MonitoredQuantumCircuits.Remote.Cluster; shots=1024, verbose::Bool=true, email::String="", node::String="")
     Remote.connect(cluster)
 
 end
