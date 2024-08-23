@@ -32,8 +32,9 @@ function addCluster(user::String, host_name::String, identity_file::String)
         end
     end
     try
-        mkdir("remote/$(host_name)")
+        mkpath("remotes/$(host_name)")
     catch
+        println("Directory remotes/$(host_name) already exists.")
     end
     cluster = Cluster(host_name, user, identity_file, "")
     println("Cluster $(host_name) added successfully. Connecting...")
@@ -65,7 +66,7 @@ function connect(cluster::Cluster)
     catch
     end
     println("Creating screen session \"$(cluster.host_name)\"...")
-    run(`screen -L -Logfile remote/$(cluster.host_name)/$(cluster.host_name).log -dmS $(cluster.host_name)`)
+    run(`screen -L -Logfile remotes/$(cluster.host_name)/$(cluster.host_name).log -dmS $(cluster.host_name)`)
     println("Connecting to \"$(cluster.host_name)\"...")
     run(`screen -S $(cluster.host_name) -X stuff "ssh -i $(cluster.identity_file) $(cluster.user)@$(cluster.host_name) \n"`)
     waitForRemote(cluster)
@@ -85,7 +86,7 @@ function setup(cluster::Cluster)
     github_username = row.Column2[1]
     row = df[df.Column1.=="GITHUB_PASSWORD", :]
     github_password = row.Column2[1]
-    run(`screen -S $(cluster.host_name) -X stuff "julia -e 'using Pkg; Pkg.activate(\".\");Pkg.add(url=\"https://$(github_username):$(github_password)@github.com/J-C-Q/MonitoredQuantumCircuits.jl.git\")'> /dev/null 2>&1\n"`)
+    run(`screen -S $(cluster.host_name) -X stuff "julia -e 'using Pkg; Pkg.activate(\".\");Pkg.add(url=\"https://$(github_username):$(github_password)@github.com/J-C-Q/MonitoredQuantumCircuits.jl.git\");Pkg.add(\"JLD2\")'> /dev/null 2>&1\n"`)
     waitForRemote(cluster)
     println("Instantiating packages...")
     run(`screen -S $(cluster.host_name) -X stuff "julia --project -e 'using Pkg; Pkg.instantiate()'> /dev/null 2>&1\n"`)
@@ -100,7 +101,7 @@ end
 
 function upload(cluster::Cluster, file::String)
     println("Uploading file to \"$(cluster.host_name)\"...")
-    run(`scp -i $(cluster.identity_file) $(file) $(cluster.user)@$(cluster.host_name):`)
+    run(`scp -i $(cluster.identity_file) $(file) $(cluster.user)@$(cluster.host_name):\~/MonitoredQuantumCircuitsENV/`)
 end
 
 function toDataframe(lines::Vector{String})
@@ -118,7 +119,7 @@ end
 
 # TODO this should to be improved, since intermediate updates will trigger. Good enough for now.
 function waitForRemote(cluster::Cluster)
-    FileWatching.watch_file("remote/$(cluster.host_name)/$(cluster.host_name).log")
+    FileWatching.watch_file("remotes/$(cluster.host_name)/$(cluster.host_name).log")
     return nothing
 end
 
@@ -142,6 +143,24 @@ function getQueue(cluster::Cluster)
 
 
     return toDataframe(lines[1:end-1])
+end
+
+function hostname(cluster::Cluster)
+    run(`screen -S $(cluster.host_name) -X stuff "hostname\n"`)
+    waitForRemote(cluster)
+    lines = open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
+        last(eachline(file), 2)
+    end
+    return lines[1]
+end
+
+function isConnected(cluster::Cluster)
+    run(`screen -S $(cluster.host_name) -X stuff "echo \\\$SSH_CONNECTION\n"`)
+    waitForRemote(cluster)
+    lines = open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
+        last(eachline(file), 2)
+    end
+    return lines[1] != ""
 end
 
 function getInfo()

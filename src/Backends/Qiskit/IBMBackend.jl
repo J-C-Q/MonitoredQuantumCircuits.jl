@@ -34,7 +34,7 @@ end
 
 function execute(circuit::MonitoredQuantumCircuits.Circuit, backend::IBMBackend; verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
-    qc = translate(QuantumCircuit, circuit)
+    qc = MonitoredQuantumCircuits.translate(QuantumCircuit, circuit)
     verbose && println("✓")
 
     verbose && print("Transpiling circuit to backend...")

@@ -49,7 +49,7 @@ end
 
 function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, backend::AerSimulator; shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
-    qc = translate(QuantumCircuit, circuit)
+    qc = MonitoredQuantumCircuits.translate(QuantumCircuit, circuit)
     verbose && println("✓")
 
     verbose && print("Transpiling circuit to backend...")
