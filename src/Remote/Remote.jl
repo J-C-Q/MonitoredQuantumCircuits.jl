@@ -6,7 +6,7 @@ using FileWatching
 export addCluster
 export loadCluster
 
-# include("sbatchScriptGenerator.jl")
+include("sbatchScriptGenerator.jl")
 
 struct Cluster
     host_name::String
@@ -77,6 +77,22 @@ function setup(cluster::Cluster)
     println("Creating directory MonitoredQuantumCircuits/...")
     run(`screen -S $(cluster.host_name) -X stuff "mkdir MonitoredQuantumCircuitsENV /dev/null 2>&1; cd MonitoredQuantumCircuitsENV > /dev/null 2>&1\n"`)
     waitForRemote(cluster)
+    open(joinpath(dir, "remotes/$(cluster.host_name)/execSkript.jl"), create=true) do f
+        println(
+            f,
+            """
+ using MonitoredQuantumCircuits, JLD2
+
+ function runFromFile(file::String)
+     circuit, backend, shots = JLD2.load(file)
+     MonitoredQuantumCircuits.execute(circuit, backend; shots)
+ end
+
+ runFromFile(ARGS[1])
+ """
+        )
+    end
+    upload(cluster, "remotes/$(cluster.host_name)/execSkript.jl")
     println("Installing Julia...")
     run(`screen -S $(cluster.host_name) -X stuff "julia --version > /dev/null 2>&1|| curl -fsSL https://install.julialang.org | sh > /dev/null 2>&1\n"`)
     waitForRemote(cluster)
@@ -143,6 +159,13 @@ function getQueue(cluster::Cluster)
 
 
     return toDataframe(lines[1:end-1])
+end
+
+function queueJob(cluster::Cluster, bashFile::String)
+    println("Queueing job from \"$(cluster.host_name)\"...")
+    run(`screen -S $(cluster.host_name) -X stuff "sbatch $(bashFile)\n"`)
+    waitForRemote(cluster)
+    return nothing
 end
 
 function hostname(cluster::Cluster)

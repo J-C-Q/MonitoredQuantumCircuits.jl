@@ -156,10 +156,23 @@ function execute(::Circuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
 
-function execute(circuit::Circuit, backend::Simulator, cluster::Remote.Cluster; shots=1024, verbose::Bool=true, email::String="", node::String="")
+function execute(circuit::Circuit, backend::Simulator, cluster::Remote.Cluster; shots=1024, verbose::Bool=true, nodes=1, ntasks=1, cpus_per_task=1, mem_per_cpu="1G", time="1:00:00", partition="", account="")
     JLD2.save("remotes/$(cluster.host_name)/simulation_$(hash(circuit)).jld2", "circuit", circuit, "backend", backend, "shots", shots)
+    Remote.sbatchScript(
+        "remotes/$(cluster.host_name)/",
+        "simulation_$(hash(circuit))",
+        "execSkript.jl",
+        use_mpi=false;
+        nodes,
+        ntasks,
+        cpus_per_task,
+        mem_per_cpu,
+        time,
+        partition,
+        account)
     Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(circuit)).jld2")
-
+    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(circuit)).sh")
+    Remote.queueJob(cluster, "simulation_$(hash(circuit)).sh")
 end
 
 function translate(type::Type, ::Circuit)
