@@ -1,5 +1,5 @@
 
-struct AerSimulator <: MonitoredQuantumCircuits.Backend
+struct AerSimulator <: MonitoredQuantumCircuits.Simulator
     python_interface::Py
 end
 function GPUStateVectorSimulator()
@@ -66,9 +66,4 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circ
 
     verbose && println("Job ID: $(job.job_id())")
     return job
-end
-
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, backend::AerSimulator, cluster::MonitoredQuantumCircuits.Remote.Cluster; shots=1024, verbose::Bool=true, email::String="", node::String="")
-    Remote.connect(cluster)
-
 end

@@ -1,6 +1,6 @@
 
 
-struct IBMBackend <: MonitoredQuantumCircuits.Backend
+struct IBMBackend <: MonitoredQuantumCircuits.QuantumComputer
     python_interface::Py
 
     function IBMBackend(backend::Py)

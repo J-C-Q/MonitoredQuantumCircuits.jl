@@ -156,6 +156,12 @@ function execute(::Circuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
 
+function execute(circuit::Circuit, backend::Simulator, cluster::Remote.Cluster; shots=1024, verbose::Bool=true, email::String="", node::String="")
+    JLD2.save("remotes/$(cluster.host_name)/simulation_$(hash(circuit)).jld2", "circuit", circuit, "backend", backend, "shots", shots)
+    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(circuit)).jld2")
+
+end
+
 function translate(type::Type, ::Circuit)
     throw(ArgumentError("Conversion from Circuit to $(typeof(type)) not supported"))
 end
