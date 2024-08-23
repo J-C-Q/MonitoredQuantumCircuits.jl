@@ -161,8 +161,8 @@ function execute(circuit::Circuit, backend::Simulator, cluster::Remote.Cluster; 
     Remote.sbatchScript(
         "remotes/$(cluster.host_name)/",
         "simulation_$(hash(circuit))",
-        "execSkript.jl",
-        use_mpi=false;
+        "execSkript.jl";
+        use_mpi=false,
         nodes,
         ntasks,
         cpus_per_task,
@@ -172,7 +172,7 @@ function execute(circuit::Circuit, backend::Simulator, cluster::Remote.Cluster; 
         account)
     Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(circuit)).jld2")
     Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(circuit)).sh")
-    Remote.queueJob(cluster, "simulation_$(hash(circuit)).sh")
+    Remote.queueJob(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(circuit)).sh")
 end
 
 function translate(type::Type, ::Circuit)
