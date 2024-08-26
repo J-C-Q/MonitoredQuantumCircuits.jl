@@ -23,7 +23,7 @@ function Base.show(io::IO, lattice::Lattice)
             println(io, bond)
         end
     end
-    allequal([lattice.physicalMap[i] == -1 for i in 1:length(lattice)]) ? println(io, "No mapping to chip defined") : println(io, "physicalMap: ", lattice.physicalMap)
+    # allequal([lattice.physicalMap[i] == -1 for i in 1:length(lattice)]) ? println(io, "No mapping to chip defined") : println(io, "physicalMap: ", lattice.physicalMap)
     nv(lattice.graph) <= 100 && visualize(io, lattice)
 end
 
@@ -31,8 +31,5 @@ end
 include("lattices/heavyChainLattice.jl")
 include("lattices/heavySquareLattice.jl")
 include("lattices/heavyHexagonLattice.jl")
-
-#TODO add vertex numbers to visualization
-function visualize(io::IO, lattice::Lattice)
-    return nothing
-end
+include("lattices/surfaceCodeLattice.jl")
+# include("lattices/toricCodeLattice.jl")

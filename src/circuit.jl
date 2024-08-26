@@ -156,12 +156,13 @@ function execute(::Circuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
 
-function execute(circuit::Circuit, backend::Simulator, cluster::Remote.Cluster; shots=1024, verbose::Bool=true, nodes=1, ntasks=1, cpus_per_task=1, mem_per_cpu="1G", time="1:00:00", partition="", account="")
+function execute(circuit::Circuit, backend::Simulator, cluster::Remote.Cluster; shots=1024, verbose::Bool=true, nodes=1, ntasks=1, cpus_per_task=1, mem_per_cpu="1G", time="1:00:00", partition="", account="", email="", output="simulation_$(hash(circuit))_output.txt", error="simulation_$(hash(circuit))_error.txt")
     JLD2.save("remotes/$(cluster.host_name)/simulation_$(hash(circuit)).jld2", "circuit", circuit, "backend", backend, "shots", shots)
     Remote.sbatchScript(
         "remotes/$(cluster.host_name)/",
         "simulation_$(hash(circuit))",
-        "execSkript.jl";
+        "execSkript.jl",
+        "/simulation_$(hash(circuit))/";
         use_mpi=false,
         nodes,
         ntasks,
@@ -169,10 +170,13 @@ function execute(circuit::Circuit, backend::Simulator, cluster::Remote.Cluster; 
         mem_per_cpu,
         time,
         partition,
-        account)
-    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(circuit)).jld2")
-    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(circuit)).sh")
-    Remote.queueJob(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(circuit)).sh")
+        account,
+        email,
+        output,
+        error)
+    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(circuit)).jld2", "simulation_$(hash(circuit))/")
+    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(circuit)).sh", "simulation_$(hash(circuit))/")
+    Remote.queueJob(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(circuit))/simulation_$(hash(circuit)).sh")
 end
 
 function translate(type::Type, ::Circuit)

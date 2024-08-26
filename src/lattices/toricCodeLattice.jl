@@ -1,13 +1,13 @@
-struct HeavySquareLattice <: Lattice
+struct ToricCodeLattice <: Lattice
     graph::Graph
     sizeX::Int64
     sizeY::Int64
     isAncilla::Vector{Bool} # whether the qubit is an ancilla
     gridPositions::Vector{Tuple{Int64,Int64}} # the grid positions of the qubits
-    function HeavySquareLattice(sizeX::Integer, sizeY::Integer)
+    function ToricCodeLattice(sizeX::Integer, sizeY::Integer)
         sizeX > 0 || throw(ArgumentError("size must be positive"))
         sizeY > 0 || throw(ArgumentError("size must be positive"))
-        graph = grid([sizeX, sizeY]; periodic=false)
+        graph = grid([sizeX, sizeY]; periodic=true)
         nNodes = nv(graph)
         gridPositions = [(2i - 1, 2j - 1) for j in 1:sizeY for i in 1:sizeX]
         for e in collect(edges(graph))
@@ -27,7 +27,7 @@ struct HeavySquareLattice <: Lattice
     end
 end
 
-function visualize(io::IO, lattice::HeavySquareLattice)
+function visualize(io::IO, lattice::ToricCodeLattice)
     grid = fill(" ", 2 * maximum([pos[2] for pos in lattice.gridPositions]) + 1, 5 * maximum([pos[1] for pos in lattice.gridPositions]) + 3)
     gridColor = fill(:white, 2 * maximum([pos[2] for pos in lattice.gridPositions]) + 1, 5 * maximum([pos[1] for pos in lattice.gridPositions]) + 3)
     for (i, gridPosition) in enumerate(lattice.gridPositions)

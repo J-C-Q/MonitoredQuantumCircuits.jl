@@ -2,6 +2,7 @@ module MonitoredQuantumCircuits
 
 using Graphs
 using JLD2
+using Crayons
 
 include("backend.jl")
 include("Remote/Remote.jl")
@@ -39,6 +40,8 @@ export YY
 export HeavyChainLattice
 export HeavySquareLattice
 export HeavyHexagonLattice
+export SurfaceCodeLattice
+# export ToricCodeLattice
 
 export NishimoriCircuit
 export KitaevCircuit

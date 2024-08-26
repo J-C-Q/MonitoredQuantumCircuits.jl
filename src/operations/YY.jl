@@ -22,3 +22,8 @@ end
 function color(::YY)
     return "#389826"
 end
+
+function isAncilla(::YY, qubit::Integer)
+    0 < qubit <= nQubits(::YY) || throw(ArgumentError("qubit $qubit is not a valid qubit for the YY operation."))
+    return qubit == 2
+end

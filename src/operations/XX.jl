@@ -23,3 +23,8 @@ end
 function color(::XX)
     return "#CB3C33"
 end
+
+function isAncilla(::XX, qubit::Integer)
+    0 < qubit <= nQubits(::XX) || throw(ArgumentError("qubit $qubit is not a valid qubit for the XX operation."))
+    return qubit == 2
+end

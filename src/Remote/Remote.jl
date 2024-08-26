@@ -77,7 +77,7 @@ function setup(cluster::Cluster)
     println("Creating directory MonitoredQuantumCircuits/...")
     run(`screen -S $(cluster.host_name) -X stuff "mkdir MonitoredQuantumCircuitsENV /dev/null 2>&1; cd MonitoredQuantumCircuitsENV > /dev/null 2>&1\n"`)
     waitForRemote(cluster)
-    open(joinpath(dir, "remotes/$(cluster.host_name)/execSkript.jl"), create=true) do f
+    open("remotes/$(cluster.host_name)/execSkript.jl", "w") do f
         println(
             f,
             """
@@ -115,9 +115,9 @@ function setup(cluster::Cluster)
     return nothing
 end
 
-function upload(cluster::Cluster, file::String)
+function upload(cluster::Cluster, file::String, destination::String="")
     println("Uploading file to \"$(cluster.host_name)\"...")
-    run(`scp -i $(cluster.identity_file) $(file) $(cluster.user)@$(cluster.host_name):\~/MonitoredQuantumCircuitsENV/`)
+    run(`scp -i $(cluster.identity_file) $(file) $(cluster.user)@$(cluster.host_name):\~/MonitoredQuantumCircuitsENV/$(destination)`)
 end
 
 function toDataframe(lines::Vector{String})
@@ -135,7 +135,21 @@ end
 
 # TODO this should to be improved, since intermediate updates will trigger. Good enough for now.
 function waitForRemote(cluster::Cluster)
-    FileWatching.watch_file("remotes/$(cluster.host_name)/$(cluster.host_name).log")
+    ready = false
+    while !ready
+        FileWatching.watch_file("remotes/$(cluster.host_name)/$(cluster.host_name).log")
+
+        open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do io
+            # Move the pointer to the second last byte of the file
+            seek(io, max(filesize(io) - 2, 0))
+
+            # Read the last two bytes and convert them to characters
+            last_two_chars = String(read(io, 2))
+            if last_two_chars == raw"$ "
+                ready = true
+            end
+        end
+    end
     return nothing
 end
 

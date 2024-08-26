@@ -21,3 +21,34 @@ function KitaevCircuit(lattice::HeavyHexagonLattice, layers::Integer)
     executionOrder = [ord + (i - 1) * 3 for i in 1:layers for (_, _, _, _, ord) in test]
     return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
 end
+
+function KitaevCircuit(lattice::HeavyHexagonLattice, px::Float64, py::Float64, pz::Float64, depth::Integer)
+
+    px + py + pz ≈ 1.0 || throw(ArgumentError("The sum of the probabilities must be 1.0"))
+
+    cycles = mysimplecycles_limited_length(lattice.graph, 12, 10^6)
+
+    test = [(cycle[i], cycle[mod1(i + 1, length(cycle))], cycle[mod1(i + 2, length(cycle))], mod1(i, 3), mod1(i, 3)) for cycle in cycles for i in 1:2:length(cycle)]
+    test = unique!(x -> Set(x[1:3]), test)
+    possibleXX = [(i, j, k, ptr, ord) for (i, j, k, ptr, ord) in test if ptr == 2]
+    possibleYY = [(i, j, k, ptr, ord) for (i, j, k, ptr, ord) in test if ptr == 3]
+    possibleZZ = [(i, j, k, ptr, ord) for (i, j, k, ptr, ord) in test if ptr == 1]
+    possibleMatrix = [possibleZZ, possibleXX, possibleYY]
+    operations = Operation[ZZ(), XX(), YY()]
+    picks = Vector{Int64}(undef, depth)
+    for i in 1:depth
+        p = rand()
+        if p < pz
+            picks[i] = 1
+        elseif p < pz + px
+            picks[i] = 2
+        else
+            picks[i] = 3
+        end
+    end
+    operationPositions = [rand(possibleMatrix[picks[i]])[1:3] for i in 1:depth]
+    operationPointers = picks
+    executionOrder = collect(1:length(picks))
+    return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
+
+end

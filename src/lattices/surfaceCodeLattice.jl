@@ -1,10 +1,10 @@
-struct HeavySquareLattice <: Lattice
+struct SurfaceCodeLattice <: Lattice
     graph::Graph
     sizeX::Int64
     sizeY::Int64
     isAncilla::Vector{Bool} # whether the qubit is an ancilla
     gridPositions::Vector{Tuple{Int64,Int64}} # the grid positions of the qubits
-    function HeavySquareLattice(sizeX::Integer, sizeY::Integer)
+    function SurfaceCodeLattice(sizeX::Integer, sizeY::Integer)
         sizeX > 0 || throw(ArgumentError("size must be positive"))
         sizeY > 0 || throw(ArgumentError("size must be positive"))
         graph = grid([sizeX, sizeY]; periodic=false)
@@ -21,13 +21,13 @@ struct HeavySquareLattice <: Lattice
             add_edge!(graph, nNodes, dst)
         end
         isAncilla = Vector{Bool}(undef, nv(graph))
-        isAncilla[1:sizeX*sizeY] .= false
-        isAncilla[sizeX*sizeY+1:end] .= true
+        isAncilla[1:sizeX*sizeY] .= true
+        isAncilla[sizeX*sizeY+1:end] .= false
         return new(graph, sizeX, sizeY, isAncilla, gridPositions)
     end
 end
 
-function visualize(io::IO, lattice::HeavySquareLattice)
+function visualize(io::IO, lattice::SurfaceCodeLattice)
     grid = fill(" ", 2 * maximum([pos[2] for pos in lattice.gridPositions]) + 1, 5 * maximum([pos[1] for pos in lattice.gridPositions]) + 3)
     gridColor = fill(:white, 2 * maximum([pos[2] for pos in lattice.gridPositions]) + 1, 5 * maximum([pos[1] for pos in lattice.gridPositions]) + 3)
     for (i, gridPosition) in enumerate(lattice.gridPositions)
@@ -65,6 +65,7 @@ function visualize(io::IO, lattice::HeavySquareLattice)
         end
         println(io)
     end
+
 
 
     return nothing

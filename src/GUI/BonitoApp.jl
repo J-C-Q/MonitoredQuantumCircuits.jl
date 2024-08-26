@@ -117,9 +117,15 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
             marker=cyclinderMesh,
             rotation=connectionRotations,
             markersize=connectionScale)
+        markerSizes = fill(0.2, length(gridPositions))
+        for (i, pos) in enumerate(gridPositions)
+            if lattice.isAncilla[i]
+                markerSizes[i] = 0.1
+            end
+        end
         meshscatter!(ax,
             Point3f.([(pos..., 0) for pos in gridPositions]),
-            markersize=0.2,
+            markersize=markerSizes,
             color=:gray)
     end
 
