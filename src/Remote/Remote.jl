@@ -3,8 +3,7 @@ using CSV
 using FileIO
 using DataFrames
 using FileWatching
-export addCluster
-export loadCluster
+
 
 include("sbatchScriptGenerator.jl")
 
@@ -13,8 +12,6 @@ struct Cluster
     user::String
     identity_file::String
     password::String
-
-
 end
 
 function addCluster(user::String, host_name::String, identity_file::String)
@@ -56,7 +53,7 @@ end
 
 function showClusters()
     df = DataFrame(CSV.File("remotes.csv"))
-    println(df)
+    # println(df)
 end
 
 function connect(cluster::Cluster)
@@ -120,6 +117,13 @@ function upload(cluster::Cluster, file::String, destination::String="")
     run(`scp -i $(cluster.identity_file) $(file) $(cluster.user)@$(cluster.host_name):\~/MonitoredQuantumCircuitsENV/$(destination)`)
 end
 
+function mkdir(cluster::Cluster, directory::String)
+    println("Creating directory \"$(directory)\" on \"$(cluster.host_name)\"...")
+    run(`screen -S $(cluster.host_name) -X stuff "mkdir $(directory)\n"`)
+    waitForRemote(cluster)
+    return nothing
+end
+
 function toDataframe(lines::Vector{String})
     # Join the list of strings into a single string with newline characters
     csv_data = join(lines, "\n")
@@ -133,7 +137,6 @@ function toDataframe(lines::Vector{String})
     return df
 end
 
-# TODO this should to be improved, since intermediate updates will trigger. Good enough for now.
 function waitForRemote(cluster::Cluster)
     ready = false
     while !ready
@@ -176,9 +179,19 @@ function getQueue(cluster::Cluster)
 end
 
 function queueJob(cluster::Cluster, bashFile::String)
-    println("Queueing job from \"$(cluster.host_name)\"...")
+    println("Queueing job on \"$(cluster.host_name)\"...")
     run(`screen -S $(cluster.host_name) -X stuff "sbatch $(bashFile)\n"`)
     waitForRemote(cluster)
+    lines = open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
+        last(eachline(file), 2)
+    end
+    return lines[1]
+    # return nothing
+end
+
+function downloadResults(cluster::Cluster, file::String)
+    println("Downloading results from \"$(cluster.host_name)\"...")
+    run(`scp -i $(cluster.identity_file) $(cluster.user)@$(cluster.host_name):$(file) .`)
     return nothing
 end
 
@@ -210,4 +223,24 @@ function disconnect(cluster::Cluster)
     run(`screen -S $(cluster.host_name) -X quit`)
     return nothing
 end
+
+
+# overwrite show method for DataFrames
+function Base.show(io::IO,
+    df::AbstractDataFrame;
+    allrows::Bool=!get(io, :limit, false),
+    allcols::Bool=!get(io, :limit, false),
+    rowlabel::Symbol=:Row,
+    summary::Bool=true,
+    eltypes::Bool=false,
+    truncate::Int=32,
+    kwargs...)
+
+    # Check for keywords that are valid in other backends but not here.
+    DataFrames._verify_kwargs_for_text(; kwargs...)
+
+    DataFrames._show(io, df; allrows=allrows, allcols=allcols, rowlabel=rowlabel,
+        summary=summary, eltypes=eltypes, truncate=truncate, kwargs...)
+end
+
 end

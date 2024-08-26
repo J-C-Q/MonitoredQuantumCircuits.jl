@@ -135,6 +135,12 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         selectorConnectionColor = Observable(parse(Colorant, MonitoredQuantumCircuits.color(selectorOperation())))
         selectorLabels = ["$i" for i in 1:MonitoredQuantumCircuits.nQubits(selectorOperation())]
         scrollSelect = 1
+        selectorSize = Observable(fill(0.2, MonitoredQuantumCircuits.nQubits(selectorOperation())))
+        for i in 1:MonitoredQuantumCircuits.nQubits(selectorOperation())
+            if MonitoredQuantumCircuits.isAncilla(selectorOperation(), i)
+                selectorSize[][i] = 0.1
+            end
+        end
 
         gateRelation = Point3f[Point3f(i, j, -1) for (i, j) in MonitoredQuantumCircuits.plotPositions(selectorOperation())]
         selectorPositions = Observable(gateRelation)
@@ -161,7 +167,7 @@ function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
         meshscatter!(ax,
             selectorPositions,
             color=:gray,
-            markersize=0.2,
+            markersize=selectorSize,
             visible=showSelector)
 
         # text!(ax,
