@@ -4,7 +4,7 @@ using MonitoredQuantumCircuits
 
 makedocs(;
     modules=[MonitoredQuantumCircuits],
-    authors="Your Name Here",
+    authors="J-C-Q",
     repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
     sitename="MonitoredQuantumCircuits.jl",
     format=DocumenterVitepress.MarkdownVitepress(
