@@ -5,10 +5,10 @@ layout: home
 
 hero:
   name: "MonitoredQuantumCircuits.jl"
-  text: ""
-  tagline: ""
+  text: "Test"
+  tagline: Test
   image:
-    src: /logo.png
+    src: /logo-square.png
     alt: MonitoredQuantumCircuits
   actions:
     - theme: brand
@@ -20,6 +20,13 @@ hero:
     - theme: alt
       text: API
       link: /
+      
+features:
+  - icon: <img width="64" height="64" src="https://img.icons8.com/arcade/64/markdown.png" alt="markdown"/>
+    title: Markdown
+    details: Write in standard markdown syntax
+    link: /markdown-examples
+---
 ```
 
 ```@autodocs
