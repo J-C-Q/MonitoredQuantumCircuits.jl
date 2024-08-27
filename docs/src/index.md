@@ -6,7 +6,7 @@ layout: home
 hero:
   name: "MonitoredQuantumCircuits.jl"
   text: ""
-  tagline: 
+  tagline: ""
   image:
     src: /logo.png
     alt: MonitoredQuantumCircuits
@@ -20,7 +20,6 @@ hero:
     - theme: alt
       text: API
       link: /
-
 ```
 
 ```@autodocs
