@@ -11,6 +11,7 @@ makedocs(;
         repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
         devurl="dev",
         deploy_url="J-C-Q.github.io/MonitoredQuantumCircuits.jl",
+        base="/MonitoredQuantumCircuits.jl/",
         # build_vitepress=false
     ),
     pages=[
