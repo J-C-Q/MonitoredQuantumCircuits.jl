@@ -225,22 +225,22 @@ function disconnect(cluster::Cluster)
 end
 
 
-# overwrite show method for DataFrames
-function Base.show(io::IO,
-    df::AbstractDataFrame;
-    allrows::Bool=!get(io, :limit, false),
-    allcols::Bool=!get(io, :limit, false),
-    rowlabel::Symbol=:Row,
-    summary::Bool=true,
-    eltypes::Bool=false,
-    truncate::Int=32,
-    kwargs...)
+# # overwrite show method for DataFrames
+# function Base.show(io::IO,
+#     df::AbstractDataFrame;
+#     allrows::Bool=!get(io, :limit, false),
+#     allcols::Bool=!get(io, :limit, false),
+#     rowlabel::Symbol=:Row,
+#     summary::Bool=true,
+#     eltypes::Bool=false,
+#     truncate::Int=32,
+#     kwargs...)
 
-    # Check for keywords that are valid in other backends but not here.
-    DataFrames._verify_kwargs_for_text(; kwargs...)
+#     # Check for keywords that are valid in other backends but not here.
+#     DataFrames._verify_kwargs_for_text(; kwargs...)
 
-    DataFrames._show(io, df; allrows=allrows, allcols=allcols, rowlabel=rowlabel,
-        summary=summary, eltypes=eltypes, truncate=truncate, kwargs...)
-end
+#     DataFrames._show(io, df; allrows=allrows, allcols=allcols, rowlabel=rowlabel,
+#         summary=summary, eltypes=eltypes, truncate=truncate, kwargs...)
+# end
 
 end

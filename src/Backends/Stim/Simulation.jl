@@ -1,8 +1,8 @@
 
-struct StimSimulator <: MonitoredQuantumCircuits.Simulator
+struct CompileSimulator <: MonitoredQuantumCircuits.Simulator
 end
 
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, ::StimSimulator; shots=1024, verbose::Bool=true)
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, ::CompileSimulator; shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Stim...")
     qc = MonitoredQuantumCircuits.translate(StimCircuit, circuit)
     verbose && println("✓")
@@ -13,7 +13,28 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circ
 
     verbose && print("Simulating circuit...")
     stimResult = pyconvert(Vector{Vector{Bool}}, sample(sampler; shots))
+    result = MonitoredQuantumCircuits.SampleResult(hcat(stimResult...), zeros(Int64, length(stimResult)))
 
     verbose && println("✓")
-    return stimResult
+    return result
+end
+
+struct TableauSimulator <: MonitoredQuantumCircuits.Simulator
+end
+
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, ::TableauSimulator; shots=1024, verbose::Bool=true)
+    verbose && print("Transpiling circuit to Stim...")
+    qc = MonitoredQuantumCircuits.translate(StimCircuit, circuit)
+    verbose && println("✓")
+
+    verbose && print("Initializing tableau sampler...")
+    sampler = TableauSampler(qc)
+    verbose && println("✓")
+
+    verbose && print("Simulating circuit...")
+    stimResult = pyconvert(Vector{Vector{Bool}}, sample(sampler; shots))
+    result = MonitoredQuantumCircuits.SampleResult(hcat(stimResult...), zeros(Int64, length(stimResult)))
+
+    verbose && println("✓")
+    return result
 end

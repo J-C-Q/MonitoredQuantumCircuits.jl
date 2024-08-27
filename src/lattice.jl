@@ -8,6 +8,10 @@ function Base.length(lattice::Lattice)
     return nv(lattice.graph)
 end
 
+function nQubits(lattice::Lattice; countAncilla::Bool=false)
+    return countAncilla ? nv(lattice.graph) : sum(lattice.isAncilla .== false)
+end
+
 function Base.show(io::IO, lattice::Lattice)
     print(io, "$(typeof(lattice)) with ", length(lattice), " sites and ")
     bonds = getBonds(lattice)
