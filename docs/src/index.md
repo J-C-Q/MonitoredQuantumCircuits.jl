@@ -1,14 +1,7 @@
-```@meta
-CurrentModule = MonitoredQuantumCircuits
-```
+# MonitoredQuantumCircuits.jl
 
-# MonitoredQuantumCircuits
-
-Documentation for [MonitoredQuantumCircuits](https://github.com/J-C-Q/MonitoredQuantumCircuits.jl).
-
-```@index
-```
+Documentation for `MonitoredQuantumCircuits.jl`.
 
 ```@autodocs
-Modules = [MonitoredQuantumCircuits]
+Modules=[MonitoredQuantumCircuits]
 ```

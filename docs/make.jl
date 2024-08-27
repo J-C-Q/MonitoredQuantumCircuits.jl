@@ -1,31 +1,25 @@
-using MonitoredQuantumCircuits
 using Documenter, DocumenterVitepress
 
-# DocMeta.setdocmeta!(MonitoredQuantumCircuits, :DocTestSetup, :(using MonitoredQuantumCircuits); recursive=true)
+using MonitoredQuantumCircuits
 
 makedocs(;
-    pages=[
-        "Home" => "index.md",
-        "Tutorial" => "tutorial.md",
-        "API Reference" => "api.md",
-    ],
     modules=[MonitoredQuantumCircuits],
-    warnonly=true,
-    authors="Quinten Preiss",
+    authors="Your Name Here",
     repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
     sitename="MonitoredQuantumCircuits.jl",
     format=DocumenterVitepress.MarkdownVitepress(
-        # prettyurls=get(ENV, "CI", "false") == "true",
-        # canonical="https://j-c-q.github.io/MonitoredQuantumCircuits.jl",
         repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
-        # edit_link="main",
         devurl="dev",
-        # assets=String["assets/favicon.ico", "assets/style.css"],
-        deploy_url="https://j-c-q.github.io/MonitoredQuantumCircuits.jl"
-    )
+        deploy_url="J-C-Q.github.io/MonitoredQuantumCircuits.jl",
+        # build_vitepress=false
+    ),
+    pages=[
+        "Home" => "index.md",
+    ],
+    warnonly=true,
 )
 
 deploydocs(;
-    repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl.git",
-    # devbranch="main"
+    repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
+    push_preview=true,
 )
