@@ -3,23 +3,28 @@ using Documenter, DocumenterVitepress
 using MonitoredQuantumCircuits
 
 makedocs(;
-    modules=[MonitoredQuantumCircuits],
+    sitename="MonitoredQuantumCircuits",
     authors="J-C-Q",
-    repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
-    sitename="MonitoredQuantumCircuits.jl",
+    modules=[MonitoredQuantumCircuits],
+    warnonly=true,
     format=DocumenterVitepress.MarkdownVitepress(
-        repo="https://github.com/J-C-Q/MonitoredQuantumCircuits.jl",
+        repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
         devurl="dev",
-        deploy_url="J-C-Q.github.io/MonitoredQuantumCircuits.jl",
+        devbranch="main",
         # build_vitepress=false
     ),
+    source="src",
+    build="build",
     pages=[
         "Home" => "index.md",
     ],
-    warnonly=true,
+
 )
 
 deploydocs(;
     repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
+    target="build",
+    branch="gh-pages",
+    devbranch="main",
     push_preview=true,
 )
