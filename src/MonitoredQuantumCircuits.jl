@@ -14,6 +14,7 @@ include("operations/ZZ.jl")
 include("operations/XX.jl")
 include("operations/YY.jl")
 include("GUI/BonitoApp.jl")
+
 include("Backends/Qiskit/Qiskit.jl")
 include("Backends/Stim/Stim.jl")
 # include("Backends/ITensorNetworks/ITensorNetworks.jl")
