@@ -4,9 +4,9 @@
 layout: home
 
 hero:
-  name: "MonitoredQuantumCircuits"
-  text: 
-  tagline: MonitoredQuantumCircuits
+  name: "MonitoredQuantumCircuits.jl"
+  text:
+  tagline: A Julia first package to construct and execute monitored quantum circuits.
   image:
     src: /logo-square.png
     alt: MonitoredQuantumCircuits
@@ -22,5 +22,3 @@ hero:
       link: /api
 ---
 ```
-
-

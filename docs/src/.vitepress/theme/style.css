@@ -14,7 +14,7 @@ https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/var
 
 .VPHero .clip {
   white-space: pre;
-    max-width: 800px;
+    max-width: 500px;
 }
 
 /* Fonts */
@@ -77,7 +77,6 @@ https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/var
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
     #9558B2 30%,
-    #389826 30%,
     #CB3C33
   );
 
@@ -89,16 +88,33 @@ https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/var
   );
   --vp-home-hero-image-filter: blur(40px);
 }
+@media (min-width: 10px) {
+    .clip {
+      font-size: 20px;
+    }
+  }
+
+@media (min-width: 370px) {
+    .clip {
+      font-size: 25px;
+    }
+  }
 
 @media (min-width: 640px) {
   :root {
     --vp-home-hero-image-filter: blur(56px);
+  }
+  .clip {
+    font-size: 36px;
   }
 }
 
 @media (min-width: 960px) {
   :root {
     --vp-home-hero-image-filter: blur(72px);
+  }
+  .clip {
+    font-size: 48px;
   }
 }
 
@@ -178,3 +194,7 @@ mjx-container > svg {
   --vp-c-sponsor: #91dd33;
   --vitest-c-sponsor-hover: #e51370;
 }
+
+/* .clip {
+  font-size: 28px;
+} */

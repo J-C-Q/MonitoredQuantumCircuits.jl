@@ -16,11 +16,8 @@ makedocs(;
     build="build",
     pages=[
         "Home" => "index.md",
-        "API" => "api.md",
         "Getting started" => "getting_started.md",
-    ],
-
-)
+        "API" => "api.md",],)
 
 deploydocs(;
     repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
