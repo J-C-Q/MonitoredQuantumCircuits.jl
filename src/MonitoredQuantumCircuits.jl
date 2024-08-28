@@ -24,6 +24,8 @@ include("circuits/kitaev.jl")
 include("circuits/kekule.jl")
 include("circuits/random.jl")
 
+include("Analysis/Analysis.jl")
+
 
 
 
@@ -58,5 +60,6 @@ export Qiskit
 export Stim
 # export ITensorNetworks
 
+export Analysis
 
 end
