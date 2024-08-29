@@ -11,8 +11,8 @@ makedocs(;
         repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
         devurl="dev",
         devbranch="main",
+        assets = ["assets/favicon.ico", "assets/logo.png"]
     ),
-    assets = ["assets/favicon.ico", "assets/logo.png"],
     source="src",
     build="build",
     pages=[
