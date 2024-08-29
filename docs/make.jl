@@ -12,6 +12,7 @@ makedocs(;
         devurl="dev",
         devbranch="main",
     ),
+    assets = ["assets/favicon.ico", "assets/logo.png"],
     source="src",
     build="build",
     pages=[
