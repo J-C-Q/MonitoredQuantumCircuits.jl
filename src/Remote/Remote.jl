@@ -46,14 +46,36 @@ end
 function loadCluster(host_name::String)
     df = DataFrame(CSV.File("remotes.csv"))
     row = df[df.host_name.==host_name, :]
+    if isempty(row)
+        println("Cluster $(host_name) not found. Run showClusters() to see all clusters.")
+        return nothing
+    end
     user = row.user[1]
     identity_file = row.identity_file[1]
     return Cluster(host_name, user, identity_file, "")
 end
 
-function showClusters()
+function loadCluster(id::Integer)
     df = DataFrame(CSV.File("remotes.csv"))
-    # println(df)
+    row = df[id, :]
+    if isempty(row)
+        println("Cluster $(id) not found. Run showClusters() to see all clusters.")
+        return nothing
+    end
+    host_name = row.host_name
+    user = row.user
+    identity_file = row.identity_file
+    return Cluster(host_name, user, identity_file, "")
+end
+
+function showClusters()
+    if !isfile("remotes.csv")
+        println("No clusters added.")
+        return nothing
+    else
+        df = DataFrame(CSV.File("remotes.csv"))
+        return df
+    end
 end
 
 function connect(cluster::Cluster)
@@ -71,6 +93,14 @@ function connect(cluster::Cluster)
 end
 
 function setup(cluster::Cluster)
+
+    if !isfile(".env")
+        println("No .env file found. Please create a .env file with the following format:")
+        println("GITHUB_USERNAME=<username>")
+        println("GITHUB_PASSWORD=<accesstoken>")
+        return nothing
+    end
+
     println("Creating directory MonitoredQuantumCircuits/...")
     run(`screen -S $(cluster.host_name) -X stuff "mkdir MonitoredQuantumCircuitsENV /dev/null 2>&1; cd MonitoredQuantumCircuitsENV > /dev/null 2>&1\n"`)
     waitForRemote(cluster)
@@ -218,13 +248,48 @@ function getInfo()
 
 end
 
+function connectedClusters()
+    if !isfile("remotes.csv")
+        println("No clusters added.")
+        return nothing
+    end
+    output = ""
+    try
+        output = read(`screen -ls`, String)
+    catch
+        println("No clusters connected.")
+        return nothing
+    end
+    lines = split(output, "\n")
+    screen_names = filter(line -> contains(line, "\t"), lines)
+    screen_names = [n[2] for n in split.(screen_names, "\t")]
+    names = [n[2] for n in split.(screen_names, "."; limit=2)]
+    df = showClusters()
+    clusters = Cluster[]
+    for host_name in names
+        row = df[df.host_name.==host_name, :]
+        if !isempty(row)
+            push!(clusters, loadCluster(string(host_name)))
+        end
+    end
+
+    return clusters
+end
+
 function disconnect(cluster::Cluster)
     println("Disconnecting from \"$(cluster.host_name)\"...")
     run(`screen -S $(cluster.host_name) -X quit`)
     return nothing
 end
 
-# atexit(disconnect(cluster::Cluster) for cluster in [loadCluster(host_name) for host_name in DataFrame(CSV.File("remotes.csv")).host_name])
+function disconnectAll()
+    for cluster in connectedClusters()
+        disconnect(cluster)
+    end
+    return nothing
+end
+
+atexit(disconnectAll)
 
 # # overwrite show method for DataFrames
 # function Base.show(io::IO,
