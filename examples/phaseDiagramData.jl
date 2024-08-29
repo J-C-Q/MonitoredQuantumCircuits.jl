@@ -29,7 +29,7 @@ end
 
 
 
-function generateData(probs; nx=6, ny=4, depth=(nx * ny)^2, shots=10000)
+function generateData(probs; nx=6, ny=4, depth=1500 * (nx * ny)^2, shots=10000)
     lattice = HeavyHexagonLattice(nx, ny)
     backend = Stim.CompileSimulator()
     points = probs
@@ -46,9 +46,6 @@ function generateData(probs; nx=6, ny=4, depth=(nx * ny)^2, shots=10000)
 
         tmis[i] = tripartiteInformation
     end
-
-    # wait(collect(Dagger.@spawn))
-    # JLD2.@save "tmis.jld2" tmis points
     return tmis
 end
 
