@@ -1,26 +1,18 @@
-using Distributed;
-using SharedArrays;
-addprocs(6);
-# List of all worker IDs
-worker_ids = workers()
-using MonitoredQuantumCircuits
-# Load the package on each worker one by one
-for wid in worker_ids
-    @eval @everywhere if myid() == $wid
-        using MonitoredQuantumCircuits
-    end
-    sleep(1)
-end
-
-using ProgressMeter
+using MPI
+MPI.Init()
+comm = MPI.COMM_WORLD
 using JLD2
 
+for id in 0:(MPI.Comm_size(comm)-1)
+    if id == MPI.Comm_rank(comm)
+        using MonitoredQuantumCircuits
+    end
+    MPI.Barrier(comm)
+end
 
 
 
-function generateData(; grain=0.1, shots=10000)
-    lattice = HeavyHexagonLattice(6, 4)
-    backend = Stim.CompileSimulator()
+function generateProbs(size; grain=0.1)
     points = NTuple{3,Float64}[]
 
     for i in 0:grain:1
@@ -31,11 +23,20 @@ function generateData(; grain=0.1, shots=10000)
             push!(points, (px, py, pz))
         end
     end
+    d = div(length(points), size)
+    return collect(Iterators.partition(points, d))
+end
 
-    tmis = SharedVector{Float64}(length(points))
-    @showprogress @distributed for i in 1:length(points)
-        px, py, pz = points[i]
-        circuit = KitaevCircuit(lattice, px, py, pz, 24^2)
+
+
+function generateData(probs; nx=6, ny=4, depth=(nx * ny)^2, shots=10000)
+    lattice = HeavyHexagonLattice(nx, ny)
+    backend = Stim.CompileSimulator()
+    points = probs
+
+    tmis = Vector{Float64}(undef, length(points))
+    for (i, (px, py, pz)) in enumerate(points)
+        circuit = KitaevCircuit(lattice, px, py, pz, depth)
 
         result = execute(circuit, backend; shots, verbose=false)
 
@@ -47,10 +48,29 @@ function generateData(; grain=0.1, shots=10000)
     end
 
     # wait(collect(Dagger.@spawn))
-    JLD2.@save "tmis.jld2" tmis points
+    # JLD2.@save "tmis.jld2" tmis points
+    return tmis
+end
+
+points = generateProbs(MPI.Comm_size(comm); grain=0.01)
+
+tmis = generateData(points[MPI.Comm_rank(comm)+1]; shots=100000)
+MPI.Barrier(comm)
+
+if MPI.Comm_rank(comm) == 0
+    # Only the root process needs the big vector to gather into
+    big_tmis = Vector{Float64}(undef, sum(length(point) for point in points))
+    tmisBuffer = VBuffer(big_tmis, [length(point) for point in points])
+else
+    big_tmis = nothing  # Other processes do not need this
+    tmisBuffer = VBuffer(nothing)
 end
 
 
-
-
-generateData(; grain=0.05, shots=100000)
+# Gather all the data into the big vector
+MPI.Gatherv!(tmis, tmisBuffer, 0, comm)
+MPI.Barrier(comm)
+if MPI.Comm_rank(comm) == 0
+    big_points = collect(Iterators.flatten(points))
+    JLD2.@save "tmis.jld2" big_tmis big_points
+end

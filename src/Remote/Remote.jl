@@ -224,6 +224,7 @@ function disconnect(cluster::Cluster)
     return nothing
 end
 
+# atexit(disconnect(cluster::Cluster) for cluster in [loadCluster(host_name) for host_name in DataFrame(CSV.File("remotes.csv")).host_name])
 
 # # overwrite show method for DataFrames
 # function Base.show(io::IO,
