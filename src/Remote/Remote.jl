@@ -283,6 +283,9 @@ function disconnect(cluster::Cluster)
 end
 
 function disconnectAll()
+    if connectedClusters() === nothing
+        return nothing
+    end
     for cluster in connectedClusters()
         disconnect(cluster)
     end

@@ -1,10 +1,10 @@
-struct ToricCodeLattice <: Lattice
+struct SquareToricCodeLattice <: Lattice
     graph::Graph
     sizeX::Int64
     sizeY::Int64
     isAncilla::Vector{Bool} # whether the qubit is an ancilla
     gridPositions::Vector{Tuple{Int64,Int64}} # the grid positions of the qubits
-    function ToricCodeLattice(sizeX::Integer, sizeY::Integer)
+    function SquareToricCodeLattice(sizeX::Integer, sizeY::Integer)
         sizeX > 0 || throw(ArgumentError("size must be positive"))
         sizeY > 0 || throw(ArgumentError("size must be positive"))
         graph = grid([sizeX, sizeY]; periodic=true)
@@ -27,7 +27,7 @@ struct ToricCodeLattice <: Lattice
     end
 end
 
-function visualize(io::IO, lattice::ToricCodeLattice)
+function visualize(io::IO, lattice::SquareToricCodeLattice)
     grid = fill(" ", 2 * maximum([pos[2] for pos in lattice.gridPositions]) + 1, 5 * maximum([pos[1] for pos in lattice.gridPositions]) + 3)
     gridColor = fill(:white, 2 * maximum([pos[2] for pos in lattice.gridPositions]) + 1, 5 * maximum([pos[1] for pos in lattice.gridPositions]) + 3)
     for (i, gridPosition) in enumerate(lattice.gridPositions)

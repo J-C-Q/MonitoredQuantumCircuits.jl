@@ -35,5 +35,6 @@ end
 include("lattices/heavyChainLattice.jl")
 include("lattices/heavySquareLattice.jl")
 include("lattices/heavyHexagonLattice.jl")
-include("lattices/surfaceCodeLattice.jl")
-# include("lattices/toricCodeLattice.jl")
+include("lattices/squareSurfaceCodeLattice.jl")
+include("lattices/squareToricCodeLattice.jl")
+include("lattices/hexagonToricCodeLattice.jl")

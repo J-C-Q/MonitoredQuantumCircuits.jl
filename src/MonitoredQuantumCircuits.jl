@@ -44,8 +44,9 @@ export YY
 export HeavyChainLattice
 export HeavySquareLattice
 export HeavyHexagonLattice
-export SurfaceCodeLattice
-# export ToricCodeLattice
+export SquareSurfaceCodeLattice
+export SquareToricCodeLattice
+export HexagonToricCodeLattice
 
 export NishimoriCircuit
 export KitaevCircuit

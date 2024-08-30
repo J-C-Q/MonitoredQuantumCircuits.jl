@@ -1,15 +1,21 @@
-struct SurfaceCodeLattice <: Lattice
+struct HexagonToricCodeLattice <: Lattice
     graph::Graph
     sizeX::Int64
     sizeY::Int64
     isAncilla::Vector{Bool} # whether the qubit is an ancilla
     gridPositions::Vector{Tuple{Int64,Int64}} # the grid positions of the qubits
-    function SurfaceCodeLattice(sizeX::Integer, sizeY::Integer)
+    function HexagonToricCodeLattice(sizeX::Integer, sizeY::Integer)
         sizeX > 0 || throw(ArgumentError("size must be positive"))
         sizeY > 0 || throw(ArgumentError("size must be positive"))
-        graph = grid([sizeX, sizeY]; periodic=false)
-        nNodes = nv(graph)
+        graph = grid([sizeX, sizeY]; periodic=true)
+
+        for j in 1:sizeY-1
+            for i in (j%2+1+(j-1)*(sizeX)):2:j*(sizeX)
+                rem_edge!(graph, i, i + sizeX)
+            end
+        end
         gridPositions = [(2i - 1, 2j - 1) for j in 1:sizeY for i in 1:sizeX]
+        nNodes = nv(graph)
         for e in collect(edges(graph))
             src = Graphs.src(e)
             dst = Graphs.dst(e)
@@ -21,13 +27,13 @@ struct SurfaceCodeLattice <: Lattice
             add_edge!(graph, nNodes, dst)
         end
         isAncilla = Vector{Bool}(undef, nv(graph))
-        isAncilla[1:sizeX*sizeY] .= true
-        isAncilla[sizeX*sizeY+1:end] .= false
+        isAncilla[1:sizeX*sizeY] .= false
+        isAncilla[sizeX*sizeY+1:end] .= true
         return new(graph, sizeX, sizeY, isAncilla, gridPositions)
     end
 end
 
-function visualize(io::IO, lattice::SurfaceCodeLattice)
+function visualize(io::IO, lattice::HexagonToricCodeLattice)
     grid = fill(" ", 2 * maximum([pos[2] for pos in lattice.gridPositions]) + 1, 5 * maximum([pos[1] for pos in lattice.gridPositions]) + 3)
     gridColor = fill(:white, 2 * maximum([pos[2] for pos in lattice.gridPositions]) + 1, 5 * maximum([pos[1] for pos in lattice.gridPositions]) + 3)
     for (i, gridPosition) in enumerate(lattice.gridPositions)
@@ -65,8 +71,5 @@ function visualize(io::IO, lattice::SurfaceCodeLattice)
         end
         println(io)
     end
-
-
-
     return nothing
 end

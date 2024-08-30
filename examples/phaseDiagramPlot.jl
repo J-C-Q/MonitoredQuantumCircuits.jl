@@ -16,7 +16,7 @@ function PlotThis()
     fig = Figure()
     ax = Axis(fig[1, 1], aspect=DataAspect())
     hidedecorations!(ax)
-    voronoiplot!(ax, [p[1] for p in points2d], [p[2] for p in points2d], tmis, colormap=:viridis)
+    voronoiplot!(ax, [p[1] for p in points2d], [p[2] for p in points2d], tmis, colormap=:viridis, markersize=1, strokewidth=0.5)
     p = Polygon(
         Point2f[(-0.8, -0.5), (0.8, -0.5), (0.8, 0.9), (-0.8, 0.9)],
         [Point2f[
