@@ -51,7 +51,7 @@ end
 
 points = generateProbs(MPI.Comm_size(comm); grain=0.1)
 
-tmis = generateData(points[MPI.Comm_rank(comm)+1]; shots=10000)
+tmis = generateData(points[MPI.Comm_rank(comm)+1]; shots=10000, depth=100 * 24^2)
 MPI.Barrier(comm)
 
 if MPI.Comm_rank(comm) == 0
