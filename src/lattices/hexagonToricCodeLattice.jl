@@ -7,11 +7,12 @@ struct HexagonToricCodeLattice <: Lattice
     function HexagonToricCodeLattice(sizeX::Integer, sizeY::Integer)
         sizeX > 0 || throw(ArgumentError("size must be positive"))
         sizeY > 0 || throw(ArgumentError("size must be positive"))
+        sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
         graph = grid([sizeX, sizeY]; periodic=true)
 
-        for j in 1:sizeY-1
+        for j in 1:sizeY
             for i in (j%2+1+(j-1)*(sizeX)):2:j*(sizeX)
-                rem_edge!(graph, i, i + sizeX)
+                rem_edge!(graph, mod1(i, sizeX * sizeY), mod1(i + sizeX, sizeX * sizeY))
             end
         end
         gridPositions = [(2i - 1, 2j - 1) for j in 1:sizeY for i in 1:sizeX]

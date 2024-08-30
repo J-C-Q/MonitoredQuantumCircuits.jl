@@ -30,7 +30,7 @@ end
 
 
 function generateData(probs; nx=6, ny=4, depth=1500 * (nx * ny)^2, shots=10000)
-    lattice = HeavyHexagonLattice(nx, ny)
+    lattice = HexagonToricCodeLattice(nx, ny)
     backend = Stim.CompileSimulator()
     points = probs
 
@@ -49,9 +49,9 @@ function generateData(probs; nx=6, ny=4, depth=1500 * (nx * ny)^2, shots=10000)
     return tmis
 end
 
-points = generateProbs(MPI.Comm_size(comm); grain=0.01)
+points = generateProbs(MPI.Comm_size(comm); grain=0.1)
 
-tmis = generateData(points[MPI.Comm_rank(comm)+1]; shots=100000)
+tmis = generateData(points[MPI.Comm_rank(comm)+1]; shots=10000)
 MPI.Barrier(comm)
 
 if MPI.Comm_rank(comm) == 0
