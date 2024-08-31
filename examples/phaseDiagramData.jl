@@ -29,7 +29,7 @@ end
 
 
 
-function generateData(probs; nx=6, ny=4, depth=1500 * (nx * ny)^2, shots=10000)
+function generateData(probs; nx=4, ny=4, depth=1500 * (nx * ny)^2, shots=10000)
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = Stim.CompileSimulator()
     points = probs
@@ -42,7 +42,7 @@ function generateData(probs; nx=6, ny=4, depth=1500 * (nx * ny)^2, shots=10000)
 
         bits = result[end-MonitoredQuantumCircuits.nQubits(lattice)+1:end]
 
-        tripartiteInformation = Analysis.TMI(bits, [1, 2, 7, 8, 13, 14, 19, 20], [3, 4, 9, 10, 15, 16, 21, 22], [5, 6, 11, 12, 17, 18, 23, 24])
+        tripartiteInformation = Analysis.TMI(bits, 1:4, 5:8, 9:12)
 
         tmis[i] = tripartiteInformation
     end
@@ -51,7 +51,7 @@ end
 
 points = generateProbs(MPI.Comm_size(comm); grain=0.1)
 
-tmis = generateData(points[MPI.Comm_rank(comm)+1]; shots=10000, depth=100 * 24^2)
+tmis = generateData(points[MPI.Comm_rank(comm)+1]; shots=10000, depth=1000 * 16^2)
 MPI.Barrier(comm)
 
 if MPI.Comm_rank(comm) == 0
