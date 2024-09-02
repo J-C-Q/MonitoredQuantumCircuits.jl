@@ -17,8 +17,8 @@ end
 
 function MonitoredQuantumCircuits.translate(::Type{StimCircuit}, circuit::MonitoredQuantumCircuits.Circuit)
     qc = StimCircuit()
-    for i in 1:nQubits(circuit.lattice)
-        qc.append("DEPOLARIZE1", [i])
+    for i in 1:MonitoredQuantumCircuits.nQubits(circuit.lattice)
+        qc.append("DEPOLARIZE1", [i], 1)
     end
     # iterate execution steps
     for i in unique(circuit.executionOrder)
