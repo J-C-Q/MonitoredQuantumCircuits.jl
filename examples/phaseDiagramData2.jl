@@ -1,17 +1,23 @@
 using MPI
+using ProgressMeter
+using JLD2
 MPI.Init()
 comm = MPI.COMM_WORLD
-using JLD2
+rank = MPI.Comm_rank(comm)
+world_size = MPI.Comm_size(comm)
+nworkers = world_size - 1
+root = 0
 
-# Load MonitoredQuantumCircuits on all processes in serial
-for id in 1:(MPI.Comm_size(comm)-1)
-    if id == MPI.Comm_rank(comm)
+MPI.Barrier(comm)
+
+for id in 1:nworkers
+    if id == rank
         using MonitoredQuantumCircuits
-        println("Rank $(MPI.Comm_rank(comm)) ready")
+
+        println("Rank $(rank) ready")
     end
     MPI.Barrier(comm)
 end
-
 function generateProbs(; grain=0.1)
     points = NTuple{3,Float64}[]
     for i in 0:grain:1
@@ -25,8 +31,11 @@ function generateProbs(; grain=0.1)
     return points
 end
 
-function computeOnePoint(point; nx=4, ny=4, depth=1500 * (nx * ny), shots=10000, trajectories=3800)
+function computeOnePoint(point; nx=4, ny=4, depth=10 * (nx * ny), shots=10000, trajectories=10)
     tripartiteInformation = 0.0
+    lattice = HexagonToricCodeLattice(nx, ny)
+    backend = Stim.CompileSimulator()
+    px, py, pz = point
     for _ in 1:trajectories
         circuit = KitaevCircuit(lattice, px, py, pz, depth)
 
@@ -42,63 +51,132 @@ function computeOnePoint(point; nx=4, ny=4, depth=1500 * (nx * ny), shots=10000,
     return tripartiteInformation / trajectories
 end
 
-function master(nprocs, comm)
-    points = generateProbs()
-    tasks = collect(1:length(points))
-    ntasks = length(tasks)
+# if MPI.Comm_rank(comm) == 0
+#     points, results = master(nprocs, comm)
+#     println("All tasks completed. Results: ", results)
+#     JLD2.@save "tmis.jld2" results points
+# else
+#     worker(MPI.Comm_rank(comm), comm)
+# end
 
-    results = Vector{Float64}(undef, ntasks)
-    tasks_sent = 0
-    tasks_completed = 0
 
-    # Initialize workers
-    for worker in 1:(nprocs-1)
-        if tasks_sent < ntasks
-            MPI.Send(points[tasks_sent+1], worker, 0, comm)
-            tasks_sent += 1
+function job_queue(data, f)
+    T = eltype(data)
+    N = length(data)
+    send_data = Array{T}(undef, 1)
+    send_result = Array{Float64}(undef, 1)
+    recv_data = Array{T}(undef, 1)
+    recv_result = Array{Float64}(undef, 1)
+
+    if rank == root # I am root
+
+        idx_recv = 0
+        idx_sent = 1
+
+        results = Array{Float64}(undef, N)
+        # Array of workers requests
+        sreqs_workers = Array{MPI.Request}(undef, nworkers)
+        # -1 = start, 0 = channel not available, 1 = channel available
+        status_workers = ones(nworkers) .* -1
+        # task index
+        taskIndex_workers = zeros(Int64, nworkers)
+
+        # Send message to workers
+        for dst in 1:nworkers
+            if idx_sent > N
+                break
+            end
+            send_data[1] = data[idx_sent]
+            sreq = MPI.Isend(send_data, comm; dest=dst, tag=dst + 32)
+            sreqs_workers[dst] = sreq
+            status_workers[dst] = 0
+            taskIndex_workers[dst] = idx_sent
+            # print("Point $(idx_sent)/$N queued on Worker $dst\n")
+            idx_sent += 1
+        end
+        p = Progress(N; dt=1.0)
+        # Send and receive messages until all elements are added
+        while idx_recv != N
+            # Check to see if there is an available message to receive
+            for dst in 1:nworkers
+                if status_workers[dst] == 0
+                    flag = MPI.Test(sreqs_workers[dst])
+                    if flag
+                        status_workers[dst] = 1
+                    end
+                end
+            end
+            for dst in 1:nworkers
+                if status_workers[dst] == 1
+                    ismessage = MPI.Iprobe(comm; source=dst, tag=dst + 32)
+                    if ismessage
+                        # Receives message
+                        MPI.Recv!(recv_result, comm; source=dst, tag=dst + 32)
+                        idx_recv += 1
+                        results[taskIndex_workers[dst]] = recv_result[1]
+                        update!(p, idx_recv)
+                        # print("$idx_recv/$N done!\n")
+                        if idx_sent <= N
+                            send_data[1] = data[idx_sent]
+                            # Sends new message
+                            sreq = MPI.Isend(send_data, comm; dest=dst, tag=dst + 32)
+                            sreqs_workers[dst] = sreq
+                            status_workers[dst] = 1
+                            taskIndex_workers[dst] = idx_sent
+                            # print("Point $(idx_sent)/$N queued on Worker $dst\n")
+                            idx_sent += 1
+                        end
+                    end
+                end
+            end
+        end
+
+        for dst in 1:nworkers
+            # Termination message to worker
+            send_data[1] = (0.0, 0.0, 0.0)
+            sreq = MPI.Isend(send_data, comm; dest=dst, tag=dst + 32)
+            sreqs_workers[dst] = sreq
+            status_workers[dst] = 0
+            taskIndex_workers[dst] = 0
+            # print("Root: Finish Worker $dst\n")
+        end
+
+        MPI.Waitall(sreqs_workers)
+        print("Root: result = $results\n")
+        JLD2.@save "tmisMixed.jld2" results data
+    else # If rank == worker
+        # -1 = start, 0 = channel not available, 1 = channel available
+        status_worker = -1
+        while true
+            sreqs_workers = Array{MPI.Request}(undef, 1)
+            ismessage = MPI.Iprobe(comm; source=root, tag=rank + 32)
+
+            if ismessage
+                # Receives message
+                MPI.Recv!(recv_data, comm; source=root, tag=rank + 32)
+                # Termination message from root
+                if recv_data[1] == (0.0, 0.0, 0.0)
+                    # print("Worker $rank: Finish\n")
+                    break
+                end
+                # Apply function
+                send_result = f(recv_data[1])
+                sreq = MPI.Isend(send_result, comm; dest=root, tag=rank + 32)
+                sreqs_workers[1] = sreq
+                status_worker = 0
+            end
+            # Check to see if there is an available message to receive
+            if status_worker == 0
+                flag = MPI.Test(sreqs_workers[1])
+                if flag
+                    status_worker = 1
+                end
+            end
         end
     end
-
-    # Receive results and assign new tasks
-    while tasks_completed < ntasks
-        status = MPI.Status()
-        result = MPI.Recv_any!(MPI.ANY_SOURCE, MPI.ANY_TAG, comm, status)
-        source = MPI.Status_source(status)
-        results[tasks_completed+1] = result
-        tasks_completed += 1
-
-        if tasks_sent < ntasks
-            MPI.Send(points[tasks_sent+1], source, 0, comm)
-            tasks_sent += 1
-        else
-            # Send termination signal
-            MPI.Send(nothing, source, 1, comm)
-        end
-    end
-    return results
+    MPI.Barrier(comm)
+    MPI.Finalize()
 end
 
-function worker(rank, comm; nx=4, ny=4, depth=1500 * (nx * ny), shots=10000)
-    lattice = HexagonToricCodeLattice(nx, ny)
-    backend = Stim.CompileSimulator()
-    while true
-        status = MPI.Status()
-        task = MPI.Recv_any!(0, MPI.ANY_TAG, comm, status)
-        if MPI.Status_tag(status) == 1
-            break  # Termination signal
-        end
-        result = computeOnePoint(task; nx, ny, depth, shots)
-        MPI.Send(result, 0, 0, comm)
-    end
-end
 
-if rank == 0
-    results = master(nprocs, comm)
-    println("All tasks completed. Results: ", results)
-else
-    worker(rank, comm)
-end
-if MPI.Comm_rank(comm) == 0
-    big_points = collect(Iterators.flatten(points))
-    JLD2.@save "tmis.jld2" big_tmis big_points
-end
+job_queue(generateProbs(), computeOnePoint)

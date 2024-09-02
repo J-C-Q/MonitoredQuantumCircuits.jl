@@ -9,9 +9,9 @@ function projection(point; origin=[1 / 3, 1 / 3, 1 / 3], e1=normalize(cross(norm
 end
 
 function PlotThis()
-    tmis = JLD2.load("tmis.jld2")["big_tmis"]
+    tmis = JLD2.load("tmis.jld2")["results"]
     println(tmis)
-    points = JLD2.load("tmis.jld2")["big_points"]
+    points = JLD2.load("tmis.jld2")["data"]
     points2d = [projection(p) for p in points]
 
     fig = Figure()
