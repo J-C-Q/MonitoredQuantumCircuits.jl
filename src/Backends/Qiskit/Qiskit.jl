@@ -12,13 +12,13 @@ using PythonCall
 using CondaPkg
 
 function replaceOutput(f::Function, new_output::String)
-    print(new_output)
+    isinteractive() && print(new_output)
     original_stdout = stdout
     redirect_stdout(devnull) do
         f()
     end
     redirect_stdout(original_stdout)
-    println("✓")
+    isinteractive() && println("✓")
 end
 
 # import qiskit at run time
@@ -40,12 +40,12 @@ function __init__()
                 () -> CondaPkg.add_pip("qiskit-aer-gpu"),
                 "Downloading qiskit_aer_gpu...\n")
 
-            println("qiskit-aer-gpu installed successfully.")
+            isinteractive() && println("qiskit-aer-gpu installed successfully.")
         catch
-            println("Failed to install qiskit-aer-gpu, using qiskit-aer instead.")
+            isinteractive() && println("Failed to install qiskit-aer-gpu, using qiskit-aer instead.")
         end
     else
-        println("Non-Linux OS detected, gpu support disabled for qiskit-aer.")
+        isinteractive() && println("Non-Linux OS detected, gpu support disabled for qiskit-aer.")
     end
 
     replaceOutput(

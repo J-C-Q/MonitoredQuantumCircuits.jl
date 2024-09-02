@@ -10,6 +10,7 @@ end
 
 function PlotThis()
     tmis = JLD2.load("tmis.jld2")["big_tmis"]
+    println(tmis)
     points = JLD2.load("tmis.jld2")["big_points"]
     points2d = [projection(p) for p in points]
 

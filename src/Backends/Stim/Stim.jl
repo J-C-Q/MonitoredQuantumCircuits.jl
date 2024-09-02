@@ -7,13 +7,13 @@ using PythonCall
 using CondaPkg
 
 function replaceOutput(f::Function, new_output::String)
-    print(new_output)
+    isinteractive() && print(new_output)
     original_stdout = stdout
     redirect_stdout(devnull) do
         f()
     end
     redirect_stdout(original_stdout)
-    println("✓")
+    isinteractive() && println("✓")
 end
 
 # import stim at run time

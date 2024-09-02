@@ -3,9 +3,11 @@ MPI.Init()
 comm = MPI.COMM_WORLD
 using JLD2
 
+# Load MonitoredQuantumCircuits on all processes in serial
 for id in 0:(MPI.Comm_size(comm)-1)
     if id == MPI.Comm_rank(comm)
         using MonitoredQuantumCircuits
+        println("Rank $(MPI.Comm_rank(comm)) ready")
     end
     MPI.Barrier(comm)
 end
@@ -29,34 +31,41 @@ end
 
 
 
-function generateData(probs; nx=4, ny=4, depth=1500 * (nx * ny)^2, shots=10000)
+function generateData(probs; nx=4, ny=4, depth=1500 * (nx * ny), shots=10000)
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = Stim.CompileSimulator()
     points = probs
 
-    tmis = Vector{Float64}(undef, length(points))
+    tmis = zeros(Float64, length(points))
     for (i, (px, py, pz)) in enumerate(points)
-        circuit = KitaevCircuit(lattice, px, py, pz, depth)
+        for _ in 1:3800
+            circuit = KitaevCircuit(lattice, px, py, pz, depth)
 
-        result = execute(circuit, backend; shots, verbose=false)
+            result = execute(circuit, backend; shots, verbose=false)
+            circuit = nothing  # Free the memory
 
-        bits = result[end-MonitoredQuantumCircuits.nQubits(lattice)+1:end]
+            bits = result[end-MonitoredQuantumCircuits.nQubits(lattice)+1:end]
+            result = nothing  # Free the memory
 
-        tripartiteInformation = Analysis.TMI(bits, 1:4, 5:8, 9:12)
+            tripartiteInformation = Analysis.TMI(bits, 1:4, 5:8, 9:12)
+            bits = nothing  # Free the memory
 
-        tmis[i] = tripartiteInformation
+            tmis[i] += tripartiteInformation
+        end
+        tmis[i] /= 3800
+        # GC.gc()  # Force garbage collection
     end
     return tmis
 end
 
 points = generateProbs(MPI.Comm_size(comm); grain=0.1)
 
-tmis = generateData(points[MPI.Comm_rank(comm)+1]; shots=10000, depth=1000 * 16^2)
+tmis = generateData(points[MPI.Comm_rank(comm)+1]; shots=10000, depth=750 * 2 * 16)
 MPI.Barrier(comm)
 
 if MPI.Comm_rank(comm) == 0
     # Only the root process needs the big vector to gather into
-    big_tmis = Vector{Float64}(undef, sum(length(point) for point in points))
+    big_tmis = zeros(Float64, sum(length(point) for point in points))
     tmisBuffer = VBuffer(big_tmis, [length(point) for point in points])
 else
     big_tmis = nothing  # Other processes do not need this

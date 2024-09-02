@@ -257,7 +257,7 @@ function connectedClusters()
     try
         output = read(`screen -ls`, String)
     catch
-        println("No clusters connected.")
+        isinteractive() && println("No clusters connected.")
         return nothing
     end
     lines = split(output, "\n")
