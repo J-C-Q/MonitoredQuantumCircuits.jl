@@ -31,7 +31,7 @@ function generateProbs(; grain=0.1)
     return points
 end
 
-function computeOnePoint(point; nx=4, ny=4, depth=10 * (nx * ny), shots=10000, trajectories=10)
+function computeOnePoint(point; nx=4, ny=4, depth=750 * 2 * (nx * ny), shots=10000, trajectories=3800)
     tripartiteInformation = 0.0
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = Stim.CompileSimulator()

@@ -9,15 +9,15 @@ function projection(point; origin=[1 / 3, 1 / 3, 1 / 3], e1=normalize(cross(norm
 end
 
 function PlotThis()
-    tmis = JLD2.load("tmis.jld2")["results"]
+    tmis = JLD2.load("tmisMixed.jld2")["results"]
     println(tmis)
-    points = JLD2.load("tmis.jld2")["data"]
+    points = JLD2.load("tmisMixed.jld2")["data"]
     points2d = [projection(p) for p in points]
 
     fig = Figure()
     ax = Axis(fig[1, 1], aspect=DataAspect())
     hidedecorations!(ax)
-    voronoiplot!(ax, [p[1] for p in points2d], [p[2] for p in points2d], tmis, colormap=:viridis, markersize=1, strokewidth=0.5)
+    voronoiplot!(ax, [p[1] for p in points2d], [p[2] for p in points2d], tmis, colormap=:viridis, markersize=1, strokewidth=0.5, colorrange=(-1, 1))
     p = Polygon(
         Point2f[(-0.8, -0.5), (0.8, -0.5), (0.8, 0.9), (-0.8, 0.9)],
         [Point2f[
@@ -33,7 +33,7 @@ function PlotThis()
             projection([0, 0, 1]),
             projection([1, 0, 0])], color=:black)
     limits!(ax, (-0.8, 0.8), (-0.5, 0.9))
-    Colorbar(fig[1, 2], limits=(minimum(tmis), maximum(tmis)), colormap=:viridis,
+    Colorbar(fig[1, 2], limits=(-1, 1), colormap=:viridis,
         flipaxis=true, label="Tripartite Information")
     fig
 end
