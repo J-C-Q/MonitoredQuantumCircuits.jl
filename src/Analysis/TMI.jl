@@ -1,5 +1,6 @@
 
 using StatsBase
+using LinearAlgebra
 # calculating tripartite mutual information
 function TMI(bitstrings::Matrix{Bool}, A, B, C)
     dist = distribution(bitstrings)
@@ -26,7 +27,8 @@ end
 
 
 function shannonEntropy(distribution)
-    return -sum(distribution .* log.(distribution))
+    withoutZeros = [x for x in distribution if x != 0.0]
+    return -sum(withoutZeros .* log2.(withoutZeros))
 end
 
 function marginalize(prob_dist, subsystem_indices)
@@ -37,5 +39,6 @@ function marginalize(prob_dist, subsystem_indices)
         indices = findall(x -> x == sub, subsystems)
         frequency[i] = sum(prob_dist[2][indices])
     end
+    println(sum(frequency) ≈ 1.0)
     return (bits, frequency)
 end

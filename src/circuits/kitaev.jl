@@ -100,6 +100,6 @@ function KitaevCircuit(lattice::HexagonToricCodeLattice, px::Float64, py::Float6
     end
     operationPositions = [rand(possibleMatrix[picks[i]]) for i in 1:depth]
     operationPointers = picks
-    executionOrder = collect(1:length(picks))
+    executionOrder = collect(1:depth)
     return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
 end
