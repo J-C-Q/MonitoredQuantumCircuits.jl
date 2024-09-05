@@ -25,33 +25,55 @@ end
 const qiskit = PythonCall.pynew()
 const qiskit_ibm_runtime = PythonCall.pynew()
 const qiskit_aer = PythonCall.pynew()
-function __init__()
+
+function importQiskit()
     replaceOutput(
         () -> PythonCall.pycopy!(qiskit, pyimport("qiskit")),
         "Importing qiskit...")
-
     replaceOutput(
         () -> PythonCall.pycopy!(qiskit_ibm_runtime, pyimport("qiskit_ibm_runtime")),
         "Importing qiskit_ibm_runtime...")
+end
 
-    #if Sys.islinux()
-    #    try
-    #        replaceOutput(
-    #           () -> CondaPkg.add_pip("qiskit-aer-gpu"),
-    #            "Downloading qiskit_aer_gpu...\n")
+function importQiskitAer(; gpu::Bool=false)
+    if gpu
+        if Sys.islinux()
+            try
+                replaceOutput(
+                    () -> CondaPkg.add_pip("qiskit-aer-gpu"),
+                    "Downloading qiskit_aer_gpu...\n")
 
-    #       isinteractive() && println("qiskit-aer-gpu installed successfully.")
-    #    catch
-    #        isinteractive() && println("Failed to install qiskit-aer-gpu, using qiskit-aer instead.")
-    #    end
-    #else
-    #   isinteractive() && println("Non-Linux OS detected, gpu support disabled for qiskit-aer.")
-    # end
+                isinteractive() && println("qiskit-aer-gpu installed successfully.")
+            catch
+                isinteractive() && println("Failed to install qiskit-aer-gpu, using qiskit-aer instead.")
+            end
+        else
+            isinteractive() && println("Non-Linux OS detected, gpu support disabled for qiskit-aer.")
+        end
+    end
 
     replaceOutput(
         () -> PythonCall.pycopy!(qiskit_aer, pyimport("qiskit_aer")),
         "Importing qiskit-aer...")
 end
+
+function _checkinit_qiskit()
+    if PythonCall.pyisnull(qiskit)
+        println("Qiskit not imported, importing now...")
+        importQiskit()
+    end
+end
+
+function _checkinit_qiskit_aer(; gpu::Bool=false)
+    if PythonCall.pyisnull(qiskit_aer)
+        println("Qiskit Aer not imported, importing now...")
+        importQiskitAer()
+    elseif gpu && !("GPU" in string.([device for device in qiskit_aer.AerSimulator().available_devices()]))
+        println("Qiskit Aer imported without GPU support. Trying to import qiskit-aer-gpu...")
+        importQiskitAer()
+    end
+end
+
 
 include("QuantumCircuit.jl")
 include("IBMBackend.jl")

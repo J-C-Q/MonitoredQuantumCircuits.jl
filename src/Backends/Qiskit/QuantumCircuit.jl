@@ -1,6 +1,10 @@
 mutable struct QuantumCircuit
     python_interface::Py
-    QuantumCircuit(nQubits::Integer) = new(qiskit.QuantumCircuit(nQubits, nQubits))
+
+    function QuantumCircuit(nQubits::Integer)
+        _checkinit_qiskit()
+        new(qiskit.QuantumCircuit(nQubits, nQubits))
+    end
 end
 function Base.getproperty(qc::QuantumCircuit, prop::Symbol)
     if prop == :python_interface
@@ -19,6 +23,7 @@ end
 
 #TODO apply indentitiy operation to all other qubits/maybe with transpile pass.
 function MonitoredQuantumCircuits.translate(::Type{QuantumCircuit}, circuit::MonitoredQuantumCircuits.Circuit)
+    _checkinit_qiskit()
     qc = QuantumCircuit(length(circuit.lattice))
     # iterate execution steps
     for i in unique(circuit.executionOrder)

@@ -19,13 +19,20 @@ end
 # import stim at run time
 const stim = PythonCall.pynew()
 
-function __init__()
+function importStim()
     replaceOutput(
         () -> PythonCall.pycopy!(stim, pyimport("stim")),
         "Importing stim...")
 end
+
+# function __init__()
+#     replaceOutput(
+#         () -> PythonCall.pycopy!(stim, pyimport("stim")),
+#         "Importing stim...")
+# end
 include("StimCircuit.jl")
 include("CompileSampler.jl")
+include("TableauSampler.jl")
 include("Simulation.jl")
 include("operations/ZZ.jl")
 include("operations/XX.jl")

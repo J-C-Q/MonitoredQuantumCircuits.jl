@@ -4,15 +4,18 @@ struct IBMBackend <: MonitoredQuantumCircuits.QuantumComputer
     python_interface::Py
 
     function IBMBackend(backend::Py)
+        _checkinit_qiskit()
         new(backend)
     end
 
     function IBMBackend(name::String)
+        _checkinit_qiskit()
         runtime = QiskitRuntimeService()
         backend = getBackend(runtime, name)
         new(backend)
     end
     function IBMBackend(name::String, api_key::String)
+        _checkinit_qiskit()
         runtime = QiskitRuntimeService(api_key)
         backend = runtime.get_backend(name)
         new(backend)

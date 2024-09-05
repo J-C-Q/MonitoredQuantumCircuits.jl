@@ -1,7 +1,7 @@
 struct TableauSampler
     python_interface::Py
-    function TableauSampler(circuit::StimCircuit)
-        new(circuit.compile_sampler())
+    function TableauSampler()
+        new(stim.TableauSimulator())
     end
 end
 function Base.getproperty(qc::TableauSampler, prop::Symbol)

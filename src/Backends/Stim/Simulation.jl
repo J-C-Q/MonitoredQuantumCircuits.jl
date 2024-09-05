@@ -27,14 +27,14 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circ
     qc = MonitoredQuantumCircuits.translate(StimCircuit, circuit)
     verbose && println("✓")
 
-    verbose && print("Initializing tableau sampler...")
-    sampler = TableauSampler(qc)
-    verbose && println("✓")
+    # verbose && print("Initializing tableau sampler...")
+    # sampler = TableauSampler(qc)
+    # verbose && println("✓")
+    simulator = TableauSampler()
 
     verbose && print("Simulating circuit...")
-    stimResult = pyconvert(Vector{Vector{Bool}}, sample(sampler; shots))
-    result = MonitoredQuantumCircuits.SampleResult(hcat(stimResult...), zeros(Int64, length(stimResult)))
+    simulator.do_circuit(qc.python_interface)
 
     verbose && println("✓")
-    return result
+    return qc.to_tableau()
 end

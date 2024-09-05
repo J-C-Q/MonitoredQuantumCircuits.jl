@@ -38,6 +38,6 @@ function MonitoredQuantumCircuits.translate(::Type{StimCircuit}, circuit::Monito
             end
         end
     end
-    qc.append("M", [i for i in 0:length(circuit.lattice)-1 if !circuit.lattice.isAncilla[i+1]])
+    # qc.append("M", [i for i in 0:length(circuit.lattice)-1 if !circuit.lattice.isAncilla[i+1]])
     return qc
 end

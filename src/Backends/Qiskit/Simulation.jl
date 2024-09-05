@@ -3,6 +3,7 @@ struct AerSimulator <: MonitoredQuantumCircuits.Simulator
     python_interface::Py
 end
 function GPUStateVectorSimulator()
+    _checkinit_qiskit_aer(; gpu=true)
     AerSimulator(qiskit_aer.AerSimulator(
         method="statevector",
         device="GPU",
@@ -12,15 +13,18 @@ function GPUStateVectorSimulator()
     ))
 end
 function StateVectorSimulator()
+    _checkinit_qiskit_aer()
     AerSimulator(qiskit_aer.AerSimulator(
         method="statevector",
         enable_truncation=false
     ))
 end
 function CliffordSimulator()
+    _checkinit_qiskit_aer()
     AerSimulator(qiskit_aer.AerSimulator(method="stabilizer"))
 end
 function GPUTensorNetworkSimulator()
+    _checkinit_qiskit_aer(; gpu=true)
     AerSimulator(qiskit_aer.AerSimulator(
         method="tensor_network",
         device="GPU",

@@ -17,6 +17,7 @@ include("GUI/BonitoApp.jl")
 
 include("Backends/Qiskit/Qiskit.jl")
 include("Backends/Stim/Stim.jl")
+include("Backends/QuantumClifford/QuantumClifford.jl")
 # include("Backends/ITensorNetworks/ITensorNetworks.jl")
 include("circuits/utils/cycles.jl")
 include("circuits/nishimori.jl")

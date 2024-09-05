@@ -2,6 +2,7 @@ struct QiskitRuntimeService
     python_interface::Py
 
     function QiskitRuntimeService()
+        _checkinit_qiskit()
         try
             runtimeService = qiskit_ibm_runtime.QiskitRuntimeService(channel="ibm_quantum")
             new(runtimeService)
@@ -10,6 +11,7 @@ struct QiskitRuntimeService
         end
     end
     function QiskitRuntimeService(api_key::String)
+        _checkinit_qiskit()
         runtimeService = qiskit_ibm_runtime.QiskitRuntimeService(token=api_key, channel="ibm_quantum")
         runtimeService.save_account(token=api_key, channel="ibm_quantum", overwrite=true)
         new(runtimeService)
