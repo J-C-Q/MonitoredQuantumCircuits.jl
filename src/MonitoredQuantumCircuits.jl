@@ -60,6 +60,7 @@ export Remote
 
 export Qiskit
 export Stim
+export QuantumClifford
 # export ITensorNetworks
 
 export Analysis

@@ -25,6 +25,13 @@ function importStim()
         "Importing stim...")
 end
 
+function _checkinit_stim()
+    if PythonCall.pyisnull(stim)
+        println("Stim not imported, importing now...")
+        importStim()
+    end
+end
+
 # function __init__()
 #     replaceOutput(
 #         () -> PythonCall.pycopy!(stim, pyimport("stim")),

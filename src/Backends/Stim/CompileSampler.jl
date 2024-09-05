@@ -1,6 +1,7 @@
 struct CompileSampler
     python_interface::Py
     function CompileSampler(circuit::StimCircuit)
+        _checkinit_stim()
         new(circuit.compile_sampler())
     end
 end

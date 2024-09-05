@@ -1,6 +1,7 @@
 struct TableauSampler
     python_interface::Py
     function TableauSampler()
+        _checkinit_stim()
         new(stim.TableauSimulator())
     end
 end

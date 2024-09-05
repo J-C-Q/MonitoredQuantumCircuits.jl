@@ -1,6 +1,9 @@
 mutable struct StimCircuit
     python_interface::Py
-    StimCircuit() = new(stim.Circuit())
+    function StimCircuit()
+        _checkinit_stim()
+        new(stim.Circuit())
+    end
 end
 function Base.getproperty(qc::StimCircuit, prop::Symbol)
     if prop == :python_interface
@@ -16,6 +19,7 @@ function depth(operation::MonitoredQuantumCircuits.Operation, ::Type{StimCircuit
 end
 
 function MonitoredQuantumCircuits.translate(::Type{StimCircuit}, circuit::MonitoredQuantumCircuits.Circuit)
+    _checkinit_stim()
     qc = StimCircuit()
 
     qc.append("DEPOLARIZE1", collect(0:MonitoredQuantumCircuits.nQubits(circuit.lattice)-1), 0.75)

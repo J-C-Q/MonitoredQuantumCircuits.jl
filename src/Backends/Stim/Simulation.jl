@@ -1,5 +1,9 @@
 
 struct CompileSimulator <: MonitoredQuantumCircuits.Simulator
+    function CompileSimulator()
+        _checkinit_stim()
+        return new()
+    end
 end
 
 function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, ::CompileSimulator; shots=1024, verbose::Bool=true)
@@ -20,6 +24,10 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circ
 end
 
 struct TableauSimulator <: MonitoredQuantumCircuits.Simulator
+    function TableauSimulator()
+        _checkinit_stim()
+        return new(stim.TableauSimulator())
+    end
 end
 
 function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, ::TableauSimulator; shots=1024, verbose::Bool=true)
@@ -36,5 +44,5 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circ
     simulator.do_circuit(qc.python_interface)
 
     verbose && println("✓")
-    return qc.to_tableau()
+    return qc.to_inverse_tableau()
 end
