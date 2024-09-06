@@ -31,20 +31,20 @@ function generateProbs(; grain=0.1)
     return points
 end
 
-function computeOnePoint(point; nx=4, ny=4, depth=750 * 2 * (nx * ny), shots=1, trajectories=1)
+function computeOnePoint(point; nx=16, ny=16, depth=1000 * 2 * (nx * ny), shots=1, trajectories=1)
     tripartiteInformation = 0.0
     lattice = HexagonToricCodeLattice(nx, ny)
-    backend = QuantumClifford.MonteCarloSimulator()
+    backend = QuantumClifford.TableauSimulator()
     px, py, pz = point
+    d = div(ny, 4)
     for _ in 1:trajectories
         circuit = KitaevCircuit(lattice, px, py, pz, depth)
 
         result = execute(circuit, backend; shots, verbose=false)
         circuit = nothing  # Free the memory
-        tripartiteInformation += QuantumClifford.tmi(result.stab, 1:4, 5:8, 9:12)
-
+        tripartiteInformation += QuantumClifford.tmi(result.stab, 1:nx*d, nx*d+1:2*nx*d, 2*nx*d+1:3*nx*d)
         # bits = result[end-MonitoredQuantumCircuits.nQubits(lattice)+1:end]
-        # result = nothing  # Free the memory
+        result = nothing  # Free the memory
 
         # tripartiteInformation += Analysis.TMI(bits, 1:4, 5:8, 9:12)
         # bits = nothing  # Free the memory
