@@ -18,7 +18,7 @@ for id in 1:nworkers
     end
     MPI.Barrier(comm)
 end
-function generateProbs(; grain=0.1)
+function generateProbs(; grain=0.25)
     points = NTuple{3,Float64}[]
     for i in 0:grain:1
         for j in i:grain:1
@@ -31,25 +31,27 @@ function generateProbs(; grain=0.1)
     return points
 end
 
-function computeOnePoint(point; nx=16, ny=16, depth=1000 * 2 * (nx * ny), shots=1, trajectories=1)
+function computeOnePoint(point; nx=8, ny=8, depth=1000 * 2 * (nx * ny), shots=10, trajectories=10)
     tripartiteInformation = 0.0
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = QuantumClifford.TableauSimulator()
     px, py, pz = point
     d = div(ny, 4)
-    for _ in 1:trajectories
+    for i in 1:trajectories
         circuit = KitaevCircuit(lattice, px, py, pz, depth)
+        for _ in 1:shots
+            result = execute(circuit, backend; verbose=false)
 
-        result = execute(circuit, backend; shots, verbose=false)
+            tripartiteInformation += QuantumClifford.tmi(result.stab, 1:nx*d, nx*d+1:2*nx*d, 2*nx*d+1:3*nx*d)
+            # bits = result[end-MonitoredQuantumCircuits.nQubits(lattice)+1:end]
+            result = nothing  # Free the memory
+        end
+        println("worker $rank: traject: $i")
         circuit = nothing  # Free the memory
-        tripartiteInformation += QuantumClifford.tmi(result.stab, 1:nx*d, nx*d+1:2*nx*d, 2*nx*d+1:3*nx*d)
-        # bits = result[end-MonitoredQuantumCircuits.nQubits(lattice)+1:end]
-        result = nothing  # Free the memory
-
         # tripartiteInformation += Analysis.TMI(bits, 1:4, 5:8, 9:12)
         # bits = nothing  # Free the memory
     end
-    return tripartiteInformation / trajectories
+    return tripartiteInformation / (trajectories * shots)
 end
 
 # if MPI.Comm_rank(comm) == 0

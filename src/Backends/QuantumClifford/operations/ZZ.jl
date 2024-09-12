@@ -3,7 +3,7 @@ function depth(::MonitoredQuantumCircuits.ZZ, ::Type{Circuit})
 end
 
 function apply!(qc::Circuit, ::MonitoredQuantumCircuits.ZZ, p1::Integer, p2::Integer, p3::Integer)
-    push!(qc, QC.PauliMeasurement(QC.PauliOperator(0x00, nHot([], 2qc.nQubits), nHot([p1, p3], 2qc.nQubits)), p2))
+    push!(qc, QC.PauliMeasurement(QC.PauliOperator(0x00, nHot([], qc.nQubits), nHot([p1, p3], qc.nQubits)), p2))
 end
 
 function apply!(qc::Circuit, ::MonitoredQuantumCircuits.ZZ, step::Integer, p1::Integer, p2::Integer, p3::Integer)
@@ -11,5 +11,5 @@ function apply!(qc::Circuit, ::MonitoredQuantumCircuits.ZZ, step::Integer, p1::I
 end
 
 function apply!(qc::Circuit, ::MonitoredQuantumCircuits.ZZ, ::Val{1}, p1::Integer, p2::Integer, p3::Integer)
-    push!(qc, QC.PauliMeasurement(QC.PauliOperator(0x00, nHot([], 2qc.nQubits), nHot([p1, p3], 2qc.nQubits)), p2))
+    push!(qc, QC.PauliMeasurement(QC.PauliOperator(0x00, nHot([], qc.nQubits), nHot([p1, p3], qc.nQubits)), p2))
 end
