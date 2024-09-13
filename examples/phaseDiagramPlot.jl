@@ -10,6 +10,7 @@ end
 
 function PlotThis()
     tmis = JLD2.load("tmisMixed.jld2")["results"]
+    tmis .-= 1
     println(tmis)
     points = JLD2.load("tmisMixed.jld2")["data"]
     points2d = [projection(p) for p in points]

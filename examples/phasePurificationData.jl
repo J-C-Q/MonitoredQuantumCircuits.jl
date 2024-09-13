@@ -18,21 +18,16 @@ for id in 1:nworkers
     end
     MPI.Barrier(comm)
 end
-function generateProbs(; grain=0.23)
+function generateProbs(; N=15)
     points = NTuple{3,Float64}[]
-    for i in 0.01:grain:1-0.01
-        for j in i:grain:1-0.01
-            px = i
-            py = j - i
-            pz = 1 - j
-            push!(points, (px, py, pz))
-        end
-    end
+    startPoint = (1.0, 0.0, 0.0)
+    endPoint = (1 / 3, 1 / 3, 1 / 3)
+    points = [startPoint .+ i .* (endPoint .- startPoint) for i in range(0, 1, N)]
     return points
 end
 
-function computeOnePoint(point; nx=12, ny=12, depth=3000 * 2 * (nx * ny), shots=1, trajectories=10)
-    tripartiteInformation = 0.0
+function computeOnePoint(point; nx=4, ny=4, depth=10 * 2 * nx * ny, shots=1, trajectories=100)
+    entropy = 0.0
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = QuantumClifford.TableauSimulator()
     px, py, pz = point
@@ -41,8 +36,8 @@ function computeOnePoint(point; nx=12, ny=12, depth=3000 * 2 * (nx * ny), shots=
         circuit = KitaevCircuit(lattice, px, py, pz, depth)
         for _ in 1:shots
             result = execute(circuit, backend; verbose=false)
-            println("entropy: ", (MonitoredQuantumCircuits.nQubits(lattice) - result.stab.rank) / MonitoredQuantumCircuits.nQubits(lattice))
-            tripartiteInformation += QuantumClifford.tmi(result.stab, 1:nx*d, nx*d+1:2*nx*d, 2*nx*d+1:3*nx*d)
+
+            entropy += MonitoredQuantumCircuits.nQubits(lattice) - result.stab.rank
             # bits = result[end-MonitoredQuantumCircuits.nQubits(lattice)+1:end]
             result = nothing  # Free the memory
         end
@@ -51,7 +46,7 @@ function computeOnePoint(point; nx=12, ny=12, depth=3000 * 2 * (nx * ny), shots=
         # tripartiteInformation += Analysis.TMI(bits, 1:4, 5:8, 9:12)
         # bits = nothing  # Free the memory
     end
-    return tripartiteInformation / (trajectories * shots)
+    return entropy / (trajectories * shots * MonitoredQuantumCircuits.nQubits(lattice))
 end
 
 # if MPI.Comm_rank(comm) == 0
