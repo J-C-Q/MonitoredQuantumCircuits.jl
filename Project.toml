@@ -22,6 +22,7 @@ MeshIO = "7269a6da-0436-5bbc-96c2-40638cbb6118"
 PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 QuantumClifford = "0525e862-1e90-11e9-3e4d-1b39d7109de1"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
+ThreadPinning = "811555cd-349b-4f26-b7bc-1f208b848042"
 WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
 
 [compat]

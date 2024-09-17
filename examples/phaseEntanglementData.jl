@@ -1,13 +1,16 @@
+using ThreadPinning
 using MPI
 using ProgressMeter
 using JLD2
 MPI.Init()
+
 comm = MPI.COMM_WORLD
 rank = MPI.Comm_rank(comm)
 world_size = MPI.Comm_size(comm)
 nworkers = world_size - 1
 root = 0
 
+pinthreads(:affinitymask)
 MPI.Barrier(comm)
 
 for id in 1:nworkers
@@ -26,29 +29,28 @@ function generateProbs(; N=15)
     return points
 end
 
-function computeOnePoint(point, depths; nx=24, ny=24, shots=1, trajectories=1)
-    entropys = zeros(length(depths))
+function computeOnePoint(point; nx=24, ny=24, shots=1, trajectories=47)
+    entanglements = zeros(nx * ny)
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = QuantumClifford.TableauSimulator()
     px, py, pz = point
-    d = div(ny, 4)
-    for (j, d) in enumerate(depths)
-        for i in 1:trajectories
-            circuit = KitaevCircuit(lattice, px, py, pz, d)
-            for _ in 1:shots
-                result = execute(circuit, backend; verbose=false)
+    Threads.@threads for _ in 1:trajectories
+        circuit = KitaevCircuit(lattice, px, py, pz, d)
+        for _ in 1:shots
+            result = execute(circuit, backend; verbose=false)
 
-                entropys[j] += MonitoredQuantumCircuits.nQubits(lattice) - result.stab.rank
+            for i in 1:50:nx*ny
+                entanglements[i] += QuantumCircuit.QC.entanglement_entropy(result.stab, 1:i, Val(:rref))
                 # bits = result[end-MonitoredQuantumCircuits.nQubits(lattice)+1:end]
-                result = nothing  # Free the memory
             end
-            # println("worker $rank: traject: $i")
-            circuit = nothing  # Free the memory
-            # tripartiteInformation += Analysis.TMI(bits, 1:4, 5:8, 9:12)
-            # bits = nothing  # Free the memory
+            result = nothing  # Free the memory
         end
+        # println("worker $rank: traject: $i")
+        circuit = nothing  # Free the memory
+        # tripartiteInformation += Analysis.TMI(bits, 1:4, 5:8, 9:12)
+        # bits = nothing  # Free the memory
     end
-    return Tuple(entropys ./ (trajectories * shots * MonitoredQuantumCircuits.nQubits(lattice)))
+    return Tuple(entanglements ./ (trajectories * shots * MonitoredQuantumCircuits.nQubits(lattice)))
 end
 
 # if MPI.Comm_rank(comm) == 0
@@ -178,6 +180,5 @@ function job_queue(data, f; resultType=Float64, fileName="simulation")
     MPI.Finalize()
 end
 
-depths = Tuple(round.(Int64, 10.0 .^ (6.5:0.5:log10(10000 * 2 * 24 * 24))))
 points = generateProbs()
-job_queue([(p, depths) for p in points], computeOnePoint; resultType=NTuple{length(depths),Float64}, fileName="simulation_24x24_1e7")
+job_queue(points, computeOnePoint; resultType=NTuple{24 * 24,Float64}, fileName="simulation_24x24_entanglement")

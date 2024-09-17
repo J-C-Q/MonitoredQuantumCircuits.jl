@@ -18,20 +18,22 @@ for id in 1:nworkers
     end
     MPI.Barrier(comm)
 end
-function generateProbs(; grain=0.23)
+function generateProbs(; N=15)
     points = NTuple{3,Float64}[]
-    for i in 0.01:grain:1-0.01
-        for j in i:grain:1-0.01
+    n = Int(-1 / 2 + sqrt(1 / 4 + 2N))
+    for (k, i) in enumerate(range(0, 1, n))
+        for j in range(i, 1, n - k + 1)
             px = i
             py = j - i
             pz = 1 - j
             push!(points, (px, py, pz))
         end
     end
-    return points
+
+    return [p .- 0.5 .* (p .- (1 / 3, 1 / 3, 1 / 3)) for p in points]
 end
 
-function computeOnePoint(point; nx=12, ny=12, depth=3000 * 2 * (nx * ny), shots=1, trajectories=10)
+function computeOnePoint(point; nx=24, ny=24, depth=2000 * 2 * (nx * ny), shots=1, trajectories=1)
     tripartiteInformation = 0.0
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = QuantumClifford.TableauSimulator()
@@ -41,12 +43,12 @@ function computeOnePoint(point; nx=12, ny=12, depth=3000 * 2 * (nx * ny), shots=
         circuit = KitaevCircuit(lattice, px, py, pz, depth)
         for _ in 1:shots
             result = execute(circuit, backend; verbose=false)
-            println("entropy: ", (MonitoredQuantumCircuits.nQubits(lattice) - result.stab.rank) / MonitoredQuantumCircuits.nQubits(lattice))
+            # println("entropy: ", (MonitoredQuantumCircuits.nQubits(lattice) - result.stab.rank) / MonitoredQuantumCircuits.nQubits(lattice))
             tripartiteInformation += QuantumClifford.tmi(result.stab, 1:nx*d, nx*d+1:2*nx*d, 2*nx*d+1:3*nx*d)
             # bits = result[end-MonitoredQuantumCircuits.nQubits(lattice)+1:end]
             result = nothing  # Free the memory
         end
-        println("worker $rank: traject: $i")
+        # println("worker $rank: traject: $i")
         circuit = nothing  # Free the memory
         # tripartiteInformation += Analysis.TMI(bits, 1:4, 5:8, 9:12)
         # bits = nothing  # Free the memory
@@ -146,7 +148,7 @@ function job_queue(data, f)
 
         MPI.Waitall(sreqs_workers)
         print("Root: result = $results\n")
-        JLD2.@save "tmisMixed.jld2" results data
+        JLD2.@save "tmis_24x24_3000_noaverage.jld2" results data
     else # If rank == worker
         # -1 = start, 0 = channel not available, 1 = channel available
         status_worker = -1
