@@ -10,7 +10,7 @@ world_size = MPI.Comm_size(comm)
 nworkers = world_size - 1
 root = 0
 
-pinthreads(:affinitymask)
+pinthreads(:numa)
 MPI.Barrier(comm)
 
 for id in 1:nworkers
@@ -21,7 +21,7 @@ for id in 1:nworkers
     end
     MPI.Barrier(comm)
 end
-function generateProbs(; N=15)
+function generateProbs(; N=10)
     points = NTuple{3,Float64}[]
     startPoint = (1.0, 0.0, 0.0)
     endPoint = (1 / 3, 1 / 3, 1 / 3)
@@ -29,7 +29,7 @@ function generateProbs(; N=15)
     return points
 end
 
-function computeOnePoint(point; nx=24, ny=24, shots=1, trajectories=47)
+function computeOnePoint(point; nx=24, ny=24, shots=1, trajectories=1)
     entanglements = zeros(nx * ny)
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = QuantumClifford.TableauSimulator()
