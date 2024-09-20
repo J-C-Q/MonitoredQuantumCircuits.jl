@@ -1,4 +1,4 @@
-using ThreadPinning
+# using ThreadPinning
 using MPI
 using ProgressMeter
 using JLD2
@@ -10,7 +10,7 @@ world_size = MPI.Comm_size(comm)
 nworkers = world_size - 1
 root = 0
 
-pinthreads(:numa)
+# pinthreads(:numa)
 MPI.Barrier(comm)
 
 for id in 1:nworkers
@@ -34,8 +34,9 @@ function computeOnePoint(point; nx=24, ny=24, shots=1, trajectories=1)
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = QuantumClifford.TableauSimulator()
     px, py, pz = point
-    Threads.@threads for _ in 1:trajectories
-        circuit = KitaevCircuit(lattice, px, py, pz, d)
+    # Threads.@threads for _ in 1:trajectories
+    for _ in 1:trajectories
+        circuit = KitaevCircuit(lattice, px, py, pz, 2000 * 2 * (nx * ny))
         for _ in 1:shots
             result = execute(circuit, backend; verbose=false)
 
@@ -181,4 +182,4 @@ function job_queue(data, f; resultType=Float64, fileName="simulation")
 end
 
 points = generateProbs()
-job_queue(points, computeOnePoint; resultType=NTuple{24 * 24,Float64}, fileName="simulation_24x24_entanglement")
+job_queue([(p,) for p in points], computeOnePoint; resultType=NTuple{24 * 24,Float64}, fileName="simulation_24x24_entanglement")
