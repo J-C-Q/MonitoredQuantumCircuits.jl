@@ -9,8 +9,8 @@ function projection(point; origin=[1 / 3, 1 / 3, 1 / 3], e1=normalize(cross(norm
 end
 
 function PlotThis()
-    entropies = JLD2.load("simulation.jld2")["results"]
-    pointsandDepths = JLD2.load("simulation.jld2")["data"]
+    entropies = JLD2.load("simulation_24x24_1e6.jld2")["results"]
+    pointsandDepths = JLD2.load("simulation_24x24_1e6.jld2")["data"]
     points2d = [projection(p[1]) for p in pointsandDepths]
     println(pointsandDepths)
     fig = Figure()

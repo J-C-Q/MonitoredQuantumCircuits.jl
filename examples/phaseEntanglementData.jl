@@ -21,27 +21,28 @@ for id in 1:nworkers
     end
     MPI.Barrier(comm)
 end
-function generateProbs(; N=10)
+MPI.Barrier(comm)
+
+function generateProbs(; N=8)
     points = NTuple{3,Float64}[]
-    startPoint = (1.0, 0.0, 0.0)
+    startPoint = (0.8, 0.1, 0.1)
     endPoint = (1 / 3, 1 / 3, 1 / 3)
     points = [startPoint .+ i .* (endPoint .- startPoint) for i in range(0, 1, N)]
     return points
 end
 
-function computeOnePoint(point; nx=24, ny=24, shots=1, trajectories=1)
+function computeOnePoint(point, depth; nx=24, ny=24, shots=5, trajectories=2)
     entanglements = zeros(nx * ny)
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = QuantumClifford.TableauSimulator()
     px, py, pz = point
-    # Threads.@threads for _ in 1:trajectories
-    for _ in 1:trajectories
-        circuit = KitaevCircuit(lattice, px, py, pz, 2000 * 2 * (nx * ny))
+    Threads.@threads for _ in 1:trajectories
+        # for _ in 1:trajectories
+        circuit = KitaevCircuit(lattice, px, py, pz, depth)
         for _ in 1:shots
             result = execute(circuit, backend; verbose=false)
-
-            for i in 1:50:nx*ny
-                entanglements[i] += QuantumCircuit.QC.entanglement_entropy(result.stab, 1:i, Val(:rref))
+            for i in round.(Int, collect(range(1, nx * ny - 1, 50)))
+                entanglements[i] += QuantumClifford.QC.entanglement_entropy(result.stab, 1:i, Val(:rref))
                 # bits = result[end-MonitoredQuantumCircuits.nQubits(lattice)+1:end]
             end
             result = nothing  # Free the memory
@@ -170,7 +171,12 @@ function job_queue(data, f; resultType=Float64, fileName="simulation")
             end
             # Check to see if there is an available message to receive
             if status_worker == 0
-                flag = MPI.Test(sreqs_workers[1])
+                flag = false
+                try
+                    flag = MPI.Test(sreqs_workers[1])
+                catch
+
+                end
                 if flag
                     status_worker = 1
                 end
@@ -182,4 +188,4 @@ function job_queue(data, f; resultType=Float64, fileName="simulation")
 end
 
 points = generateProbs()
-job_queue([(p,) for p in points], computeOnePoint; resultType=NTuple{24 * 24,Float64}, fileName="simulation_24x24_entanglement")
+job_queue([(p, 2000 * 2 * 24 * 24) for p in points], computeOnePoint; resultType=NTuple{24 * 24,Float64}, fileName="simulation_24x24_entanglement")

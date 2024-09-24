@@ -31,7 +31,6 @@ function computeOnePoint(point, depths; nx=24, ny=24, shots=1, trajectories=1)
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = QuantumClifford.TableauSimulator()
     px, py, pz = point
-    d = div(ny, 4)
     for (j, d) in enumerate(depths)
         for i in 1:trajectories
             circuit = KitaevCircuit(lattice, px, py, pz, d)
@@ -178,6 +177,6 @@ function job_queue(data, f; resultType=Float64, fileName="simulation")
     MPI.Finalize()
 end
 
-depths = Tuple(round.(Int64, 10.0 .^ (6.5:0.5:log10(10000 * 2 * 24 * 24))))
+depths = Tuple(round.(Int64, 10.0 .^ (0:0.5:6)))
 points = generateProbs()
-job_queue([(p, depths) for p in points], computeOnePoint; resultType=NTuple{length(depths),Float64}, fileName="simulation_24x24_1e7")
+job_queue([(p, depths) for p in points], computeOnePoint; resultType=NTuple{length(depths),Float64}, fileName="simulation_24x24_1e6")

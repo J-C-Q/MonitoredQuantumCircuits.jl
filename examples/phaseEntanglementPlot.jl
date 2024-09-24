@@ -17,11 +17,11 @@ function PlotThis()
     ax = Axis(fig[1, 1], xlabel="subsystem size", ylabel="entanglement", title="Hexagon Kitaev with pbc")
     ax2 = Axis(fig[1, 2], aspect=DataAspect())
     hidedecorations!(ax2)
-    hlines!(ax, [0.5], color=:red)
-    text!(ax, [(0.01, 0.5)], text="1/2", color=:red)
-    for (i, p) in enumerate(points)
+    # hlines!(ax, [0.5], color=:red)
+    # text!(ax, [(0.01, 0.5)], text="1/2", color=:red)
+    for i in length(points)-6:length(points)
 
-        scatterlines!(ax, 1:50:24*24, entanglements, color=i / length(points), colorrange=(0.0, 1.0))
+        scatter!(ax, collect(1:24*24) ./ (24 * 24), [e for e in entanglements[i]][1:24*24], color=i / length(points), colorrange=(0.0, 1.0))
     end
 
     # limits!(ax, (10^-2, 1000), (0, 1))
