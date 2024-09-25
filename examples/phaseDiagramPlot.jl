@@ -22,12 +22,12 @@ function generateProbs(; N=15)
     return [p .- 0.5 .* (p .- (1 / 3, 1 / 3, 1 / 3)) for p in points]
 end
 function PlotThis()
-    tmis = JLD2.load("tmisMixed.jld2")["results"]
+    tmis = JLD2.load("tmis_24x24_1500.jld2")["results"]
     # tmis .-= 1
     println(tmis)
-    points = JLD2.load("tmisMixed.jld2")["data"]
+    points = JLD2.load("tmis_24x24_1500.jld2")["data"]
     # points = generateProbs()
-    tmis = (1:length(points)) ./ length(points)
+    # tmis = (1:length(points)) ./ length(points)
     points2d = [projection(p) for p in points]
 
     fig = Figure()

@@ -1,3 +1,4 @@
+using ThreadPinning
 using MPI
 using ProgressMeter
 using JLD2
@@ -9,7 +10,7 @@ nworkers = world_size - 1
 root = 0
 
 MPI.Barrier(comm)
-
+mpi_pinthreads(:numa)
 for id in 1:nworkers
     if id == rank
         using MonitoredQuantumCircuits
@@ -18,7 +19,7 @@ for id in 1:nworkers
     end
     MPI.Barrier(comm)
 end
-function generateProbs(; N=15)
+function generateProbs(; N=6)
     points = NTuple{3,Float64}[]
     n = Int(-1 / 2 + sqrt(1 / 4 + 2N))
     for (k, i) in enumerate(range(0, 1, n))
@@ -30,16 +31,16 @@ function generateProbs(; N=15)
         end
     end
 
-    return [p .- 0.5 .* (p .- (1 / 3, 1 / 3, 1 / 3)) for p in points]
+    return [p .- 0.65 .* (p .- (1 / 3, 1 / 3, 1 / 3)) for p in points]
 end
 
-function computeOnePoint(point; nx=24, ny=24, depth=2000 * 2 * (nx * ny), shots=1, trajectories=1)
+function computeOnePoint(point; nx=24, ny=24, depth=1500 * 2 * (nx * ny), shots=2, trajectories=2)
     tripartiteInformation = 0.0
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = QuantumClifford.TableauSimulator()
     px, py, pz = point
     d = div(ny, 4)
-    for i in 1:trajectories
+    Threads.@threads for i in 1:trajectories
         circuit = KitaevCircuit(lattice, px, py, pz, depth)
         for _ in 1:shots
             result = execute(circuit, backend; verbose=false)
@@ -148,7 +149,7 @@ function job_queue(data, f)
 
         MPI.Waitall(sreqs_workers)
         print("Root: result = $results\n")
-        JLD2.@save "tmis_24x24_3000_noaverage.jld2" results data
+        JLD2.@save "tmis_24x24_1500.jld2" results data
     else # If rank == worker
         # -1 = start, 0 = channel not available, 1 = channel available
         status_worker = -1

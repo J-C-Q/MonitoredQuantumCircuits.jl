@@ -31,7 +31,7 @@ function generateProbs(; N=8)
     return points
 end
 
-function computeOnePoint(point, depth; nx=24, ny=24, shots=5, trajectories=2)
+function computeOnePoint(point, depth; nx=24, ny=24, shots=2, trajectories=2)
     entanglements = zeros(nx * ny)
     lattice = HexagonToricCodeLattice(nx, ny)
     backend = QuantumClifford.TableauSimulator()

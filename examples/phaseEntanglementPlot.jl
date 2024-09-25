@@ -19,9 +19,9 @@ function PlotThis()
     hidedecorations!(ax2)
     # hlines!(ax, [0.5], color=:red)
     # text!(ax, [(0.01, 0.5)], text="1/2", color=:red)
-    for i in length(points)-6:length(points)
+    for i in eachindex(points)[2:end]
 
-        scatter!(ax, collect(1:24*24) ./ (24 * 24), [e for e in entanglements[i]][1:24*24], color=i / length(points), colorrange=(0.0, 1.0))
+        scatterlines!(ax, (collect(1:24*24)./(24*24))[round.(Int, collect(range(1, 24 * 24 - 1, 50)))], [e for e in entanglements[i]][round.(Int, collect(range(1, 24 * 24 - 1, 50)))], color=i / length(points), colorrange=(0.0, 1.0))
     end
 
     # limits!(ax, (10^-2, 1000), (0, 1))
