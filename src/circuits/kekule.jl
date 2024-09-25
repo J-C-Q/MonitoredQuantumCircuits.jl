@@ -23,19 +23,21 @@ function KekuleCircuit(lattice::HexagonToricCodeLattice)
                 [1, 2, 3], repeat([2, 1, 3], div(lattice.sizeX - 2, 2))), div(lattice.sizeY - 2, 2)),
         [2, 1], repeat([1, 2], div(lattice.sizeX - 2, 2)))
 
+
+
+
+
+
     operationPointers = vcat(
-        [1, 3, 2],
-        repeat([2, 3, 3, 1, 1, 2, 2, 3, 3], div(lattice.sizeX, 6)),
-        #repeat(vcat(
-        #        [1, 3],
-        #        repeat([2, 3, 3, 2, 1, 1, 3, 2, 2], div(lattice.sizeX, 8)),
-        #        [1],
-        #        [1, 3, 2],
-        #        repeat([2, 3, 1, 2, 1, 3, 3, 2, 1], div(lattice.sizeX, 8))),
-        #    div(lattice.sizeY - 2, 2)),
-        #[1, 3],
-        #repeat([2, 3, 2, 1, 3, 2], div(lattice.sizeX, 8))
-    )
+        [1, 3, 2, 2, 3, 3, 1, 1, 2, 2, 3, 3, 1], repeat([1, 2, 2, 3, 3, 1, 1, 2, 2, 3, 3, 1], div(lattice.sizeX, 6) - 2), [3, 2, 2, 3, 3, 1, 1, 2, 2, 3, 1],
+        repeat(vcat(
+                [1, 3, 2, 3, 3, 1, 2, 2, 3, 1], # 4
+                repeat([1, 2, 3, 3, 1, 2, 2, 3, 1], div(lattice.sizeX, 6) - 2),
+                [1, 2, 3, 3, 1, 2, 2, 1],
+                [1, 3, 2, 2, 3, 1, 1, 2, 3, 3], # 3
+                repeat([1, 2, 2, 3, 1, 1, 2, 3, 3], div(lattice.sizeX, 6) - 2), [1, 2, 2, 3, 1, 1, 2, 3],
+            ), div(lattice.sizeY, 2) - 1),
+        [1, 3, 2, 3, 1, 2, 3], repeat([1, 2, 3, 1, 2, 3], div(lattice.sizeX, 6) - 2), [1, 2, 3, 1, 2])
     executionOrder = operationPointers
     return Circuit(lattice, operations, positions, operationPointers, executionOrder)
 end
