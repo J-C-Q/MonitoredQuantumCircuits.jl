@@ -9,8 +9,8 @@ function projection(point; origin=[1 / 3, 1 / 3, 1 / 3], e1=normalize(cross(norm
 end
 
 function PlotThis()
-    entanglements = JLD2.load("simulation_24x24_entanglement.jld2")["results"]
-    points = JLD2.load("simulation_24x24_entanglement.jld2")["data"]
+    entanglements = JLD2.load("simulation_24x24_entanglement_cluster.jld2")["results"]
+    points = JLD2.load("simulation_24x24_entanglement_cluster.jld2")["data"]
     points2d = [projection(p[1]) for p in points]
 
     fig = Figure()
