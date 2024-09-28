@@ -156,7 +156,7 @@ function execute(::Circuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
 
-function execute(generateCircuit::Function, parameters::Vector{Tuple}, backend::Simulator, cluster::Remote.Cluster; tasks_per_node=48)
+function execute(generateCircuit::Function, parameters::Vector{Tuple}, backend::Simulator, cluster::Remote.Cluster; tasks_per_node=48, partition="", email="")
 
 
 end
