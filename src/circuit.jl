@@ -156,7 +156,11 @@ function execute(::Circuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
 
-function execute(generateCircuit::Function, parameters::Vector{Tuple}, backend::Simulator, cluster::Remote.Cluster; tasks_per_node=48, partition="", email="")
+function execute(generateCircuit::Function, parameters::Vector{Tuple}, backend::Simulator, cluster::Remote.Cluster; tasks_per_node=48, partition="", email="", account="")
+    file = "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).jld2"
+    JLD2.save(file, "function", generateCircuit, "parameters", parameters, "backend", backend)
+    Remote.mkdir(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
+    Remote.upload(cluster, file, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
 
 
 end

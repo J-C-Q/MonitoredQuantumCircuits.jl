@@ -12,20 +12,25 @@ struct Cluster
     user::String
     identity_file::String
     password::String
+    workingDir::String
+    load_juliaANDmpi_cmd::String
+    MPI_use_system_binary::Bool
 end
 
-function addCluster(user::String, host_name::String, identity_file::String)
+function addCluster(user::String, host_name::String, identity_file::String; password="", workingDir="", load_juliaANDmpi_cmd="", MPI_use_system_binary=true)
     if !isfile("remotes.csv")
-        CSV.write("remotes.csv", DataFrame(host_name=[host_name], user=[user], identity_file=[identity_file]))
+
+        CSV.write("remotes.csv", DataFrame(host_name=[host_name], user=[user], identity_file=[identity_file], password=[""], workingDir=[workingDir], load_juliaANDmpi_cmd=[load_juliaANDmpi_cmd], MPI_use_system_binary=[MPI_use_system_binary]))
+
     else
         df = DataFrame(CSV.File("remotes.csv"))
 
         if isempty(df[df.host_name.==host_name, :])
-            push!(df, (host_name, user, identity_file))
+            push!(df, (host_name, user, identity_file, password, workingDir, load_juliaANDmpi_cmd, MPI_use_system_binary); promote=true)
             CSV.write("remotes.csv", df)
         else
             println("Cluster $(host_name) already exists. Please use loadCluster(\"$host_name\") to load the cluster.")
-            return Cluster(host_name, user, identity_file, "")
+            return Cluster(host_name, user, identity_file, password, workingDir, load_juliaANDmpi_cmd, MPI_use_system_binary)
         end
     end
     try
@@ -33,12 +38,12 @@ function addCluster(user::String, host_name::String, identity_file::String)
     catch
         println("Directory remotes/$(host_name) already exists.")
     end
-    cluster = Cluster(host_name, user, identity_file, "")
+    cluster = Cluster(host_name, user, identity_file, password, workingDir, load_juliaANDmpi_cmd, MPI_use_system_binary)
     println("Cluster $(host_name) added successfully. Connecting...")
     connect(cluster)
     println("Setting up...")
     setup(cluster)
-    println("Cluster $(host_name) is ready to use. Disconnecting...")
+    println("Disconnecting...")
     disconnect(cluster)
     return cluster
 end
@@ -52,7 +57,11 @@ function loadCluster(host_name::String)
     end
     user = row.user[1]
     identity_file = row.identity_file[1]
-    return Cluster(host_name, user, identity_file, "")
+    password = row.password[1]
+    workingDir = row.workingDir[1]
+    load_juliaANDmpi_cmd = row.load_juliaANDmpi_cmd[1]
+    MPI_use_system_binary = row.MPI_use_system_binary[1]
+    return Cluster(host_name, user, identity_file, password, workingDir, load_juliaANDmpi_cmd, MPI_use_system_binary)
 end
 
 function loadCluster(id::Integer)
@@ -65,7 +74,11 @@ function loadCluster(id::Integer)
     host_name = row.host_name
     user = row.user
     identity_file = row.identity_file
-    return Cluster(host_name, user, identity_file, "")
+    password = row.password
+    workingDir = row.workingDir
+    load_juliaANDmpi_cmd = row.load_juliaANDmpi_cmd
+    MPI_use_system_binary = row.MPI_use_system_binary
+    return Cluster(host_name, user, identity_file, password, workingDir, load_juliaANDmpi_cmd, MPI_use_system_binary)
 end
 
 function showClusters()
@@ -88,7 +101,15 @@ function connect(cluster::Cluster)
     run(`screen -L -Logfile remotes/$(cluster.host_name)/$(cluster.host_name).log -dmS $(cluster.host_name)`)
     println("Connecting to \"$(cluster.host_name)\"...")
     run(`screen -S $(cluster.host_name) -X stuff "ssh -i $(cluster.identity_file) $(cluster.user)@$(cluster.host_name) \n"`)
-    waitForRemote(cluster)
+    if cluster.password == ""
+        waitForRemote(cluster)
+    else
+        println("Entering password")
+        waitForRemote(cluster; cue=raw": ")
+        run(`screen -S $(cluster.host_name) -X stuff "$(cluster.password)\n"`)
+        waitForRemote(cluster)
+    end
+    println("Connected!")
     return nothing
 end
 
@@ -101,55 +122,49 @@ function setup(cluster::Cluster)
         return nothing
     end
 
-    println("Creating directory MonitoredQuantumCircuits/...")
-    run(`screen -S $(cluster.host_name) -X stuff "mkdir MonitoredQuantumCircuitsENV /dev/null 2>&1; cd MonitoredQuantumCircuitsENV > /dev/null 2>&1\n"`)
+    println("Creating directory MonitoredQuantumCircuitsENV/...")
+    run(`screen -S $(cluster.host_name) -X stuff "cd $(cluster.workingDir); mkdir MonitoredQuantumCircuitsENV; cd MonitoredQuantumCircuitsENV\n"`)
     waitForRemote(cluster)
-    open("remotes/$(cluster.host_name)/execSkript.jl", "w") do f
-        println(
-            f,
-            """
- using MonitoredQuantumCircuits, JLD2
-
- function runFromFile(file::String)
-     circuit, backend, shots = JLD2.load(file)
-     MonitoredQuantumCircuits.execute(circuit, backend; shots)
- end
-
- runFromFile(ARGS[1])
- """
-        )
-    end
-    upload(cluster, "remotes/$(cluster.host_name)/execSkript.jl")
-    println("Installing Julia...")
-    run(`screen -S $(cluster.host_name) -X stuff "julia --version > /dev/null 2>&1|| curl -fsSL https://install.julialang.org | sh > /dev/null 2>&1\n"`)
-    waitForRemote(cluster)
+    upload(cluster, joinpath(@__DIR__, "execScript.jl"))
     println("Adding packages...")
     df = DataFrame(CSV.File(".env", delim='=', header=-1))
     row = df[df.Column1.=="GITHUB_USERNAME", :]
     github_username = row.Column2[1]
     row = df[df.Column1.=="GITHUB_PASSWORD", :]
     github_password = row.Column2[1]
-    run(`screen -S $(cluster.host_name) -X stuff "julia -e 'using Pkg; Pkg.activate(\".\");Pkg.add(url=\"https://$(github_username):$(github_password)@github.com/J-C-Q/MonitoredQuantumCircuits.jl.git\");Pkg.add(\"JLD2\")'> /dev/null 2>&1\n"`)
+    run(`screen -S $(cluster.host_name) -X stuff "$(cluster.load_juliaANDmpi_cmd)\n"`)
+    waitForRemote(cluster)
+    run(`screen -S $(cluster.host_name) -X stuff "julia -e 'using Pkg; Pkg.activate(\".\");Pkg.add(PackageSpec(url=\"https://$(github_username):$(github_password)@github.com/J-C-Q/MonitoredQuantumCircuits.jl.git\", rev=\"main\")); Pkg.add(\"JLD2\"); Pkg.add(\"MPI\")'\n"`)
     waitForRemote(cluster)
     println("Instantiating packages...")
-    run(`screen -S $(cluster.host_name) -X stuff "julia --project -e 'using Pkg; Pkg.instantiate()'> /dev/null 2>&1\n"`)
+    run(`screen -S $(cluster.host_name) -X stuff "julia --project -e 'using Pkg; Pkg.instantiate()'\n"`)
     waitForRemote(cluster)
     println("Loading python deps...")
-    run(`screen -S $(cluster.host_name) -X stuff "julia --project -e 'using MonitoredQuantumCircuits'> /dev/null 2>&1\n"`)
+    run(`screen -S $(cluster.host_name) -X stuff "julia --project -e 'using MonitoredQuantumCircuits'\n"`)
     waitForRemote(cluster)
+    if cluster.MPI_use_system_binary
+        run(`screen -S $(cluster.host_name) -X stuff "julia --project -e 'using MPI.MPIPreferences; MPIPreferences.use_system_binary()'\n"`)
+        waitForRemote(cluster)
+    end
     run(`screen -S $(cluster.host_name) -X stuff "echo setup done!\n"`)
     waitForRemote(cluster)
+    println("Cluster $(cluster.host_name) is ready to use.")
     return nothing
 end
 
 function upload(cluster::Cluster, file::String, destination::String="")
     println("Uploading file to \"$(cluster.host_name)\"...")
-    run(`scp -i $(cluster.identity_file) $(file) $(cluster.user)@$(cluster.host_name):\~/MonitoredQuantumCircuitsENV/$(destination)`)
+    run(`scp -i $(cluster.identity_file) $(file) $(cluster.user)@$(cluster.host_name):$(cluster.workingDir)/$(destination)`)
+end
+
+function refreshFiles(cluster::Cluster, directory::String)
+    # This is usefull if files in the working directory will be deleated after some time (relative to the modification date)
+    run(`screen -S $(cluster.host_name) -X stuff "find $(cluster.workingDir)/$(directory) -type f -exec touch {} \; \n"`)
 end
 
 function mkdir(cluster::Cluster, directory::String)
     println("Creating directory \"$(directory)\" on \"$(cluster.host_name)\"...")
-    run(`screen -S $(cluster.host_name) -X stuff "mkdir $(directory)\n"`)
+    run(`screen -S $(cluster.host_name) -X stuff "mkdir $(cluster.workingDir)/$(directory)\n"`)
     waitForRemote(cluster)
     return nothing
 end
@@ -167,18 +182,18 @@ function toDataframe(lines::Vector{String})
     return df
 end
 
-function waitForRemote(cluster::Cluster)
+function waitForRemote(cluster::Cluster; cue=raw"$ ")
     ready = false
     while !ready
         FileWatching.watch_file("remotes/$(cluster.host_name)/$(cluster.host_name).log")
-
+        cueLength = length(cue)
         open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do io
-            # Move the pointer to the second last byte of the file
-            seek(io, max(filesize(io) - 2, 0))
+            # Move the pointer
+            seek(io, max(filesize(io) - cueLength, 0))
 
-            # Read the last two bytes and convert them to characters
-            last_two_chars = String(read(io, 2))
-            if last_two_chars == raw"$ "
+            # Read the last bytes and convert them to characters
+            last_chars = String(read(io, cueLength))
+            if last_chars == cue
                 ready = true
             end
         end
