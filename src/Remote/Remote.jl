@@ -20,7 +20,7 @@ end
 function addCluster(user::String, host_name::String, identity_file::String; password="", workingDir="", load_juliaANDmpi_cmd="", MPI_use_system_binary=true)
     if !isfile("remotes.csv")
 
-        CSV.write("remotes.csv", DataFrame(host_name=[host_name], user=[user], identity_file=[identity_file], password=[""], workingDir=[workingDir], load_juliaANDmpi_cmd=[load_juliaANDmpi_cmd], MPI_use_system_binary=[MPI_use_system_binary]))
+        CSV.write("remotes.csv", DataFrame(host_name=[host_name], user=[user], identity_file=[identity_file], password=[password], workingDir=[workingDir], load_juliaANDmpi_cmd=[load_juliaANDmpi_cmd], MPI_use_system_binary=[MPI_use_system_binary]))
 
     else
         df = DataFrame(CSV.File("remotes.csv"))
@@ -61,7 +61,11 @@ function loadCluster(host_name::String)
     workingDir = row.workingDir[1]
     load_juliaANDmpi_cmd = row.load_juliaANDmpi_cmd[1]
     MPI_use_system_binary = row.MPI_use_system_binary[1]
-    return Cluster(host_name, user, identity_file, password, workingDir, load_juliaANDmpi_cmd, MPI_use_system_binary)
+    if password === missing
+        return Cluster(host_name, user, identity_file, "", workingDir, load_juliaANDmpi_cmd, MPI_use_system_binary)
+    else
+        return Cluster(host_name, user, identity_file, password, workingDir, load_juliaANDmpi_cmd, MPI_use_system_binary)
+    end
 end
 
 function loadCluster(id::Integer)
@@ -78,7 +82,11 @@ function loadCluster(id::Integer)
     workingDir = row.workingDir
     load_juliaANDmpi_cmd = row.load_juliaANDmpi_cmd
     MPI_use_system_binary = row.MPI_use_system_binary
-    return Cluster(host_name, user, identity_file, password, workingDir, load_juliaANDmpi_cmd, MPI_use_system_binary)
+    if password === missing
+        return Cluster(host_name, user, identity_file, "", workingDir, load_juliaANDmpi_cmd, MPI_use_system_binary)
+    else
+        return Cluster(host_name, user, identity_file, password, workingDir, load_juliaANDmpi_cmd, MPI_use_system_binary)
+    end
 end
 
 function showClusters()

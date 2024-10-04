@@ -156,11 +156,25 @@ function execute(::Circuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
 
-function execute(generateCircuit::Function, parameters::Vector{Tuple}, backend::Simulator, cluster::Remote.Cluster; tasks_per_node=48, partition="", email="", account="")
+function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simulator, cluster::Remote.Cluster; ntasks_per_node=48, partition="", email="", account="", time="1:00:00") where {(T <: Tuple)}
     file = "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).jld2"
     JLD2.save(file, "function", generateCircuit, "parameters", parameters, "backend", backend)
     Remote.mkdir(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
     Remote.upload(cluster, file, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
+    Remote.sbatchScript(
+        "remotes/$(cluster.host_name)/",
+        "simulation_$(hash(generateCircuit))_$(hash(parameters))",
+        "execScript.jl";
+        ntasks=length(parameters),
+        nodes=ceil(Int64, length(parameters) / ntasks_per_node),
+        ntasks_per_node=min(ntasks_per_node, length(parameters)),
+        partition,
+        email,
+        account,
+        time
+    )
+    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).sh", "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
+
 
 
 end

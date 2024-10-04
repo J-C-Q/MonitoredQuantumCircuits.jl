@@ -19,5 +19,16 @@ world_size = MPI.Comm_size(comm)
 using MonitoredQuantumCircuits
 using JLD2
 MPI.Barrier(comm)
+# open the parameter file
 
-JLD2.load("")
+file = jldopen("$(basename(@__FILE__))"[1:end-2] * "jld2", "r")
+
+parameter = file["parameters"][rank+1]
+
+exec = file["function"]
+
+backend = file["backend"]
+
+circuit = exec(parameter...)
+
+execute(circuit, backend)
