@@ -174,9 +174,9 @@ function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simu
         time
     )
     Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).sh", "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
-
-
-
+    Remote.mkdir(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/data/")
+    Remote.queueJob(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/simulation_$(hash(generateCircuit))_$(hash(parameters)).sh")
+    Remote.getQueue(cluster)
 end
 
 # function execute(circuit::Circuit, backend::Simulator, cluster::Remote.Cluster;

@@ -233,7 +233,7 @@ end
 
 function queueJob(cluster::Cluster, bashFile::String)
     println("Queueing job on \"$(cluster.host_name)\"...")
-    run(`screen -S $(cluster.host_name) -X stuff "sbatch $(bashFile)\n"`)
+    run(`screen -S $(cluster.host_name) -X stuff "sbatch $(cluster.workingDir)/$(bashFile)\n"`)
     waitForRemote(cluster)
     lines = open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
         last(eachline(file), 2)

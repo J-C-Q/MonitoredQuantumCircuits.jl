@@ -28,7 +28,10 @@ parameter = file["parameters"][rank+1]
 exec = file["function"]
 
 backend = file["backend"]
+close(file)
 
 circuit = exec(parameter...)
 
-execute(circuit, backend)
+result = execute(circuit, backend)
+
+JLD2.save("/data/$(parameter).jld2", "parameter", parameter, "result", result)
