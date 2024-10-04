@@ -171,7 +171,8 @@ function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simu
         partition,
         email,
         account,
-        time
+        time,
+        load_juliaANDmpi_cmd=cluster.load_juliaANDmpi_cmd
     )
     Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).sh", "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
     Remote.mkdir(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/data/")
