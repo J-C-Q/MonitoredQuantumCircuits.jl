@@ -1,5 +1,5 @@
 function sbatchScript(dir::String, name::String, run_file::String;
-    nodes=1, ntasks=1, ntasks_per_node=1, cpus_per_task=1, time="1:00:00", partition="normal", account="", email="", output="output.txt", error="error.txt", load_juliaANDmpi_cmd=""
+    nodes=1, ntasks=1, ntasks_per_node=1, cpus_per_task=1, time="1:00:00", partition="normal", account="", email="", output="output.txt", error="error.txt", load_juliaANDmpi_cmd="", dataDir=""
 )
 
     try
@@ -26,7 +26,7 @@ function sbatchScript(dir::String, name::String, run_file::String;
 
         println(f, load_juliaANDmpi_cmd)
 
-        println(f, "srun -n $ntasks julia -t $cpus_per_task --project $run_file")
+        println(f, "srun -n $ntasks julia -t $cpus_per_task --project $run_file " * dataDir)
 
     end
 end

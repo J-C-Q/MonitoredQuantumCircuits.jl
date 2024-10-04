@@ -164,7 +164,7 @@ function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simu
     Remote.sbatchScript(
         "remotes/$(cluster.host_name)/",
         "simulation_$(hash(generateCircuit))_$(hash(parameters))",
-        "execScript.jl";
+        "$(cluster.workingDir)/MonitoredQuantumCircuitsENV/execScript.jl";
         ntasks=length(parameters),
         nodes=ceil(Int64, length(parameters) / ntasks_per_node),
         ntasks_per_node=min(ntasks_per_node, length(parameters)),
@@ -172,7 +172,8 @@ function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simu
         email,
         account,
         time,
-        load_juliaANDmpi_cmd=cluster.load_juliaANDmpi_cmd
+        load_juliaANDmpi_cmd=cluster.load_juliaANDmpi_cmd,
+        dataDir="simulation_$(hash(generateCircuit))_$(hash(parameters))"
     )
     Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).sh", "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
     Remote.mkdir(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/data/")

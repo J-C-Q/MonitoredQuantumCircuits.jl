@@ -21,7 +21,7 @@ using JLD2
 MPI.Barrier(comm)
 # open the parameter file
 
-file = jldopen("$(basename(@__FILE__))"[1:end-2] * "jld2", "r")
+file = jldopen("$(ARGS[1])/$(ARGS[1]).jld2", "r")
 
 parameter = file["parameters"][rank+1]
 
