@@ -9,8 +9,6 @@ function sbatchScript(dir::String, name::String, run_file::String;
     touch(joinpath(dir, "$name.sh"))
     open(joinpath(dir, "$name.sh"), "w") do f
         println(f, "#!/bin/bash")
-
-
         account != "" && println(f, "#SBATCH --account=$account")
         println(f, "#SBATCH --time=$time")
         partition != "" && println(f, "#SBATCH --partition=$partition")
@@ -25,7 +23,7 @@ function sbatchScript(dir::String, name::String, run_file::String;
         println(f, "#SBATCH --error=$error")
 
         println(f, load_juliaANDmpi_cmd)
-
+        println(f, "julia --project -e 'using MonitoredQuantumCircuits'")
         println(f, "srun -n $ntasks julia -t $cpus_per_task --project $run_file " * dataDir)
 
     end

@@ -156,11 +156,17 @@ function execute(::Circuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
 
-function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simulator, cluster::Remote.Cluster; ntasks_per_node=48, partition="", email="", account="", time="1:00:00") where {(T <: Tuple)}
+# TODO: add circuits per tasks to compute multiple circuits in serial. This will also effect the batch script generation
+function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simulator, cluster::Remote.Cluster; ntasks_per_node=48, partition="", email="", account="", time="1:00:00", postProcessing=() -> nothing) where {(T <: Tuple)}
     file = "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).jld2"
-    JLD2.save(file, "function", generateCircuit, "parameters", parameters, "backend", backend)
+    Serialization.serialize("remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).jls", generateCircuit)
+    Serialization.serialize("remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters))_post.jls", postProcessing)
+
+    JLD2.save(file, "parameters", parameters, "backend", backend)
     Remote.mkdir(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
     Remote.upload(cluster, file, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
+    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).jls", "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
+    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters))_post.jls", "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
     Remote.sbatchScript(
         "remotes/$(cluster.host_name)/",
         "simulation_$(hash(generateCircuit))_$(hash(parameters))",

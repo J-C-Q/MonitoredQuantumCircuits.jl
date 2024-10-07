@@ -133,7 +133,7 @@ function setup(cluster::Cluster)
     println("Creating directory MonitoredQuantumCircuitsENV/...")
     run(`screen -S $(cluster.host_name) -X stuff "cd $(cluster.workingDir); mkdir MonitoredQuantumCircuitsENV; cd MonitoredQuantumCircuitsENV\n"`)
     waitForRemote(cluster)
-    upload(cluster, joinpath(@__DIR__, "execScript.jl"))
+    upload(cluster, joinpath(@__DIR__, "execScript.jl"), "MonitoredQuantumCircuitsENV/")
     println("Adding packages...")
     df = DataFrame(CSV.File(".env", delim='=', header=-1))
     row = df[df.Column1.=="GITHUB_USERNAME", :]

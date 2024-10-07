@@ -3,6 +3,7 @@ module MonitoredQuantumCircuits
 using Graphs
 using JLD2
 using Crayons
+using Serialization
 
 include("backend.jl")
 include("Remote/Remote.jl")
