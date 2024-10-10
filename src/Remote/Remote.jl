@@ -233,13 +233,17 @@ end
 
 function queueJob(cluster::Cluster, bashFile::String)
     println("Queueing job on \"$(cluster.host_name)\"...")
+    run(`screen -S $(cluster.host_name) -X stuff "cd $(cluster.workingDir)/MonitoredQuantumCircuitsENV\n"`)
+    waitForRemote(cluster)
     run(`screen -S $(cluster.host_name) -X stuff "sbatch $(cluster.workingDir)/$(bashFile)\n"`)
     waitForRemote(cluster)
-    lines = open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
-        last(eachline(file), 2)
-    end
-    return lines[1]
-    # return nothing
+    run(`screen -S $(cluster.host_name) -X stuff "cd ..\n"`)
+    waitForRemote(cluster)
+    # lines = open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
+    #     last(eachline(file), 2)
+    # end
+    # return lines[1]
+    return nothing
 end
 
 function downloadResults(cluster::Cluster, file::String)

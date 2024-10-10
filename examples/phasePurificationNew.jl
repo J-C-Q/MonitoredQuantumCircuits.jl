@@ -12,7 +12,7 @@ circuits = (px, py, pz, d) -> begin
 end
 depths = Tuple(round.(Int64, 10.0 .^ (0:0.5:6)))
 points = generateProbs()
-trajectories = 1
+trajectories = 100
 params = vec([(p..., d) for p in points, d in depths, _ in 1:trajectories])
 MonitoredQuantumCircuits.nQubits(HexagonToricCodeLattice(24, 24))
 
