@@ -4,12 +4,14 @@ using Graphs
 using JLD2
 using Crayons
 using Serialization
+println("before using")
 using PythonCall
 using CondaPkg
+println("after using before resolved")
 # needed for mpi
 should_skip = get(ENV, "SKIP_CONDA_RESOLVE", "false") == "true"
 CondaPkg.STATE.resolved = should_skip
-
+println("after resolved")
 include("backend.jl")
 include("Remote/Remote.jl")
 include("lattice.jl")
