@@ -1,9 +1,9 @@
 
 
 struct IBMBackend <: MonitoredQuantumCircuits.QuantumComputer
-    python_interface::Py
+    python_interface::PythonCall.Py
 
-    function IBMBackend(backend::Py)
+    function IBMBackend(backend::PythonCall.Py)
         _checkinit_qiskit()
         new(backend)
     end

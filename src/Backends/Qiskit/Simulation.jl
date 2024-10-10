@@ -1,6 +1,6 @@
 
 struct AerSimulator <: MonitoredQuantumCircuits.Simulator
-    python_interface::Py
+    python_interface::PythonCall.Py
 end
 function GPUStateVectorSimulator()
     _checkinit_qiskit_aer(; gpu=true)

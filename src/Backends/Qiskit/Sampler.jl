@@ -1,5 +1,5 @@
 struct Sampler
-    python_interface::Py
+    python_interface::PythonCall.Py
     function Sampler(backend::String)
         _checkinit_qiskit()
         new(qiskit_ibm_runtime.SamplerV2(backend=backend))

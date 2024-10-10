@@ -1,10 +1,9 @@
 module Stim
 
 import ...MonitoredQuantumCircuits
+import MonitoredQuantumCircuits.PythonCall as PythonCall
+import MonitoredQuantumCircuits.CondaPkg as CondaPkg
 
-
-using PythonCall
-using CondaPkg
 
 function replaceOutput(f::Function, new_output::String)
     isinteractive() && print(new_output)

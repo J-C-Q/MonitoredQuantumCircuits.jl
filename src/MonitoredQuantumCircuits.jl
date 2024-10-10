@@ -4,6 +4,11 @@ using Graphs
 using JLD2
 using Crayons
 using Serialization
+using PythonCall
+using CondaPkg
+# needed for mpi
+should_skip = get(ENV, "SKIP_CONDA_RESOLVE", "false") == "true"
+CondaPkg.STATE.resolved = should_skip
 
 include("backend.jl")
 include("Remote/Remote.jl")
@@ -27,7 +32,6 @@ include("circuits/kekule.jl")
 include("circuits/random.jl")
 
 include("Analysis/Analysis.jl")
-
 
 
 

@@ -1,5 +1,5 @@
 struct TableauSampler
-    python_interface::Py
+    python_interface::PythonCall.Py
     function TableauSampler()
         _checkinit_stim()
         new(stim.TableauSimulator())

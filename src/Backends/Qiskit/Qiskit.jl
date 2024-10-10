@@ -6,10 +6,8 @@
 module Qiskit
 
 import ...MonitoredQuantumCircuits
-
-
-using PythonCall
-using CondaPkg
+import MonitoredQuantumCircuits.PythonCall as PythonCall
+import MonitoredQuantumCircuits.CondaPkg as CondaPkg
 
 function replaceOutput(f::Function, new_output::String)
     isinteractive() && print(new_output)

@@ -1,5 +1,5 @@
 mutable struct QuantumCircuit
-    python_interface::Py
+    python_interface::PythonCall.Py
 
     function QuantumCircuit(nQubits::Integer)
         _checkinit_qiskit()

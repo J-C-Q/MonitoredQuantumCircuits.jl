@@ -23,7 +23,8 @@ function sbatchScript(dir::String, name::String, run_file::String;
         println(f, "#SBATCH --error=$error")
 
         println(f, load_juliaANDmpi_cmd)
-        println(f, "julia --project -e 'using MonitoredQuantumCircuits'")
+        println(f, "cd \"\$(dirname \"\$0\")\"")
+        # println(f, "julia --project -e 'using MonitoredQuantumCircuits'")
         println(f, "srun -n $ntasks julia -t $cpus_per_task --project $run_file " * dataDir)
 
     end

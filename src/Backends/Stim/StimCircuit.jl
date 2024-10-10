@@ -1,5 +1,5 @@
 mutable struct StimCircuit
-    python_interface::Py
+    python_interface::PythonCall.Py
     function StimCircuit()
         _checkinit_stim()
         new(stim.Circuit())

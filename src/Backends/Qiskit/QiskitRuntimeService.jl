@@ -1,5 +1,5 @@
 struct QiskitRuntimeService
-    python_interface::Py
+    python_interface::PythonCall.Py
 
     function QiskitRuntimeService()
         _checkinit_qiskit()

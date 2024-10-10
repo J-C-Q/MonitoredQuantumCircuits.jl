@@ -1,3 +1,4 @@
+ENV["SKIP_CONDA_RESOLVE"] = "true"
 using MonitoredQuantumCircuits
 using Serialization
 using MPI
@@ -21,8 +22,8 @@ world_size = MPI.Comm_size(comm)
 using JLD2
 MPI.Barrier(comm)
 # open the parameter file
-exec = deserserialize(joinpath(@__DIR__, "$(ARGS[1])/$(ARGS[1]).jls"))
-post = deserserialize(joinpath(@__DIR__, "$(ARGS[1])/$(ARGS[1])_post.jls"))
+exec = deserialize(joinpath(@__DIR__, "$(ARGS[1])/$(ARGS[1]).jls"))
+post = deserialize(joinpath(@__DIR__, "$(ARGS[1])/$(ARGS[1])_post.jls"))
 file = jldopen(joinpath(@__DIR__, "$(ARGS[1])/$(ARGS[1]).jld2"), "r")
 
 parameter = file["parameters"][rank+1]
