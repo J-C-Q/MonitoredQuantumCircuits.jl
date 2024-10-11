@@ -28,7 +28,6 @@ WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
 
 [compat]
 CSV = "0.10.14"
-CondaPkg = "0.2.22"
 DataFrames = "1.6.1"
 FileIO = "1.16.3"
 FileWatching = "1.10.4"
