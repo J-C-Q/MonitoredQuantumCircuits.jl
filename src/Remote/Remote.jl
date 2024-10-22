@@ -231,13 +231,13 @@ function getQueue(cluster::Cluster)
     return toDataframe(lines[1:end-1])
 end
 
-function queueJob(cluster::Cluster, bashFile::String)
+function queueJob(cluster::Cluster, bashFile::String, path::String)
     println("Queueing job on \"$(cluster.host_name)\"...")
-    run(`screen -S $(cluster.host_name) -X stuff "cd $(cluster.workingDir)/MonitoredQuantumCircuitsENV\n"`)
+    run(`screen -S $(cluster.host_name) -X stuff "cd $(cluster.workingDir)/$(path)\n"`)
     waitForRemote(cluster)
-    run(`screen -S $(cluster.host_name) -X stuff "sbatch $(cluster.workingDir)/$(bashFile)\n"`)
+    run(`screen -S $(cluster.host_name) -X stuff "sbatch $(bashFile)\n"`)
     waitForRemote(cluster)
-    run(`screen -S $(cluster.host_name) -X stuff "cd ..\n"`)
+    run(`screen -S $(cluster.host_name) -X stuff "cd -\n"`)
     waitForRemote(cluster)
     # lines = open("remotes/$(cluster.host_name)/$(cluster.host_name).log", "r") do file
     #     last(eachline(file), 2)
@@ -248,6 +248,7 @@ end
 
 function downloadResults(cluster::Cluster, file::String)
     println("Downloading results from \"$(cluster.host_name)\"...")
+    run(`screen -S $(cluster.host_name) -X stuff "$(file)\n"`)
     run(`scp -i $(cluster.identity_file) $(cluster.user)@$(cluster.host_name):$(file) .`)
     return nothing
 end

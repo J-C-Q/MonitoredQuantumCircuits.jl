@@ -8,19 +8,8 @@ comm = MPI.COMM_WORLD
 rank = MPI.Comm_rank(comm)
 world_size = MPI.Comm_size(comm)
 
-
-# load MonitoredQuantumCircuits in serial because of conda lock (maybe this can be fixed)
-# for id in 1:world_size
-#     if id == rank
-#         using MonitoredQuantumCircuits
-
-#         println("Rank $(rank) ready")
-#     end
-#     MPI.Barrier(comm)
-# end
-
 using JLD2
-MPI.Barrier(comm)
+
 # open the parameter file
 exec = deserialize(joinpath(@__DIR__, "$(ARGS[1])/$(ARGS[1]).jls"))
 post = deserialize(joinpath(@__DIR__, "$(ARGS[1])/$(ARGS[1])_post.jls"))
@@ -35,8 +24,8 @@ circuit = exec(parameter...)
 
 result = execute(circuit, backend)
 
-JLD2.save(joinpath(@__DIR__, "$(ARGS[1])/data/$(parameter)_raw.jld2"), "parameter", parameter, "result", result)
+JLD2.save(joinpath(@__DIR__, "$(ARGS[1])/data/$(parameter)_$(rank+1)_raw.jld2"), "parameter", parameter, "result", result)
 
 final = post(result)
 
-JLD2.save(joinpath(@__DIR__, "$(ARGS[1])/data/$(parameter).jld2"), "parameter", parameter, "result", final)
+JLD2.save(joinpath(@__DIR__, "$(ARGS[1])/data/$(parameter)_$(rank+1).jld2"), "parameter", parameter, "result", final)
