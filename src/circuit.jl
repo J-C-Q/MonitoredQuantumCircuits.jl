@@ -157,20 +157,22 @@ function execute(::Circuit, backend::Backend; verbose::Bool=true)
 end
 
 # TODO: add circuits per tasks to compute multiple circuits in serial. This will also effect the batch script generation
-function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simulator, cluster::Remote.Cluster; ntasks_per_node=48, partition="", email="", account="", time="1:00:00", postProcessing=() -> nothing) where {(T <: Tuple)}
-    file = "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).jld2"
-    Serialization.serialize("remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).jls", generateCircuit)
-    Serialization.serialize("remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters))_post.jls", postProcessing)
+function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simulator, cluster::Remote.Cluster; ntasks_per_node=48, partition="", email="", account="", time="1:00:00", postProcessing=() -> nothing, name="simulation") where {(T <: Tuple)}
 
-    JLD2.save(file, "parameters", parameters, "backend", backend)
-    Remote.mkdir(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
-    Remote.upload(cluster, file, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
-    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).jls", "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
-    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters))_post.jls", "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
+    Hash = hash(hash(generateCircuit) * hash(parameters))
+    path = joinpath("remotes", "$(name)_$Hash")
+    mkpath(path)
+
+    Serialization.serialize(joinpath(path, "generateCircuitFunction.jls"), generateCircuit)
+    Serialization.serialize(joinpath(path, "postProcessingFunction.jls"), postProcessing)
+
+
+    JLD2.save(joinpath(path, "dataAndBackend.jld2"), "parameters", parameters, "backend", backend)
+
     Remote.sbatchScript(
-        "remotes/$(cluster.host_name)/",
-        "simulation_$(hash(generateCircuit))_$(hash(parameters))",
-        "$(cluster.workingDir)/MonitoredQuantumCircuitsENV/execScript.jl";
+        path,
+        "sbatchScript",
+        joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "execScript.jl");
         ntasks=length(parameters),
         nodes=ceil(Int64, length(parameters) / ntasks_per_node),
         ntasks_per_node=min(ntasks_per_node, length(parameters)),
@@ -179,12 +181,19 @@ function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simu
         account,
         time,
         load_juliaANDmpi_cmd=cluster.load_juliaANDmpi_cmd,
-        dataDir="simulation_$(hash(generateCircuit))_$(hash(parameters))"
+        dataDir="$(name)_$Hash"
     )
-    Remote.upload(cluster, "remotes/$(cluster.host_name)/simulation_$(hash(generateCircuit))_$(hash(parameters)).sh", "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/")
-    Remote.mkdir(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/data/")
-    Remote.queueJob(cluster, "MonitoredQuantumCircuitsENV/simulation_$(hash(generateCircuit))_$(hash(parameters))/simulation_$(hash(generateCircuit))_$(hash(parameters)).sh")
-    Remote.getQueue(cluster)
+
+    Remote.mkdir(cluster, joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "$(name)_$Hash"))
+    Remote.mkdir(cluster, joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "$(name)_$Hash", "data"))
+    Remote.upload(cluster, joinpath(path, "generateCircuitFunction.jls"), joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "$(name)_$Hash"))
+    Remote.upload(cluster, joinpath(path, "postProcessingFunction.jls"), joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "$(name)_$Hash"))
+    Remote.upload(cluster, joinpath(path, "dataAndBackend.jld2"), joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "$(name)_$Hash"))
+    Remote.upload(cluster, joinpath("remotes", "$(name)_$Hash", "sbatchScript.sh"), joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "$(name)_$Hash"))
+
+
+    Remote.queueJob(cluster, "sbatchScript.sh", joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "$(name)_$Hash"))
+    Remote.getQueue(cluster), Hash
 end
 
 function translate(type::Type, ::Circuit)

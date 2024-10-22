@@ -12,7 +12,7 @@ circuits = (px, py, pz) -> begin
 end
 
 points = generateProbs()
-trajectories = 4000
+trajectories = 50
 params = vec([Tuple(p) for p in points, _ in 1:trajectories])
 MonitoredQuantumCircuits.nQubits(HexagonToricCodeLattice(24, 24))
 
@@ -27,4 +27,6 @@ postProcessing = (result) -> begin
     return entanglements
 end
 
-execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="batch", postProcessing=postProcessing)
+execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="batch", time="10:00:00", postProcessing=postProcessing)
+
+Remote.disconnect(cluster)
