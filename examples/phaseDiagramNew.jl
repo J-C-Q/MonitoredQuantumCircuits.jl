@@ -1,5 +1,5 @@
 using MonitoredQuantumCircuits
-function generateProbs(; N=528)
+function generateProbs(; N=10)
     points = NTuple{3,Float64}[]
     n = Int(-1 / 2 + sqrt(1 / 4 + 2N))
     for (k, i) in enumerate(range(0, 1, n))
@@ -19,12 +19,11 @@ circuits = (px, py, pz) -> begin
 end
 
 points = generateProbs()
-trajectories = 93
+trajectories = 2
 params = vec([Tuple(p) for p in points, _ in 1:trajectories])
 MonitoredQuantumCircuits.nQubits(HexagonToricCodeLattice(24, 24))
 
-cluster = Remote.loadCluster(1)
-Remote.connect(cluster)
+
 
 postProcessing = (result) -> begin
     tripartiteInformation = 0.0
@@ -37,4 +36,11 @@ postProcessing = (result) -> begin
     return tripartiteInformation
 end
 
-execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="batch", postProcessing=postProcessing)
+cluster = Remote.loadCluster(1)
+Remote.connect(cluster)
+
+queue, id = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="batch", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 24)
+
+# queue, id = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="pm2frg14", partition="normal", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 64)
+println(queue)
+println(id)
