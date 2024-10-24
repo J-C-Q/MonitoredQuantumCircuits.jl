@@ -130,12 +130,15 @@ function setup(cluster::Cluster)
             "$(cluster.load_juliaANDmpi_cmd)",
             "julia -e 'using Pkg;Pkg.activate(\".\");Pkg.add(PackageSpec(url=\"https://$(github_username):$(github_password)@github.com/J-C-Q/MonitoredQuantumCircuits.jl.git\", rev=\"main\")); Pkg.add(\"JLD2\"); Pkg.add(\"MPI\")'",
             "julia --project -e 'using Pkg; Pkg.instantiate()'",
+            "julia --project -e 'using Pkg;Pkg.add(PackageSpec(url=\"https://github.com/J-C-Q/CondaPkg.jl.git\", rev=\"main\"));'",
             "julia --project -e 'using MonitoredQuantumCircuits'"],
         at=joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV"))
 
 
     if cluster.MPI_use_system_binary
-        runCommand(cluster, "julia --project -e 'using MPI.MPIPreferences; MPIPreferences.use_system_binary()'";
+        runCommand(cluster, [
+                "$(cluster.load_juliaANDmpi_cmd)",
+                "julia --project -e 'using MPI.MPIPreferences; MPIPreferences.use_system_binary()'"];
             at=joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV"))
     end
     return nothing
