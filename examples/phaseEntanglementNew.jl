@@ -8,11 +8,11 @@ function generateProbs(; N=2)
 end
 
 circuits = (px, py, pz) -> begin
-    KitaevCircuit(HexagonToricCodeLattice(24, 24), px, py, pz, 2000 * 2 * 24 * 24)
+    KitaevCircuit(HexagonToricCodeLattice(24, 24), px, py, pz, 1200 * 2 * 24 * 24)
 end
 
 points = generateProbs()
-trajectories = 1
+trajectories = 2
 params = vec([Tuple(p) for p in points, _ in 1:trajectories])
 MonitoredQuantumCircuits.nQubits(HexagonToricCodeLattice(24, 24))
 
@@ -27,10 +27,9 @@ postProcessing = (result) -> begin
 end
 
 cluster = Remote.loadCluster(2)
-Remote.connect(cluster)
+# Remote.connect(cluster)
 # queue, id = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="batch", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 24)
 
-queue, id = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="", partition="", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 64)
+queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="", partition="largemem", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 64, name="phaseDiagram")
 println(queue)
-println(id)
-Remote.disconnect(cluster)
+# Remote.disconnect(cluster)
