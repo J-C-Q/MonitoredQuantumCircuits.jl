@@ -188,10 +188,11 @@ function queueJob(cluster::Cluster, bashFile::String, path::String)
     return output
 end
 
-function downloadResults(cluster::Cluster, file::String)
-    println("Downloading results from \"$(cluster.host_name)\"...")
-    run(`screen -S $(cluster.host_name) -X stuff "$(file)\n"`)
-    run(`scp -i $(cluster.identity_file) $(cluster.user)@$(cluster.host_name):$(file) .`)
+function downloadResults(cluster::Cluster, id::String; destination::String=".")
+    path = joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "$(id)")
+    runCommand(cluster, ["cd $path", "zip -r $(id).zip data/"])
+    run(`scp -o 'ControlPath remotes/ssh_mux_%h_%p_%r' -i $(cluster.identity_file) $(cluster.user)@$(cluster.host_name):$(joinpath("$path","$(id).zip")) $(destination)`)
+    # run(`unzip $(joinpath("$destination","$(id).zip"))`)
     return nothing
 end
 

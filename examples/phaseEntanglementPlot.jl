@@ -9,9 +9,27 @@ function projection(point; origin=[1 / 3, 1 / 3, 1 / 3], e1=normalize(cross(norm
 end
 
 function PlotThis()
-    entanglements = JLD2.load("simulation_24x24_entanglement_cluster.jld2")["results"]
-    points = JLD2.load("simulation_24x24_entanglement_cluster.jld2")["data"]
-    points2d = [projection(p[1]) for p in points]
+    entanglements = []
+    points = []
+    for file in readdir("data")
+        if !occursin("raw", file)
+            push!(entanglements, JLD2.load("data/$(file)")["result"])
+            push!(points, JLD2.load("data/$(file)")["parameter"])
+        end
+    end
+    println(unique(points))
+    # entanglements = JLD2.load("data/simulation_24x24_entanglement_cluster.jld2")["results"]
+    # points = JLD2.load("simulation_24x24_entanglement_cluster.jld2")["data"]
+    points2d = [projection(p) for p in unique(points)]
+    averagedEntanglements = Vector{Vector{Float64}}(undef, length(points))
+    for (i, p) in enumerate(unique(points))
+        averagedEntanglements[i] = zeros(length(entanglements[1]))
+        indeces = findall(x -> x == p, points)
+        for j in indeces
+            averagedEntanglements[i] .+= entanglements[j]
+        end
+        averagedEntanglements[i] /= length(indeces)
+    end
 
     fig = Figure()
     ax = Axis(fig[1, 1], xlabel="subsystem size", ylabel="entanglement", title="Hexagon Kitaev with pbc")
@@ -19,9 +37,8 @@ function PlotThis()
     hidedecorations!(ax2)
     # hlines!(ax, [0.5], color=:red)
     # text!(ax, [(0.01, 0.5)], text="1/2", color=:red)
-    for i in eachindex(points)[2:end]
-
-        scatterlines!(ax, (collect(1:24*24)./(24*24))[round.(Int, collect(range(1, 24 * 24 - 1, 50)))], [e for e in entanglements[i]][round.(Int, collect(range(1, 24 * 24 - 1, 50)))], color=i / length(points), colorrange=(0.0, 1.0))
+    for i in eachindex(unique(points))[1:end]
+        scatterlines!(ax, (collect(1:24*24)./(24*24))[round.(Int, collect(range(1, 24 * 24 - 1, 50)))], averagedEntanglements[i][round.(Int, collect(range(1, 24 * 24 - 1, 50)))], color=i / length(unique(points)), colorrange=(0.0, 1.0))
     end
 
     # limits!(ax, (10^-2, 1000), (0, 1))
@@ -42,7 +59,7 @@ function PlotThis()
             projection([0, 1, 0]),
             projection([0, 0, 1]),
             projection([1, 0, 0])], color=:black)
-    scatter!(ax2, points2d, color=[i / length(points) for i in 1:length(points)], colorrange=(0.0, 1.0))
+    scatter!(ax2, points2d, color=[i / length(unique(points)) for i in 1:length(unique(points))], colorrange=(0.0, 1.0))
     text!(ax2, [projection((1.1, 0.0, 0.0)), projection((0.0, 1.1, 0.0)), projection((0.0, 0.0, 1.1))], text=["X", "Y", "Z"], align=(:center, :center))
     limits!(ax2, (-0.9, 0.9), (-0.6, 1.0))
     # Colorbar(fig[1, 2], limits=(-1, 1), colormap=:viridis,
