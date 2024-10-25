@@ -12,7 +12,9 @@ circuits = (px, py, pz) -> begin
 end
 
 points = generateProbs()
-trajectories = 100
+
+trajectories = 200
+
 params = vec([Tuple(p) for p in points, _ in 1:trajectories])
 MonitoredQuantumCircuits.nQubits(HexagonToricCodeLattice(24, 24))
 
@@ -30,14 +32,8 @@ cluster = Remote.loadCluster(2)
 # Remote.connect(cluster)
 # queue, id = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="batch", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 24)
 
-queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster;
-    email="qpreiss@thp.uni-koeln.de",
-    account="",
-    partition="",
-    time="01:00:00",
-    postProcessing=postProcessing,
-    ntasks_per_node=2 * 64,
-    name="phaseEntanglement",
-    max_nodes=100)
+
+queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="", partition="largemem", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 64, name="phaseEntanglement", max_nodes=10)
+
 println(queue)
 # Remote.disconnect(cluster)
