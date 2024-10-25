@@ -19,6 +19,8 @@ include("result.jl")
 include("operations/ZZ.jl")
 include("operations/XX.jl")
 include("operations/YY.jl")
+include("operations/H.jl")
+include("operations/CNOT.jl")
 include("GUI/BonitoApp.jl")
 
 include("Backends/Qiskit/Qiskit.jl")
@@ -46,6 +48,8 @@ export translate
 export ZZ
 export XX
 export YY
+export H
+export CNOT
 
 export HeavyChainLattice
 export HeavySquareLattice

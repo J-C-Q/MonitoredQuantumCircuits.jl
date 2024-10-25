@@ -26,10 +26,10 @@ const qiskit_aer = PythonCall.pynew()
 
 function importQiskit()
     replaceOutput(
-        () -> PythonCall.pycopy!(qiskit, pyimport("qiskit")),
+        () -> PythonCall.pycopy!(qiskit, PythonCall.pyimport("qiskit")),
         "Importing qiskit...")
     replaceOutput(
-        () -> PythonCall.pycopy!(qiskit_ibm_runtime, pyimport("qiskit_ibm_runtime")),
+        () -> PythonCall.pycopy!(qiskit_ibm_runtime, PythonCall.pyimport("qiskit_ibm_runtime")),
         "Importing qiskit_ibm_runtime...")
 end
 
@@ -51,7 +51,7 @@ function importQiskitAer(; gpu::Bool=false)
     end
 
     replaceOutput(
-        () -> PythonCall.pycopy!(qiskit_aer, pyimport("qiskit_aer")),
+        () -> PythonCall.pycopy!(qiskit_aer, PythonCall.pyimport("qiskit_aer")),
         "Importing qiskit-aer...")
 end
 
@@ -83,7 +83,7 @@ include("Operations.jl")
 include("operations/ZZ.jl")
 include("operations/XX.jl")
 include("operations/YY.jl")
-
-
+include("operations/H.jl")
+include("operations/CNOT.jl")
 
 end

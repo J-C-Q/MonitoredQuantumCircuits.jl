@@ -20,7 +20,7 @@ const stim = PythonCall.pynew()
 
 function importStim()
     replaceOutput(
-        () -> PythonCall.pycopy!(stim, pyimport("stim")),
+        () -> PythonCall.pycopy!(stim, PythonCall.pyimport("stim")),
         "Importing stim...")
 end
 
@@ -43,7 +43,8 @@ include("Simulation.jl")
 include("operations/ZZ.jl")
 include("operations/XX.jl")
 include("operations/YY.jl")
-
+include("operations/H.jl")
+include("operations/CNOT.jl")
 
 
 

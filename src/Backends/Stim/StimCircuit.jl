@@ -22,7 +22,7 @@ function MonitoredQuantumCircuits.translate(::Type{StimCircuit}, circuit::Monito
     _checkinit_stim()
     qc = StimCircuit()
 
-    qc.append("DEPOLARIZE1", collect(0:MonitoredQuantumCircuits.nQubits(circuit.lattice)-1), 0.75)
+    # qc.append("DEPOLARIZE1", collect(0:MonitoredQuantumCircuits.nQubits(circuit.lattice)-1), 0.75)
 
     # iterate execution steps
     for i in unique(circuit.executionOrder)
