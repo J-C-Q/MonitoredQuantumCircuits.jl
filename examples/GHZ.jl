@@ -25,10 +25,14 @@ end
 # translate(QuantumClifford.Circuit, circuit)
 # translate(Stim.StimCircuit, circuit)
 
-# execute(circuit, Stim.CompileSimulator(); shots=100000)
+result = execute(circuit, Stim.CompileSimulator(); shots=100)
+for i in 0:length(result)-1
+    println(result[i])
+end
+
 # job = execute(circuit, Qiskit.StateVectorSimulator())
-job = execute(circuit, Qiskit.CliffordSimulator(); shots=1000000)
-job.result()[0].data.c.postselect([i for i in eachindex(1:2:2*N-2) .- 1], [0 for i in 1:2:2*N-2]).get_counts()
+# job = execute(circuit, Qiskit.CliffordSimulator(); shots=1000000)
+# job.result()[0].data.c.postselect([i for i in eachindex(1:2:2*N-2) .- 1], [0 for i in 1:2:2*N-2]).get_counts()
 
 
 # execute(circuit, QuantumClifford.TableauSimulator()).bits
