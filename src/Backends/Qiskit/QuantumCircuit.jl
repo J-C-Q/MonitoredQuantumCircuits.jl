@@ -5,6 +5,11 @@ mutable struct QuantumCircuit
         _checkinit_qiskit()
         new(qiskit.QuantumCircuit(nQubits, nQubits))
     end
+
+    function QuantumCircuit(nQubits::Integer, nClbits::Integer)
+        _checkinit_qiskit()
+        new(qiskit.QuantumCircuit(nQubits, nClbits))
+    end
 end
 function Base.getproperty(qc::QuantumCircuit, prop::Symbol)
     if prop == :python_interface
@@ -24,7 +29,8 @@ end
 #TODO apply indentitiy operation to all other qubits/maybe with transpile pass.
 function MonitoredQuantumCircuits.translate(::Type{QuantumCircuit}, circuit::MonitoredQuantumCircuits.Circuit)
     _checkinit_qiskit()
-    qc = QuantumCircuit(length(circuit.lattice))
+    qc = QuantumCircuit(length(circuit.lattice), MonitoredQuantumCircuits.nMeasurements(circuit))
+    measurementCount = 0
     # iterate execution steps
     for i in unique(circuit.executionOrder)
         # get all operations in the step
@@ -38,11 +44,17 @@ function MonitoredQuantumCircuits.translate(::Type{QuantumCircuit}, circuit::Mon
                 ptr = circuit.operationPointers[j]
                 # only apply the k-th instruction of the operation, if deep enough
                 if k <= depth(circuit.operations[ptr], QuantumCircuit)
-                    apply!(qc, circuit.operations[ptr], k, circuit.operationPositions[j]...)
+                    if typeof(circuit.operations[ptr]) <: MonitoredQuantumCircuits.MeasurementOperation
+                        if k <= MonitoredQuantumCircuits.nMeasurements(circuit.operations[ptr])
+                            measurementCount += 1
+                        end
+                        apply!(qc, circuit.operations[ptr], k, measurementCount, circuit.operationPositions[j]...)
+                    else
+                        apply!(qc, circuit.operations[ptr], k, circuit.operationPositions[j]...)
+                    end
                 end
             end
         end
     end
-    qc.measure_all()
     return qc
 end

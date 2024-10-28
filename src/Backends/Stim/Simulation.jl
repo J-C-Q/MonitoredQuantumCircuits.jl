@@ -16,11 +16,12 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circ
     verbose && println("✓")
 
     verbose && print("Simulating circuit...")
-    stimResult = PythonCall.pyconvert(Vector{Vector{Bool}}, sample(sampler; shots))
-    result = MonitoredQuantumCircuits.SampleResult(hcat(stimResult...), zeros(Int64, length(stimResult)))
+    # stimResult = PythonCall.pyconvert(Vector{Vector{Bool}}, sample(sampler; shots))
+    stimResult = sample(sampler; shots)
+    # result = MonitoredQuantumCircuits.SampleResult(hcat(stimResult...), zeros(Int64, length(stimResult)))
 
     verbose && println("✓")
-    return result
+    return stimResult
 end
 
 struct TableauSimulator <: MonitoredQuantumCircuits.Simulator

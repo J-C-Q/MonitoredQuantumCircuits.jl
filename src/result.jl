@@ -1,5 +1,7 @@
 abstract type Result end
 
+
+
 struct SampleResult <: Result
     result::Matrix{Bool} # nMeasurements x nShots
     qubitMap::Vector{Int64}

@@ -16,11 +16,13 @@ include("lattice.jl")
 include("operations.jl")
 include("circuit.jl")
 include("result.jl")
+
 include("operations/ZZ.jl")
 include("operations/XX.jl")
 include("operations/YY.jl")
 include("operations/H.jl")
 include("operations/CNOT.jl")
+include("operations/Measure.jl")
 include("GUI/BonitoApp.jl")
 
 include("Backends/Qiskit/Qiskit.jl")
@@ -50,6 +52,7 @@ export XX
 export YY
 export H
 export CNOT
+export Measure
 
 export HeavyChainLattice
 export HeavySquareLattice

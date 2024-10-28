@@ -3,7 +3,7 @@
 
 A singelton type representing the ZZ operation.
 """
-struct ZZ <: Operation end
+struct ZZ <: MeasurementOperation end
 
 function nQubits(::ZZ)
     return 3
@@ -25,4 +25,8 @@ end
 function isAncilla(::ZZ, qubit::Integer)
     0 < qubit <= nQubits(ZZ()) || throw(ArgumentError("qubit $qubit is not a valid qubit for the ZZ operation."))
     return qubit == 2
+end
+
+function nMeasurements(::ZZ)
+    return 1
 end

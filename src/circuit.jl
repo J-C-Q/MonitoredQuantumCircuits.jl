@@ -223,3 +223,14 @@ function loadMany(folder::String)
     files = [f for f in readdir(folder) if f[end-3:end] == ".jld2"]
     return [load(folder * "/" * f) for f in files]
 end
+
+function nMeasurements(circuit::Circuit)
+    total = 0
+    for (i, operation) in enumerate(circuit.operations)
+        measurements = nMeasurements(operation)
+        if measurements > 0
+            total += measurements * count(x -> x == i, circuit.operationPointers)
+        end
+    end
+    return total
+end

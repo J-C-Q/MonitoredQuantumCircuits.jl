@@ -80,10 +80,12 @@ include("Simulation.jl")
 include("Sampler.jl")
 include("Transpiler.jl")
 include("Operations.jl")
+
 include("operations/ZZ.jl")
 include("operations/XX.jl")
 include("operations/YY.jl")
 include("operations/H.jl")
 include("operations/CNOT.jl")
+include("operations/Measure.jl")
 
 end

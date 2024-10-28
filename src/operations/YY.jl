@@ -3,7 +3,7 @@
 
 A singelton type representing the YY operation.
 """
-struct YY <: Operation end
+struct YY <: MeasurementOperation end
 
 function nQubits(::YY)
     return 3
@@ -26,4 +26,8 @@ end
 function isAncilla(::YY, qubit::Integer)
     0 < qubit <= nQubits(YY()) || throw(ArgumentError("qubit $qubit is not a valid qubit for the YY operation."))
     return qubit == 2
+end
+
+function nMeasurements(::YY)
+    return 1
 end

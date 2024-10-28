@@ -15,7 +15,7 @@ end
 
 function MonitoredQuantumCircuits.translate(::Type{Circuit}, circuit::MonitoredQuantumCircuits.Circuit)
     qc = Circuit([], MonitoredQuantumCircuits.nQubits(circuit.lattice))
-
+    measurementCount = 0
     # iterate execution steps
     for i in unique(circuit.executionOrder)
         # get all operations in the step
@@ -29,7 +29,14 @@ function MonitoredQuantumCircuits.translate(::Type{Circuit}, circuit::MonitoredQ
                 ptr = circuit.operationPointers[j]
                 # only apply the k-th instruction of the operation, if deep enough
                 if k <= depth(circuit.operations[ptr], Circuit)
-                    apply!(qc, circuit.operations[ptr], k, circuit.operationPositions[j]...)
+                    if typeof(circuit.operations[ptr]) <: MonitoredQuantumCircuits.MeasurementOperation
+                        if k <= MonitoredQuantumCircuits.nMeasurements(circuit.operations[ptr])
+                            measurementCount += 1
+                        end
+                        apply!(qc, circuit.operations[ptr], k, measurementCount, circuit.operationPositions[j]...)
+                    else
+                        apply!(qc, circuit.operations[ptr], k, circuit.operationPositions[j]...)
+                    end
                 end
             end
         end

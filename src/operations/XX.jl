@@ -3,7 +3,7 @@
 
 A singelton type representing the XX operation.
 """
-struct XX <: Operation end
+struct XX <: MeasurementOperation end
 
 function nQubits(::XX)
     return 3
@@ -27,4 +27,8 @@ end
 function isAncilla(::XX, qubit::Integer)
     0 < qubit <= nQubits(XX()) || throw(ArgumentError("qubit $qubit is not a valid qubit for the XX operation."))
     return qubit == 2
+end
+
+function nMeasurements(::XX)
+    return 1
 end
