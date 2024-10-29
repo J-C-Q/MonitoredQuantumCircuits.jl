@@ -68,6 +68,9 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circ
     job = run(sampler, qc; shots)
     verbose && println("✓")
 
-    verbose && println("Job ID: $(job.job_id())")
-    return job
+    nativeResult = job.result()[0]
+    result = QiskitResult(nativeResult, circuit)
+
+    # verbose && println("Job ID: $(job.job_id())")
+    return result
 end

@@ -23,6 +23,8 @@ include("operations/YY.jl")
 include("operations/H.jl")
 include("operations/CNOT.jl")
 include("operations/Measure.jl")
+include("operations/Weak_ZZ.jl")
+
 include("GUI/BonitoApp.jl")
 
 include("Backends/Qiskit/Qiskit.jl")

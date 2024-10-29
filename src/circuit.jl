@@ -234,3 +234,10 @@ function nMeasurements(circuit::Circuit)
     end
     return total
 end
+
+function measurements(circuit::Circuit)
+    qubits = zeros(Int, nMeasurements(circuit))
+
+
+
+end

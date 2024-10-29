@@ -51,3 +51,13 @@ end
 
 
 Base.show(io::IO, operation::Operation) = print(io, "$(typeof(operation))")
+
+
+function ZZ(t::Float64)
+    if t == 0
+        return I()
+    elseif t == π / 4
+        return ZZ()
+    end
+    return Weak_ZZ(t)
+end

@@ -76,6 +76,7 @@ end
 include("QuantumCircuit.jl")
 include("IBMBackend.jl")
 include("QiskitRuntimeService.jl")
+include("Result.jl")
 include("Simulation.jl")
 include("Sampler.jl")
 include("Transpiler.jl")
