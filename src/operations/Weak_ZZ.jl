@@ -4,10 +4,16 @@
 A singelton type representing the weak ZZ operation.
 """
 struct Weak_ZZ <: MeasurementOperation
-    t::Float64
+    t_A::Float64
+    t_B::Float64
     function Weak_ZZ(t::Float64)
         0 < t < π / 4 || throw(ArgumentError("t must be in (0, π/4)."))
-        new(t)
+        new(t, π / 4)
+    end
+    function Weak_ZZ(t_A::Float64, t_B::Float64)
+        0 < t_A < π / 4 || throw(ArgumentError("t_A must be in (0, π/4)."))
+        0 < t_B < π / 4 || throw(ArgumentError("t_B must be in (0, π/4)."))
+        new(t_A, t_B)
     end
 end
 
@@ -37,3 +43,12 @@ end
 function nMeasurements(::Weak_ZZ)
     return 1
 end
+
+# function ZZ(t::Float64)
+#     if t == 0
+#         return I()
+#     elseif t == π / 4
+#         return ZZ()
+#     end
+#     return Weak_ZZ(t)
+# end

@@ -24,6 +24,8 @@ include("operations/H.jl")
 include("operations/CNOT.jl")
 include("operations/Measure.jl")
 include("operations/Weak_ZZ.jl")
+include("operations/Weak_YY.jl")
+include("operations/Weak_XX.jl")
 
 include("GUI/BonitoApp.jl")
 
@@ -55,6 +57,9 @@ export YY
 export H
 export CNOT
 export Measure
+export Weak_ZZ
+export Weak_XX
+export Weak_YY
 
 export HeavyChainLattice
 export HeavySquareLattice
