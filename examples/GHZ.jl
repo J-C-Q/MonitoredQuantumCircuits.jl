@@ -1,13 +1,13 @@
 using MonitoredQuantumCircuits
 
-N = 4
+N = 10
 lattice = HeavyChainLattice(N)
 circuit = EmptyCircuit(lattice)
 for i in 1:2:2*N
     apply!(circuit, H(), i)
 end
 for i in 1:2:2*N-2
-    apply!(circuit, Weak_ZZ(0.01), i, i + 1, i + 2)
+    apply!(circuit, Weak_ZZ(π / 4), i, i + 1, i + 2)
 end
 
 
@@ -30,9 +30,12 @@ end
 #     println(result[i])
 # end
 
-job = execute(circuit, Qiskit.StateVectorSimulator())
+job = execute(circuit, Qiskit.StateVectorSimulator(); shots=10000)
 # job = execute(circuit, Qiskit.CliffordSimulator(); shots=10000)
 # job.result()[0].data.c.postselect([i for i in eachindex(1:2:2*N-2) .- 1], [0 for i in 1:2:2*N-2]).get_counts()
 
-# job.measurementOutcomes
+# outcomes = [job.measurementOutcomes[1:2, i] for i in 1:size(job.measurementOutcomes, 2) if job.measurementOutcomes[3, i] == 1]
+# print(count(x -> (x[1] == 0 && x[2] == 0), outcomes))
+# print(count(x -> (x[1] == 1 && x[2] == 1), outcomes))
+
 # execute(circuit, QuantumClifford.TableauSimulator()).bits

@@ -30,6 +30,7 @@ end
 function apply!(qc::QuantumCircuit, ::MonitoredQuantumCircuits.Weak_ZZ, ::Val{5}, clbit::Integer, ::Integer, p2::Integer, ::Integer)
     qc.h(p2 - 1)
 end
-function apply!(qc::QuantumCircuit, ::MonitoredQuantumCircuits.Weak_ZZ, ::Val{6}, clbit::Integer, ::Integer, p2::Integer, ::Integer)
+function apply!(qc::QuantumCircuit, ::MonitoredQuantumCircuits.Weak_ZZ, ::Val{6}, clbit::Integer, ::Integer, p2::Integer, p3::Integer)
     qc.measure(p2 - 1, clbit - 1)
+    qc.z(p3 - 1).c_if(clbit - 1, 1)
 end

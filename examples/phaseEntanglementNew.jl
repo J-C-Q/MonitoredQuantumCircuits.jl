@@ -30,10 +30,18 @@ end
 
 cluster = Remote.loadCluster(2)
 # Remote.connect(cluster)
-# queue, id = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="batch", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 24)
 
 
-queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="", partition="largemem", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 64, name="phaseEntanglement", max_nodes=10)
+
+queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster;
+    email="qpreiss@thp.uni-koeln.de",
+    account="",
+    partition="largemem",
+    time="10:00:00",
+    postProcessing=postProcessing,
+    ntasks_per_node=2 * 64,
+    name="phaseEntanglement",
+    max_nodes=10)
 
 println(queue)
 # Remote.disconnect(cluster)

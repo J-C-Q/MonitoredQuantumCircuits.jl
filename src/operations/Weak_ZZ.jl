@@ -7,12 +7,12 @@ struct Weak_ZZ <: MeasurementOperation
     t_A::Float64
     t_B::Float64
     function Weak_ZZ(t::Float64)
-        0 < t < π / 4 || throw(ArgumentError("t must be in (0, π/4)."))
+        0 < t <= π / 4 || throw(ArgumentError("t must be in (0, π/4]."))
         new(t, π / 4)
     end
     function Weak_ZZ(t_A::Float64, t_B::Float64)
-        0 < t_A < π / 4 || throw(ArgumentError("t_A must be in (0, π/4)."))
-        0 < t_B < π / 4 || throw(ArgumentError("t_B must be in (0, π/4)."))
+        0 < t_A <= π / 4 || throw(ArgumentError("t_A must be in (0, π/4]."))
+        0 < t_B <= π / 4 || throw(ArgumentError("t_B must be in (0, π/4]."))
         new(t_A, t_B)
     end
 end

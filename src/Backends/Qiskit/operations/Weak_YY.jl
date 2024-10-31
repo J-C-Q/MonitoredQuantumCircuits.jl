@@ -44,7 +44,7 @@ function apply!(qc::QuantumCircuit, ::MonitoredQuantumCircuits.Weak_YY, ::Val{5}
     qc.h(p2 - 1)
     qc.h(p3 - 1)
 end
-function apply!(qc::QuantumCircuit, ::MonitoredQuantumCircuits.Weak_XX, ::Val{6}, clbit::Integer, ::Integer, p2::Integer, ::Integer)
+function apply!(qc::QuantumCircuit, ::MonitoredQuantumCircuits.Weak_YY, ::Val{6}, clbit::Integer, ::Integer, p2::Integer, ::Integer)
     qc.s(p1 - 1)
     qc.measure(p2 - 1, clbit - 1)
     qc.s(p3 - 1)
