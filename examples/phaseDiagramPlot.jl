@@ -23,17 +23,35 @@ function generateProbs(; N=15)
 end
 function PlotThis()
     tmis = JLD2.load("tmis_24x24_1500.jld2")["results"]
+    tmis = []
+    points = []
+    for file in readdir("data/data")
+        if !occursin("raw", file)
+            push!(tmis, JLD2.load("data/data/$(file)")["result"])
+            push!(points, JLD2.load("data/data/$(file)")["parameter"])
+        end
+    end
     # tmis .-= 1
-    println(tmis)
-    points = JLD2.load("tmis_24x24_1500.jld2")["data"]
+    # println(tmis)
+    # points = JLD2.load("tmis_24x24_1500.jld2")["data"]
     # points = generateProbs()
     # tmis = (1:length(points)) ./ length(points)
-    points2d = [projection(p) for p in points]
+    points2d = [projection(p) for p in unique(points)]
+
+    averagedTmis = Vector{Float64}(undef, length(unique(points)))
+    for (i, p) in enumerate(unique(points))
+        averagedTmis[i] = 0.0
+        indeces = findall(x -> x == p, points)
+        for j in indeces
+            averagedTmis[i] += tmis[j]
+        end
+        averagedTmis[i] /= length(indeces)
+    end
 
     fig = Figure()
     ax = Axis(fig[1, 1], aspect=DataAspect())
     hidedecorations!(ax)
-    voronoiplot!(ax, [p[1] for p in points2d], [p[2] for p in points2d], tmis, colormap=:viridis, markersize=5, strokewidth=0.5, colorrange=(-1, 1), unbounded_edge_extension_factor=1.0)
+    voronoiplot!(ax, [p[1] for p in points2d], [p[2] for p in points2d], averagedTmis, colormap=:viridis, markersize=5, strokewidth=0.5, colorrange=(-1, 1), unbounded_edge_extension_factor=1.0)
     p = Polygon(
         Point2f[(-0.8, -0.5), (0.8, -0.5), (0.8, 0.9), (-0.8, 0.9)],
         [Point2f[

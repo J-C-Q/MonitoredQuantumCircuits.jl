@@ -11,11 +11,11 @@ function generateProbs(; N=120)
         end
     end
 
-    return [p .- 0.65 .* (p .- (1 / 3, 1 / 3, 1 / 3)) for p in points]
+    return [p .- 1.0 .* (p .- (1 / 3, 1 / 3, 1 / 3)) for p in points]
 end
 
 circuits = (px, py, pz) -> begin
-    KitaevCircuit(HexagonToricCodeLattice(24, 24), px, py, pz, 1200 * 2 * 24 * 24)
+    KitaevCircuit(HexagonToricCodeLattice(24, 24), px, py, pz, 1500 * 2 * 24 * 24)
 end
 
 points = generateProbs()
@@ -36,10 +36,10 @@ postProcessing = (result) -> begin
     return tripartiteInformation
 end
 
-cluster = Remote.loadCluster(2)
-Remote.connect(cluster)
+cluster = Remote.loadCluster(1)
+# Remote.connect(cluster)
 
-# queue, id = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="batch", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 24)
+queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="mem192", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 24, name="phaseDiagram", max_nodes=75)
 
-queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="", partition="largemem", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 64, name="phaseDiagram", max_nodes=10)
+# queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="", partition="largemem", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 64, name="phaseDiagram", max_nodes=10)
 println(queue)
