@@ -22,7 +22,7 @@ function generateProbs(; N=15)
     return [p .- 0.5 .* (p .- (1 / 3, 1 / 3, 1 / 3)) for p in points]
 end
 function PlotThis()
-    tmis = JLD2.load("tmis_24x24_1500.jld2")["results"]
+    # tmis = JLD2.load("tmis_24x24_1500.jld2")["results"]
     tmis = []
     points = []
     for file in readdir("data/data")
@@ -31,17 +31,12 @@ function PlotThis()
             push!(points, JLD2.load("data/data/$(file)")["parameter"])
         end
     end
-    # tmis .-= 1
-    # println(tmis)
-    # points = JLD2.load("tmis_24x24_1500.jld2")["data"]
-    # points = generateProbs()
-    # tmis = (1:length(points)) ./ length(points)
     points2d = [projection(p) for p in unique(points)]
-
+    println(points2d)
     averagedTmis = Vector{Float64}(undef, length(unique(points)))
     for (i, p) in enumerate(unique(points))
         averagedTmis[i] = 0.0
-        indeces = findall(x -> x == p, points)
+        indeces = findall(x -> all(x .≈ p), points)
         for j in indeces
             averagedTmis[i] += tmis[j]
         end

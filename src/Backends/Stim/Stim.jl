@@ -39,6 +39,7 @@ end
 include("StimCircuit.jl")
 include("CompileSampler.jl")
 include("TableauSampler.jl")
+include("Result.jl")
 include("Simulation.jl")
 include("operations/ZZ.jl")
 include("operations/XX.jl")

@@ -17,10 +17,11 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circ
 
     verbose && print("Simulating circuit...")
     # stimResult = PythonCall.pyconvert(Vector{Vector{Bool}}, sample(sampler; shots))
-    stimResult = sample(sampler; shots)
+    result = sample(sampler; shots)
     # result = MonitoredQuantumCircuits.SampleResult(hcat(stimResult...), zeros(Int64, length(stimResult)))
 
     verbose && println("✓")
+    stimResult = StimResult(result, circuit)
     return stimResult
 end
 

@@ -23,11 +23,6 @@ function KekuleCircuit(lattice::HexagonToricCodeLattice)
                 [1, 2, 3], repeat([2, 1, 3], div(lattice.sizeX - 2, 2))), div(lattice.sizeY - 2, 2)),
         [2, 1], repeat([1, 2], div(lattice.sizeX - 2, 2)))
 
-
-
-
-
-
     operationPointers = vcat(
         [1, 3, 2, 2, 3, 3, 1, 1, 2, 2, 3, 3, 1], repeat([1, 2, 2, 3, 3, 1, 1, 2, 2, 3, 3, 1], div(lattice.sizeX, 6) - 2), [3, 2, 2, 3, 3, 1, 1, 2, 2, 3, 1],
         repeat(vcat(

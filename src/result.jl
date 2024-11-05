@@ -12,6 +12,7 @@
 
 # Base.lastindex(result::SampleResult) = size(result.result, 1)
 
+# TODO maybe make this a sampler result type
 abstract type Result end
 #     measurementOutcomes::Matrix{Bool}
 #     measuredQubits::Vector{Int}

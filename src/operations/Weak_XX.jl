@@ -29,8 +29,8 @@ end
 function color(::Weak_XX)
     return "#4063D8"
 end
-function isAncilla(::Weak_XX, qubit::Integer)
-    0 < qubit <= nQubits(Weak_XX()) || throw(ArgumentError("qubit $qubit is not a valid qubit for the Weak_XX operation."))
+function isAncilla(operation::Weak_XX, qubit::Integer)
+    0 < qubit <= nQubits(operation) || throw(ArgumentError("qubit $qubit is not a valid qubit for the Weak_XX operation."))
     return qubit == 2
 end
 
