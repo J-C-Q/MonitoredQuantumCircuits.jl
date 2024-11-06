@@ -86,7 +86,7 @@ function KitaevCircuit(lattice::HexagonToricCodeLattice, px::Float64, py::Float6
     possibleYY = [p for (i, p) in enumerate(positions) if pointers[i] == 3]
     possibleZZ = [p for (i, p) in enumerate(positions) if pointers[i] == 1]
     possibleMatrix = [possibleZZ, possibleXX, possibleYY]
-    operations = Operation[ZZ(), XX(), YY()]
+    operations = Operation[ZZ(), YY(), XX()]
     picks = Vector{Int64}(undef, depth)
     for i in 1:depth
         p = rand()

@@ -50,3 +50,44 @@ function KekuleCircuit(lattice::HeavyHexagonLattice, layers::Integer)
     executionOrder = [ord + (i - 1) * 3 for i in 1:layers for (_, _, _, _, ord) in test]
     return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
 end
+
+function KekuleCircuit(lattice::HexagonToricCodeLattice, px::Float64, py::Float64, pz::Float64, depth::Integer)
+    px + py + pz ≈ 1.0 || throw(ArgumentError("The sum of the probabilities must be 1.0"))
+
+    lattice.sizeX % 6 == 0 || throw(ArgumentError("The sizeX must be a multiple of 6"))
+    lattice.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
+    positions = [(neighbors(lattice.graph, i)[1], i, neighbors(lattice.graph, i)[2]) for i in nQubits(lattice)+1:nv(lattice.graph)]
+    operations = Operation[ZZ(), XX(), YY()]
+    pointers = vcat(
+        [1, 3, 2, 2, 3, 3, 1, 1, 2, 2, 3, 3, 1], repeat([1, 2, 2, 3, 3, 1, 1, 2, 2, 3, 3, 1], div(lattice.sizeX, 6) - 2), [3, 2, 2, 3, 3, 1, 1, 2, 2, 3, 1],
+        repeat(vcat(
+                [1, 3, 2, 3, 3, 1, 2, 2, 3, 1], # 4
+                repeat([1, 2, 3, 3, 1, 2, 2, 3, 1], div(lattice.sizeX, 6) - 2),
+                [1, 2, 3, 3, 1, 2, 2, 1],
+                [1, 3, 2, 2, 3, 1, 1, 2, 3, 3], # 3
+                repeat([1, 2, 2, 3, 1, 1, 2, 3, 3], div(lattice.sizeX, 6) - 2), [1, 2, 2, 3, 1, 1, 2, 3],
+            ), div(lattice.sizeY, 2) - 1),
+        [1, 3, 2, 3, 1, 2, 3], repeat([1, 2, 3, 1, 2, 3], div(lattice.sizeX, 6) - 2), [1, 2, 3, 1, 2])
+
+
+    possibleXX = [p for (i, p) in enumerate(positions) if pointers[i] == 2]
+    possibleYY = [p for (i, p) in enumerate(positions) if pointers[i] == 3]
+    possibleZZ = [p for (i, p) in enumerate(positions) if pointers[i] == 1]
+    possibleMatrix = [possibleZZ, possibleXX, possibleYY]
+    operations = Operation[ZZ(), XX(), YY()]
+    picks = Vector{Int64}(undef, depth)
+    for i in 1:depth
+        p = rand()
+        if p < pz
+            picks[i] = 1
+        elseif p < pz + px
+            picks[i] = 2
+        else
+            picks[i] = 3
+        end
+    end
+    operationPositions = [rand(possibleMatrix[picks[i]]) for i in 1:depth]
+    operationPointers = picks
+    executionOrder = collect(1:depth)
+    return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
+end

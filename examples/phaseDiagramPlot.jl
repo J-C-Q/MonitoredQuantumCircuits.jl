@@ -23,14 +23,23 @@ function generateProbs(; N=15)
 end
 function PlotThis()
     # tmis = JLD2.load("tmis_24x24_1500.jld2")["results"]
+    folders = ["data3", "data4"]
     tmis = []
     points = []
-    for file in readdir("data/data")
-        if !occursin("raw", file)
-            push!(tmis, JLD2.load("data/data/$(file)")["result"])
-            push!(points, JLD2.load("data/data/$(file)")["parameter"])
+    for folder in folders
+        for file in readdir(folder)
+            if !occursin("raw", file)
+                push!(tmis, JLD2.load("$(folder)/$(file)")["result"])
+                push!(points, JLD2.load("$(folder)/$(file)")["parameter"])
+            end
         end
     end
+    # for file in readdir("data2")
+    #     if !occursin("raw", file)
+    #         push!(tmis, JLD2.load("data2/$(file)")["result"])
+    #         push!(points, JLD2.load("data2/$(file)")["parameter"])
+    #     end
+    # end
     points2d = [projection(p) for p in unique(points)]
     println(points2d)
     averagedTmis = Vector{Float64}(undef, length(unique(points)))
@@ -61,6 +70,8 @@ function PlotThis()
             projection([0, 1, 0]),
             projection([0, 0, 1]),
             projection([1, 0, 0])], color=:black)
+    lines!(ax, [norm(projection([0.5, 0.5, 0])) * cos(t) for t in range(0, 2π, length=100)], [norm(projection([0.5, 0.5, 0])) * sin(t) for t in range(0, 2π, length=100)], color=:red, linewidth=2)
+    text!(ax, Point2f[projection([1.05, 0, 0]), projection([0, 1.05, 0]), projection([0, 0, 1.05])], text=["X", "Y", "Z"], color=:black, align=(:center, :center))
     limits!(ax, (-0.8, 0.8), (-0.5, 0.9))
     Colorbar(fig[1, 2], limits=(-1, 1), colormap=:viridis,
         flipaxis=true, label="Tripartite Information")
