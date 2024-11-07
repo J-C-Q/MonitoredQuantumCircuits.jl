@@ -1,6 +1,8 @@
 struct TableauSimulator <: MonitoredQuantumCircuits.Simulator
 end
 
+# struct GPUTableauSimulator <: MonitoredQuantumCircuits.Simulator
+
 struct PauliFrameSimulator <: MonitoredQuantumCircuits.Simulator
 end
 
@@ -36,7 +38,7 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circ
     # state = QC.Register(initial_state, MonitoredQuantumCircuits.nMeasurements(circuit))
 
     qc = MonitoredQuantumCircuits.translate(Circuit, circuit)
-    pf_gpu = to_gpu(PauliFrame(shots, MonitoredQuantumCircuits.nQubits(circuit.lattice), MonitoredQuantumCircuits.nMeasurements(circuit)))
+    pf_gpu = QC.to_gpu(QC.PauliFrame(shots, MonitoredQuantumCircuits.nQubits(circuit.lattice), MonitoredQuantumCircuits.nMeasurements(circuit)))
     frames = QC.pftrajectories(pf_gpu, qc.operations)
     # frames = QC.pftrajectories(state, QC.to_gpu(qc.operations); trajectories=shots)
     verbose && println("✓")

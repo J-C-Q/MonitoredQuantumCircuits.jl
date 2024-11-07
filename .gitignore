@@ -17,3 +17,11 @@
 remotes.csv
 remotes/*
 remotes
+
+
+*.zip
+data/*
+
+*.jld2
+*.jls
+
