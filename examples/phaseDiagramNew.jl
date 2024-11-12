@@ -1,4 +1,5 @@
 using MonitoredQuantumCircuits
+
 function generateProbs(; N=120)
     points = NTuple{3,Float64}[]
     n = Int(-1 / 2 + sqrt(1 / 4 + 2N))
@@ -14,12 +15,32 @@ function generateProbs(; N=120)
     return [p .- 0.15 .* (p .- (1 / 3, 1 / 3, 1 / 3)) for p in points]
 end
 
+function generateProbs2(; N=1300)
+    points = NTuple{3,Float64}[]
+    n = floor(Int64, -1 / 2 + sqrt(1 / 4 + 2N))
+    for (k, i) in enumerate(range(0, 1, n))
+        for j in range(i, 1, n - k + 1)
+            px = i
+            py = j - i
+            pz = 1 - j
+            if px >= py - 0.01 && py >= pz - 0.01
+                if px < 0.85
+                    push!(points, (px, py, pz))
+                end
+            end
+        end
+    end
+    # return [p .- 0 .* (p .- (1 / 3, 1 / 3, 1 / 3)) for p in points]
+    return points
+end
+
 circuits = (px, py, pz) -> begin
     KitaevCircuit(HexagonToricCodeLattice(24, 24), px, py, pz, 2500 * 2 * 24 * 24)
 end
 
-points = generateProbs()
-trajectories = 60
+points = generateProbs2()
+
+trajectories = 30
 params = vec([Tuple(p) for p in points, _ in 1:trajectories])
 MonitoredQuantumCircuits.nQubits(HexagonToricCodeLattice(24, 24))
 
@@ -37,9 +58,9 @@ postProcessing = (result) -> begin
 end
 
 cluster = Remote.loadCluster(1)
-# Remote.connect(cluster)
+Remote.connect(cluster)
 
-queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="mem192", time="5:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 24, name="phaseDiagram_Kitaev_2500_XX_last", max_nodes=75)
+queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="mem192", time="5:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 24, name="phaseDiagramPart_Kitaev_2500", max_nodes=75)
 
 # queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="", partition="largemem", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 64, name="phaseDiagram", max_nodes=10)
 println(queue)
