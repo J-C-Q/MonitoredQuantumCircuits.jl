@@ -7,6 +7,11 @@ function projection(point; origin=[1 / 3, 1 / 3, 1 / 3], e1=normalize(cross(norm
 
     return sum(e1 .* (point .- origin)), sum(e2 .* (point .- origin))
 end
+
+function rotate(x, y, θ)
+    R = [cos(θ) -sin(θ); sin(θ) cos(θ)]
+    return R * [x, y]
+end
 function generateProbs(; N=15)
     points = NTuple{3,Float64}[]
     n = Int(-1 / 2 + sqrt(1 / 4 + 2N))
@@ -34,6 +39,7 @@ function PlotThis()
             end
         end
     end
+
     # for file in readdir("data2")
     #     if !occursin("raw", file)
     #         push!(tmis, JLD2.load("data2/$(file)")["result"])
@@ -41,11 +47,12 @@ function PlotThis()
     #     end
     # end
     points2d = [projection(p) for p in unique(points)]
-    # points2dFlipx = [Point2f(-1 * p[1], p[2]) for p in points2d]
     # println(points2d)
     averagedTmis = Vector{Float64}(undef, length(unique(points)))
 
     stupid = length(range(1, 24 * 24 - 1, 50))
+
+
 
 
     for (i, p) in enumerate(unique(points))
@@ -56,11 +63,28 @@ function PlotThis()
         end
         averagedTmis[i] /= length(indeces) * stupid
     end
-    print(vcat(averagedTmis, averagedTmis))
+    pointsAndTmis = collect(zip(points2d, averagedTmis))
+
+    diagonal = projection([1.0, 0.0, 0.0]) .- projection([0.0, 0.5, 0.5])
+
+    pointsAndTmisMirror = [(Point2f(-p[1], p[2]), t) for (p, t) in pointsAndTmis if p[1] < -0.01 && p[2] < diagonal[2] / diagonal[1] * p[1] - 0.01]
+
+    allpointsAndTmis = vcat(pointsAndTmis, pointsAndTmisMirror)
+
+    rotated1 = [(Point2f(rotate(p[1], p[2], 2π / 3)), t) for (p, t) in allpointsAndTmis]
+    rotated2 = [(Point2f(rotate(p[1], p[2], 4π / 3)), t) for (p, t) in allpointsAndTmis]
+    allpointsAndTmis = vcat(allpointsAndTmis, rotated1, rotated2)
     fig = Figure()
     ax = Axis(fig[1, 1], aspect=DataAspect())
     hidedecorations!(ax)
-    voronoiplot!(ax, [p[1] for p in points2d], [p[2] for p in points2d], averagedTmis, colormap=:viridis, markersize=5, strokewidth=0.5, unbounded_edge_extension_factor=1.0)
+
+    poly!([Point2f[
+            projection([1, 0, 0]),
+            projection([0, 1, 0]),
+            projection([0, 0, 1])
+        ]], color=:black)
+
+    voronoiplot!(ax, [p[1] for (p, t) in allpointsAndTmis], [p[2] for (p, t) in allpointsAndTmis], [t for (p, t) in allpointsAndTmis], colormap=:viridis, markersize=0, strokewidth=0.1, unbounded_edge_extension_factor=1.0, smooth=false)
     p = Polygon(
         Point2f[(-0.8, -0.5), (0.8, -0.5), (0.8, 0.9), (-0.8, 0.9)],
         [Point2f[
@@ -76,6 +100,7 @@ function PlotThis()
             projection([0, 0, 1]),
             projection([1, 0, 0])], color=:black)
     lines!(ax, [norm(projection([0.5, 0.5, 0])) * cos(t) for t in range(0, 2π, length=100)], [norm(projection([0.5, 0.5, 0])) * sin(t) for t in range(0, 2π, length=100)], color=:red, linewidth=2)
+
     text!(ax, Point2f[projection([1.05, 0, 0]), projection([0, 1.05, 0]), projection([0, 0, 1.05])], text=["X", "Y", "Z"], color=:black, align=(:center, :center))
     limits!(ax, (-0.8, 0.8), (-0.5, 0.9))
     Colorbar(fig[1, 2], limits=(minimum(averagedTmis), maximum(averagedTmis)), colormap=:viridis,

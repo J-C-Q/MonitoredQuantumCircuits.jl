@@ -47,13 +47,13 @@ MonitoredQuantumCircuits.nQubits(HexagonToricCodeLattice(24, 24))
 
 
 postProcessing = (result) -> begin
-    tripartiteInformation = 0.0
+    # tripartiteInformation = 0.0
     nx = 24
     ny = 24
     d = div(ny, 4)
-    for i in round.(Int, collect(range(1, 24 * 24 - 1, 50)))
-        tripartiteInformation += QuantumClifford.tmi(result.stab, 1:nx*d, nx*d+1:2*nx*d, 2*nx*d+1:3*nx*d)
-    end
+    # for i in round.(Int, collect(range(1, 24 * 24 - 1, 50)))
+    tripartiteInformation = QuantumClifford.tmi(result.stab, 1:nx*d, nx*d+1:2*nx*d, 2*nx*d+1:3*nx*d)
+    # end
     return tripartiteInformation
 end
 
