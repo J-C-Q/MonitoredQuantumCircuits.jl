@@ -191,7 +191,7 @@ end
 function downloadResults(cluster::Cluster, id::String; destination::String=".")
     path = joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "$(id)")
     println("Preparing for download...")
-    print(runCommand(cluster, ["cd $path", "zip -r $(id).zip data/"]))
+    print(runCommand(cluster, ["cd $path", "zip -0 -r $(id).zip data/"]))
     run(`scp -o 'ControlPath remotes/ssh_mux_%h_%p_%r' -i $(cluster.identity_file) $(cluster.user)@$(cluster.host_name):$(joinpath("$path","$(id).zip")) $(destination)`)
     # run(`unzip $(joinpath("$destination","$(id).zip"))`)
     return nothing

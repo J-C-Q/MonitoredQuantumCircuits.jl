@@ -163,7 +163,7 @@ function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simu
         println("Number of tasks $(ntasks) exceeds maximum number of tasks $(max_nodes * ntasks_per_node)! Scheduling multiple jobs")
     end
     Hash = hash(hash(generateCircuit) * hash(parameters))
-    for i in 1:max(1, div(ntasks, ntasks_per_node * max_nodes))
+    for i in 1:max(1, ceil(Int, ntasks / (ntasks_per_node * max_nodes)))
         start = (i - 1) * ntasks_per_node * max_nodes + 1
         stop = min(i * ntasks_per_node * max_nodes, ntasks)
         paras = parameters[start:stop]

@@ -28,7 +28,7 @@ function generateProbs(; N=15)
 end
 function PlotThis()
     # tmis = JLD2.load("tmis_24x24_1500.jld2")["results"]
-    folders = ["data3/data"]
+    folders = ["data5"]
     tmis = []
     points = []
     for folder in folders
@@ -61,7 +61,7 @@ function PlotThis()
         for j in indeces
             averagedTmis[i] += tmis[j]
         end
-        averagedTmis[i] /= length(indeces) * stupid
+        averagedTmis[i] /= length(indeces)
     end
     pointsAndTmis = collect(zip(points2d, averagedTmis))
 
