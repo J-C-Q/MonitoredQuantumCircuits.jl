@@ -28,7 +28,9 @@ function generateProbs(; N=15)
 end
 function PlotThis()
     # tmis = JLD2.load("tmis_24x24_1500.jld2")["results"]
-    folders = ["data5"]
+
+    folders = ["/scratch/qpreiss/data"]
+
     tmis = []
     points = []
     for folder in folders
@@ -49,8 +51,6 @@ function PlotThis()
     points2d = [projection(p) for p in unique(points)]
     # println(points2d)
     averagedTmis = Vector{Float64}(undef, length(unique(points)))
-
-    stupid = length(range(1, 24 * 24 - 1, 50))
 
 
 
