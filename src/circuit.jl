@@ -183,7 +183,7 @@ function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simu
             path,
             fullName,
             joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "execScript.jl");
-            ntasks=min(ntasks, ntasks_per_node * max_nodes),
+            ntasks=min(length(paras), ntasks_per_node * max_nodes),
             nodes=ceil(Int64, length(paras) / ntasks_per_node),
             ntasks_per_node=min(ntasks_per_node, length(paras)),
             partition,
