@@ -25,10 +25,10 @@ StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
 
 [weakdeps]
-QuantumClifford = "0525e862-1e90-11e9-3e4d-1b39d7109de1"
+
 
 [extensions]
-QuantumCliffordExt = "QuantumClifford"
+
 
 [compat]
 CSV = "0.10.14"
