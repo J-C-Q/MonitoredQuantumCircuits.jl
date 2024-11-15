@@ -1,16 +1,17 @@
 using MonitoredQuantumCircuits
+using QuantumClifford
 
 N = 10
 lattice = HeavyChainLattice(N)
 circuit = EmptyCircuit(lattice)
 for i in 1:2:2*N
-    apply!(circuit, H(), i)
+    MonitoredQuantumCircuits.apply!(circuit, H(), i)
 end
 # for i in 1:2:2*N-2
 #     apply!(circuit, Weak_ZZ(π / 4), i, i + 1, i + 2)
 # end
 for i in 1:2:2*N-2
-    apply!(circuit, ZZ(), i, i + 1, i + 2)
+    MonitoredQuantumCircuits.apply!(circuit, ZZ(), i, i + 1, i + 2)
 end
 
 
@@ -19,7 +20,7 @@ end
 #     apply!(circuit, CNOT(), i, i + 1)
 # end
 for i in 1:2:2*N
-    apply!(circuit, Measure(), i)
+    MonitoredQuantumCircuits.apply!(circuit, Measure(), i)
 end
 
 
@@ -27,12 +28,12 @@ end
 # translate(QuantumClifford.Circuit, circuit)
 # translate(Stim.StimCircuit, circuit)
 
-result = execute(circuit, Stim.CompileSimulator(); shots=100)
+# result = execute(circuit, Stim.CompileSimulator(); shots=100)
 # for i in 0:length(result)-1
 #     println(result[i])
 # end
 
-result = execute(circuit, QuantumClifford.PauliFrameSimulator(); shots=100)
+result = execute(circuit, MonitoredQuantumCircuits.PauliFrameSimulator(); shots=100)
 
 # job = execute(circuit, Qiskit.StateVectorSimulator(); shots=10000)
 # job = execute(circuit, Qiskit.CliffordSimulator(); shots=10000)

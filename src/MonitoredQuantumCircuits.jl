@@ -32,6 +32,11 @@ include("GUI/BonitoApp.jl")
 include("Backends/Qiskit/Qiskit.jl")
 include("Backends/Stim/Stim.jl")
 include("Backends/QuantumClifford/QuantumClifford.jl")
+ext = Base.get_extension(@__MODULE__, :QuantumCircuitExt)
+if !isnothing(ext)
+    PauliFrameSimulator = ext.PauliFrameSimulator
+    export PauliFrameSimulator
+end
 # include("Backends/ITensorNetworks/ITensorNetworks.jl")
 include("circuits/utils/cycles.jl")
 include("circuits/nishimori.jl")
