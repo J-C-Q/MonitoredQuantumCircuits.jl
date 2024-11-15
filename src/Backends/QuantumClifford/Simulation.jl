@@ -1,6 +1,6 @@
 struct TableauSimulator <: MonitoredQuantumCircuits.Simulator
 end
-using BenchmarkTools
+
 # struct GPUTableauSimulator <: MonitoredQuantumCircuits.Simulator
 
 struct PauliFrameSimulator <: MonitoredQuantumCircuits.Simulator
