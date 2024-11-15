@@ -35,12 +35,12 @@ function generateProbs2(; N=1300)
 end
 
 circuits = (px, py, pz) -> begin
-    KitaevCircuit(HexagonToricCodeLattice(24, 24), px, py, pz, 2500 * 2 * 24 * 24)
+    KitaevCircuit(HexagonToricCodeLattice(24, 24), px, py, pz, 10000 * 2 * 24 * 24)
 end
 
 points = generateProbs2()
 
-trajectories = 30
+trajectories = 300
 params = vec([Tuple(p) for p in points, _ in 1:trajectories])
 MonitoredQuantumCircuits.nQubits(HexagonToricCodeLattice(24, 24))
 
@@ -59,7 +59,7 @@ end
 cluster = Remote.loadCluster(1)
 Remote.connect(cluster)
 
-queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="mem192", time="4:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 24, name="phaseDiagramPartFast_Kitaev_4000", max_nodes=80)
+queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="quantsim", partition="", time="1:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 24, name="phaseDiagramPartFast_normal_Kitaev_4000", max_nodes=1000)
 
 # queue = execute(circuits, params, QuantumClifford.TableauSimulator(), cluster; email="qpreiss@thp.uni-koeln.de", account="", partition="largemem", time="10:00:00", postProcessing=postProcessing, ntasks_per_node=2 * 64, name="phaseDiagram", max_nodes=10)
 println(queue)
