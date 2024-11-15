@@ -13,3 +13,11 @@ end
 function apply!(qc::Circuit, ::MonitoredQuantumCircuits.H, pos::Integer, ::Val{1}, p::Integer)
     qc.operations[pos] = QC.sHadamard(p)
 end
+
+function apply!(::MonitoredQuantumCircuits.H, p::Integer)
+    QC.sHadamard(p)
+end
+
+function apply!(state::QC.Register, ::MonitoredQuantumCircuits.H, qubits::Integer, clbit::Integer, p::Integer)
+    QC.apply!(state, QC.sHadamard(p))
+end

@@ -1,6 +1,6 @@
 struct TableauSimulator <: MonitoredQuantumCircuits.Simulator
 end
-
+using BenchmarkTools
 # struct GPUTableauSimulator <: MonitoredQuantumCircuits.Simulator
 
 struct PauliFrameSimulator <: MonitoredQuantumCircuits.Simulator
@@ -12,11 +12,28 @@ end
 
 function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, ::TableauSimulator; verbose::Bool=true, initial_state=QC.MixedDestabilizer(zero(QC.Stabilizer, MonitoredQuantumCircuits.nQubits(circuit.lattice))))
     state = QC.Register(initial_state, MonitoredQuantumCircuits.nMeasurements(circuit))
-    qc = MonitoredQuantumCircuits.translate(Circuit, circuit)
+    # qc = MonitoredQuantumCircuits.translate(Circuit, circuit)
     # println(QC.nqubits(initial_state))
-    for operation in qc.operations
-        QC.apply!(state, operation)
+    # for operation in qc.operations
+    #     QC.apply!(state, operation)
+    # end
+    measurementCount = 0
+    # for (i, ptr) in enumerate(circuit.operationPointers)
+    #     if typeof(circuit.operations[ptr]) <: MonitoredQuantumCircuits.MeasurementOperation
+    #         measurementCount += 1
+    #         QC.apply!(state, apply!(circuit.operations[ptr], measurementCount, MonitoredQuantumCircuits.nQubits(circuit.lattice), circuit.operationPositions[i]...))
+    #     else
+    #         QC.apply!(state, apply!(circuit.operations[ptr], circuit.operationPositions[i]...))
+    #     end
+    # end
+    nqubits = MonitoredQuantumCircuits.nQubits(circuit.lattice)
+    for (i, ptr) in enumerate(circuit.operationPointers)
+        if typeof(circuit.operations[ptr]) <: MonitoredQuantumCircuits.MeasurementOperation
+            measurementCount += 1
+        end
+        apply!(state, circuit.operations[ptr], nqubits, measurementCount, circuit.operationPositions[i]...)
     end
+
     verbose && println("✓")
     return state
 end

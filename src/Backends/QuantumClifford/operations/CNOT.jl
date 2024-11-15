@@ -16,5 +16,10 @@ end
 
 
 function apply!(::MonitoredQuantumCircuits.CNOT, p1::Integer, p2::Integer)
+    QC.sCNOT(p1, p2)
+end
 
+
+function apply!(state::QC.Register, ::MonitoredQuantumCircuits.CNOT, qubits::Integer, clbit::Integer, p1::Integer, p2::Integer)
+    QC.apply!(state, QC.sCNOT(state, p1, p2))
 end
