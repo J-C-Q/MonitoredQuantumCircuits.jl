@@ -18,7 +18,10 @@ makedocs(;
     pages=[
         "Home" => "index.md",
         "Getting started" => "getting_started.md",
-        "API" => "api.md",],)
+        "API" => "api.md",
+        "GUI" => "gui.mf",
+        "Remote" => "remote.md",
+        "Type Structure" => "type_structure.de"],)
 
 deploydocs(;
     repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
