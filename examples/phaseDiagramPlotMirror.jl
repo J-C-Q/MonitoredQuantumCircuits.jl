@@ -29,7 +29,7 @@ end
 function PlotThis()
     # tmis = JLD2.load("tmis_24x24_1500.jld2")["results"]
 
-    folders = ["/scratch/qpreiss/data"]
+    folders = ["/home/qpreiss/data3/data"]
 
     tmis = []
     points = []
@@ -62,9 +62,11 @@ function PlotThis()
             averagedTmis[i] += tmis[j]
         end
         averagedTmis[i] /= length(indeces)
+        # averagedTmis[i] = tmis[indeces[1]]
     end
+    withoutNaN = [t for t in averagedTmis if !isnan(t)]
     pointsAndTmis = collect(zip(points2d, averagedTmis))
-
+    println(withoutNaN)
     diagonal = projection([1.0, 0.0, 0.0]) .- projection([0.0, 0.5, 0.5])
 
     pointsAndTmisMirror = [(Point2f(-p[1], p[2]), t) for (p, t) in pointsAndTmis if p[1] < -0.01 && p[2] < diagonal[2] / diagonal[1] * p[1] - 0.01]
@@ -84,7 +86,11 @@ function PlotThis()
             projection([0, 0, 1])
         ]], color=:black)
 
-    voronoiplot!(ax, [p[1] for (p, t) in allpointsAndTmis], [p[2] for (p, t) in allpointsAndTmis], [t for (p, t) in allpointsAndTmis], colormap=:viridis, markersize=0, strokewidth=0.1, unbounded_edge_extension_factor=1.0, smooth=false)
+    voronoiplot!(ax, [p[1] for (p, t) in allpointsAndTmis], [p[2] for (p, t) in allpointsAndTmis], [t for (p, t) in allpointsAndTmis], colormap=:vik10, markersize=0, strokewidth=0.1, unbounded_edge_extension_factor=1.0, smooth=false, nan_color=:black, highclip=:green, lowclip=:green, colorrange=(-1, 1))
+
+    hexagon = Makie.Polygon([Point2f(cos(a), sin(a)) for a in range(1 / 6 * pi, 13 / 6 * pi, length=7)])
+    scatter!(ax, [p[1] for (p, t) in pointsAndTmis], [p[2] for (p, t) in pointsAndTmis], marker=hexagon, markersize=5, color=:transparent, strokewidth=0.5, strokecolor=:red)
+
     p = Polygon(
         Point2f[(-0.8, -0.5), (0.8, -0.5), (0.8, 0.9), (-0.8, 0.9)],
         [Point2f[
@@ -103,8 +109,9 @@ function PlotThis()
 
     text!(ax, Point2f[projection([1.05, 0, 0]), projection([0, 1.05, 0]), projection([0, 0, 1.05])], text=["X", "Y", "Z"], color=:black, align=(:center, :center))
     limits!(ax, (-0.8, 0.8), (-0.5, 0.9))
-    Colorbar(fig[1, 2], limits=(minimum(averagedTmis), maximum(averagedTmis)), colormap=:viridis,
+    Colorbar(fig[1, 2], limits=(-1, 1), colormap=:vik10,
         flipaxis=true, label="Tripartite Information")
-    fig
+    save("test.png", fig)
+    save("test.svg", fig)
 end
 PlotThis()

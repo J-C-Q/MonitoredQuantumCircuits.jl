@@ -60,7 +60,7 @@ function PlotThis()
     fig = Figure()
     ax = Axis(fig[1, 1], aspect=DataAspect())
     hidedecorations!(ax)
-    voronoiplot!(ax, [p[1] for p in points2d], [p[2] for p in points2d], averagedTmis, colormap=:viridis, markersize=5, strokewidth=0.5, unbounded_edge_extension_factor=1.0)
+    voronoiplot!(ax, [p[1] for p in points2d], [p[2] for p in points2d], averagedTmis, colormap=:vik10, markersize=5, strokewidth=0.5, unbounded_edge_extension_factor=1.0, colorrange=(-1, 1), highclip=:white, lowclip=:white, nan_color=:black)
     p = Polygon(
         Point2f[(-0.8, -0.5), (0.8, -0.5), (0.8, 0.9), (-0.8, 0.9)],
         [Point2f[
@@ -78,7 +78,7 @@ function PlotThis()
     lines!(ax, [norm(projection([0.5, 0.5, 0])) * cos(t) for t in range(0, 2π, length=100)], [norm(projection([0.5, 0.5, 0])) * sin(t) for t in range(0, 2π, length=100)], color=:red, linewidth=2)
     text!(ax, Point2f[projection([1.05, 0, 0]), projection([0, 1.05, 0]), projection([0, 0, 1.05])], text=["X", "Y", "Z"], color=:black, align=(:center, :center))
     limits!(ax, (-0.8, 0.8), (-0.5, 0.9))
-    Colorbar(fig[1, 2], limits=(minimum(averagedTmis), maximum(averagedTmis)), colormap=:viridis,
+    Colorbar(fig[1, 2], limits=(-1, 1), colormap=:vik10,
         flipaxis=true, label="Tripartite Information")
     fig
 end
