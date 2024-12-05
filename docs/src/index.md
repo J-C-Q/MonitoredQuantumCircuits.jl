@@ -34,7 +34,7 @@ features:
     title: GUI
     details: Construct circuits using a graphical user interface
     link: /gui
-  - icon: 
+  - icon: <img width="64" height="64" src="https://www.svgrepo.com/show/340386/gui.svg" alt="GUI"/>
     title: Remote
     details: Convenient cluster usage
     link: /remote
