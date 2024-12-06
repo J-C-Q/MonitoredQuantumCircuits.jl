@@ -1,5 +1,5 @@
-![#MonitoredQuantumCircuits.jl](/docs/src/assets/logo.png#gh-light-mode-only "MonitoredQuantumCircuits.jl")
-![#MonitoredQuantumCircuits.jl](/docs/src/assets/logo-dark.png#gh-dark-mode-only "MonitoredQuantumCircuits.jl")
+<!--![#MonitoredQuantumCircuits.jl](/docs/src/assets/logo.png#gh-light-mode-only "MonitoredQuantumCircuits.jl")
+![#MonitoredQuantumCircuits.jl](/docs/src/assets/logo-dark.png#gh-dark-mode-only "MonitoredQuantumCircuits.jl")-->
 
 <p align="center">
   <!-- <a href="https://J-C-Q.github.io/MonitoredQuantumCircuits.jl/stable/"><img src="https://img.shields.io/badge/docs-stable-blue.svg" alt="Stable"></a> -->
