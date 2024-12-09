@@ -4,7 +4,6 @@ using MonitoredQuantumCircuits
 
 makedocs(;
     sitename="MonitoredQuantumCircuits.jl",
-    favicon="assets/favicon.ico",
     authors="J-C-Q",
     modules=[MonitoredQuantumCircuits],
     warnonly=true,
