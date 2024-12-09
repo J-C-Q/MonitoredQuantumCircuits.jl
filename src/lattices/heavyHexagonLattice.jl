@@ -1,3 +1,8 @@
+"""
+    HeavyHexagonLattice(sizeX::Integer, sizeY::Integer)
+
+Create a heavy hexagon lattice with dimensions `sizeX` and `sizeY`. Thus the lattice has `sizeX * sizeY` system qubits and ancilla qubits inbeween.
+"""
 struct HeavyHexagonLattice <: Lattice
     graph::Graph
     sizeX::Int64

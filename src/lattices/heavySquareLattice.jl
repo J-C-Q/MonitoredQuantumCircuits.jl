@@ -1,3 +1,8 @@
+"""
+    HeavySquareLattice(sizeX::Integer, sizeY::Integer)
+
+Create a heavy square lattice with dimensions `sizeX` and `sizeY`. Thus the lattice has `sizeX * sizeY` system qubits and ancilla qubits inbeween.
+"""
 struct HeavySquareLattice <: Lattice
     graph::Graph
     sizeX::Int64

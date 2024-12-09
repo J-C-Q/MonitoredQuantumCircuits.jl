@@ -1,3 +1,3 @@
 ```@autodocs
-Modules=[MonitoredQuantumCircuits, Qiskit, QuantumClifford]
+Modules=[MonitoredQuantumCircuits, Qiskit, QuantumClifford, GUI, Remote]
 ```

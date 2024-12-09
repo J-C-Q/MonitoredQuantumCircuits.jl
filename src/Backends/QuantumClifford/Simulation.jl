@@ -17,7 +17,7 @@ end
 """
     GPUPauliFrameSimulator()
 
-A QuantumClifford stabilizer Pauli frame simulator that runs in the GPU.
+A QuantumClifford stabilizer Pauli frame simulator that runs on the GPU.
 """
 struct GPUPauliFrameSimulator <: MonitoredQuantumCircuits.Simulator
 end

@@ -17,6 +17,11 @@ struct Cluster
     MPI_use_system_binary::Bool
 end
 
+"""
+    addCluster(user::String, host_name::String, identity_file::String; ssh_password="", remote_password="", workingDir="", load_juliaANDmpi_cmd="", MPI_use_system_binary=true)
+
+Add a cluster to the list of clusters. The cluster will be saved in the file remotes.csv in the current directory. The cluster will be connected to and setup. The cluster will be disconnected after the setup.
+"""
 function addCluster(user::String, host_name::String, identity_file::String; ssh_password="", remote_password="", workingDir="", load_juliaANDmpi_cmd="", MPI_use_system_binary=true)
     if !isfile("remotes.csv")
 
@@ -48,6 +53,12 @@ function addCluster(user::String, host_name::String, identity_file::String; ssh_
     return cluster
 end
 
+"""
+    loadCluster(host_name::String)
+    loadCluster(id::Integer)
+
+Load a cluster from the list of clusters. The cluster will be loaded from the file remotes.csv in the current directory.
+"""
 function loadCluster(host_name::String)
     df = DataFrame(CSV.File("remotes.csv"))
     row = df[df.host_name.==host_name, :]
@@ -91,6 +102,11 @@ function loadCluster(id::Integer)
     end
 end
 
+"""
+    showClusters()
+
+Show all clusters that have been added.
+"""
 function showClusters()
     if !isfile("remotes.csv")
         println("No clusters added.")
@@ -101,10 +117,17 @@ function showClusters()
     end
 end
 
+"""
+    connect(cluster::Cluster)
+
+Connect to the cluster.
+"""
+
 function connect(cluster::Cluster)
     run(`ssh -fN -M -S remotes/ssh_mux_%h_%p_%r -i $(cluster.identity_file) $(cluster.user)@$(cluster.host_name)`)
     return nothing
 end
+
 
 function setup(cluster::Cluster)
 
@@ -159,6 +182,11 @@ function mkdir(cluster::Cluster, directory::String)
     return output
 end
 
+"""
+    getQueue(cluster::Cluster)
+
+Get your queued jobs on the cluster (i.e. squeue -u).
+"""
 function getQueue(cluster::Cluster)
     output = runCommand(cluster, "squeue -u $(cluster.user)")
     return toDataframe(output)
@@ -188,6 +216,11 @@ function queueJob(cluster::Cluster, bashFile::String, path::String)
     return output
 end
 
+"""
+    downloadResults(cluster::Cluster, id::String; destination::String=".")
+
+Download the results of a job with the id `id` from the cluster.
+"""
 function downloadResults(cluster::Cluster, id::String; destination::String=".")
     path = joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "$(id)")
     println("Preparing for download...")
@@ -227,6 +260,11 @@ function getInfo()
 
 end
 
+"""
+    disconnect(cluster::Cluster)
+
+Disconnect from the cluster.
+"""
 function disconnect(cluster::Cluster)
     run(`ssh -S remotes/ssh_mux_%h_%p_%r -i $(cluster.identity_file) $(cluster.user)@$(cluster.host_name) -O exit`)
     return nothing

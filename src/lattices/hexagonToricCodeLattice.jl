@@ -1,3 +1,9 @@
+
+"""
+    HexagonToricCodeLattice(sizeX::Integer, sizeY::Integer)
+
+Simmilar to the `HeavyHexagonLattice` but with periodic boundary conditions in both directions (i.e. on a torus).
+"""
 struct HexagonToricCodeLattice <: Lattice
     graph::Graph
     sizeX::Int64

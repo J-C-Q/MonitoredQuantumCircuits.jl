@@ -1,3 +1,8 @@
+"""
+    HeavyChainLattice(length::Integer)
+
+Create a heavy chain lattice with `length` system qubits and `length`-1 ancilla qubits inbeween.
+"""
 struct HeavyChainLattice <: Lattice
     graph::Graph
     isAncilla::Vector{Bool} # whether the qubit is an ancilla

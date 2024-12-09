@@ -14,7 +14,11 @@ using Colors
 # import ..connectionGraph
 import ...MonitoredQuantumCircuits
 
+"""
+    CircuitComposer!(circuit::FiniteDepthCircuit)
 
+Launch a GUI to visually compose and edit a quantum circuit.
+"""
 function CircuitComposer!(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit)
     # circuit = MonitoredQuantumCircuits.EmptyCircuit(lattice)
     app = App() do
