@@ -6,7 +6,7 @@ layout: home
 hero:
   name: "MonitoredQuantumCircuits.jl"
   text:
-  tagline: A Julia first package to construct and execute monitored quantum circuits.
+  tagline: A Julia framework to construct and execute monitored quantum circuits.s
   image:
     src: /logo-square.png
     alt: MonitoredQuantumCircuits
@@ -40,6 +40,7 @@ features:
     link: /remote
 ---
 ```
+<br>
 
 # Disclaimer!
 The framework is still in the early stages of development. Bugs are expected. Highlighting concrete bugs in the issues is highly appreciated.
