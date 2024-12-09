@@ -37,10 +37,10 @@ hexagonLattice = HeavyHexagonLattice(2, 3)
 # constructor of `EmptyCircuit` takes a `Lattice` as input.
 
 # ### Empty circuit on a Heavy Chain lattice
-chainCircuit = EmptyCircuit(chainLattice)
+chainCircuit = EmptyFiniteDepthCircuit(chainLattice)
 
 # ### Empty circuit on a Heavy Square lattice
-squareCircuit = EmptyCircuit(squareLattice)
+squareCircuit = EmptyFiniteDepthCircuit(squareLattice)
 
 # ### Empty circuit on a Heavy Hexagon lattice
-hexagonCircuit = EmptyCircuit(hexagonLattice)
+hexagonCircuit = EmptyFiniteDepthCircuit(hexagonLattice)

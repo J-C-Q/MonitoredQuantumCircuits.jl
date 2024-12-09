@@ -1,45 +1,41 @@
-struct Circuit{T<:Lattice,M<:Integer}
+abstract type Circuit end
+
+
+"""
+    FiniteDepthCircuit{T<:Lattice,M<:Integer} <: Circuit
+
+A circuit that has a finite depth, i.e. a fixed number of time steps. The circuit is defined on a lattice of type T and can contain operations that act on multiple qubits as well as multiple operations at the same time step.
+"""
+struct FiniteDepthCircuit{T<:Lattice,M<:Integer} <: Circuit
     lattice::T
     operations::Vector{Operation} # the (unique) operations
     operationPositions::Vector{Tuple{M,Vararg{M}}} # the position where the operations get applied
     operationPointers::Vector{M} # the pointer to which operation gets applied at the position
     executionOrder::Vector{M} # the order in which the operations get executed
 
-    function Circuit(lattice::Lattice)
+    function FiniteDepthCircuit(lattice::Lattice)
         M = Int64
         return new{typeof(lattice),M}(lattice, Operation[], Tuple{M,Vararg{M}}[], M[], M[])
     end
-    function Circuit(lattice::Lattice, operations::Vector{Operation}, operationPositions::Vector{NTuple{N,M}}, operationPointers::Vector{M}, executionOrder::Vector{M}) where {M<:Integer,N}
+    function FiniteDepthCircuit(lattice::Lattice, operations::Vector{Operation}, operationPositions::Vector{NTuple{N,M}}, operationPointers::Vector{M}, executionOrder::Vector{M}) where {M<:Integer,N}
         return new{typeof(lattice),M}(lattice, operations, operationPositions, operationPointers, executionOrder)
     end
 end
 
 """
-    EmptyCircuit(lattice::Lattice)
+    EmptyFiniteDepthCircuit(lattice::Lattice)
 
 Create an empty circuit on the given lattice.
 """
-EmptyCircuit(lattice::Lattice) = Circuit(lattice)
-# """
-#     NishimoriCircuit(lattice::Lattice)
+EmptyFiniteDepthCircuit(lattice::Lattice) = FiniteDepthCircuit(lattice)
 
-# Create a Nishimori circuit on the given lattice, i.e. a circuit with one layer of ZZ operations on all bonds.
-# """
-# function NishimoriCircuit(lattice::Lattice)
-#     operations = [ZZ()]
-
-#     operationPositions = getBonds(lattice)
-#     operationPointers = fill(1, length(operationPositions))
-#     executionOrder = fill(1, length(operationPositions))
-#     return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
-# end
 
 """
-    apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
+    apply!(circuit::FiniteDepthCircuit, operation::Operation, position::Vararg{Integer})
 
 Apply the given operation at the given position(s) in the circuit. Operations that act on more than one qubit need to have the same number of position arguments as qubits they act on, as well as a connection structure that is part of the lattice.
 """
-function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
+function apply!(circuit::FiniteDepthCircuit, operation::Operation, position::Vararg{Integer})
     _checkInBounds(circuit, operation, position...)
 
     if operation in circuit.operations
@@ -58,11 +54,11 @@ function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer
     return circuit
 end
 """
-    apply!(circuit::Circuit, executionPosition::Integer, operation::Operation, position::Vararg{Integer})
+    apply!(circuit::FiniteDepthCircuit, executionPosition::Integer, operation::Operation, position::Vararg{Integer})
 
 Apply the given operation at a given execution time step at the given position(s) in the circuit. The executionPosition can be used to schedule multiple operations at the same time step. However it is important to first check if the operations are compatible with each other (as of now this will show a warning which can be muted with ```mute=true```).
 """
-function apply!(circuit::Circuit, executionPosition::Integer, operation::Operation, position::Vararg{Integer}; mute::Bool=false)
+function apply!(circuit::FiniteDepthCircuit, executionPosition::Integer, operation::Operation, position::Vararg{Integer}; mute::Bool=false)
     # TODO check if operation is compatible with other operations at the same execution position
     simultaniusOperations = _getOperations(circuit, executionPosition)
     if !mute && !isempty(simultaniusOperations)
@@ -78,7 +74,7 @@ function apply!(circuit::Circuit, executionPosition::Integer, operation::Operati
 end
 
 
-function _checkInBounds(circuit::Circuit, operation::Operation, position::Vararg{Integer})
+function _checkInBounds(circuit::FiniteDepthCircuit, operation::Operation, position::Vararg{Integer})
     if length(position) != nQubits(operation)
         throw(ArgumentError("Invalid number of position arguments for operation. Expected $(nQubits(operation)), got $(length(position)) $(position)"))
     end
@@ -92,7 +88,7 @@ function _checkInBounds(circuit::Circuit, operation::Operation, position::Vararg
     end
 end
 
-function Base.show(io::IO, circuit::Circuit)
+function Base.show(io::IO, circuit::FiniteDepthCircuit)
     println(io, "$(typeof(circuit)):")
     if isempty(circuit.operationPointers)
         println(io, "No operations defined")
@@ -133,30 +129,36 @@ function Base.show(io::IO, circuit::Circuit)
     end
 end
 
-function _getOperations(circuit::Circuit, executionPosition::Integer)
+function _getOperations(circuit::FiniteDepthCircuit, executionPosition::Integer)
     operationsInStep = findall(circuit.executionOrder .== executionPosition)
     return operationsInStep
 end
+
 """
-    isClifford(circuit::Circuit)
+    isClifford(circuit::FiniteDepthCircuit)
 
 Check if the circuit is a Clifford circuit, i.e. only contains Clifford operations.
 Returns true if all operations are Clifford operations, false otherwise.
 """
-function isClifford(circuit::Circuit)
+function isClifford(circuit::FiniteDepthCircuit)
     return all([isClifford(operation) for operation in circuit.operations])
 end
 
+"""
+    execute(circuit::FiniteDepthCircuit, backend::Backend; verbose::Bool=true)
 
-
-# job.result()[0].data.c.get_counts().items()
-
-
-function execute(::Circuit, backend::Backend; verbose::Bool=true)
+Execute the given circuit on the given backend. The backend needs to be a subtype of Backend. The verbose flag can be used to print additional information about individual execution steps.
+"""
+function execute(::FiniteDepthCircuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
 
 # TODO: add circuits per tasks to compute multiple circuits in serial. This will also effect the batch script generation
+"""
+    execute(generateCircuit::Function, parameters::Vector{T}, backend::Simulator, cluster::Remote.Cluster; ntasks_per_node=48, partition="", email="", account="", time="1:00:00", postProcessing=() -> nothing, name="simulation", max_nodes=10) where {(T <: Tuple)}
+
+Remotly execute multiple circuits in parallel. Each circuit should be generated by the the generateCircuit function give one entry of the parameters vector. The backend needs to be a subtype of Simulator. The cluster should have allready been initialized (see Remote).
+"""
 function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simulator, cluster::Remote.Cluster; ntasks_per_node=48, partition="", email="", account="", time="1:00:00", postProcessing=() -> nothing, name="simulation", max_nodes=10) where {(T <: Tuple)}
     ntasks = length(parameters)
     if ntasks > max_nodes * ntasks_per_node
@@ -207,24 +209,49 @@ function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simu
     Remote.getQueue(cluster)
 end
 
-function translate(type::Type, ::Circuit)
+"""
+    translate(type::Type, circuit::FiniteDepthCircuit)
+
+Translate a given circuit to a given backend representation type.
+"""
+function translate(type::Type, ::FiniteDepthCircuit)
     throw(ArgumentError("Conversion from Circuit to $(typeof(type)) not supported"))
 end
 
-function save(name::String, circuit::Circuit)
+"""
+    save(name::String, circuit::FiniteDepthCircuit)
+
+Save the given circuit to a file with the given name.
+"""
+function save(name::String, circuit::FiniteDepthCircuit)
     JLD2.save(name * ".jld2", "circuit", circuit)
 end
 
+"""
+    load(name::String)
+
+Load a circuit from a file with the given name.
+"""
 function load(name::String)
     return JLD2.load(name * ".jld2", "circuit")
 end
 
+"""
+    loadMany(folder::String)
+
+Load all circuits from files in the given folder.
+"""
 function loadMany(folder::String)
     files = [f for f in readdir(folder) if f[end-3:end] == ".jld2"]
     return [load(folder * "/" * f) for f in files]
 end
 
-function nMeasurements(circuit::Circuit)
+"""
+    nMeasurements(circuit::FiniteDepthCircuit)
+
+Get the number of measurements in the given circuit.
+"""
+function nMeasurements(circuit::FiniteDepthCircuit)
     total = 0
     for (i, operation) in enumerate(circuit.operations)
         measurements = nMeasurements(operation)
@@ -235,9 +262,25 @@ function nMeasurements(circuit::Circuit)
     return total
 end
 
-function measurements(circuit::Circuit)
+function measurements(circuit::FiniteDepthCircuit)
     qubits = zeros(Int, nMeasurements(circuit))
 
 
 
+end
+
+"""
+    RandomCircuit{T<:Lattice,M<:Integer} <: Circuit
+
+A circuit that is generated randomly. The circuit is defined on a lattice of type T and can contain operations that act on multiple qubits as well as multiple operations at the same time step. The operations are chosen randomly from a given set of operations with a given probability.
+"""
+struct RandomCircuit{T<:Lattice,M<:Integer} <: Circuit
+    lattice::T
+    operations::Vector{Operation}
+    probabilities::Vector{Float64}
+    operationPositions::Vector{Vector{Tuple{M,Vararg{M}}}}
+
+    function RandomCircuit(lattice::Lattice, operations::Vector{Operation}, probabilities::Vector{Float64}, operationPositions::Vector{Vector{NTuple{N,M}}}) where {M<:Integer,N}
+        return new{typeof(lattice),M}(lattice, operations, probabilities, operationPositions)
+    end
 end

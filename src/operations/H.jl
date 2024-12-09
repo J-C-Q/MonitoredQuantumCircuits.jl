@@ -5,7 +5,7 @@ A singelton type representing the H operation.
 """
 struct H <: Operation end
 
-function H!(circuit::Circuit, p::Integer)
+function H!(circuit::FiniteDepthCircuit, p::Integer)
     apply!(circuit, H(), p)
 end
 

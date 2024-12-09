@@ -18,7 +18,7 @@ function depth(operation::MonitoredQuantumCircuits.Operation, ::Type{StimCircuit
     throw(ArgumentError("depth in Stim is not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 
-function MonitoredQuantumCircuits.translate(::Type{StimCircuit}, circuit::MonitoredQuantumCircuits.Circuit)
+function MonitoredQuantumCircuits.translate(::Type{StimCircuit}, circuit::MonitoredQuantumCircuits.FiniteDepthCircuit)
     _checkinit_stim()
     qc = StimCircuit()
 

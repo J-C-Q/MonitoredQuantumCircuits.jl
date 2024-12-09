@@ -13,7 +13,7 @@ end
 
 
 
-function MonitoredQuantumCircuits.translate(::Type{Circuit}, circuit::MonitoredQuantumCircuits.Circuit)
+function MonitoredQuantumCircuits.translate(::Type{Circuit}, circuit::MonitoredQuantumCircuits.FiniteDepthCircuit)
     qc = Circuit(Vector{QC.AbstractOperation}(undef, length(circuit.operationPointers)), MonitoredQuantumCircuits.nQubits(circuit.lattice))
     measurementCount = 0
 

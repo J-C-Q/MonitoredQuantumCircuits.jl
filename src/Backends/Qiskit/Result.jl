@@ -13,7 +13,7 @@ struct QiskitResult <: MonitoredQuantumCircuits.Result
     measuredQubits::Vector{Int}
     nativeResult::PythonCall.Py
 
-    function QiskitResult(nativeResult::PythonCall.Core.Py, circuit::MonitoredQuantumCircuits.Circuit)
+    function QiskitResult(nativeResult::PythonCall.Core.Py, circuit::MonitoredQuantumCircuits.FiniteDepthCircuit)
         _checkinit_qiskit()
         nMeasurements = MonitoredQuantumCircuits.nMeasurements(circuit)
         bitstrings = PythonCall.pyconvert(Vector{String}, nativeResult.data.c.get_bitstrings())

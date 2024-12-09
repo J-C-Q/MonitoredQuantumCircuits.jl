@@ -10,7 +10,7 @@ function KekuleCircuit(lattice::HeavyHexagonLattice)
     operationPositions = [(i, j, k) for (i, j, k, _, _) in test]
     operationPointers = [ptr for (_, _, _, ptr, _) in test]
     executionOrder = [ord for (_, _, _, _, ord) in test]
-    return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
+    return FiniteDepthCircuit(lattice, operations, operationPositions, operationPointers, executionOrder)
 end
 
 function KekuleCircuit(lattice::HexagonToricCodeLattice)
@@ -34,7 +34,7 @@ function KekuleCircuit(lattice::HexagonToricCodeLattice)
             ), div(lattice.sizeY, 2) - 1),
         [1, 3, 2, 3, 1, 2, 3], repeat([1, 2, 3, 1, 2, 3], div(lattice.sizeX, 6) - 2), [1, 2, 3, 1, 2])
     executionOrder = operationPointers
-    return Circuit(lattice, operations, positions, operationPointers, executionOrder)
+    return FiniteDepthCircuit(lattice, operations, positions, operationPointers, executionOrder)
 end
 
 
@@ -48,7 +48,7 @@ function KekuleCircuit(lattice::HeavyHexagonLattice, layers::Integer)
     operationPositions = repeat(copy([(i, j, k) for (i, j, k, _, _) in test]), layers)
     operationPointers = repeat(copy([ptr for (_, _, _, ptr, _) in test]), layers)
     executionOrder = [ord + (i - 1) * 3 for i in 1:layers for (_, _, _, _, ord) in test]
-    return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
+    return FiniteDepthCircuit(lattice, operations, operationPositions, operationPointers, executionOrder)
 end
 
 function KekuleCircuit(lattice::HexagonToricCodeLattice, px::Float64, py::Float64, pz::Float64, depth::Integer)
@@ -90,5 +90,5 @@ function KekuleCircuit(lattice::HexagonToricCodeLattice, px::Float64, py::Float6
     operationPositions = [rand(possibleMatrix[picks[i]]) for i in 1:depth]
     operationPointers = picks
     executionOrder = collect(1:depth)
-    return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
+    return FiniteDepthCircuit(lattice, operations, operationPositions, operationPointers, executionOrder)
 end

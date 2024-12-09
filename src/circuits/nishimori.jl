@@ -5,7 +5,7 @@ function NishimoriCircuit(lattice::HeavyChainLattice)
     operationPositions = [(i, i + 1, i + 2) for i in collect(1:2:length(lattice)-2)]
     operationPointers = fill(1, length(operationPositions))
     executionOrder = fill(1, length(operationPositions))
-    return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
+    return FiniteDepthCircuit(lattice, operations, operationPositions, operationPointers, executionOrder)
 end
 
 function NishimoriCircuit(lattice::HeavyHexagonLattice)
@@ -18,7 +18,7 @@ function NishimoriCircuit(lattice::HeavyHexagonLattice)
     operationPositions = [(i, j, k) for (i, j, k, _, _) in test]
     operationPointers = [ptr for (_, _, _, ptr, _) in test]
     executionOrder = [ord for (_, _, _, _, ord) in test]
-    return Circuit(lattice, operations, operationPositions, operationPointers, executionOrder)
+    return FiniteDepthCircuit(lattice, operations, operationPositions, operationPointers, executionOrder)
 end
 
 # function NishimoriCircuit(lattice::HeavySquareLattice)

@@ -2,6 +2,11 @@
 struct AerSimulator <: MonitoredQuantumCircuits.Simulator
     python_interface::PythonCall.Py
 end
+"""
+    GPUStateVectorSimulator()
+
+A Qiskit Aer statevector simulator that runs on the GPU.
+"""
 function GPUStateVectorSimulator()
     _checkinit_qiskit_aer(; gpu=true)
     AerSimulator(qiskit_aer.AerSimulator(
@@ -12,6 +17,12 @@ function GPUStateVectorSimulator()
         target=[0]
     ))
 end
+
+"""
+    StateVectorSimulator()
+
+A Qiskit Aer statevector simulator.
+"""
 function StateVectorSimulator()
     _checkinit_qiskit_aer()
     AerSimulator(qiskit_aer.AerSimulator(
@@ -19,10 +30,22 @@ function StateVectorSimulator()
         enable_truncation=false
     ))
 end
+
+"""
+    CliffordSimulator()
+
+A Qiskit Aer stabilizer simulator.
+"""
 function CliffordSimulator()
     _checkinit_qiskit_aer()
     AerSimulator(qiskit_aer.AerSimulator(method="stabilizer"))
 end
+
+"""
+    GPUTensorNetworkSimulator()
+
+A Qiskit Aer tensor network simulator that runs on the GPU.
+"""
 function GPUTensorNetworkSimulator()
     _checkinit_qiskit_aer(; gpu=true)
     AerSimulator(qiskit_aer.AerSimulator(
@@ -51,7 +74,7 @@ function Base.getproperty(qc::AerSimulator, prop::Symbol)
     end
 end
 
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, backend::AerSimulator; shots=1024, verbose::Bool=true)
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, backend::AerSimulator; shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
     qc = MonitoredQuantumCircuits.translate(QuantumCircuit, circuit)
     verbose && println("✓")

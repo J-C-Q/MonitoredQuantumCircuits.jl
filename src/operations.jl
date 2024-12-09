@@ -40,6 +40,11 @@ function color(operation::Operation)
     throw(ArgumentError("color not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 
+"""
+    nMeasurements(operation::MeasurementOperation)
+
+Return the number of measurements the operation performs.
+"""
 function nMeasurements(operation::MeasurementOperation)
     throw(ArgumentError("nMeasurements not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end

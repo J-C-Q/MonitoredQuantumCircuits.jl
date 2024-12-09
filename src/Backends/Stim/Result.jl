@@ -3,7 +3,7 @@ struct StimResult <: MonitoredQuantumCircuits.Result
     measuredQubits::Vector{Int}
     nativeResult::PythonCall.Py
 
-    function StimResult(nativeResult::PythonCall.Core.Py, circuit::MonitoredQuantumCircuits.Circuit)
+    function StimResult(nativeResult::PythonCall.Core.Py, circuit::MonitoredQuantumCircuits.FiniteDepthCircuit)
         _checkinit_stim()
         nMeasurements = MonitoredQuantumCircuits.nMeasurements(circuit)
         measurementOutcomes = zeros(Bool, length(nativeResult), nMeasurements)

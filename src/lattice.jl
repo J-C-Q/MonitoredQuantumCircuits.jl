@@ -1,4 +1,5 @@
 abstract type Lattice end
+
 function getBonds(lattice::Lattice)
     bonds = collect(edges(lattice.graph))
     return [(src(e), dst(e)) for e in bonds]
@@ -8,6 +9,11 @@ function Base.length(lattice::Lattice)
     return nv(lattice.graph)
 end
 
+"""
+    nQubits(lattice::Lattice; countAncilla::Bool=false)
+
+Return the number of qubits in the lattice. If `countAncilla` is `true`, then ancilla qubits are included.
+"""
 function nQubits(lattice::Lattice; countAncilla::Bool=false)
     return countAncilla ? nv(lattice.graph) : sum(lattice.isAncilla .== false)
 end

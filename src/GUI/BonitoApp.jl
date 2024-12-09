@@ -15,7 +15,7 @@ using Colors
 import ...MonitoredQuantumCircuits
 
 
-function CircuitComposer!(circuit::MonitoredQuantumCircuits.Circuit)
+function CircuitComposer!(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit)
     # circuit = MonitoredQuantumCircuits.EmptyCircuit(lattice)
     app = App() do
         buttons = [Button("$operation", style=Styles(
@@ -52,7 +52,7 @@ function CircuitComposer!(circuit::MonitoredQuantumCircuits.Circuit)
     # server = Bonito.Server(app, "134.95.67.139", 2000)
     return app
 end
-function makie_plot(circuit::MonitoredQuantumCircuits.Circuit, buttons)
+function makie_plot(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, buttons)
     lattice = circuit.lattice
     gridPositions = lattice.gridPositions
     graph = lattice.graph

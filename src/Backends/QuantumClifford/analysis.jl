@@ -1,3 +1,8 @@
+"""
+    tmi(state::AbstractStabilizer, A, B, C)
+
+Calculate the tripartite mutual information of a stabilizer state from QuantumClifford.
+"""
 function tmi(state::QC.AbstractStabilizer, A, B, C)
     SA = QC.entanglement_entropy(state, A, Val(:rref))
     SB = QC.entanglement_entropy(state, B, Val(:rref))

@@ -6,7 +6,7 @@ struct CompileSimulator <: MonitoredQuantumCircuits.Simulator
     end
 end
 
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, ::CompileSimulator; shots=1024, verbose::Bool=true)
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, ::CompileSimulator; shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Stim...")
     qc = MonitoredQuantumCircuits.translate(StimCircuit, circuit)
     verbose && println("✓")
@@ -32,7 +32,7 @@ struct TableauSimulator <: MonitoredQuantumCircuits.Simulator
     end
 end
 
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, ::TableauSimulator; shots=1024, verbose::Bool=true)
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, ::TableauSimulator; shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Stim...")
     qc = MonitoredQuantumCircuits.translate(StimCircuit, circuit)
     verbose && println("✓")

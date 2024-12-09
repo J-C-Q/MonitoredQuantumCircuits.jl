@@ -27,7 +27,7 @@ function depth(operation::MonitoredQuantumCircuits.Operation, ::Type{QuantumCirc
 end
 
 #TODO apply indentitiy operation to all other qubits/maybe with transpile pass.
-function MonitoredQuantumCircuits.translate(::Type{QuantumCircuit}, circuit::MonitoredQuantumCircuits.Circuit)
+function MonitoredQuantumCircuits.translate(::Type{QuantumCircuit}, circuit::MonitoredQuantumCircuits.FiniteDepthCircuit)
     _checkinit_qiskit()
     qc = QuantumCircuit(length(circuit.lattice), MonitoredQuantumCircuits.nMeasurements(circuit))
     measurementCount = 0
