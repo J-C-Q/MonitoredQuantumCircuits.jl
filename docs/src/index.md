@@ -34,7 +34,7 @@ features:
     title: GUI
     details: Construct circuits using a graphical user interface based on Makie.jl and Bonito.jl
     link: /gui
-  - icon: <img width="64" height="64" src="/assets/ssh-original.svg" alt="Remote"/>
+  - icon: <img width="64" height="64" src="/ssh-original.svg" alt="Remote"/>
     title: Remote
     details: Convenient cluster usage
     link: /remote
