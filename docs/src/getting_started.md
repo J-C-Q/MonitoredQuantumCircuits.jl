@@ -63,7 +63,3 @@ Now, one can execute the circuit using
 execute!(circuit::Circuit, backend::Backend)
 ```
 
-# Basic API
-```@autodocs
-Modules=[MonitoredQuantumCircuits, Qiskit, QuantumClifford]
-```
