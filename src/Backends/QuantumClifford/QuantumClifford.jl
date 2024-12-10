@@ -2,6 +2,7 @@ module QuantumClifford
 
 import QuantumClifford as QC
 import ...MonitoredQuantumCircuits
+using StatsBase
 
 include("circuit.jl")
 include("operations/XX.jl")

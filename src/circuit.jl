@@ -279,8 +279,9 @@ struct RandomCircuit{T<:Lattice,M<:Integer} <: Circuit
     operations::Vector{Operation}
     probabilities::Vector{Float64}
     operationPositions::Vector{Vector{Tuple{M,Vararg{M}}}}
+    depth::M
 
-    function RandomCircuit(lattice::Lattice, operations::Vector{Operation}, probabilities::Vector{Float64}, operationPositions::Vector{Vector{NTuple{N,M}}}) where {M<:Integer,N}
-        return new{typeof(lattice),M}(lattice, operations, probabilities, operationPositions)
+    function RandomCircuit(lattice::Lattice, operations::Vector{Operation}, probabilities::Vector{Float64}, operationPositions::Vector{Vector{NTuple{N,M}}}, depth::M) where {M<:Integer,N}
+        return new{typeof(lattice),M}(lattice, operations, probabilities, operationPositions, depth)
     end
 end

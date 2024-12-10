@@ -69,38 +69,48 @@ function KitaevCircuit(lattice::HeavyHexagonLattice, px::Float64, py::Float64, p
 end
 
 
+# function KitaevCircuit(lattice::HexagonToricCodeLattice, px::Float64, py::Float64, pz::Float64, depth::Integer)
+#     px + py + pz ≈ 1.0 || throw(ArgumentError("The sum of the probabilities must be 1.0"))
+
+#     # lattice.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
+#     # lattice.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
+#     # positions = [(neighbors(lattice.graph, i)[1], i, neighbors(lattice.graph, i)[2]) for i in nQubits(lattice)+1:nv(lattice.graph)]
+#     operations = Operation[ZZ(), XX(), YY()]
+#     # pointers = vcat([1, 2, 3], repeat([2, 3, 1, 3], div(lattice.sizeX - 2, 2)), [3],
+#     #     repeat(vcat([2, 1], repeat([1, 3, 2], div(lattice.sizeX - 2, 2)), [3],
+#     #             [1, 2, 3], repeat([2, 1, 3], div(lattice.sizeX - 2, 2))), div(lattice.sizeY - 2, 2)),
+#     #     [2, 1], repeat([1, 2], div(lattice.sizeX - 2, 2)))
+
+
+#     # possibleXX = [p for (i, p) in enumerate(positions) if pointers[i] == 2]
+#     # possibleYY = [p for (i, p) in enumerate(positions) if pointers[i] == 3]
+#     # possibleZZ = [p for (i, p) in enumerate(positions) if pointers[i] == 1]
+#     possibleZZ, possibleXX, possibleYY = kitaevBonds(lattice)
+#     possibleMatrix = [possibleZZ, possibleXX, possibleYY]
+#     operations = Operation[ZZ(), XX(), YY()]
+#     picks = Vector{Int64}(undef, depth)
+#     for i in 1:depth
+#         p = rand()
+#         if p < pz
+#             picks[i] = 1
+#         elseif p < pz + px
+#             picks[i] = 2
+#         else
+#             picks[i] = 3
+#         end
+#     end
+#     operationPositions = [rand(possibleMatrix[picks[i]]) for i in 1:depth]
+#     operationPointers = picks
+#     executionOrder = collect(1:depth)
+
+#     return FiniteDepthCircuit(lattice, operations, operationPositions, operationPointers, executionOrder)
+# end
+
 function KitaevCircuit(lattice::HexagonToricCodeLattice, px::Float64, py::Float64, pz::Float64, depth::Integer)
     px + py + pz ≈ 1.0 || throw(ArgumentError("The sum of the probabilities must be 1.0"))
-
-    # lattice.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
-    # lattice.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
-    # positions = [(neighbors(lattice.graph, i)[1], i, neighbors(lattice.graph, i)[2]) for i in nQubits(lattice)+1:nv(lattice.graph)]
     operations = Operation[ZZ(), XX(), YY()]
-    # pointers = vcat([1, 2, 3], repeat([2, 3, 1, 3], div(lattice.sizeX - 2, 2)), [3],
-    #     repeat(vcat([2, 1], repeat([1, 3, 2], div(lattice.sizeX - 2, 2)), [3],
-    #             [1, 2, 3], repeat([2, 1, 3], div(lattice.sizeX - 2, 2))), div(lattice.sizeY - 2, 2)),
-    #     [2, 1], repeat([1, 2], div(lattice.sizeX - 2, 2)))
-
-
-    # possibleXX = [p for (i, p) in enumerate(positions) if pointers[i] == 2]
-    # possibleYY = [p for (i, p) in enumerate(positions) if pointers[i] == 3]
-    # possibleZZ = [p for (i, p) in enumerate(positions) if pointers[i] == 1]
     possibleZZ, possibleXX, possibleYY = kitaevBonds(lattice)
     possibleMatrix = [possibleZZ, possibleXX, possibleYY]
-    operations = Operation[ZZ(), XX(), YY()]
-    picks = Vector{Int64}(undef, depth)
-    for i in 1:depth
-        p = rand()
-        if p < pz
-            picks[i] = 1
-        elseif p < pz + px
-            picks[i] = 2
-        else
-            picks[i] = 3
-        end
-    end
-    operationPositions = [rand(possibleMatrix[picks[i]]) for i in 1:depth]
-    operationPointers = picks
-    executionOrder = collect(1:depth)
-    return FiniteDepthCircuit(lattice, operations, operationPositions, operationPointers, executionOrder)
+
+    return RandomCircuit(lattice, operations, [pz, px, py], possibleMatrix, depth)
 end

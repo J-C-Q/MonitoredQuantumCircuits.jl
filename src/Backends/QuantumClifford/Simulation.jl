@@ -74,3 +74,27 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Fini
     verbose && println("✓")
     return frames
 end
+
+
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.RandomCircuit, ::TableauSimulator; verbose::Bool=true, initial_state=QC.MixedDestabilizer(zero(QC.Stabilizer, MonitoredQuantumCircuits.nQubits(circuit.lattice))))
+
+    state = QC.Register(initial_state, circuit.depth)
+
+    measurementCount = 0
+
+    nqubits = MonitoredQuantumCircuits.nQubits(circuit.lattice)
+    for _ in 1:circuit.depth
+        i = sample(1:length(circuit.operations), StatsBase.Weights(circuit.probabilities))
+        operation = circuit.operations[i]
+        pos = rand(circuit.operationPositions[i])
+
+        if typeof(operation) <: MonitoredQuantumCircuits.MeasurementOperation
+            measurementCount += 1
+        end
+        apply!(state, operation, nqubits, measurementCount, pos...)
+    end
+
+    verbose && println("✓")
+    return state
+
+end
