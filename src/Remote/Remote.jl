@@ -171,6 +171,14 @@ function upload(cluster::Cluster, file::String, destination::String="")
     run(`scp -o 'ControlPath remotes/ssh_mux_%h_%p_%r' -i $(cluster.identity_file) $(file) $(cluster.user)@$(cluster.host_name):$(destination)`)
 end
 
+function update(cluster::Cluster)
+    runCommand(cluster, [
+            "$(cluster.load_juliaANDmpi_cmd)",
+            "julia --project -e 'using Pkg;Pkg.activate(\".\");Pkg.update(\"MonitoredQuantumCircuits\")'"],
+        at=joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV"))
+    return nothing
+end
+
 function refreshFiles(cluster::Cluster, directory::String)
     # This is usefull if files in the working directory will be deleated after some time (relative to the modification date)
     output = runCommand(cluster, "find $(cluster.workingDir)/$(directory) -type f -exec touch {} ;")
