@@ -3,7 +3,7 @@ using Documenter, DocumenterVitepress
 using MonitoredQuantumCircuits
 
 makedocs(;
-    sitename="MonitoredQuantumCircuits.jl",
+    sitename="MonitoredQuantumCircuits",
     authors="J-C-Q",
     modules=[MonitoredQuantumCircuits],
     warnonly=true,
@@ -11,7 +11,7 @@ makedocs(;
         repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
         devurl="dev",
         devbranch="main",
-        assets=["assets/favicon.ico", "assets/logo.png", "assets/ssh-original.svg"]
+        assets=["assets/favicon.ico"]
     ),
     source="src",
     build="build",
