@@ -41,23 +41,25 @@ features:
 ---
 ```
 
+
 ::: danger Disclaimer
 
 The framework is still in the early stages of development. Bugs are to be expected.
 
 :::
 
+
 ```@raw html
 <p style="margin-bottom:2cm"></p>
 ```
 
-# What is MonitoredQuantumCircuits.jl?
+## What is MonitoredQuantumCircuits.jl?
 
-MonitoredQuantumCircuits.jl is a Julia framework designed to streamline the creation, simulation and execution of quantum circuits that incorporate mid-circuit measurements. Tailored for the assembly era of quantum computing, it empowers researchers and developers to explore applications, such as designing intricate entanglement structures.
+MonitoredQuantumCircuits.jl is a Julia framework designed to streamline the **creation**, **simulation** and **execution** of quantum circuits that incorporate **mid-circuit measurements**. Tailored for the assembly era of quantum computing, it empowers researchers and developers to explore applications, such as designing intricate entanglement structures.
 
-## Installation
+### Installation
 
-To install MonitoredQuantumCircuits, please open Julia's interactive session (known as REPL) and press the `]` key in the REPL to use the package mode, then type the following command
+To install MonitoredQuantumCircuits, open Julia's interactive session (known as REPL) and press the `]` key in the REPL to use the package mode, then type the following command
 
 ```julia
 add https://github.com/J-C-Q/MonitoredQuantumCircuits.jl.git

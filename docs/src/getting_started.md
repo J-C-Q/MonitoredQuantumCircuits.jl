@@ -53,10 +53,17 @@ This type of circuit stores operations and possible positions together with prob
 To execute a quantum circuit, one first has to think about which backend to use. Currently, there are the following backends:
 
 - Quantum computer
-    - IBM Quantum
+    - `IBMBackend(name::String)`
 - Simulator
-    - Qiskit (Statevector, stabilizer, tensornetwork)
-    - QuantumClifford (stabilizer, Pauli frame)
+    - Qiskit Aer
+        - `StateVectorSimulator()`
+        - `GPUStateVectorSimulator()`
+        - `CliffordSimulator()`
+        - `GPUTensorNetworkSimulator()`
+    - QuantumClifford
+        - `TableauSimulator()`
+        - `PauliFrameSimulator()`
+        - `GPUPauliFrameSimulator()`
 
 Now, one can execute the circuit using
 ```julia
