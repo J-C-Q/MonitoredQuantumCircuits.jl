@@ -76,7 +76,7 @@ function makie_plot(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, button
     gridPositions = lattice.gridPositions
     graph = lattice.graph
     cyclinderMesh = load("src/GUI/meshes/cylinder.stl")
-    allOperations = subtypes(MonitoredQuantumCircuits.Operation)
+    allOperations = cat([t for t in subtypes(MonitoredQuantumCircuits.Operation) if t != MonitoredQuantumCircuits.MeasurementOperation], subtypes(MonitoredQuantumCircuits.MeasurementOperation), dims=1)
     limits = (
         minimum([pos[1] for pos in gridPositions]) - 0.5,
         maximum([pos[1] for pos in gridPositions]) + 0.5,
@@ -100,28 +100,27 @@ function makie_plot(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, button
         far=1.0f10,)
 
     # limit zoom
-    on(ax.scene.camera_controls.eyeposition) do b
+    on(cam.eyeposition) do b
         if norm(cam.eyeposition[] .- cam.lookat[]) < 8.0
             cam.eyeposition[] = cam.lookat[] .+ 8.0 .* normalize(cam.eyeposition[] .- cam.lookat[])
-            update_cam!(ax.scene, cam.eyeposition[], cam.lookat[], cam.upvector[])
+            update_cam!(ax.scene, cam)
         elseif norm(cam.eyeposition[] .- cam.lookat[]) > 10.0
             cam.eyeposition[] = cam.lookat[] .+ 10.0 .* normalize(cam.eyeposition[] .- cam.lookat[])
-            update_cam!(ax.scene, cam.eyeposition[], cam.lookat[], cam.upvector[])
+            update_cam!(ax.scene, cam)
         end
         if cam.eyeposition[][3] > 0.0
             cam.eyeposition[] = Vec3(cam.eyeposition[][1], cam.eyeposition[][2], 0.0)
-            # cam.upvector[] = Vec3(cam.upvector[][1], cam.upvector[][2], -1.0)
             update_cam!(ax.scene, cam)
         end
     end
 
     # limit azimuth
-    on(ax.scene.camera_controls.eyeposition) do b
+    on(cam.upvector) do b
 
-        # if cam.upvector[][3] > 0.0
-        #     cam.upvector[] = cam.upvector[] .- Vec3(0, 0, cam.upvector[][3])
-        #     update_cam!(ax.scene, cam.eyeposition[], cam.lookat[], cam.upvector[])
-        # end
+        if cam.eyeposition[][3] > 0.0
+            cam.upvector[] = Vec3(cam.upvector[][1], cam.upvector[][2], -1.0)
+            update_cam!(ax.scene, cam)
+        end
         println(ax.scene.camera_controls.upvector[])
     end
 
