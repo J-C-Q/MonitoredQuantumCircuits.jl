@@ -6,6 +6,7 @@ using Combinatorics
 using InteractiveUtils
 using FileIO
 using Colors
+using LinearAlgebra
 # import ..Lattice
 # import ..Circuit
 # import ..EmptyCircuit
@@ -23,32 +24,46 @@ function CircuitComposer!(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit)
     # circuit = MonitoredQuantumCircuits.EmptyCircuit(lattice)
     app = App() do
         buttons = [Button("$operation", style=Styles(
-            CSS("font-size" => "24px",
-                "max-height" => "100px",
-                "margin-top" => "20px",
-                "margin-right" => "20px",
-                "grid-column" => "$(i+1) / $(i+2)",
-                "grid-row" => "1 / 2",
-                "backgraound-color" => "white",
-                "border" => "0px solid white",),
+            CSS("font-size" => "16px",
+                "aspect-ratio" => "1 / 1",
+                "background-color" => "white",
+                "padding-left" => "0px",
+                "padding-right" => "0px",
+                "padding-top" => "0px",
+                "padding-bottom" => "0px",
+                "width" => "75px",
+                "min-width" => "0",
+                "margin" => "0px",
+                "border-radius" => "8px",),
             CSS(":hover", "background-color" => "silver"),
             CSS(":focus", "box-shadow" => "rgba(0, 0, 0, 0.5) 0px 0px 5px"),
-        )) for (i, operation) in enumerate(subtypes(MonitoredQuantumCircuits.Operation))]
+        )) for (i, operation) in enumerate(cat([t for t in subtypes(MonitoredQuantumCircuits.Operation) if t != MonitoredQuantumCircuits.MeasurementOperation], subtypes(MonitoredQuantumCircuits.MeasurementOperation), dims=1))]
 
-        plot_div = DOM.div(makie_plot(circuit, buttons), style="width: 100%; height: auto; grid-column: 1 / $(length(buttons)+2); grid-row: 1 / 2;")
+        plot_div = DOM.div(makie_plot(circuit, buttons), style="width: 100%; height: 100%;")
 
         return DOM.div(
-            Bonito.Grid(plot_div, buttons...,
-                columns="50% repeat($(length(buttons)), 1fr)",
-                rows="1fr",
+            plot_div,
+            Bonito.Grid(buttons...,
+                columns="repeat($(floor(Int64,sqrt(length(buttons)))), 1fr)",
+                rows="repeat($(ceil(Int64,sqrt(length(buttons)))), 1fr)",
                 style=Styles(
                     CSS("margin" => "0px",
                         "padding" => "0px",
-                        "height" => "100%"),)),
+                        "height" => "auto",
+                        "width" => "auto",
+                        "position" => "absolute",
+                        "top" => "0",
+                        "gap" => "8px",
+                        "right" => "0",
+                        "transform" => "translate(0,0)",
+                        "background-color" => "gray",
+                        "padding" => "8px",
+                        "border-radius" => "0 0 0 8px",))),
             style=Styles(
                 CSS("margin" => "0px",
                     "padding" => "0px",
-                    "height" => "calc(100vh - 16px)"),
+                    "height" => "calc(100vh - 16px)",
+                    "width" => "calc(100vw - 16px)",)
             )
         )
     end
@@ -84,11 +99,31 @@ function makie_plot(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, button
         near=1.0f-10,
         far=1.0f10,)
 
-    cc = cameracontrols(ax.scene)
-    cc.settings[:clipping_mode][] = :static
-    cc.near[] = 1.0f-10
-    cc.far[] = 1.0f10
-    update_cam!(ax.scene)
+    # limit zoom
+    on(ax.scene.camera_controls.eyeposition) do b
+        if norm(cam.eyeposition[] .- cam.lookat[]) < 8.0
+            cam.eyeposition[] = cam.lookat[] .+ 8.0 .* normalize(cam.eyeposition[] .- cam.lookat[])
+            update_cam!(ax.scene, cam.eyeposition[], cam.lookat[], cam.upvector[])
+        elseif norm(cam.eyeposition[] .- cam.lookat[]) > 10.0
+            cam.eyeposition[] = cam.lookat[] .+ 10.0 .* normalize(cam.eyeposition[] .- cam.lookat[])
+            update_cam!(ax.scene, cam.eyeposition[], cam.lookat[], cam.upvector[])
+        end
+        if cam.eyeposition[][3] > 0.0
+            cam.eyeposition[] = Vec3(cam.eyeposition[][1], cam.eyeposition[][2], 0.0)
+            # cam.upvector[] = Vec3(cam.upvector[][1], cam.upvector[][2], -1.0)
+            update_cam!(ax.scene, cam)
+        end
+    end
+
+    # limit azimuth
+    on(ax.scene.camera_controls.eyeposition) do b
+
+        # if cam.upvector[][3] > 0.0
+        #     cam.upvector[] = cam.upvector[] .- Vec3(0, 0, cam.upvector[][3])
+        #     update_cam!(ax.scene, cam.eyeposition[], cam.lookat[], cam.upvector[])
+        # end
+        println(ax.scene.camera_controls.upvector[])
+    end
 
 
 
