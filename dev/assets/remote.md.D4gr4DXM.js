@@ -1,1 +1,0 @@
-import{_ as e,c as t,o as a}from"./chunks/framework.Ck1NKG2X.js";const i=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"remote.md","filePath":"remote.md","lastUpdated":null}'),r={name:"remote.md"};function o(s,n,c,m,d,p){return a(),t("div")}const l=e(r,[["render",o]]);export{i as __pageData,l as default};
