@@ -1,8 +1,8 @@
 # Getting Started
 
-The framework consists out of three main parts. First is the lattice, which represents the underlying qubits structure. Second is the circuit, which holds information about the operations applied to the qubits in a given lattice. The last part is the execution of the circuit, which can happen on various backends.
+The framework consists out of three main parts. First is the qubit geometry / lattice, which represents the underlying qubits structure. Second is the circuit, which holds information about the operations applied to the qubits in a given lattice. The last part is the execution of the circuit, which can happen on various backends.
 
-## Lattice
+## Qubit geometry / Lattice
 A `Lattice` is a representation of qubits and connections between them (i.e., a graph). In general, it is only possible to apply operations to multiple qubits if they are connected in the lattice. Ancillary qubits should also be explicitly represented in the lattice. Preimplemented lattices are
 
 - `HeavyChainLattice(length)`
@@ -10,21 +10,6 @@ A `Lattice` is a representation of qubits and connections between them (i.e., a 
 - `HeavyHexagonLattice(sizeX, sizeY)`
 - `HexagonToricCodeLattice(sizeX, sizeY)`
 
-To implement your own lattice, create a struct
-```julia
-struct Mylattice <: MonitoredQuantumCircuits.Lattice
-    graph::Graph
-    isAncilla::Vector{Bool} # whether the qubit is an ancilla
-    gridPositions::Vector{Tuple{Int64,Int64}} # the grid positions of the qubits for visualization
-end
-```
-together with appropriate constructors. Optionally, a visualize function can be written
-```julia
-function visualize(io::IO, lattice::Mylattice)
-    # print a basic visualization of the lattice in the REPL
-end
-```
-which results in a nicer CLI.
 ## Circuit
 A circuit represents the operations being applied to the qubits in a lattice. As of now, there are two types of circuits
 

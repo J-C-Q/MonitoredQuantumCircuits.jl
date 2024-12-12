@@ -269,6 +269,20 @@ function measurements(circuit::FiniteDepthCircuit)
 
 end
 
+function Base.iterate(circuit::FiniteDepthCircuit, state::Int=1)
+    if state <= depth(circuit)
+        idx = findall(==(state), circuit.executionOrder)
+        return Tuple{eltype(circuit.operations),eltype(circuit.operationPositions)}[(circuit.operations[circuit.operationPointers[i]], circuit.operationPositions[i]) for i in idx], state + 1
+    else
+        return nothing
+    end
+end
+
+function depth(circuit::FiniteDepthCircuit)
+    return length(unique(circuit.executionOrder))
+end
+
+Base.length(c::FiniteDepthCircuit) = depth(c)
 """
     RandomCircuit{T<:Lattice,M<:Integer} <: Circuit
 
