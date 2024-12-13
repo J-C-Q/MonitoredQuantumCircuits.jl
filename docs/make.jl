@@ -16,15 +16,25 @@ makedocs(;
     pages=[
         "Home" => "index.md",
         "Getting started" => "getting_started.md",
+        "Library" => [
+            "Geometries" => "library/lattices.md",
+            "Operations" => "library/operations.md",
+            "Circuits" => "library/circuits.md",
+            "Backends" => [
+                "Overview" => "library/backends.md",
+                "Qiskit" => "library/qiskit.md",
+                "QuantumClifford" => "library/quantumclifford.md"
+            ]
+        ],
         "Interfaces" => [
-            "Geometry" => "add_lattice.md",
-            "Operation" => "add_operation.md",
-            "Circuit" => "add_circuit.md",
-            "Backend" => "add_backend.md"
+            "Geometry" => "interfaces/add_lattice.md",
+            "Operation" => "interfaces/add_operation.md",
+            "Circuit" => "interfaces/add_circuit.md",
+            "Backend" => "interfaces/add_backend.md"
         ],
         "Modules" => [
-            "GUI" => "gui.md",
-            "Remote" => "remote.md"
+            "GUI" => "modules/gui.md",
+            "Remote" => "modules/remote.md"
         ],
         "API" => "api.md"],)
 deploydocs(;

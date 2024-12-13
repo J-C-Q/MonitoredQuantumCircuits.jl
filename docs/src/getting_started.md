@@ -1,15 +1,17 @@
 # Getting Started
 
 The framework consists out of three main parts. First is the qubit geometry / lattice, which represents the underlying qubits structure. Second is the circuit, which holds information about the operations applied to the qubits in a given lattice. The last part is the execution of the circuit, which can happen on various backends.
+As always, load MonitoredQuantumCircuits.jl (after [installing](/Home) it) using the `using` keyword for the following codesnipets to work
+```julia
+using MonitoredQuantumCircuits
+```
 
 ## Qubit geometry / Lattice
-A `Lattice` is a representation of qubits and connections between them (i.e., a graph). In general, it is only possible to apply operations to multiple qubits if they are connected in the lattice. Ancillary qubits should also be explicitly represented in the lattice. Preimplemented lattices are
-
-- `HeavyChainLattice(length)`
-- `HeavySquareLattice(sizeX, sizeY)`
-- `HeavyHexagonLattice(sizeX, sizeY)`
-- `HexagonToricCodeLattice(sizeX, sizeY)`
-
+A `Lattice` is a representation of qubits and connections between them (i.e., a graph). In general, it is only possible to apply operations to multiple qubits if they are connected in the lattice. Ancillary qubits should also be explicitly represented in the lattice. For more information see [Geometries](/Library/Geometries).
+To construct a lattice object, call the constructor, e.g.,
+```julia
+lattice = HeavyChainLattice(10)
+```
 ## Circuit
 A circuit represents the operations being applied to the qubits in a lattice. As of now, there are two types of circuits
 

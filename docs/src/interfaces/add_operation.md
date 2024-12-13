@@ -1,4 +1,4 @@
-# How to add a new operation?
+# Operation Interface
 Adding custom operation to the MonitoredQuantumCircuits.jl framework is also possible. I can however be a bit tricky since you have to be familiar with every backend that should support your new operation. 
 
 ## The basics
