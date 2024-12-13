@@ -1,12 +1,14 @@
-"""
-    HeavyChainLattice(length::Integer)
 
-Create a heavy chain lattice with `length` system qubits and `length`-1 ancilla qubits inbeween.
-"""
 struct HeavyChainLattice <: Lattice
     graph::Graph
     isAncilla::Vector{Bool} # whether the qubit is an ancilla
     gridPositions::Vector{Tuple{Int64,Int64}} # the grid positions of the qubits
+
+    """
+        HeavyChainLattice(::Integer)
+
+    Create a heavy chain lattice with `length` system qubits and `length`-1 ancilla qubits inbeween.
+    """
     function HeavyChainLattice(length::Integer)
         length > 0 || throw(ArgumentError("length must be positive"))
         graph = path_graph(2length - 1)
