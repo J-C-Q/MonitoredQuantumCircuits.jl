@@ -14,7 +14,7 @@ lattice = HeavyChainLattice(10)
 ```
 
 ## Compose a Circuit
-A circuit stores the [operations](/library/operations.md) being applied to the qubits in a lattice. For more information see [Circuits](/library/circuits.md).
+A circuit stores the [Operations](/library/operations.md) being applied to the qubits in a lattice. For more information see [Circuits](/library/circuits.md).
 To construct a lattice object, call a constructor, e.g.,
 ```julia
 circuit = KitaevCircuit(lattice)
@@ -29,7 +29,7 @@ GUI.CircuitComposer!(circuit)
 ```
 
 ## Execute
-To execute a quantum circuit, you first have to think about which [backend](/library/backends.md) to use.
+To execute a quantum circuit, you first have to think about which [Backend](/library/backends.md) to use.
 Then, you can execute the circuit using
 ```julia
 execute!(circuit::Circuit, backend::Backend)
