@@ -25,7 +25,7 @@ circuit = exec(parameter...)
 
 result = execute(circuit, backend)
 
-JLD2.save(joinpath(@__DIR__, "$(ARGS[1])/data/$(parameter)_$(rank+1)_raw.jld2"), "parameter", parameter, "result", result)
+JLD2.save(joinpath(@__DIR__, "$(ARGS[1])/data_raw/$(parameter)_$(rank+1)_raw.jld2"), "parameter", parameter, "result", result)
 
 final = post(result)
 

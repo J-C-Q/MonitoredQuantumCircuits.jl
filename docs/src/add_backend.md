@@ -1,26 +1,28 @@
-# How to add a new backend?
+# How to Add a New Backend?
 
-MonitoredQuantumCircuits.jl allows you to add further backends, be it simulators or quantum devices. In general, it is recommended to create a module for each backend and import the necessary methods and types from MonitoredQuantumCircuits.jl into the namespace.
+MonitoredQuantumCircuits.jl allows you to integrate additional backends, including simulators or quantum devices. To streamline this process, it is recommended to create a dedicated module for each backend and import the required methods and types from MonitoredQuantumCircuits.jl into the module’s namespace.
 
-## Create a backend type
-The first step is to create a type `MyBackend<:Simulator` if your backend is a simulator or  `MyBackend<:QuantumComputer` if your backend is a quantum device. This type does not have to contain any attributes (it can if that is necessary for your backend), but is solely used for dispatching the `execute` function.
+## Create a Backend Type
+Define a type `MyBackend <: Simulator` if your backend is a simulator, or `MyBackend <: QuantumComputer` if it represents a quantum device. This type primarily serves to dispatch the `execute` function and does not require attributes unless necessary for your implementation.
 
-## Create a quantum circuit type
-The second step is to implement a type for a quantum circuit (e.g. `MyCircuit`) in the specific backend. This type stores all the information the backend execution needs to execute your quantum circuit and is used to dispatch the `apply!` method for each operation.
+## Define a Quantum Circuit Type
+Develop a type specific to your backend for representing quantum circuits (e.g., `MyCircuit`). This type encapsulates all the information required for backend execution and enables the dispatch of the `apply!` method for each operation.
 
-## Create `apply!` methods
-Next, you need to implement the `apply!` methods for every operation that your backend should support. For example, for the `H` (Hadamard) operation, this could look like this
+## Implement `apply!` Methods
+Define `apply!` methods for every operation your backend supports. For instance: 
+### Example for a Hadamard Operation (`H`):
 ```julia
 function apply!(::MyCircuit, ::H, position::Integer)
-    # logic goes here
+    # Backend-specific logic for applying a Hadamard gate
 end
 ```
-For the `ZZ` (parity measurement), this could look like this
+### Example for a Parity Measurement (`ZZ`):
 ```julia
 function apply!(::MyCircuit, ::ZZ, p1::Integer, p2::Integer, p3::Integer)
-    # logic goes here
+    # Backend-specific logic for applying a Z-basis parity measurement
 end
 ```
+Of course you could need more information passed to the `apply!` method. This can be handeled in the specific `execute` methode.
 
 ## Implement the `execute` method
 Lastly, you have to implement a method that handles the execution (i.e. simulation or API requests to the quantum device). 
