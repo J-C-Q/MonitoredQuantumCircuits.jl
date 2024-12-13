@@ -14,7 +14,7 @@ lattice = HeavyChainLattice(10)
 ```
 
 ## Compose a Circuit
-A circuit stores the [operations](@ref operations) being applied to the qubits in a lattice. For more information see [Circuits](/Library/Circuits).
+A circuit stores the [operations](/library/operations.md) being applied to the qubits in a lattice. For more information see [Circuits](/Library/Circuits).
 To construct a lattice object, call a constructor, e.g.,
 ```julia
 circuit = KitaevCircuit(lattice)
