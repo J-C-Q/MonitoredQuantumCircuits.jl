@@ -21,6 +21,7 @@ import MonitoredQuantumCircuits: Operation, nQubits, isClifford, connectionGraph
 import MonitoredQuantumCircuits: Graphs
 import MonitoredQuantumCircuits: Qiskit
 import MonitoredQuantumCircuits: QuantumClifford
+import MonitoredQuantumCircuits: apply!
 struct Id <: Operation end
 
 nQubits(::Id) = 1

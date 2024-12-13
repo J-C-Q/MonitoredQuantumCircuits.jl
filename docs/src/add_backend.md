@@ -38,7 +38,7 @@ In total, this could look like this
 ```julia
 module MyBackendModule
 
-import MonitoredQuantumCircuits: Simulator, FiniteDepthCircuit
+import MonitoredQuantumCircuits: Simulator, FiniteDepthCircuit, apply!, execute
 
 struct MyBackend <: Simulator end
 
