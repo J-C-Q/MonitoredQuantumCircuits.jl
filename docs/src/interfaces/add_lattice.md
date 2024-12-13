@@ -1,4 +1,4 @@
-# How to add a new lattice?
+# Lattice Interface
 
 A lattice or qubit geometry represents the physical connections  of the qubits.
 

@@ -29,7 +29,7 @@ end
 function PlotThis()
     # tmis = JLD2.load("tmis_24x24_1500.jld2")["results"]
 
-    folders = ["/home/qpreiss/data3/data"]
+    folders = ["data"]
 
     tmis = []
     points = []

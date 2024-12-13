@@ -23,7 +23,7 @@ function generateProbs(; N=15)
 end
 function PlotThis()
     # tmis = JLD2.load("tmis_24x24_1500.jld2")["results"]
-    folders = ["data3/data"]
+    folders = ["data"]
     tmis = []
     points = []
     for folder in folders
