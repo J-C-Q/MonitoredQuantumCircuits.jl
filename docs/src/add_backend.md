@@ -1,4 +1,4 @@
-# How to Add a New Backend?
+# Backend Interface
 
 MonitoredQuantumCircuits.jl allows you to integrate additional backends, including simulators or quantum devices. To streamline this process, it is recommended to create a dedicated module for each backend and import the required methods and types from MonitoredQuantumCircuits.jl into the module’s namespace.
 
@@ -22,21 +22,28 @@ function apply!(::MyCircuit, ::ZZ, p1::Integer, p2::Integer, p3::Integer)
     # Backend-specific logic for applying a Z-basis parity measurement
 end
 ```
-Of course you could need more information passed to the `apply!` method. This can be handeled in the specific `execute` methode.
+You can add additional parameters to the `apply!` method if required for specific operations. Just make sure to call the function correctly from `execute`.
 
-## Implement the `execute` method
-Lastly, you have to implement a method that handles the execution (i.e. simulation or API requests to the quantum device). 
+## Implement the `execute` Method
+Define the `execute` method to manage execution, whether by simulation or interaction with a quantum device’s API.
 
 ```julia
 function execute(circuit::FiniteDepthCircuit, ::MyBackend)
-    # logic goes here
+    # Instantiate a MyCircuit object
+    mycircuit = MyCircuit()
+
+    # Apply operations from the circuit
+    for operation in circuit
+        apply!(mycircuit, operation[1], operation[2]...)
+    end
+
+    # Additional execution logic, if necessary
 end
 ```
-This function should create an object of type `MyCircuit` and apply the gates from `circuit` using the implemented `apply!` methods.
-Of course, you need to do this for every circuit type that you want to support with your backend. 
+The `execute` function initializes a circuit object of type `MyCircuit` and applies gates using the `apply!` methods you have implemented. Repeat this process for every circuit type your backend supports.
 
 ## Summary
-In total, this could look like this
+Here is a complete example:
 ```julia
 module MyBackendModule
 
@@ -44,15 +51,17 @@ import MonitoredQuantumCircuits: Simulator, FiniteDepthCircuit, apply!, execute
 
 struct MyBackend <: Simulator end
 
-# this could also be an already existing type if you are using a third package
+# Define the circuit type (can reuse types from other packages if applicable)
 struct MyCircuit
-    # some attributes to store the circuit
+    # Attributes to represent the circuit
 end
 
+# Implement apply! methods
 function apply!(::MyCircuit, ::ZZ, p1::Integer, p2::Integer, p3::Integer)
-    # apply z-basis parity measurement to qubits p1, p3 with p3 as ancilla qubit in the language of MyCircuit
+    # Logic for Z-basis parity measurement with p1, p2, and ancilla p3
 end
 
+# Implement execute
 function execute(circuit::FiniteDepthCircuit, ::MyBackend)
     mycircuit = MyCircuit()
     for operation in circuit

@@ -17,10 +17,10 @@ makedocs(;
         "Home" => "index.md",
         "Getting started" => "getting_started.md",
         "Interfaces" => [
-            "Add a Geometry" => "add_lattice.md",
-            "Add an Operation" => "add_operation.md",
-            "Add a Circuit" => "add_circuit.md",
-            "Add a Backend" => "add_backend.md"
+            "Geometry" => "add_lattice.md",
+            "Operation" => "add_operation.md",
+            "Circuit" => "add_circuit.md",
+            "Backend" => "add_backend.md"
         ],
         "Modules" => [
             "GUI" => "gui.md",
