@@ -5,7 +5,7 @@ struct HeavyChainLattice <: Lattice
     gridPositions::Vector{Tuple{Int64,Int64}} # the grid positions of the qubits
 
     """
-        HeavyChainLattice(::Integer)
+        HeavyChainLattice(length::Integer)
 
     Create a heavy chain lattice with `length` system qubits and `length`-1 ancilla qubits inbeween.
     """
