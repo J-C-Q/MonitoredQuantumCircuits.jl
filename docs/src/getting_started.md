@@ -7,14 +7,14 @@ using MonitoredQuantumCircuits
 ```
 
 ## Choose a Geometry
-A `Lattice` is a representation of qubits and connections between them (i.e., a graph). In general, it is only possible to apply operations to multiple qubits if they are connected in the lattice. Ancillary qubits should also be explicitly represented in the lattice. For more information see [Geometries](/Library/Geometries).
+A `Lattice` is a representation of qubits and connections between them (i.e., a graph). In general, it is only possible to apply operations to multiple qubits if they are connected in the lattice. Ancillary qubits should also be explicitly represented in the lattice. For more information see [Geometries](@ref library/geometries).
 To construct a lattice object, call a constructor, e.g.,
 ```julia
 lattice = HeavyChainLattice(10)
 ```
 
 ## Compose a Circuit
-A circuit stores the [operations](/Library/Operations) being applied to the qubits in a lattice. For more information see [Circuits](/Library/Circuits).
+A circuit stores the [operations](@ref library/operations) being applied to the qubits in a lattice. For more information see [Circuits](/Library/Circuits).
 To construct a lattice object, call a constructor, e.g.,
 ```julia
 circuit = KitaevCircuit(lattice)
