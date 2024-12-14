@@ -9,7 +9,10 @@ makedocs(;
         repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
         devurl="dev",
         devbranch="main",
-        assets=["assets/favicon.ico", "assets/logo.png", "assets/logo-square.png"]
+        assets=["assets/favicon.ico", "assets/favicon-96x96.png", "assets/favicon.svg", "assets/apple-touch-icon.png"],
+        #local
+        # md_output_path=".",
+        # build_vitepress=false
     ),
     source="src",
     build="build",
@@ -36,7 +39,10 @@ makedocs(;
             "GUI" => "modules/gui.md",
             "Remote" => "modules/remote.md"
         ],
-        "API" => "api.md"],)
+        "API" => "api.md"],
+    # clean=false
+)
+
 deploydocs(;
     repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
     target="build",
