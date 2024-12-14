@@ -9,7 +9,7 @@ makedocs(;
         repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
         devurl="dev",
         devbranch="main",
-        assets=["/assets/favicon.ico", "/assets/favicon-96x96.png", "/assets/favicon.svg", "/assets/apple-touch-icon.png"],
+        assets=["/favicon.ico", "/favicon-96x96.png", "/favicon.svg", "/apple-touch-icon.png"],
         #local
         # md_output_path=".",
         # build_vitepress=false
