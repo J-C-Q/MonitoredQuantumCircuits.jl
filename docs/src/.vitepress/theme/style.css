@@ -86,8 +86,8 @@ https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/var
     #389826 30%,
     #CB3C33 
 );
-    */ --vp-home-hero-image-background-image: url('/assets/logo-square.png');
-  --vp-home-hero-image-filter: blur(40px);
+    */ --vp-home-hero-image-background-image: url('/logo-square.png');
+        --vp-home-hero-image-filter: blur(40px);
 }
 @media (min-width: 10px) {
     .clip {
@@ -199,3 +199,6 @@ mjx-container > svg {
 /* .clip {
   font-size: 28px;
 } */
+.image-bg {
+    background-size: cover;
+}

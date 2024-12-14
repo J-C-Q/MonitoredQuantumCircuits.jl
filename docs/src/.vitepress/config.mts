@@ -12,10 +12,10 @@ export default defineConfig({
   cleanUrls: true,
   outDir: 'REPLACE_ME_DOCUMENTER_VITEPRESS', // This is required for MarkdownVitepress to work correctly...
   head: [
-    ["link", { rel: "icon", type: "image/png", href: "/favicon-96x96.png", size: "96x96" }],
-    ["link", { rel: "icon", type: "image/svg+xml", href: "/favicon.svg"}],
-    ["link", { rel: "shortcut icon", href: "/favicon.ico"}],
-    ["link", { rel: "apple-touch-icon", href: "/apple-touch-icon.png", size: "180x180" }],
+    ["link", { rel: "icon", type: "image/png", href: "/dev/favicon-96x96.png", size: "96x96" }],
+    ["link", { rel: "icon", type: "image/svg+xml", href: "/dev/favicon.svg"}],
+    ["link", { rel: "shortcut icon", href: "/dev/favicon.ico"}],
+    ["link", { rel: "apple-touch-icon", href: "/dev/apple-touch-icon.png", size: "180x180" }],
     // ['link', { rel: 'icon', href: 'REPLACE_ME_DOCUMENTER_VITEPRESS_FAVICON' }]
 ],
   ignoreDeadLinks: true,
