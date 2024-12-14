@@ -76,8 +76,8 @@ https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/var
   --vp-home-hero-name-color: transparent;
 --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
-    #9558b259 10%,
-        #9558B2);
+    #9558B2 10%,
+        #CB3C33);
         /* --vp-home-hero-name-background: #9558B2; */
 
 /* --vp-home-hero-image-background-image: linear-gradient(
