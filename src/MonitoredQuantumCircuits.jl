@@ -17,6 +17,14 @@ include("operations.jl")
 include("circuit.jl")
 include("result.jl")
 
+
+include("lattices/heavyChainLattice.jl")
+include("lattices/heavySquareLattice.jl")
+include("lattices/heavyHexagonLattice.jl")
+include("lattices/squareSurfaceCodeLattice.jl")
+include("lattices/squareToricCodeLattice.jl")
+include("lattices/hexagonToricCodeLattice.jl")
+
 include("operations/ZZ.jl")
 include("operations/XX.jl")
 include("operations/YY.jl")
@@ -60,6 +68,7 @@ export Weak_ZZ
 export Weak_XX
 export Weak_YY
 
+export Lattice
 export HeavyChainLattice
 export HeavySquareLattice
 export HeavyHexagonLattice
