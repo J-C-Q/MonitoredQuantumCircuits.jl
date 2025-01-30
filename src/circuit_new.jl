@@ -5,27 +5,45 @@ struct Circuit{T<:Geometry} <: QuantumCircuit
     geometry::T
     operations::Vector{Operation}
     positions::Vector{Tuple{Int,Vararg{Int}}}
+    depth::Vector{Int64}
     function Circuit(geometry::Geometry)
-        new{typeof(geometry)}(geometry, Operation[], Tuple{Int,Vararg{Int}}[])
+        new{typeof(geometry)}(geometry, Operation[], Tuple{Int,Vararg{Int}}[], [1])
     end
     function Circuit(geometry::Geometry, n_operations::Integer)
         new{typeof(geometry)}(
             geometry,
             Vector{Operation}(undef, n_operations),
-            Vector{Tuple{Int,Vararg{Int}}}(undef, n_operations))
+            Vector{Tuple{Int,Vararg{Int}}}(undef, n_operations),
+            [1])
     end
 end
 
 function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
     _checkInBounds(circuit, operation, position...)
-    # if isundef(circuit.operations[end])
-    #     circuit.operations[1] = operation
-    #     circuit.positions[1] = position
-    #     return
-    # end
-    push!(circuit.operations, operation)
-    push!(circuit.positions, position)
+    if length(circuit.operations) < circuit.depth[1]
+        push!(circuit.operations, operation)
+        push!(circuit.positions, position)
+    else
+        circuit.operations[circuit.depth[1]] = operation
+        circuit.positions[circuit.depth[1]] = position
+    end
+    circuit.depth[1] += 1
 end
+
+function reset!(circuit::Circuit)
+    circuit.depth[1] = 1
+end
+
+function hard_reset!(circuit::Circuit)
+    circuit.operations = Operation[]
+    circuit.positions = Tuple{Int,Vararg{Int}}[]
+    circuit.depth[1] = 1
+end
+
+function depth(circuit::Circuit)
+    return circuit.depth[1] - 1
+end
+
 
 function _checkInBounds(circuit::Circuit, operation::Operation, position::Vararg{Integer})
     @assert nQubits(operation) == length(position) "The number of qubits in the operation does not match the number of qubits in the position."

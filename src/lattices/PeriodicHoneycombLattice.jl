@@ -200,30 +200,35 @@ end
 function kitaevX_neighbor(geometry::PeriodicHoneycombGeometry, site::Integer)
     @assert geometry.sizeX % 2 == 0 "The sizeX must be even"
     @assert geometry.sizeY % 2 == 0 "The sizeY must be even"
-    for n in Graphs.neighbors(geometry.graph, site)
-        if isKitaevX(geometry, (site, n))
-            return n
-        end
+    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+    if isodd(i)
+        return to_linear(i + 1, j, geometry.sizeX, geometry.sizeY)
+    else
+        return to_linear(i - 1, j, geometry.sizeX, geometry.sizeY)
     end
 end
 
 function kitaevY_neighbor(geometry::PeriodicHoneycombGeometry, site::Integer)
     @assert geometry.sizeX % 2 == 0 "The sizeX must be even"
     @assert geometry.sizeY % 2 == 0 "The sizeY must be even"
-    for n in Graphs.neighbors(geometry.graph, site)
-        if isKitaevY(geometry, (site, n))
-            return n
-        end
+    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+    if iseven(i)
+        return to_linear(i + 1, j, geometry.sizeX, geometry.sizeY)
+    else
+        return to_linear(i - 1, j, geometry.sizeX, geometry.sizeY)
     end
 end
 
 function kitaevZ_neighbor(geometry::PeriodicHoneycombGeometry, site::Integer)
     @assert geometry.sizeX % 2 == 0 "The sizeX must be even"
     @assert geometry.sizeY % 2 == 0 "The sizeY must be even"
-    for n in Graphs.neighbors(geometry.graph, site)
-        if isKitaevZ(geometry, (site, n))
-            return n
-        end
+    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+
+
+    if iseven(i)
+        return to_linear(i - 1, j + 1, geometry.sizeX, geometry.sizeY)
+    else
+        return to_linear(i + 1, j - 1, geometry.sizeX, geometry.sizeY)
     end
 end
 

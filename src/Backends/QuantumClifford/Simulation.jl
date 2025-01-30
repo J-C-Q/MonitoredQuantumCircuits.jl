@@ -5,7 +5,7 @@
 A QuantumClifford stabilizer simulator.
 """
 struct TableauSimulator <: MonitoredQuantumCircuits.Simulator
-    inital_state::QC.MixedDestabilizer
+    initial_state::QC.MixedDestabilizer
     function TableauSimulator(qubits::Integer; mixed=true, basis=:Z)
         if mixed
             new(QC.MixedDestabilizer(zero(QC.Stabilizer, qubits)))
@@ -38,7 +38,7 @@ end
 function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, simulator::TableauSimulator)
     state = simulator.initial_state
 
-    for i in eachindex(circuit.operations)
+    for i in eachindex(circuit.operations[1:MonitoredQuantumCircuits.depth(circuit)])
         apply!(state, circuit.operations[i], circuit.positions[i]...)
     end
 

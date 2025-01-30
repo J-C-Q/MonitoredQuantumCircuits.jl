@@ -67,6 +67,7 @@ export plaquettes
 export long_cycles
 export kitaevType
 export nQubits
+export random_qubit
 
 # export FiniteDepthCircuit
 # export RandomCircuit
@@ -105,6 +106,10 @@ export nPauli
 # export RandomCircuit
 export Circuit
 export apply!
+export execute
+export reset!
+export hard_reset!
+export depth
 # export RandomCircuit
 
 # export GUI
