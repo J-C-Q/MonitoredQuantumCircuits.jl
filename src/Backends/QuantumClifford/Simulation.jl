@@ -1,9 +1,21 @@
 """
-    TableauSimulator()
+    TableauSimulator(qubits::Integer; mixed=true, basis=:Z)
+    TableauSimulator(initial_state::QuantumClifford.MixedDestabilizer)
 
 A QuantumClifford stabilizer simulator.
 """
 struct TableauSimulator <: MonitoredQuantumCircuits.Simulator
+    inital_state::QC.MixedDestabilizer
+    function TableauSimulator(qubits::Integer; mixed=true, basis=:Z)
+        if mixed
+            new(QC.MixedDestabilizer(zero(QC.Stabilizer, qubits)))
+        else
+            new(QC.MixedDestabilizer(one(QC.Stabilizer, qubits; basis)))
+        end
+    end
+    function TableauSimulator(initial_state::QC.MixedDestabilizer)
+        new(initial_state)
+    end
 end
 
 """
@@ -23,35 +35,17 @@ struct GPUPauliFrameSimulator <: MonitoredQuantumCircuits.Simulator
 end
 
 
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, ::TableauSimulator; verbose::Bool=true, initial_state=QC.MixedDestabilizer(zero(QC.Stabilizer, MonitoredQuantumCircuits.nQubits(circuit.lattice))))
-    state = QC.Register(initial_state, MonitoredQuantumCircuits.nMeasurements(circuit))
-    # qc = MonitoredQuantumCircuits.translate(Circuit, circuit)
-    # println(QC.nqubits(initial_state))
-    # for operation in qc.operations
-    #     QC.apply!(state, operation)
-    # end
-    measurementCount = 0
-    # for (i, ptr) in enumerate(circuit.operationPointers)
-    #     if typeof(circuit.operations[ptr]) <: MonitoredQuantumCircuits.MeasurementOperation
-    #         measurementCount += 1
-    #         QC.apply!(state, apply!(circuit.operations[ptr], measurementCount, MonitoredQuantumCircuits.nQubits(circuit.lattice), circuit.operationPositions[i]...))
-    #     else
-    #         QC.apply!(state, apply!(circuit.operations[ptr], circuit.operationPositions[i]...))
-    #     end
-    # end
-    nqubits = MonitoredQuantumCircuits.nQubits(circuit.lattice)
-    for (i, ptr) in enumerate(circuit.operationPointers)
-        if typeof(circuit.operations[ptr]) <: MonitoredQuantumCircuits.MeasurementOperation
-            measurementCount += 1
-        end
-        apply!(state, circuit.operations[ptr], nqubits, measurementCount, circuit.operationPositions[i]...)
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, simulator::TableauSimulator)
+    state = simulator.initial_state
+
+    for i in eachindex(circuit.operations)
+        apply!(state, circuit.operations[i], circuit.positions[i]...)
     end
 
-    verbose && println("✓")
     return state
 end
 
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, ::PauliFrameSimulator; verbose::Bool=true, shots=1024, initial_state=QC.MixedDestabilizer(zero(QC.Stabilizer, MonitoredQuantumCircuits.nQubits(circuit.lattice))))
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, ::PauliFrameSimulator; verbose::Bool=true, shots=1024, initial_state=QC.MixedDestabilizer(zero(QC.Stabilizer, MonitoredQuantumCircuits.nQubits(circuit.lattice))))
 
     # state = QC.Register(initial_state, MonitoredQuantumCircuits.nMeasurements(circuit))
 
@@ -63,7 +57,7 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Fini
     return frames
 end
 
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, ::GPUPauliFrameSimulator; verbose::Bool=true, shots=1024, initial_state=QC.MixedDestabilizer(zero(QC.Stabilizer, MonitoredQuantumCircuits.nQubits(circuit.lattice))))
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, ::GPUPauliFrameSimulator; verbose::Bool=true, shots=1024, initial_state=QC.MixedDestabilizer(zero(QC.Stabilizer, MonitoredQuantumCircuits.nQubits(circuit.lattice))))
 
     # state = QC.Register(initial_state, MonitoredQuantumCircuits.nMeasurements(circuit))
 
@@ -76,7 +70,7 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Fini
 end
 
 
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.RandomCircuit, ::TableauSimulator; verbose::Bool=true, initial_state=QC.MixedDestabilizer(zero(QC.Stabilizer, MonitoredQuantumCircuits.nQubits(circuit.lattice))))
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.RandomCircuit, ::TableauSimulator; verbose::Bool=true, initial_state=QC.MixedDestabilizer(zero(QC.Stabilizer, MonitoredQuantumCircuits.nQubits(circuit.geometry))))
 
     state = QC.Register(initial_state, circuit.depth)
 

@@ -19,21 +19,21 @@ function isClifford(::Weak_XX)
     return false
 end
 
-function connectionGraph(::Weak_XX)
-    # return the connection graph of the operation
-    return path_graph(3)
-end
-function plotPositions(::Weak_XX)
-    return [(0, 0), (1, 0), (2, 0)]
-end
-function color(::Weak_XX)
-    return "#4063D8"
-end
-function isAncilla(operation::Weak_XX, qubit::Integer)
-    0 < qubit <= nQubits(operation) || throw(ArgumentError("qubit $qubit is not a valid qubit for the Weak_XX operation."))
-    return qubit == 2
-end
+# function connectionGraph(::Weak_XX)
+#     # return the connection graph of the operation
+#     return path_graph(3)
+# end
+# function plotPositions(::Weak_XX)
+#     return [(0, 0), (1, 0), (2, 0)]
+# end
+# function color(::Weak_XX)
+#     return "#4063D8"
+# end
+# function isAncilla(operation::Weak_XX, qubit::Integer)
+#     0 < qubit <= nQubits(operation) || throw(ArgumentError("qubit $qubit is not a valid qubit for the Weak_XX operation."))
+#     return qubit == 2
+# end
 
-function nMeasurements(::Weak_XX)
-    return 1
-end
+# function nMeasurements(::Weak_XX)
+#     return 1
+# end

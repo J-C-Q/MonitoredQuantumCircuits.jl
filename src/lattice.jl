@@ -1,30 +1,30 @@
 
 """
-    Lattice
+    Geometry
 
-Abstract type for lattices.
+Abstract type for the geometry of the qubits.
 """
-abstract type Lattice end
+abstract type Geometry end
 
-function getBonds(lattice::Lattice)
+function getBonds(lattice::Geometry)
     bonds = collect(edges(lattice.graph))
     return [(src(e), dst(e)) for e in bonds]
 end
 
-function Base.length(lattice::Lattice)
+function Base.length(lattice::Geometry)
     return nv(lattice.graph)
 end
 
 """
-    nQubits(lattice::Lattice; countAncilla::Bool=false)
+    nQubits(lattice::Geometry)
 
-Return the number of qubits in the lattice. If `countAncilla` is `true`, then ancilla qubits are included.
+Return the number of qubits in the gemoetry.
 """
-function nQubits(lattice::Lattice; countAncilla::Bool=false)
-    return countAncilla ? nv(lattice.graph) : sum(lattice.isAncilla .== false)
+function nQubits(lattice::Geometry)
+    return nv(lattice.graph)
 end
 
-function Base.show(io::IO, lattice::Lattice)
+function Base.show(io::IO, lattice::Geometry)
     print(io, "$(typeof(lattice)) with ", length(lattice), " sites and ")
     bonds = getBonds(lattice)
     if length(bonds) == 0
@@ -39,6 +39,5 @@ function Base.show(io::IO, lattice::Lattice)
             println(io, bond)
         end
     end
-    # allequal([lattice.physicalMap[i] == -1 for i in 1:length(lattice)]) ? println(io, "No mapping to chip defined") : println(io, "physicalMap: ", lattice.physicalMap)
     nv(lattice.graph) <= 100 && visualize(io, lattice)
 end
