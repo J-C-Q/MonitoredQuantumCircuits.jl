@@ -312,76 +312,76 @@ end
 
 
 
-using CairoMakie
-function plotLattice(geometry::PeriodicHoneycombGeometry)
-    fig = Figure()
-    ax = Axis(fig[1, 1])
+# using CairoMakie
+# function plotLattice(geometry::PeriodicHoneycombGeometry)
+#     fig = Figure()
+#     ax = Axis(fig[1, 1])
 
-    scatter!(ax, geometry.gridPositions)
-    grid = geometry.gridPositions
-    xPoints = []
-    for x in kitaevX(geometry)
-        push!(xPoints, Point2f(grid[x[1]]))
-        push!(xPoints, Point2f(grid[x[2]]))
-    end
-    yPoints = []
-    for x in kitaevY(geometry)
-        push!(yPoints, Point2f(grid[x[1]]))
-        push!(yPoints, Point2f(grid[x[2]]))
-    end
-    zPoints = []
-    for x in kitaevZ(geometry)
-        push!(zPoints, Point2f(grid[x[1]]))
-        push!(zPoints, Point2f(grid[x[2]]))
-    end
-    linesegments!(ax, xPoints, color=:red)
-    # linesegments!(ax, yPoints, color=:green)
-    linesegments!(ax, zPoints, color=:blue)
-    save("test.png", fig)
-    display(fig)
-end
+#     scatter!(ax, geometry.gridPositions)
+#     grid = geometry.gridPositions
+#     xPoints = []
+#     for x in kitaevX(geometry)
+#         push!(xPoints, Point2f(grid[x[1]]))
+#         push!(xPoints, Point2f(grid[x[2]]))
+#     end
+#     yPoints = []
+#     for x in kitaevY(geometry)
+#         push!(yPoints, Point2f(grid[x[1]]))
+#         push!(yPoints, Point2f(grid[x[2]]))
+#     end
+#     zPoints = []
+#     for x in kitaevZ(geometry)
+#         push!(zPoints, Point2f(grid[x[1]]))
+#         push!(zPoints, Point2f(grid[x[2]]))
+#     end
+#     linesegments!(ax, xPoints, color=:red)
+#     # linesegments!(ax, yPoints, color=:green)
+#     linesegments!(ax, zPoints, color=:blue)
+#     save("test.png", fig)
+#     display(fig)
+# end
 
-function plotLattice2(geometry::PeriodicHoneycombGeometry)
-    fig = Figure()
-    ax = Axis(fig[1, 1])
+# function plotLattice2(geometry::PeriodicHoneycombGeometry)
+#     fig = Figure()
+#     ax = Axis(fig[1, 1])
 
-    scatter!(ax, geometry.gridPositions)
-    grid = geometry.gridPositions
-    plaq = plaquettes(geometry)
+#     scatter!(ax, geometry.gridPositions)
+#     grid = geometry.gridPositions
+#     plaq = plaquettes(geometry)
 
-    for p in plaq[1:1]
-        points = []
-        for x in p
-            push!(points, Point2f(grid[x]))
-            # push!(xPoints, Point2f(grid[x[2]]))
-        end
-        push!(points, Point2f(grid[p[1]]))
-        lines!(ax, points)
-    end
+#     for p in plaq[1:1]
+#         points = []
+#         for x in p
+#             push!(points, Point2f(grid[x]))
+#             # push!(xPoints, Point2f(grid[x[2]]))
+#         end
+#         push!(points, Point2f(grid[p[1]]))
+#         lines!(ax, points)
+#     end
 
-    save("test.png", fig)
-    display(fig)
-end
+#     save("test.png", fig)
+#     display(fig)
+# end
 
-function plotLattice3(geometry::PeriodicHoneycombGeometry)
-    fig = Figure()
-    ax = Axis(fig[1, 1])
+# function plotLattice3(geometry::PeriodicHoneycombGeometry)
+#     fig = Figure()
+#     ax = Axis(fig[1, 1])
 
-    scatter!(ax, geometry.gridPositions)
-    grid = geometry.gridPositions
-    loops = long_cycles(geometry)
+#     scatter!(ax, geometry.gridPositions)
+#     grid = geometry.gridPositions
+#     loops = long_cycles(geometry)
 
-    points = []
-    for x in loops[2]
-        push!(points, Point2f(grid[x]))
-        # push!(xPoints, Point2f(grid[x[2]]))
-    end
-    lines!(ax, points)
+#     points = []
+#     for x in loops[2]
+#         push!(points, Point2f(grid[x]))
+#         # push!(xPoints, Point2f(grid[x[2]]))
+#     end
+#     lines!(ax, points)
 
 
-    save("test.png", fig)
-    display(fig)
-end
+#     save("test.png", fig)
+#     display(fig)
+# end
 
 
 # function kitaevBonds(lattice::PeriodicHoneycombGeometry)
