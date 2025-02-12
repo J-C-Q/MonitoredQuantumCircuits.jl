@@ -5,12 +5,12 @@ A type representing a n qubit pauli parity measurement operation.
 """
 struct nPauli{N} <: MeasurementOperation
     paulistring::NTuple{N,Operation}
-    xs::Vector{Bool}
-    zs::Vector{Bool}
+    xs::BitVector
+    zs::BitVector
     function nPauli(paulistring::Vararg{Operation})
         @assert all(p -> (isa(p, X) || isa(p, Y) || isa(p, Z)), paulistring)
-        xs = zeros(Bool, length(paulistring))
-        zs = zeros(Bool, length(paulistring))
+        xs = falses(length(paulistring))
+        zs = falses(length(paulistring))
         for (i, p) in enumerate(paulistring)
             if isa(p, X)
                 xs[i] = true

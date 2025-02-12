@@ -1,5 +1,5 @@
 
-struct AerSimulator <: MonitoredQuantumCircuits.Simulator
+struct AerSimulator <: MQC.Simulator
     python_interface::PythonCall.Py
 end
 """
@@ -74,9 +74,9 @@ function Base.getproperty(qc::AerSimulator, prop::Symbol)
     end
 end
 
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, backend::AerSimulator; shots=1024, verbose::Bool=true)
+function MQC.execute(circuit::MQC.Circuit, backend::AerSimulator; shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
-    qc = MonitoredQuantumCircuits.translate(QuantumCircuit, circuit)
+    qc = MQC.translate(QuantumCircuit, circuit)
     verbose && println("✓")
 
     verbose && print("Transpiling circuit to backend...")

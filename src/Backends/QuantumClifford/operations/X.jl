@@ -1,9 +1,9 @@
 function apply!(
     state::QC.MixedDestabilizer,
     ::TableauSimulator,
-    ::MonitoredQuantumCircuits.H,
+    ::MonitoredQuantumCircuits.X,
     p::Integer;
     keep_result::Bool=false)
 
-    QC.apply!(state, QC.sHadamard(p))
+    QC.apply!(state, QC.sX(p))
 end

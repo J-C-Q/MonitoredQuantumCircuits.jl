@@ -33,18 +33,19 @@ include("operations/X.jl")
 include("operations/Y.jl")
 include("operations/Z.jl")
 include("operations/Pauli.jl")
-# include("operations/H.jl")
-# include("operations/CNOT.jl")
-# include("operations/Measure.jl")
-# include("operations/Weak_ZZ.jl")
-# include("operations/Weak_YY.jl")
-# include("operations/Weak_XX.jl")
+include("operations/H.jl")
+include("operations/CNOT.jl")
+include("operations/Measure.jl")
+include("operations/Weak_ZZ.jl")
+include("operations/Weak_YY.jl")
+include("operations/Weak_XX.jl")
 
 # include("GUI/BonitoApp.jl")
 
-# include("Backends/Qiskit/Qiskit.jl")
+include("Backends/Qiskit/Qiskit.jl")
 # include("Backends/Stim/Stim.jl")
 include("Backends/QuantumClifford/QuantumClifford.jl")
+include("Backends/cuQuantum/cuQuantum.jl")
 # # include("Backends/ITensorNetworks/ITensorNetworks.jl")
 # include("circuits/utils/cycles.jl")
 # include("circuits/nishimori.jl")
@@ -116,9 +117,10 @@ export depth
 
 # export Remote
 
-# export Qiskit
+export Qiskit
 # export Stim
 export QuantumClifford
+export cuQuantum
 # # export ITensorNetworks
 
 # export Analysis

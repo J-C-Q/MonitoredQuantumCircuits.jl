@@ -1,25 +1,10 @@
-function depth(::MonitoredQuantumCircuits.CNOT, ::Type{Circuit})
-    return 1
-end
+function apply!(
+    state::QC.MixedDestabilizer,
+    ::TableauSimulator,
+    ::MonitoredQuantumCircuits.H,
+    p1::Integer,
+    p2::Integer;
+    keep_result::Bool=false)
 
-function apply!(qc::Circuit, ::MonitoredQuantumCircuits.CNOT, pos::Integer, p1::Integer, p2::Integer)
-    qc.operations[pos] = QC.sCNOT(p1, p2)
-end
-
-function apply!(qc::Circuit, ::MonitoredQuantumCircuits.CNOT, pos::Integer, step::Integer, p1::Integer, p2::Integer)
-    apply!(qc, MonitoredQuantumCircuits.CNOT(), pos, Val(step), p1, p2)
-end
-
-function apply!(qc::Circuit, ::MonitoredQuantumCircuits.CNOT, pos::Integer, ::Val{1}, p1::Integer, p2::Integer)
-    qc.operations[pos] = QC.sCNOT(p1, p2)
-end
-
-
-function apply!(::MonitoredQuantumCircuits.CNOT, p1::Integer, p2::Integer)
-    QC.sCNOT(p1, p2)
-end
-
-
-function apply!(state::QC.Register, ::MonitoredQuantumCircuits.CNOT, qubits::Integer, clbit::Integer, p1::Integer, p2::Integer)
     QC.apply!(state, QC.sCNOT(state, p1, p2))
 end

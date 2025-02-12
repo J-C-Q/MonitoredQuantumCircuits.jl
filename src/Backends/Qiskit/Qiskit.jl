@@ -5,7 +5,7 @@
 # """
 module Qiskit
 
-import ...MonitoredQuantumCircuits
+import ...MonitoredQuantumCircuits as MQC
 import MonitoredQuantumCircuits.PythonCall as PythonCall
 import MonitoredQuantumCircuits.CondaPkg as CondaPkg
 
@@ -76,7 +76,7 @@ end
 include("QuantumCircuit.jl")
 include("IBMBackend.jl")
 include("QiskitRuntimeService.jl")
-include("Result.jl")
+# include("Result.jl")
 include("Simulation.jl")
 include("Sampler.jl")
 include("Transpiler.jl")

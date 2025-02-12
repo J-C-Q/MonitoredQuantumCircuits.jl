@@ -1,0 +1,12 @@
+function apply!(qc::QuantumCircuit, operation::MonitoredQuantumCircuits.nPauli, clbit::Integer, p1::Integer, p2::Integer, p3::Integer)
+    qc.reset(p2 - 1)
+    qc.h(p1 - 1)
+    qc.h(p2 - 1)
+    qc.h(p3 - 1)
+    qc.rzz(operation.t_A * 2, p1 - 1, p2 - 1)
+    qc.rzz(operation.t_B * 2, p3 - 1, p2 - 1)
+    qc.h(p1 - 1)
+    qc.h(p2 - 1)
+    qc.h(p3 - 1)
+    qc.measure(p2 - 1, clbit - 1)
+end
