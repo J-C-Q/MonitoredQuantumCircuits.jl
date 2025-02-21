@@ -73,6 +73,7 @@ end
 
 
 
+
 # struct RandomCircuit{T<:Geometry} <: QuantumCircuit
 #     lattice::T
 #     operations::Vector{Operation}

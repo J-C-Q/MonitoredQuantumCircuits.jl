@@ -14,5 +14,5 @@ function apply!(
     QC.zero!(operator)
     operator[p1] = (true, true) #Y
     operator[p2] = (true, true) #Y
-    QC.project!(state, operator, keep_result)
+    QC.project!(state, operator; keep_result)
 end

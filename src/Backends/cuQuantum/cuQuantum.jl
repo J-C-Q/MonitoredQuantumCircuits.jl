@@ -1,6 +1,5 @@
 module cuQuantum
-using CUDA
-using cuQuantum_jll
+using cuStateVec
 
-include("cuStateVec.jl")
+
 end

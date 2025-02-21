@@ -7,13 +7,14 @@ end
 function apply!(
     state::QC.MixedDestabilizer,
     simulator::TableauSimulator,
-    ::MonitoredQuantumCircuits.nPauli,
+    P::MonitoredQuantumCircuits.nPauli,
     p::Vararg{Integer};
     keep_result::Bool=false)
 
     operator = simulator.pauli_operator
     QC.zero!(operator)
-    QC.xview(operator) .= p.xs
-    QC.zview(operator) .= p.zs
-    QC.project!(state, operator, keep_result)
+    for (i, pos) in enumerate(p)
+        operator[pos] = (P.xs[i], P.zs[i])
+    end
+    QC.project!(state, operator; keep_result)
 end

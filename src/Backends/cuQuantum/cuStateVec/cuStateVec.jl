@@ -27,9 +27,6 @@ struct custatevecHandle
         pointer = Ref{Ptr{Cvoid}}(C_NULL)
         new(pointer)
     end
-    # function custatevecHandle(pointer::Ref{Ptr{Cvoid}})
-    #     new(pointer)
-    # end
 end
 function Base.show(io::IO, h::custatevecHandle)
     if h.pointer[] == C_NULL
@@ -364,6 +361,12 @@ function CNOT()
     return custatevecGate(CuArray(cnot), false)
 end
 
+function custatevecApplyMatrix!(state::custatevecStateVector, gate::custatevecGate, targetQubit::Integer)
+    return custatevecApplyMatrix!(state, gate, [targetQubit])
+end
+function custatevecApplyMatrix!(state::custatevecStateVector, gate::custatevecGate, targetQubits::Vararg{Integer})
+    return custatevecApplyMatrix!(state, gate, [targetQubits...])
+end
 function custatevecApplyMatrix!(state::custatevecStateVector, gate::custatevecGate, targetQubits::AbstractVector{T}; controlQubits::AbstractVector{T}=Int64[]) where {T<:Integer}
     @assert length(targetQubits) > 0 "targetQubits must be a non-empty vector"
     @assert all(1 <= targetQubit <= state.nqubits for targetQubit in targetQubits) "targetQubits must be valid qubit indices"
@@ -494,182 +497,4 @@ function custatevecMeasureOnZBasis!(state::custatevecStateVector, targetQubits::
         error("Failed to measure")
     end
     return parity[]
-end
-
-
-
-
-
-
-
-
-
-struct StateVectorSimulator
-    state::CuArray{ComplexF64,1}
-    handle::Ptr{Cvoid}
-    nqubits::Int64
-    dim::Int64
-    function StateVectorSimulator(nqubits::Integer; precision::Type=ComplexF64)
-        handle_ref = Ref{Ptr{Cvoid}}(C_NULL)
-        custatevecCreate!(handle_ref)
-
-        new(state, handle, nqubits, 1 << nqubits)
-    end
-end
-
-
-
-function custatevecDestroy!(handle::Ref{Ptr{Cvoid}})
-    ccall(("custatevecDestroy", cuQuantum_jll.libcustatevec), Cint, (Ref{Ptr{Cvoid}},), handle)
-end
-function createStateVec(n::Integer; precision::Type=ComplexF64)
-    @assert n > 0 "n must be a positive integer"
-    @assert precision in [ComplexF32, ComplexF64] "precision must be ComplexF32 or ComplexF64"
-    # allocate memory for the state vector
-    dim = 1 << n
-    sv = CUDA.zeros(precision, dim)
-    # create the state vector handle (cuStateVec)
-    handle = stateVecHandle()
-    ccall(
-        ("custatevecInitializeStateVector", cuQuantum_jll.libcustatevec),
-        Cint,
-        (
-            Ptr{Cvoid},
-            CuPtr{ComplexF64},
-            Cint,
-            Cint,
-            Cint
-        ),
-        handle,
-        pointer(sv),
-        CUDA_C_64F,
-        n,
-        CUSTATEVEC_STATE_VECTOR_TYPE_ZERO)
-
-    return sv, handle
-end
-function initialize_pauliX!(mat)
-    i = threadIdx().x
-    j = threadIdx().y
-
-    if i == 1 && j == 2
-        mat[i, j] = 1.0f0
-    elseif i == 2 && j == 1
-        mat[i, j] = 1.0f0
-    else
-        mat[i, j] = 0.0f0
-    end
-    return
-end
-function pauliX(; precision::Type=ComplexF64)
-    @assert precision in [ComplexF32, ComplexF64] "precision must be ComplexF32 or ComplexF64"
-    pauli_x = CUDA.zeros(precision, 2, 2)
-    CUDA.@sync @cuda threads = (2, 2) initialize_pauliX!(pauli_x)
-    return pauli_x
-end
-
-function apply!(sim::StateVectorSimulator, gate, target_qubit)
-    state = sim.state
-    handle = sim.handle
-    nIndexBits = sim.nqubits
-
-    svDataType = CUDA.C_64F  # Example: CUDA double precision complex
-    matrixDataType = CUDA.C_64F
-    layout = CUSTATEVEC_MATRIX_LAYOUT_COL
-    adjoint = 0
-    nTargets = 1
-    targets = [target_qubit - 1]  # Single target qubit
-    nControls = 0
-    controls = Ptr{Cvoid}(C_NULL)  # Control qubits
-    controlBitValues = C_NULL  # Assuming no specific control bit values
-    computeType = CUSTATEVEC_COMPUTE_64F
-
-    extraWorkspaceSize = applyWorkSpaceSize(handle, nIndexBits, gate)
-    extraWorkspace = extraWorkspaceSize > 0 ? CUDA.malloc(extraWorkspaceSize) : C_NULL
-
-
-    ccall(
-        ("custatevecApplyMatrix", cuQuantum_jll.libcustatevec),
-        Cint,
-        (
-            Ptr{Cvoid},
-            CuPtr{ComplexF64},
-            Cint,
-            Cint,
-            CuPtr{ComplexF64},
-            Cint,
-            Cint,
-            Cint,
-            Ptr{Cvoid},
-            Cint,
-            Ptr{Cvoid},
-            Ptr{Cvoid},
-            Cint,
-            Cint,
-            Ptr{Cvoid},
-            Cint
-        ),
-        handle,
-        pointer(state),
-        svDataType,
-        nIndexBits,
-        pointer(gate),
-        matrixDataType,
-        layout,
-        adjoint,
-        pointer(targets),
-        nTargets,
-        controls,
-        Ptr{Cvoid}(C_NULL),
-        nControls,
-        computeType,
-        extraWorkspace,
-        extraWorkspaceSize)
-end
-
-function applyWorkSpaceSize(handle, nIndexBits, gate)
-    svDataType = CUDA.C_64F  # Example: CUDA double precision complex
-    matrixDataType = CUDA.C_64F
-    layout = CUSTATEVEC_MATRIX_LAYOUT_ROW
-    adjoint = 0
-    nTargets = 1
-    targets = Ref{Cint}(2)  # Single target qubit
-    nControls = 0
-    controls = []  # Control qubits
-    controlBitValues = C_NULL  # Assuming no specific control bit values
-    computeType = CUSTATEVEC_COMPUTE_64F
-
-    # Allocate a variable to store workspace size
-    extraWorkspaceSizeInBytes_ref = Ref{Csize_t}(0)
-    # Call custatevecApplyMatrixGetWorkspaceSize
-    ccall(
-        ("custatevecApplyMatrixGetWorkspaceSize", cuQuantum_jll.libcustatevec), Cint,
-        (
-            Ptr{Cvoid},
-            Cint,
-            Cint,
-            CuPtr{ComplexF64},
-            Cint,
-            Cint,
-            Cint,
-            Cint,
-            Cint,
-            Cint,
-            Ref{Csize_t}
-        ),
-        handle,
-        svDataType,
-        nIndexBits,
-        pointer(gate),
-        matrixDataType,
-        layout,
-        adjoint,
-        nTargets,
-        nControls,
-        computeType,
-        extraWorkspaceSizeInBytes_ref)
-
-    # Retrieve workspace size
-    extraWorkspaceSizeInBytes = extraWorkspaceSizeInBytes_ref[]
-    return extraWorkspaceSizeInBytes
 end

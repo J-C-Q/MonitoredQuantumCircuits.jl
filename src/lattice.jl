@@ -5,6 +5,9 @@
 Abstract type for the geometry of the qubits.
 """
 abstract type Geometry end
+abstract type BoundaryCondition end
+abstract type Periodic <: BoundaryCondition end
+abstract type Open <: BoundaryCondition end
 
 function getBonds(lattice::Geometry)
     bonds = collect(edges(lattice.graph))

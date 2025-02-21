@@ -53,7 +53,8 @@ include("Backends/cuQuantum/cuQuantum.jl")
 # include("circuits/kekule.jl")
 # include("circuits/random.jl")
 
-export PeriodicHoneycombGeometry
+export HoneycombGeometry
+export Periodic
 export kitaevX
 export kitaevY
 export kitaevZ
