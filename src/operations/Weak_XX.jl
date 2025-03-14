@@ -18,6 +18,17 @@ end
 function isClifford(::Weak_XX)
     return false
 end
+function getParameter(o::Weak_XX)
+    floatParamter = [o.t]
+    intParameter = []
+    return (floatParamter, intParameter)
+end
+function hasParameter(::Type{Weak_XX})
+    return true
+end
+function hasParameter(::Type{Weak_XX}, ::Type{Float64})
+    return true
+end
 
 # function connectionGraph(::Weak_XX)
 #     # return the connection graph of the operation

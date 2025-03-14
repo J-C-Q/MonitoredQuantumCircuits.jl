@@ -4,6 +4,8 @@ using Graphs
 using JLD2
 using Crayons
 using Serialization
+using StatsBase
+using LinearAlgebra
 
 using PythonCall
 using CondaPkg
@@ -14,7 +16,8 @@ include("backend.jl")
 # include("Remote/Remote.jl")
 include("lattice.jl")
 include("operations.jl")
-include("circuit_new.jl")
+# include("circuit_new.jl")
+include("circuit_new4.jl")
 # # include("circuit.jl")
 # include("result.jl")
 
@@ -40,6 +43,10 @@ include("operations/Weak_ZZ.jl")
 include("operations/Weak_YY.jl")
 include("operations/Weak_XX.jl")
 
+# include("circuit_new2.jl")
+# include("circuit_new3.jl")
+
+
 # include("GUI/BonitoApp.jl")
 
 include("Backends/Qiskit/Qiskit.jl")
@@ -62,9 +69,13 @@ export isKitaevX
 export isKitaevY
 export isKitaevZ
 export isKitaev_
+export kitaev_neighbor
 export kitaevX_neighbor
 export kitaevY_neighbor
 export kitaevZ_neighbor
+export kekuleX_neighbor
+export kekuleY_neighbor
+export kekuleZ_neighbor
 export plaquettes
 export long_cycles
 export kitaevType
@@ -86,7 +97,7 @@ export YY
 export X
 export Y
 export Z
-export nPauli
+export NPauli
 # export H
 # export CNOT
 # export Measure
@@ -112,6 +123,10 @@ export execute
 export reset!
 export hard_reset!
 export depth
+
+
+
+export Circuit2
 # export RandomCircuit
 
 # export GUI

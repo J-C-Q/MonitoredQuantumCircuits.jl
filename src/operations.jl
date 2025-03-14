@@ -19,6 +19,18 @@ function isClifford(operation::Operation)
     throw(ArgumentError("isClifford not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 
+function hasParameter(::Type{T}, ::DataType) where {T<:Operation}
+    return false
+end
+
+function hasParameter(::Type{T}) where {T<:Operation}
+    return false
+end
+
+function getParameter(::Operation)
+    return (Float64[], Int64[])
+end
+
 
 
 # """

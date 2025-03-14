@@ -1,7 +1,7 @@
 """
     Weak_ZZ(t) <: Operation
 
-A singelton type representing the weak ZZ operation.
+A type representing the weak ZZ operation.
 """
 struct Weak_ZZ <: MeasurementOperation
     t_A::Float64
@@ -24,7 +24,9 @@ end
 function isClifford(::Weak_ZZ)
     return false
 end
-
+function getParameter(o::Weak_ZZ)
+    return [o.t]
+end
 # function connectionGraph(::Weak_ZZ)
 #     # return the connection graph of the operation
 #     return path_graph(3)

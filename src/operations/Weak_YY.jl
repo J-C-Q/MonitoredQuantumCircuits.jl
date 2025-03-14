@@ -18,6 +18,9 @@ end
 function isClifford(::Weak_YY)
     return false
 end
+function getParameter(o::Weak_YY)
+    return [o.t]
+end
 
 # function connectionGraph(::Weak_YY)
 #     # return the connection graph of the operation

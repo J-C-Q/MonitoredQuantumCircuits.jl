@@ -18,7 +18,7 @@ struct Circuit{T<:Geometry} <: QuantumCircuit
     end
 end
 
-function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
+function apply!(circuit::Circuit, operation::Operation, position::Vararg{T}) where {T<:Integer}
     _checkInBounds(circuit, operation, position...)
     if length(circuit.operations) < circuit.depth[1]
         push!(circuit.operations, operation)
@@ -28,6 +28,7 @@ function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer
         circuit.positions[circuit.depth[1]] = position
     end
     circuit.depth[1] += 1
+    return nothing
 end
 
 function reset!(circuit::Circuit)
@@ -45,8 +46,8 @@ function depth(circuit::Circuit)
 end
 
 function _checkInBounds(circuit::Circuit, operation::Operation, position::Vararg{Integer})
-    @assert nQubits(operation) == length(position) "The number of qubits in the operation does not match the number of qubits in the position."
-    @assert all(1 .<= position .<= nQubits(circuit.geometry)) "The position is out of bounds."
+    nQubits(operation) == length(position) || throw(ArgumentError("The number of qubits in the operation does not match the number of qubits in the position."))
+    all(1 .<= position .<= nQubits(circuit.geometry)) || throw(ArgumentError("The position is out of bounds."))
 end
 
 function execute(::Circuit, backend::Backend; verbose::Bool=true)

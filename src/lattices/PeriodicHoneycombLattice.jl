@@ -187,6 +187,17 @@ function isKitaev_(type::Symbol, geometry::HoneycombGeometry{Periodic}, bond::Tu
     end
 end
 
+function kitaev_neighbor(type::Symbol, geometry::HoneycombGeometry{Periodic}, site::Integer)
+    if type == :X
+        return kitaevX_neighbor(geometry, site)
+    elseif type == :Y
+        return kitaevY_neighbor(geometry, site)
+    elseif type == :Z
+        return kitaevZ_neighbor(geometry, site)
+    end
+    return nothing
+end
+
 function kitaevX_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
@@ -197,6 +208,8 @@ function kitaevX_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
         return to_linear(i - 1, j, geometry.sizeX, geometry.sizeY)
     end
 end
+
+
 
 function kitaevY_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
@@ -217,6 +230,63 @@ function kitaevZ_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
         return to_linear(i - 1, j + 1, geometry.sizeX, geometry.sizeY)
     else
         return to_linear(i + 1, j - 1, geometry.sizeX, geometry.sizeY)
+    end
+end
+
+
+function kekuleX_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
+    evenmatrix = [:Z :X :Y
+        :Y :Z :X
+        :X :Y :Z]
+    oddmatrix = [:Y :X :Z
+        :Z :Y :X
+        :X :Z :Y]
+    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+    j = mod1(j, 3)
+    if iseven(i)
+        i = mod1(i, 6) ÷ 2
+        return kitaev_neighbor(evenmatrix[j, i], geometry, site)
+    else
+        i = mod1(i + 1, 6) ÷ 2
+        return kitaev_neighbor(oddmatrix[j, i], geometry, site)
+    end
+end
+
+function kekuleY_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
+    evenmatrix = [:Y :Z :X
+        :X :Y :Z
+        :Z :X :Y]
+    oddmatrix = [:Z :Y :X
+        :X :Z :Y
+        :Y :X :Z]
+
+    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+    j = mod1(j, 3)
+    if iseven(i)
+        i = mod1(i, 6) ÷ 2
+        return kitaev_neighbor(evenmatrix[j, i], geometry, site)
+    else
+        i = mod1(i + 1, 6) ÷ 2
+        return kitaev_neighbor(oddmatrix[j, i], geometry, site)
+    end
+end
+
+function kekuleZ_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
+    evenmatrix = [:X :Y :Z
+        :Z :X :Y
+        :Y :Z :X]
+    oddmatrix = [:X :Z :Y
+        :Y :X :Z
+        :Z :Y :X]
+
+    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+    j = mod1(j, 3)
+    if iseven(i)
+        i = mod1(i, 6) ÷ 2
+        return kitaev_neighbor(evenmatrix[j, i], geometry, site)
+    else
+        i = mod1(i + 1, 6) ÷ 2
+        return kitaev_neighbor(oddmatrix[j, i], geometry, site)
     end
 end
 
