@@ -61,8 +61,10 @@ function apply!(
     options = ((true, false), (true, true), (false, true))
     operator = simulator.pauli_operator
     QC.zero!(operator)
+
     for (i, parameter) in enumerate(P.memory)
         operator[p[i]] = options[parameter]
     end
+
     QC.project!(state, operator; keep_result)
 end

@@ -24,6 +24,10 @@ struct Instruction
 end
 
 # Circuit optimized for interactive construction
+"""
+    CircuitConstructor{G<:Geometry}
+A circuit optimized for interactive construction. The operations are stored in a vector to allow for efficient construction.
+"""
 struct CircuitConstructor{G<:Geometry}
     geometry::Geometry
     operations::Vector{Operation} #inefficient
@@ -47,20 +51,22 @@ struct CircuitConstructor{G<:Geometry}
 end
 
 # Circuit optimized for interation (but static)
-struct Circuit{Ops <: Tuple,P,I}
+"""
+    Circuit{Ops<:Tuple}
+A circuit optimized for iteration. The operations are stored in a tuple. The operations are stored in a tuple to allow for efficient iteration.
+"""
+struct Circuit{Ops<:Tuple}
     operations::Ops
-    positions::SVector{P,Position}
-    instructions::SVector{I,Instruction}
+    positions::Vector{Position}
+    instructions::Vector{Instruction}
     pointer::Vector{Int64}
     function Circuit(circuit::CircuitConstructor)
         operations = (circuit.operations...,)
         Ops = typeof(operations)
-        P = length(circuit.positions)
-        I = length(circuit.instructions)
-        positions = SVector{P,Position}(circuit.positions)
-        instructions = SVector{I,Instruction}(circuit.instructions)
+        positions = circuit.positions
+        instructions = circuit.instructions
         pointer = circuit.pointer
-        new{Ops,P,I}(operations, positions,instructions,pointer)
+        new{Ops}(operations, positions, instructions, pointer)
     end
 end
 function Base.:(==)(pos1::Position,pos2::Position)
@@ -179,7 +185,7 @@ function Base.getindex(circuit::Circuit, i::Integer)
     index = StatsBase.sample(instruction.weights)
     position = circuit.positions[instruction.positions[index]]
     posIndex = StatsBase.sample(position.weights)
-    return circuit.operations[instruction.operations[index]], @view position.positions[:,posIndex]
+    return instruction.operations[index], @view position.positions[:, posIndex]
 end
 function Base.getindex(circuit::CircuitConstructor, i::Integer)
     instruction = circuit.instructions[circuit.pointer[i]]
@@ -194,4 +200,39 @@ function depth(circuit::Circuit)
 end
 function depth(circuit::CircuitConstructor)
     return length(circuit.pointer)
+end
+
+function Base.show(io::IO, circuit::CircuitConstructor)
+    for i in 1:depth(circuit)
+        instruction = circuit.instructions[circuit.pointer[i]]
+        operationsIndeces = instruction.operations
+        probs = instruction.weights
+        for (prob, j) in zip(probs, operationsIndeces)
+            operation = circuit.operations[j]
+            println(io, prob * 100, "%: ", operation)
+        end
+
+    end
+
+end
+
+@generated function getOperation(circuit::Circuit, ::Val{i}) where {i}
+    # Generate code that returns the i-th element from the tuple of operations.
+    return :(circuit.operations[$i])
+end
+
+@generated function getOperationByIndex(circuit::Circuit{Ops}, i::Integer) where {Ops}
+    n = length(Ops.parameters)  # Get the length of the tuple from its type parameters.
+    branches = Vector{Expr}(undef, n + 1)
+    for j in 1:n
+        # Generate code that checks if i equals j and if so, returns the j-th operation.
+        branches[j] = quote
+            if i == $(j)
+                return getOperation(circuit, Val($(j)))
+            end
+        end
+    end
+    # If no branch matched, produce an error.
+    branches[n+1] = :(error("Index out of bounds: ", i))
+    return Expr(:block, branches...)
 end

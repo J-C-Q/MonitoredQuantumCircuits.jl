@@ -3,8 +3,8 @@
 
 A type representing a n qubit pauli parity measurement operation.
 """
-struct NPauli <: MeasurementOperation
-    memory::Vector{Int8}
+struct NPauli{N} <: MeasurementOperation
+    memory::NTuple{N,Int8}
     # paulistring::NTuple{N,Operation}
     # xs::BitVector
     # zs::BitVector
@@ -21,7 +21,7 @@ struct NPauli <: MeasurementOperation
                 constructMemory[i] = Int8(3)
             end
         end
-        new(constructMemory)
+        new{N}((constructMemory...,))
     end
 
     function NPauli(paulistring::Vararg{DataType})
@@ -37,7 +37,7 @@ struct NPauli <: MeasurementOperation
                 constructMemory[i] = Int8(3)
             end
         end
-        new(constructMemory)
+        new{N}((constructMemory...,))
     end
 end
 

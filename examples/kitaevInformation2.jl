@@ -16,11 +16,11 @@ function initialize(L, threads, px, py, pz, depth)
     for (i, j) in z_bonds
         apply!(circuit, ZZ(), i, j)
     end
-    for (i1, i2, i3, i4, i5, i6) in hexagons
+    [for (i1, i2, i3, i4, i5, i6) in hexagons
         apply!(circuit, NPauli(Y, X, Z, Y, X, Z), i1, i2, i3, i4, i5, i6)
     end
     apply!(circuit, NPauli(fill(Z, length(z_loop))...), z_loop...)
-    apply!(circuit, NPauli(fill(Y, length(y_loop))...), y_loop...)
+        apply!(circuit, NPauli(fill(Y, length(y_loop))...), y_loop...)]
 
     operations = MonitoredQuantumCircuits.Operation[XX(), YY(), ZZ()]
     probabilities = [px, py, pz]
@@ -35,12 +35,13 @@ function initialize(L, threads, px, py, pz, depth)
     positionProbabilities = [fill(1 / length(ops), length(ops)) for ops in [x_bonds, y_bonds, z_bonds]]
 
     # ops = [(op, prob, pos, posProb) for (op, prob, pos, posProb) in zip(operations, probabilities, positions, positionProbabilities)]
-    apply!(circuit, operations, probabilities, positions, positionProbabilities)
-    lastIndex = MonitoredQuantumCircuits.depth(circuit)
-    # for _ in 1:depth*2L^2
-    #     apply!(circuit, lastIndex)
-    # end
-    append!(circuit.pointer, fill(lastIndex, depth * 2L^2))
+    # apply!(circuit, operations, probabilities, positions, positionProbabilities)
+    # lastIndex = MonitoredQuantumCircuits.depth(circuit)
+    for _ in 1:depth*2L^2
+        # apply!(circuit, lastIndex)
+        apply!(circuit, operations, probabilities, positions, positionProbabilities)
+    end
+    # append!(circuit.pointer, fill(lastIndex, depth * 2L^2))
 
 
 
