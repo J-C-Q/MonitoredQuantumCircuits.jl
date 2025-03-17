@@ -24,10 +24,10 @@ function generateProbs(; N=496)
 end
 function PlotThis()
     # tmis = JLD2.load("tmis_24x24_1500.jld2")["results"]
-    points = generateProbs()
+    points = generateProbs(N=990)
     averagedTmis = zeros(length(points))
     for (i, p) in enumerate(points)
-        averagedTmis[i] = JLD2.load("tmi_data_new/TMI_L=12_px=$(p[1])_py=$(p[2])_pz=$(p[3])_averaging=120_depth=200.jld2")["tmi"]
+        averagedTmis[i] = JLD2.load("tmi_data_kekule_990/TMI_L=12_px=$(p[1])_py=$(p[2])_pz=$(p[3])_averaging=240_depth=200.jld2")["tmi"]
     end
     # folders = ["."]
     # tmis = []
@@ -109,7 +109,7 @@ function PlotThis()
     Colorbar(fig[1, 2], limits=(-1, 1), colormap=:vik10,
         flipaxis=true, label="Tripartite Information")
 
-    save("tmikitaev.png", fig)
+    save("tmikekule_990.png", fig)
     # save("tmi990.svg", fig)
 end
 PlotThis()

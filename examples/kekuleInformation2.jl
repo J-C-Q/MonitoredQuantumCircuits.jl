@@ -8,6 +8,15 @@ function initialize(L, threads, px, py, pz, depth)
     x_bonds = kitaevX(geometry)
     y_bonds = kitaevY(geometry)
     z_bonds = kitaevZ(geometry)
+    x_red_bonds = [b for b in x_bonds if kekuleRed_neighbor(geometry, b[1]) == b[2] && kekuleRed_neighbor(geometry, b[2]) == b[1]]
+    x_blue_bonds = [b for b in x_bonds if kekuleBlue_neighbor(geometry, b[1]) == b[2] && kekuleBlue_neighbor(geometry, b[2]) == b[1]]
+    x_green_bonds = [b for b in x_bonds if kekuleGreen_neighbor(geometry, b[1]) == b[2] && kekuleGreen_neighbor(geometry, b[2]) == b[1]]
+    y_red_bonds = [b for b in y_bonds if kekuleRed_neighbor(geometry, b[1]) == b[2] && kekuleRed_neighbor(geometry, b[2]) == b[1]]
+    y_blue_bonds = [b for b in y_bonds if kekuleBlue_neighbor(geometry, b[1]) == b[2] && kekuleBlue_neighbor(geometry, b[2]) == b[1]]
+    y_green_bonds = [b for b in y_bonds if kekuleGreen_neighbor(geometry, b[1]) == b[2] && kekuleGreen_neighbor(geometry, b[2]) == b[1]]
+    z_red_bonds = [b for b in z_bonds if kekuleRed_neighbor(geometry, b[1]) == b[2] && kekuleRed_neighbor(geometry, b[2]) == b[1]]
+    z_blue_bonds = [b for b in z_bonds if kekuleBlue_neighbor(geometry, b[1]) == b[2] && kekuleBlue_neighbor(geometry, b[2]) == b[1]]
+    z_green_bonds = [b for b in z_bonds if kekuleGreen_neighbor(geometry, b[1]) == b[2] && kekuleGreen_neighbor(geometry, b[2]) == b[1]]
 
     hexagons = plaquettes(geometry)
     z_loop, y_loop = long_cycles(geometry)
@@ -22,17 +31,17 @@ function initialize(L, threads, px, py, pz, depth)
     apply!(circuit, NPauli(fill(Z, length(z_loop))...), z_loop...)
     apply!(circuit, NPauli(fill(Y, length(y_loop))...), y_loop...)
 
-    operations = MonitoredQuantumCircuits.Operation[XX(), YY(), ZZ()]
-    probabilities = [px, py, pz]
-    positions = [Matrix{Int64}(undef, 2, length(ops)) for ops in [x_bonds, y_bonds, z_bonds]]
-    for (i, ops) in enumerate([x_bonds, y_bonds, z_bonds])
+    operations = MonitoredQuantumCircuits.Operation[XX(),XX(), XX(),YY(), YY(), YY(),ZZ(), ZZ(), ZZ()]
+    probabilities = [px/3,pz/3,py/3, px/3,pz/3,py/3, px/3,pz/3,py/3]
+    positions = [Matrix{Int64}(undef, 2, length(ops)) for ops in (x_red_bonds, x_blue_bonds, x_green_bonds, y_red_bonds, y_blue_bonds, y_green_bonds, z_red_bonds, z_blue_bonds, z_green_bonds)]
+    for (i, ops) in enumerate((x_red_bonds, x_blue_bonds, x_green_bonds, y_red_bonds, y_blue_bonds, y_green_bonds, z_red_bonds, z_blue_bonds, z_green_bonds))
         for (j, p) in enumerate(ops)
             positions[i][:, j] .= p
         end
     end
     # # positions = [[[p[1], p[2]] for p in ops] for ops in [x_bonds, y_bonds, z_bonds]]
 
-    positionProbabilities = [fill(1 / length(ops), length(ops)) for ops in [x_bonds, y_bonds, z_bonds]]
+    positionProbabilities = [fill(1 / length(ops), length(ops)) for ops in (x_red_bonds, x_blue_bonds, x_green_bonds, y_red_bonds, y_blue_bonds, y_green_bonds, z_red_bonds, z_blue_bonds, z_green_bonds)]
 
     # ops = [(op, prob, pos, posProb) for (op, prob, pos, posProb) in zip(operations, probabilities, positions, positionProbabilities)]
     # apply!(circuit, operations, probabilities, positions, positionProbabilities)
@@ -56,7 +65,8 @@ function tmi_parallel(L, px, py, pz; depth=500, averaging=10, threads=Threads.nt
     averaging % threads != 0 && @warn "averaging steps are not a multiple of threads"
     information = zeros(threads)
     geometry, circuit = initialize(L, threads, px, py, pz, depth)
-    initial_state = QuantumClifford.TableauSimulator(nQubits(circuit)).initial_state
+    circuit = MonitoredQuantumCircuits.compile(circuit)
+    initial_state = QuantumClifford.TableauSimulator(nQubits(geometry)).initial_state
 
     N = 2L^2
     batches = averaging ÷ threads
@@ -66,7 +76,7 @@ function tmi_parallel(L, px, py, pz; depth=500, averaging=10, threads=Threads.nt
     xsubs = x_subsystems(geometry, N, L)
 
     Threads.@threads for t in 1:threads
-        sim = QuantumClifford.TableauSimulator(nQubits(circuit))
+        sim = QuantumClifford.TableauSimulator(nQubits(geometry))
         for _ in 1:batches
             QuantumClifford.setInitialState(sim, initial_state)
             execute(circuit, sim)
@@ -79,7 +89,7 @@ function tmi_parallel(L, px, py, pz; depth=500, averaging=10, threads=Threads.nt
     tmi = sum(information)
     tmi /= averaging * 3
     JLD2.save(
-        "tmi_data_new/TMI_L=$(L)_px=$(px)_py=$(py)_pz=$(pz)_averaging=$(averaging)_depth=$(depth).jld2",
+        "tmi_data_kekule_990/TMI_L=$(L)_px=$(px)_py=$(py)_pz=$(pz)_averaging=$(averaging)_depth=$(depth).jld2",
         "tmi", tmi,
         "probs", (px, py, pz))
     return tmi

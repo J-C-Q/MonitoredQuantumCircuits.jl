@@ -234,7 +234,7 @@ function kitaevZ_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
 end
 
 
-function kekuleX_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
+function kekuleRed_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     evenmatrix = [:Z :X :Y
         :Y :Z :X
         :X :Y :Z]
@@ -252,7 +252,7 @@ function kekuleX_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     end
 end
 
-function kekuleY_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
+function kekuleGreen_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     evenmatrix = [:Y :Z :X
         :X :Y :Z
         :Z :X :Y]
@@ -271,7 +271,7 @@ function kekuleY_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     end
 end
 
-function kekuleZ_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
+function kekuleBlue_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     evenmatrix = [:X :Y :Z
         :Z :X :Y
         :Y :Z :X]

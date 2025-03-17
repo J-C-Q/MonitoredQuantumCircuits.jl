@@ -73,9 +73,9 @@ export kitaev_neighbor
 export kitaevX_neighbor
 export kitaevY_neighbor
 export kitaevZ_neighbor
-export kekuleX_neighbor
-export kekuleY_neighbor
-export kekuleZ_neighbor
+export kekuleRed_neighbor
+export kekuleGreen_neighbor
+export kekuleBlue_neighbor
 export plaquettes
 export long_cycles
 export kitaevType
