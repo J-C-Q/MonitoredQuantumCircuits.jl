@@ -42,19 +42,11 @@ end
 using AllocCheck
 
 function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, simulator::TableauSimulator; keep_result::Bool=false)
+    circuit = MonitoredQuantumCircuits.compile(circuit)
     state = simulator.initial_state
     for i in 1:MonitoredQuantumCircuits.depth(circuit)
         operation, position = circuit[i]
         apply!(state, simulator, MonitoredQuantumCircuits.getOperationByIndex(circuit, operation), position; keep_result)
-    end
-    return state
-end
-
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.CircuitConstructor, simulator::TableauSimulator; keep_result::Bool=false)
-    state = simulator.initial_state
-    for i in 1:MonitoredQuantumCircuits.depth(circuit)
-        operation, position = circuit[i]
-        apply!(state, simulator, operation, position; keep_result)
     end
     return state
 end

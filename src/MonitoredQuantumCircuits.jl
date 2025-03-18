@@ -42,6 +42,7 @@ include("operations/Measure.jl")
 include("operations/Weak_ZZ.jl")
 include("operations/Weak_YY.jl")
 include("operations/Weak_XX.jl")
+include("operations/Random.jl")
 
 # include("circuit_new2.jl")
 # include("circuit_new3.jl")
@@ -56,39 +57,18 @@ include("Backends/cuQuantum/cuQuantum.jl")
 # # include("Backends/ITensorNetworks/ITensorNetworks.jl")
 # include("circuits/utils/cycles.jl")
 # include("circuits/nishimori.jl")
-# include("circuits/kitaev.jl")
-# include("circuits/kekule.jl")
+include("circuits/kitaev.jl")
+include("circuits/kekule.jl")
 # include("circuits/random.jl")
 
 export HoneycombGeometry
 export Periodic
-export kitaevX
-export kitaevY
-export kitaevZ
-export isKitaevX
-export isKitaevY
-export isKitaevZ
-export isKitaev_
-export kitaev_neighbor
-export kitaevX_neighbor
-export kitaevY_neighbor
-export kitaevZ_neighbor
-export kekuleRed_neighbor
-export kekuleGreen_neighbor
-export kekuleBlue_neighbor
 export plaquettes
-export long_cycles
-export kitaevType
+export loops
+export bonds
+export subsystems
 export nQubits
 export random_qubit
-
-# export FiniteDepthCircuit
-# export RandomCircuit
-# export EmptyFiniteDepthCircuit
-# export apply!
-# export isClifford
-# export execute
-# export translate
 
 
 export ZZ
@@ -98,6 +78,7 @@ export X
 export Y
 export Z
 export NPauli
+export RandomOperation
 # export H
 # export CNOT
 # export Measure
@@ -105,29 +86,16 @@ export NPauli
 # export Weak_XX
 # export Weak_YY
 
-# export Lattice
-# export HeavyChainLattice
-# export HeavySquareLattice
-# export HeavyHexagonLattice
-# export SquareSurfaceCodeLattice
-# export SquareToricCodeLattice
-# export HexagonToricCodeLattice
 
-# export NishimoriCircuit
-# export KitaevCircuit
-# export KekuleCircuit
-# export RandomCircuit
+
 export Circuit
 export apply!
 export execute
-export reset!
-export hard_reset!
 export depth
 
+export MeasurementOnlyKitaev
+export MeasurementOnlyKekule
 
-
-export Circuit2
-# export RandomCircuit
 
 # export GUI
 
@@ -136,7 +104,7 @@ export Circuit2
 export Qiskit
 # export Stim
 export QuantumClifford
-export cuQuantum
+# export cuQuantum
 # # export ITensorNetworks
 
 # export Analysis

@@ -27,7 +27,8 @@ function PlotThis()
     points = generateProbs(N=990)
     averagedTmis = zeros(length(points))
     for (i, p) in enumerate(points)
-        averagedTmis[i] = JLD2.load("tmi_data_kekule_990/TMI_L=12_px=$(p[1])_py=$(p[2])_pz=$(p[3])_averaging=240_depth=200.jld2")["tmi"]
+        # averagedTmis[i] = JLD2.load("tmi_data_kekule_990/TMI_L=12_px=$(p[1])_py=$(p[2])_pz=$(p[3])_averaging=240_depth=200.jld2")["tmi"]
+        averagedTmis[i] = JLD2.load("tmi_data/TMI_L=12_px=$(p[1])_py=$(p[2])_pz=$(p[3])_averaging=240_depth=150.jld2")["tmi"]
     end
     # folders = ["."]
     # tmis = []
@@ -77,39 +78,38 @@ function PlotThis()
     for (i, t) in enumerate(each_solid_triangle(tri))
         faces[i, :] .= t
     end
-    mesh!(ax, points2d, faces, color=averagedTmis, colormap=:vik10)
+    mesh!(ax, points2d, faces, color=averagedTmis, colormap=:vik10, rasterize=2)
+
+
+
+    p = Polygon(
+        Point2f[(-0.8, -0.5), (0.8, -0.5), (0.8, 0.9), (-0.8, 0.9)],
+        [Point2f[
+            projection([1, 0, 0]),
+            projection([0, 1, 0]),
+            projection([0, 0, 1])
+        ]]
+    )
+    poly!(p, color=:white)
+
+
     lines!(ax, [
             projection([1, 0, 0]),
             projection([0, 1, 0]),
             projection([0, 0, 1]),
-            projection([1, 0, 0])], color=:black)
+            projection([1, 0, 0])], color=:black, joinstyle=:bevel)
     scatter!(ax, [p[1] for p in points2d], [p[2] for p in points2d], color=averagedTmis, strokewidth=0.5, strokecolor=:black, colormap=:vik10, markersize=3)
 
 
 
 
-
-    # p = Polygon(
-    #     Point2f[(-0.8, -0.5), (0.8, -0.5), (0.8, 0.9), (-0.8, 0.9)],
-    #     [Point2f[
-    #         projection([1, 0, 0]),
-    #         projection([0, 1, 0]),
-    #         projection([0, 0, 1])
-    #     ]]
-    # )
-    # poly!(p, color=:white)
-    #  lines!(ax, [
-    #         projection([1, 0, 0]),
-    #         projection([0, 1, 0]),
-    #         projection([0, 0, 1]),
-    #         projection([1, 0, 0])], color=:black)
-    # lines!(ax, [norm(projection([0.5, 0.5, 0])) * cos(t) for t in range(0, 2π, length=100)], [norm(projection([0.5, 0.5, 0])) * sin(t) for t in range(0, 2π, length=100)], color=(:red,0.2), linewidth=2)
+#  in range(0, 2π, length=100)], [norm(projection([0.5, 0.5, 0])) * sin(t) for t in range(0, 2π, length=100)], color=(:red,0.2), linewidth=2)
     text!(ax, Point2f[projection([1.05, 0, 0]), projection([0, 1.05, 0]), projection([0, 0, 1.05])], text=["X", "Y", "Z"], color=:black, align=(:center, :center))
     limits!(ax, (-0.8, 0.8), (-0.5, 0.9))
     Colorbar(fig[1, 2], limits=(-1, 1), colormap=:vik10,
         flipaxis=true, label="Tripartite Information")
 
-    save("tmikekule_990.png", fig)
+    save("tmi_990.svg", fig)
     # save("tmi990.svg", fig)
 end
 PlotThis()

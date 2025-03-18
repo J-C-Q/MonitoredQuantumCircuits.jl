@@ -23,12 +23,12 @@ struct Instruction
     end
 end
 
-# Circuit optimized for interactive construction
+# CompiledCircuit optimized for interactive construction
 """
-    CircuitConstructor{G<:Geometry}
+    Circuit{G<:Geometry}
 A circuit optimized for interactive construction. The operations are stored in a vector to allow for efficient construction.
 """
-struct CircuitConstructor{G<:Geometry}
+struct Circuit{G<:Geometry}
     geometry::Geometry
     operations::Vector{Operation} #inefficient
     operationHashTable::Dict{UInt64,Int64}
@@ -37,7 +37,7 @@ struct CircuitConstructor{G<:Geometry}
     instructions::Vector{Instruction}
     instructionHashTable::Dict{UInt64,Int64}
     pointer::Vector{Int64}
-    function CircuitConstructor(geometry::Geometry)
+    function Circuit(geometry::Geometry)
         G = typeof(geometry)
         operations = Operation[]
         operationHashTable = Dict{UInt64,Int64}()
@@ -50,17 +50,17 @@ struct CircuitConstructor{G<:Geometry}
     end
 end
 
-# Circuit optimized for interation (but static)
+# CompiledCircuit optimized for interation (but static)
 """
-    Circuit{Ops<:Tuple}
+    CompiledCircuit{Ops<:Tuple}
 A circuit optimized for iteration. The operations are stored in a tuple. The operations are stored in a tuple to allow for efficient iteration.
 """
-struct Circuit{Ops<:Tuple}
+struct CompiledCircuit{Ops<:Tuple}
     operations::Ops
     positions::Vector{Position}
     instructions::Vector{Instruction}
     pointer::Vector{Int64}
-    function Circuit(circuit::CircuitConstructor)
+    function CompiledCircuit(circuit::Circuit)
         operations = (circuit.operations...,)
         Ops = typeof(operations)
         positions = circuit.positions
@@ -82,26 +82,26 @@ function Base.hash(instruction::Instruction)
     return hash((instruction.operations,instruction.positions,instruction.weights))
 end
 
-function Base.in(operation::Operation, circuit::CircuitConstructor)
+function Base.in(operation::Operation, circuit::Circuit)
     return haskey(circuit.operationHashTable, hash(operation))
 end
-function Base.in(position::Position, circuit::CircuitConstructor)
+function Base.in(position::Position, circuit::Circuit)
     return haskey(circuit.positionHashTable, hash(position))
 end
-function Base.in(instruction::Instruction, circuit::CircuitConstructor)
+function Base.in(instruction::Instruction, circuit::Circuit)
     return haskey(circuit.instructionHashTable, hash(instruction))
 end
-function Base.getindex(circuit::CircuitConstructor, operation::Operation)
+function Base.getindex(circuit::Circuit, operation::Operation)
     return circuit.operationHashTable[hash(operation)]
 end
-function Base.getindex(circuit::CircuitConstructor, position::Position)
+function Base.getindex(circuit::Circuit, position::Position)
     return circuit.positionHashTable[hash(position)]
 end
-function Base.getindex(circuit::CircuitConstructor, instruction::Instruction)
+function Base.getindex(circuit::Circuit, instruction::Instruction)
     return circuit.instructionHashTable[hash(instruction)]
 end
 
-function Base.push!(circuit::CircuitConstructor, operation::Operation)
+function Base.push!(circuit::Circuit, operation::Operation)
     if operation in circuit
         return circuit[operation]
     else
@@ -112,7 +112,7 @@ function Base.push!(circuit::CircuitConstructor, operation::Operation)
     end
     return 0
 end
-function Base.push!(circuit::CircuitConstructor, position::Position)
+function Base.push!(circuit::Circuit, position::Position)
     if position in circuit
         return circuit[position]
     else
@@ -123,7 +123,7 @@ function Base.push!(circuit::CircuitConstructor, position::Position)
     end
     return 0
 end
-function Base.push!(circuit::CircuitConstructor, instruction::Instruction)
+function Base.push!(circuit::Circuit, instruction::Instruction)
     if instruction in circuit
         return circuit[instruction]
     else
@@ -135,7 +135,7 @@ function Base.push!(circuit::CircuitConstructor, instruction::Instruction)
     return 0
 end
 
-function apply!(circuit::CircuitConstructor, operation::Operation, position::Vararg{Integer})
+function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
     operationIndex = push!(circuit, operation)
     pos = Position(position...)
     positionIndex = push!(circuit, pos)
@@ -144,7 +144,7 @@ function apply!(circuit::CircuitConstructor, operation::Operation, position::Var
     push!(circuit.pointer, instructionIndex)
 end
 
-function apply!(circuit::CircuitConstructor, operations::Vararg{Tuple{<:Operation, <:Real, Matrix{<:Integer}, Vector{<:Real}}})
+function apply!(circuit::Circuit, operations::Vararg{Tuple{<:Operation,<:Real,Matrix{<:Integer},Vector{<:Real}}})
     sum([operation[2] for operation in operations]) ≈ 1.0 || throw(ArgumentError("Probabilities must add up to 1."))
     all([sum(operation[4]) for operation in operations] .≈ 1.0) || throw(ArgumentError("Probabilities must add up to 1."))
 
@@ -157,7 +157,7 @@ function apply!(circuit::CircuitConstructor, operations::Vararg{Tuple{<:Operatio
     push!(circuit.pointer, instructionIndex)
 end
 
-function apply!(circuit::CircuitConstructor, operations::Vector, probabilities::Vector, positions::Vector, positionProbabilities::Vector)
+function apply!(circuit::Circuit, operations::Vector, probabilities::Vector, positions::Vector, positionProbabilities::Vector)
     sum(probabilities) ≈ 1.0 || throw(ArgumentError("Probabilities must add up to 1."))
     all([sum(prob) for prob in positionProbabilities] .≈ 1.0) || throw(ArgumentError("Probabilities must add up to 1."))
 
@@ -169,25 +169,29 @@ function apply!(circuit::CircuitConstructor, operations::Vector, probabilities::
     push!(circuit.pointer, instructionIndex)
 end
 
-function apply!(circuit::CircuitConstructor, index::Integer)
+function apply!(circuit::Circuit, index::Integer)
     push!(circuit.pointer, index)
 end
 
-function compile(circuit::CircuitConstructor)
-    return Circuit(circuit)
+function apply!(circuit::Circuit, operation::RandomOperation)
+    apply!(circuit, operation.operations, operation.probabilities, operation.positions, operation.positionProbabilities)
 end
 
-function execute(::Circuit, backend::Backend; verbose::Bool=true)
+function compile(circuit::Circuit)
+    return CompiledCircuit(circuit)
+end
+
+function execute(::CompiledCircuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
-function Base.getindex(circuit::Circuit, i::Integer)
+function Base.getindex(circuit::CompiledCircuit, i::Integer)
     instruction = circuit.instructions[circuit.pointer[i]]
     index = StatsBase.sample(instruction.weights)
     position = circuit.positions[instruction.positions[index]]
     posIndex = StatsBase.sample(position.weights)
     return instruction.operations[index], @view position.positions[:, posIndex]
 end
-function Base.getindex(circuit::CircuitConstructor, i::Integer)
+function Base.getindex(circuit::Circuit, i::Integer)
     instruction = circuit.instructions[circuit.pointer[i]]
     index = StatsBase.sample(instruction.weights)
     position = circuit.positions[instruction.positions[index]]
@@ -195,44 +199,41 @@ function Base.getindex(circuit::CircuitConstructor, i::Integer)
     return circuit.operations[instruction.operations[index]], @view position.positions[:,posIndex]
 end
 
+function depth(circuit::CompiledCircuit)
+    return length(circuit.pointer)
+end
 function depth(circuit::Circuit)
     return length(circuit.pointer)
 end
-function depth(circuit::CircuitConstructor)
-    return length(circuit.pointer)
-end
 
-function Base.show(io::IO, circuit::CircuitConstructor)
-    for i in 1:depth(circuit)
-        instruction = circuit.instructions[circuit.pointer[i]]
-        operationsIndeces = instruction.operations
-        probs = instruction.weights
-        for (prob, j) in zip(probs, operationsIndeces)
-            operation = circuit.operations[j]
-            println(io, prob * 100, "%: ", operation)
-        end
+# function Base.show(io::IO, circuit::Circuit)
+#     for i in 1:depth(circuit)
+#         instruction = circuit.instructions[circuit.pointer[i]]
+#         operationsIndeces = instruction.operations
+#         probs = instruction.weights
+#         for (prob, j) in zip(probs, operationsIndeces)
+#             operation = circuit.operations[j]
+#             println(io, prob * 100, "%: ", operation)
+#         end
 
-    end
+#     end
 
-end
+# end
 
-@generated function getOperation(circuit::Circuit, ::Val{i}) where {i}
-    # Generate code that returns the i-th element from the tuple of operations.
+@generated function getOperation(circuit::CompiledCircuit, ::Val{i}) where {i}
     return :(circuit.operations[$i])
 end
 
-@generated function getOperationByIndex(circuit::Circuit{Ops}, i::Integer) where {Ops}
-    n = length(Ops.parameters)  # Get the length of the tuple from its type parameters.
+@generated function getOperationByIndex(circuit::CompiledCircuit{Ops}, i::Integer) where {Ops}
+    n = length(Ops.parameters)
     branches = Vector{Expr}(undef, n + 1)
     for j in 1:n
-        # Generate code that checks if i equals j and if so, returns the j-th operation.
         branches[j] = quote
             if i == $(j)
                 return getOperation(circuit, Val($(j)))
             end
         end
     end
-    # If no branch matched, produce an error.
     branches[n+1] = :(error("Index out of bounds: ", i))
     return Expr(:block, branches...)
 end

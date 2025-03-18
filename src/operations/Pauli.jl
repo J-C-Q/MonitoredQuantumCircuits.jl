@@ -39,6 +39,19 @@ struct NPauli{N} <: MeasurementOperation
         end
         new{N}((constructMemory...,))
     end
+
+    function NPauli(pauli::Operation, N::Integer)
+        isa(pauli, X) || isa(pauli, Y) || isa(pauli, Z) || throw(ArgumentError("Only single qubit pauli operations."))
+        num = Int8(0)
+        if isa(pauli, X)
+            num = Int8(1)
+        elseif isa(pauli, Y)
+            num = Int8(2)
+        elseif isa(pauli, Z)
+            num = Int8(3)
+        end
+        new{N}((fill(num, N)...,))
+    end
 end
 
 function nQubits(p::NPauli)
