@@ -121,8 +121,9 @@ function x_subsystems(lattice, N, L)
     return (first, second, third)
 end
 
-function generateProbs(; N=496)
+function generateProbs(; k=45)
     points = NTuple{3,Float64}[]
+    N = k * (k + 1) / 2
     n = Int(-1 / 2 + sqrt(1 / 4 + 2N))
     for (k, i) in enumerate(range(0, 1, n))
         for j in range(i, 1, n - k + 1)

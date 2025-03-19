@@ -158,7 +158,7 @@ function apply!(circuit::Circuit, operations::Vararg{Tuple{<:Operation,<:Real,Ma
 end
 
 function apply!(circuit::Circuit, operations::Vector, probabilities::Vector, positions::Vector, positionProbabilities::Vector)
-    sum(probabilities) ≈ 1.0 || throw(ArgumentError("Probabilities must add up to 1."))
+    sum(probabilities) ≈ 1.0 || throw(ArgumentError("Probabilities must add up to 1. Got sum($probabilities)=$(sum(probabilities))"))
     all([sum(prob) for prob in positionProbabilities] .≈ 1.0) || throw(ArgumentError("Probabilities must add up to 1."))
 
     operationIndecies = [push!(circuit, operation) for operation in operations]
@@ -175,6 +175,12 @@ end
 
 function apply!(circuit::Circuit, operation::RandomOperation)
     apply!(circuit, operation.operations, operation.probabilities, operation.positions, operation.positionProbabilities)
+end
+
+function apply!(circuit::Circuit, operation::DistributedOperation)
+    for (i, position) in enumerate(eachcol(operation.positions))
+        apply!(circuit, [operation.operation, I()], [operation.probabilities[i], 1 - operation.probabilities[i]], [reshape(collect(position), length(position), 1), [1;;]], [[1.0], [1.0]])
+    end
 end
 
 function compile(circuit::Circuit)

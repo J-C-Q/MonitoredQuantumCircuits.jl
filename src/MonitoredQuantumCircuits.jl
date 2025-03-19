@@ -17,11 +17,13 @@ include("backend.jl")
 include("lattice.jl")
 include("operations.jl")
 # include("circuit_new.jl")
-include("circuit_new4.jl")
+
+
 # # include("circuit.jl")
 # include("result.jl")
 
 include("lattices/PeriodicHoneycombLattice.jl")
+include("lattices/ChainGeometry.jl")
 # include("lattices/heavyChainLattice.jl")
 # include("lattices/heavySquareLattice.jl")
 # include("lattices/heavyHexagonLattice.jl")
@@ -42,8 +44,12 @@ include("operations/Measure.jl")
 include("operations/Weak_ZZ.jl")
 include("operations/Weak_YY.jl")
 include("operations/Weak_XX.jl")
+include("operations/RandomClifford.jl")
+include("operations/Distributed.jl")
+include("operations/I.jl")
 include("operations/Random.jl")
 
+include("circuit_new4.jl")
 # include("circuit_new2.jl")
 # include("circuit_new3.jl")
 
@@ -59,9 +65,11 @@ include("Backends/cuQuantum/cuQuantum.jl")
 # include("circuits/nishimori.jl")
 include("circuits/kitaev.jl")
 include("circuits/kekule.jl")
+include("circuits/MTFIM.jl")
 # include("circuits/random.jl")
 
 export HoneycombGeometry
+export ChainGeometry
 export Periodic
 export plaquettes
 export loops
@@ -79,6 +87,8 @@ export Y
 export Z
 export NPauli
 export RandomOperation
+export DistributedOperation
+export RandomClifford
 # export H
 # export CNOT
 # export Measure
@@ -95,6 +105,7 @@ export depth
 
 export MeasurementOnlyKitaev
 export MeasurementOnlyKekule
+export MonitoredTransverseFieldIsing
 
 
 # export GUI

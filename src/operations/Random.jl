@@ -21,12 +21,12 @@ function Base.push!(
     positionProbabilities=fill(1/size(positions,2), size(positions,2)))
 
     push!(random.operations, op)
-    if probability ≈ 1.0 && !isempty(random.probabilities)
-        random.probabilities .*= length(random.probabilities)/(length(random.probabilities) + 1)
-        push!(random.probabilities, 1/(length(random.probabilities)+1))
-    else
+    # if probability ≈ 1.0 && !isempty(random.probabilities)
+    #     random.probabilities .*= length(random.probabilities)/(length(random.probabilities) + 1)
+    #     push!(random.probabilities, 1/(length(random.probabilities)+1))
+    # else
         push!(random.probabilities, probability)
-    end
+    # end
     push!(random.positions, positions)
     push!(random.positionProbabilities, positionProbabilities)
 

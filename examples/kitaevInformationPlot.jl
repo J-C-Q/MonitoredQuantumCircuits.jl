@@ -70,7 +70,7 @@ function PlotThis()
 
     # voronoiplot!(ax, [p[1] for p in points2d], [p[2] for p in points2d], averagedTmis, colormap=:vik10, markersize=5, strokewidth=0.0, show_generators=false, smooth=false, unbounded_edge_extension_factor=1.0, colorrange=(-1, 1), highclip=:white, lowclip=:white, nan_color=:black)
     #
-    # tricontourf!(ax,[p[1] for p in points2d], [p[2] for p in points2d], averagedTmis,colormap=:vik10,levels=5)
+    # tricontourf!(ax, [p[1] for p in points2d], [p[2] for p in points2d], averagedTmis, colormap=:vik10, levels=5)
     # scatter!(ax,[p[1] for p in points2d], [p[2] for p in points2d], color = averagedTmis, strokewidth = 0.5, strokecolor = :black,colormap=:vik10, markersize=5)
     #
     tri = triangulate(points2d)
@@ -109,7 +109,7 @@ function PlotThis()
     Colorbar(fig[1, 2], limits=(-1, 1), colormap=:vik10,
         flipaxis=true, label="Tripartite Information")
 
-    save("tmi_990.svg", fig)
+    save("tmi_990_2.svg", fig)
     # save("tmi990.svg", fig)
 end
 PlotThis()
