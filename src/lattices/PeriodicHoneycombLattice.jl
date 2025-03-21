@@ -697,3 +697,15 @@ function subsystems(geometry::HoneycombGeometry{Periodic}, n::Integer=2; cutType
     loops_per_subsystem = size(sites, 2) ÷ n
     return reshape(sites, loops_per_subsystem * size(sites, 1), n)
 end
+
+function subsystem(geometry::HoneycombGeometry{Periodic}, l::Integer; cutType=:Z)
+    if cutType == :Z
+        sites = loops(geometry; kitaevTypes=(:X, :Y))
+    elseif cutType == :X
+        sites = loops(geometry; kitaevTypes=(:Y, :Z))
+    elseif cutType == :Y
+        sites = loops(geometry; kitaevTypes=(:X, :Z))
+    end
+    sub = @view sites[:, 1:l]
+    return reshape(sub, length(sub), 1)
+end

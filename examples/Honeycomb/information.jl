@@ -1,23 +1,30 @@
 using MonitoredQuantumCircuits
-using JLD2
-using ProgressMeter
-function simulate(path::String; depth=500, L=12, averaging=10, resolution=45)
-    points = generateProbs(k=resolution)
+import JLD2
+import ProgressMeter
+function simulate(path::String; depth=100, L=12, averaging=10, resolution=45, type=:Kitaev)
+    points = generateProbs(n=resolution)
     geometry = HoneycombGeometry(Periodic, L, L)
 
     z_subsystems = subsystems(geometry, 4; cutType=:Z)
     x_subsystems = subsystems(geometry, 4; cutType=:X)
     y_subsystems = subsystems(geometry, 4; cutType=:Y)
-
-    @showprogress Threads.@threads for (px, py, pz) in points
-        circuit = MeasurementOnlyKekule(geometry, px, py, pz; depth)
+    progressMeter = ProgressMeter.Progress(length(points) * averaging; dt=1.0)
+    Threads.@threads for (px, py, pz) in points
+        if type == :Kitaev
+            circuit = MeasurementOnlyKitaev(geometry, px, py, pz; depth)
+        elseif type == :Kekule
+            circuit = MeasurementOnlyKekule(geometry, px, py, pz; depth)
+        else
+            throw(ArgumentError("Unsupported type $type. Choose one of :Kitaev, :Kekule"))
+        end
         sim = QuantumClifford.TableauSimulator(nQubits(geometry))
         tmi = 0
         for _ in 1:averaging
             result = execute(circuit, sim)
-            tmi += QuantumClifford.tmi(result, (@view z_subsystems[:, 1]), (@view z_subsystems[:, 2]), (@view z_subsystems[:, 3]))
-            tmi += QuantumClifford.tmi(result, (@view x_subsystems[:, 1]), (@view x_subsystems[:, 2]), (@view x_subsystems[:, 3]))
-            tmi += QuantumClifford.tmi(result, (@view y_subsystems[:, 1]), (@view y_subsystems[:, 2]), (@view y_subsystems[:, 3]))
+            tmi += QuantumClifford.tmi(result, z_subsystems)
+            tmi += QuantumClifford.tmi(result, x_subsystems)
+            tmi += QuantumClifford.tmi(result, y_subsystems)
+            ProgressMeter.next!(progressMeter)
         end
         tmi /= 3averaging
         JLD2.save(
@@ -27,11 +34,9 @@ function simulate(path::String; depth=500, L=12, averaging=10, resolution=45)
     end
 end
 
-
-function generateProbs(; k=45)
+function generateProbs(; n=45)
     points = NTuple{3,Float64}[]
-    N = k * (k + 1) / 2
-    n = Int(-1 / 2 + sqrt(1 / 4 + 2N))
+    # N = k * (k + 1) / 2
     for (k, i) in enumerate(range(0, 1, n))
         for j in range(i, 1, n - k + 1)
             px = i

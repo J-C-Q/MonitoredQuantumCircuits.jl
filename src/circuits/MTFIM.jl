@@ -1,7 +1,7 @@
 function MonitoredTransverseFieldIsing(geometry::ChainGeometry{Periodic}, p::Float64; depth=100)
     circuit = Circuit(geometry)
 
-    X_random = DistributedOperation(X(), MonitoredQuantumCircuits.qubits(geometry), p)
+    X_random = DistributedOperation(Measure_X(), MonitoredQuantumCircuits.qubits(geometry), p)
 
     ZZ_random = DistributedOperation(ZZ(), bonds(geometry), 1 - p)
 

@@ -3,13 +3,13 @@
 
 A singelton type representing the computational basis measurement operation.
 """
-struct Measure <: MeasurementOperation end
+struct Measure_X <: MeasurementOperation end
 
 
-function nQubits(::Measure)
+function nQubits(::Measure_X)
     return 1
 end
-function isClifford(::Measure)
+function isClifford(::Measure_X)
     return true
 end
 

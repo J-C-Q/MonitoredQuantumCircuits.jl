@@ -40,7 +40,9 @@ include("operations/Z.jl")
 include("operations/Pauli.jl")
 include("operations/H.jl")
 include("operations/CNOT.jl")
-include("operations/Measure.jl")
+include("operations/Measure_Z.jl")
+include("operations/Measure_X.jl")
+include("operations/Measure_Y.jl")
 include("operations/Weak_ZZ.jl")
 include("operations/Weak_YY.jl")
 include("operations/Weak_XX.jl")
@@ -66,6 +68,7 @@ include("Backends/cuQuantum/cuQuantum.jl")
 include("circuits/kitaev.jl")
 include("circuits/kekule.jl")
 include("circuits/MTFIM.jl")
+include("circuits/kekule_floquet.jl")
 # include("circuits/random.jl")
 
 export HoneycombGeometry
@@ -75,6 +78,7 @@ export plaquettes
 export loops
 export bonds
 export subsystems
+export subsystem
 export nQubits
 export random_qubit
 
@@ -89,6 +93,9 @@ export NPauli
 export RandomOperation
 export DistributedOperation
 export RandomClifford
+export Measure_Z
+export Measure_X
+export Measure_Y
 # export H
 # export CNOT
 # export Measure
@@ -105,6 +112,7 @@ export depth
 
 export MeasurementOnlyKitaev
 export MeasurementOnlyKekule
+export MeasurementOnlyKekule_Floquet
 export MonitoredTransverseFieldIsing
 
 

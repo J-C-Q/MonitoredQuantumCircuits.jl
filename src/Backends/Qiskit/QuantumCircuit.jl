@@ -31,11 +31,9 @@ end
 
 function translate(::Type{Circuit}, circuit::MQC.Circuit)
     _checkinit_qiskit()
-    nmeas = MQC.nMeasurements(circuit)
-    qc = Circuit(MQC.nQubits(circuit) + nmeas, nmeas)
-    cbit = 1
+    qc = Circuit(MQC.nQubits(circuit), MQC.nQubits(circuit))
     for i in 1:MQC.depth(circuit)
-        operation = circuit.operations[i]
+        operation, position = circuit[i]
         if typeof(operation) <: MQC.MeasurementOperation
             apply!(qc, operation, cbit, circuit.positions[i]...)
             cbit += 1

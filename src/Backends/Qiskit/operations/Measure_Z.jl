@@ -3,7 +3,7 @@
 # end
 
 
-function apply!(qc::Circuit, ::MQC.Measure, clbit::Integer, p::Integer)
+function apply!(qc::Circuit, ::MQC.Measure_Z, clbit::Integer, p::Integer)
     qc.measure(p - 1, clbit - 1)
 end
 # function apply!(qc::QuantumCircuit, ::MonitoredQuantumCircuits.Measure, step::Integer, clbit::Integer, p::Integer)
