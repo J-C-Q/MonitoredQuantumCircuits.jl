@@ -48,7 +48,7 @@ include("circuit.jl")
 include("Backends/Qiskit/Qiskit.jl")
 # include("Backends/Stim/Stim.jl")
 include("Backends/QuantumClifford/QuantumClifford.jl")
-include("Backends/cuQuantum/cuQuantum.jl")
+# include("Backends/cuQuantum/cuQuantum.jl")
 # include("Backends/ITensorNetworks/ITensorNetworks.jl")
 
 include("circuits/kitaev.jl")

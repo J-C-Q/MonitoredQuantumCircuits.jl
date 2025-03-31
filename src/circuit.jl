@@ -1,5 +1,4 @@
-# We need two circuit structures. One for interacivly creating the circuit. And one for efficently storing the circuit (optimized for iteration).
-using StaticArrays
+# We need two circuit structures. One for interacivly creating the circuit. And one for efficently storing the circuit (optimized for iteration)
 
 struct Position
     positions::Matrix{Int64}
