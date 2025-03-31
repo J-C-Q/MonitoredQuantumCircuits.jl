@@ -3,7 +3,7 @@ using MonitoredQuantumCircuits
 makedocs(;
     sitename="MonitoredQuantumCircuits",
     authors="J-C-Q",
-    modules=[MonitoredQuantumCircuits],
+    modules=[MonitoredQuantumCircuits, MonitoredQuantumCircuits.Qiskit, MonitoredQuantumCircuits.QuantumClifford],
     warnonly=true,
     format=DocumenterVitepress.MarkdownVitepress(
         repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
