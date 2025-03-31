@@ -96,6 +96,7 @@ export apply!
 export execute
 export depth
 export nAncilla
+export compile
 
 export MeasurementOnlyKitaev
 export MeasurementOnlyKekule
