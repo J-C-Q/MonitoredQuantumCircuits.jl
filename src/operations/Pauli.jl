@@ -89,7 +89,9 @@ end
 function Base.hash(npauli::NPauli)
     return hash((npauli.memory))
 end
-
+function nancilla(::NPauli)
+    return 1
+end
 
 
 # function connectionGraph(::XX)

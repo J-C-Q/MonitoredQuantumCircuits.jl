@@ -88,8 +88,12 @@ include("operations/YY.jl")
 include("operations/H.jl")
 include("operations/CNOT.jl")
 include("operations/Measure_Z.jl")
+include("operations/Measure_X.jl")
+include("operations/Measure_Y.jl")
 include("operations/Weak_ZZ.jl")
 include("operations/Weak_XX.jl")
 include("operations/Weak_YY.jl")
+include("operations/Pauli.jl")
+include("operations/I.jl")
 
 end

@@ -6,7 +6,7 @@ A singelton type representing the weak XX operation.
 struct Weak_XX <: MeasurementOperation
     t::Float64
     function Weak_XX(t::Float64)
-        0 < t < π / 4 || throw(ArgumentError("t must be in (0, π/4)."))
+        0 < t <= π / 4 || throw(ArgumentError("t must be in (0, π/4)."))
         new(t)
     end
 end
@@ -28,6 +28,9 @@ function hasParameter(::Type{Weak_XX})
 end
 function hasParameter(::Type{Weak_XX}, ::Type{Float64})
     return true
+end
+function nancilla(::Weak_XX)
+    return 1
 end
 
 # function connectionGraph(::Weak_XX)

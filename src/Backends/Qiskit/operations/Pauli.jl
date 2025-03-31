@@ -1,12 +1,23 @@
-function apply!(qc::QuantumCircuit, operation::MonitoredQuantumCircuits.nPauli, clbit::Integer, p1::Integer, p2::Integer, p3::Integer)
-    qc.reset(p2 - 1)
-    qc.h(p1 - 1)
-    qc.h(p2 - 1)
-    qc.h(p3 - 1)
-    qc.rzz(operation.t_A * 2, p1 - 1, p2 - 1)
-    qc.rzz(operation.t_B * 2, p3 - 1, p2 - 1)
-    qc.h(p1 - 1)
-    qc.h(p2 - 1)
-    qc.h(p3 - 1)
-    qc.measure(p2 - 1, clbit - 1)
+function apply!(qc::Circuit, operation::MQC.NPauli, p::SubArray, ancilla::Integer)
+    ax = ancilla - 1
+    qc.reset(ax)
+    qc.h(ax)
+    for (i, parameter) in enumerate(operation.memory)
+        pos = p[i] - 1
+        if parameter == 1
+            qc.h(pos)
+        elseif parameter == 2
+            qc.sdg(pos)
+            qc.h(pos)
+        end
+        qc.cx(ax, pos)
+        if parameter == 1
+            qc.h(pos)
+        elseif parameter == 2
+            qc.s(pos)
+            qc.h(pos)
+        end
+    end
+    qc.h(ax)
+    qc.measure(ax, ax)
 end

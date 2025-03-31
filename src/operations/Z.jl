@@ -11,7 +11,9 @@ end
 function isClifford(::Z)
     return true
 end
-
+function nancilla(::Z)
+    return 0
+end
 # function connectionGraph(::Z)
 #     # return the connection graph of the operation
 #     return path_graph(1)

@@ -12,7 +12,9 @@ end
 function isClifford(::Measure_Z)
     return true
 end
-
+function nancilla(::Measure_Z)
+    return 0
+end
 # function connectionGraph(::Measure)
 #     # return the connection graph of the operation
 #     return path_graph(1)

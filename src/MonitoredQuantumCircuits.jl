@@ -16,20 +16,10 @@ include("backend.jl")
 # include("Remote/Remote.jl")
 include("lattice.jl")
 include("operations.jl")
-# include("circuit_new.jl")
 
-
-# # include("circuit.jl")
-# include("result.jl")
 
 include("lattices/PeriodicHoneycombLattice.jl")
 include("lattices/ChainGeometry.jl")
-# include("lattices/heavyChainLattice.jl")
-# include("lattices/heavySquareLattice.jl")
-# include("lattices/heavyHexagonLattice.jl")
-# include("lattices/squareSurfaceCodeLattice.jl")
-# include("lattices/squareToricCodeLattice.jl")
-# include("lattices/hexagonToricCodeLattice.jl")
 
 include("operations/ZZ.jl")
 include("operations/XX.jl")
@@ -51,10 +41,7 @@ include("operations/Distributed.jl")
 include("operations/I.jl")
 include("operations/Random.jl")
 
-include("circuit_new4.jl")
-# include("circuit_new2.jl")
-# include("circuit_new3.jl")
-
+include("circuit.jl")
 
 # include("GUI/BonitoApp.jl")
 
@@ -62,9 +49,8 @@ include("Backends/Qiskit/Qiskit.jl")
 # include("Backends/Stim/Stim.jl")
 include("Backends/QuantumClifford/QuantumClifford.jl")
 include("Backends/cuQuantum/cuQuantum.jl")
-# # include("Backends/ITensorNetworks/ITensorNetworks.jl")
-# include("circuits/utils/cycles.jl")
-# include("circuits/nishimori.jl")
+# include("Backends/ITensorNetworks/ITensorNetworks.jl")
+
 include("circuits/kitaev.jl")
 include("circuits/kekule.jl")
 include("circuits/MTFIM.jl")
@@ -96,12 +82,12 @@ export RandomClifford
 export Measure_Z
 export Measure_X
 export Measure_Y
-# export H
-# export CNOT
-# export Measure
-# export Weak_ZZ
-# export Weak_XX
-# export Weak_YY
+export H
+export CNOT
+export Measure
+export Weak_ZZ
+export Weak_XX
+export Weak_YY
 
 
 
@@ -109,6 +95,7 @@ export Circuit
 export apply!
 export execute
 export depth
+export nAncilla
 
 export MeasurementOnlyKitaev
 export MeasurementOnlyKekule
@@ -124,7 +111,7 @@ export Qiskit
 # export Stim
 export QuantumClifford
 # export cuQuantum
-# # export ITensorNetworks
+# export ITensorNetworks
 
 # export Analysis
 

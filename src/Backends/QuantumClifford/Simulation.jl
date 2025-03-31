@@ -41,11 +41,11 @@ struct GPUPauliFrameSimulator <: MonitoredQuantumCircuits.Simulator
 end
 using AllocCheck
 
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Circuit, simulator::TableauSimulator; keep_result::Bool=false)
-    circuit = MonitoredQuantumCircuits.compile(circuit)
+function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.CompiledCircuit, simulator::TableauSimulator; keep_result::Bool=false)
+    # circuit = MonitoredQuantumCircuits.compile(circuit)
     state = simulator.initial_state
     for i in 1:MonitoredQuantumCircuits.depth(circuit)
-        operation, position = circuit[i]
+        operation, position, _ = circuit[i]
         apply!(state, simulator, MonitoredQuantumCircuits.getOperationByIndex(circuit, operation), position; keep_result)
     end
     return state

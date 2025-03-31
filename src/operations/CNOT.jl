@@ -11,6 +11,9 @@ end
 function isClifford(::CNOT)
     return true
 end
+function nancilla(::CNOT)
+    return 0
+end
 
 # function connectionGraph(::CNOT)
 #     # return the connection graph of the operation

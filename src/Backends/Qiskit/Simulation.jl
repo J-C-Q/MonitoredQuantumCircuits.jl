@@ -74,9 +74,9 @@ function Base.getproperty(qc::AerSimulator, prop::Symbol)
     end
 end
 
-function MQC.execute(circuit::MQC.Circuit, backend::AerSimulator; shots=1024, verbose::Bool=true)
+function MQC.execute(circuit::MQC.CompiledCircuit, backend::AerSimulator; shots=1024, verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
-    qc = MQC.translate(QuantumCircuit, circuit)
+    qc = translate(Circuit, circuit)
     verbose && println("✓")
 
     verbose && print("Transpiling circuit to backend...")
@@ -89,11 +89,12 @@ function MQC.execute(circuit::MQC.Circuit, backend::AerSimulator; shots=1024, ve
 
     verbose && print("Simulating circuit...")
     job = run(sampler, qc; shots)
-    verbose && println("✓")
+
 
     nativeResult = job.result()[0]
-    result = QiskitResult(nativeResult, circuit)
+    verbose && println("✓")
+    # result = QiskitResult(nativeResult, circuit)
 
     # verbose && println("Job ID: $(job.job_id())")
-    return result
+    return nativeResult
 end

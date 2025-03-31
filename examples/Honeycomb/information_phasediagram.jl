@@ -5,7 +5,24 @@ using JLD2
 using LinearAlgebra
 using AestheticSuperposition
 
+function generateProbs(; n=45)
+    points = NTuple{3,Float64}[]
+    # N = k * (k + 1) / 2
+    for (k, i) in enumerate(range(0, 1, n))
+        for j in range(i, 1, n - k + 1)
+            px = i
+            py = j - i
+            pz = 1 - j
+            push!(points, (px, py, pz))
+        end
+    end
 
+    return [p .- 0 .* (p .- (1 / 3, 1 / 3, 1 / 3)) for p in points]
+end
+function projection(point; origin=[1 / 3, 1 / 3, 1 / 3], e1=normalize(cross(normalize([0.0, 0.0, 1.0] .- [1 / 3, 1 / 3, 1 / 3]), normalize([1 / 3, 1 / 3, 1 / 3]))), e2=normalize([0.0, 0.0, 1.0] .- [1 / 3, 1 / 3, 1 / 3]))
+
+    return sum(e1 .* (point .- origin)), sum(e2 .* (point .- origin))
+end
 function informationPlot(file::String, data_path::String; depth=100, L=12, averaging=10, resolution=45)
     set_theme!(AestheticSuperpositionTheme())
     points = generateProbs(n=resolution)

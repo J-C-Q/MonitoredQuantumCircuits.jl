@@ -10,7 +10,7 @@ struct Sampler
     end
     function Sampler(backend::AerSimulator)
         _checkinit_qiskit()
-        new(qiskit_ibm_runtime.SamplerV2(backend=backend.python_interface))
+        new(qiskit_ibm_runtime.SamplerV2(backend.python_interface))
     end
 end
 function Base.getproperty(qc::Sampler, prop::Symbol)
