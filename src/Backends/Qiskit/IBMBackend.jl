@@ -4,7 +4,7 @@
 
 A Qiskit backend that runs on IBM's quantum computers.
 """
-struct IBMBackend <: MonitoredQuantumCircuits.QuantumComputer
+struct IBMBackend <: MQC.QuantumComputer
     python_interface::PythonCall.Py
 
     function IBMBackend(backend::PythonCall.Py)
@@ -39,9 +39,9 @@ function Base.show(io::IO, ::MIME"text/plain", obj::IBMBackend)
     println(io, "Max shots: $(obj.max_shots)")
 end
 
-function execute(circuit::MonitoredQuantumCircuits.FiniteDepthCircuit, backend::IBMBackend; verbose::Bool=true)
+function execute(circuit::MQC.Circuit, backend::IBMBackend; verbose::Bool=true)
     verbose && print("Transpiling circuit to Qiskit...")
-    qc = MonitoredQuantumCircuits.translate(QuantumCircuit, circuit)
+    qc = MQC.translate(QuantumCircuit, circuit)
     verbose && println("✓")
 
     verbose && print("Transpiling circuit to backend...")

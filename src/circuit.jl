@@ -1,302 +1,290 @@
-abstract type Circuit end
+# We need two circuit structures. One for interacivly creating the circuit. And one for efficently storing the circuit (optimized for iteration).
+using StaticArrays
 
-
-"""
-    FiniteDepthCircuit{T<:Lattice,M<:Integer} <: Circuit
-
-A circuit that has a finite depth, i.e. a fixed number of time steps. The circuit is defined on a lattice of type T and can contain operations that act on multiple qubits as well as multiple operations at the same time step.
-"""
-struct FiniteDepthCircuit{T<:Lattice,M<:Integer} <: Circuit
-    lattice::T
-    operations::Vector{Operation} # the (unique) operations
-    operationPositions::Vector{Tuple{M,Vararg{M}}} # the position where the operations get applied
-    operationPointers::Vector{M} # the pointer to which operation gets applied at the position
-    executionOrder::Vector{M} # the order in which the operations get executed
-
-    function FiniteDepthCircuit(lattice::Lattice)
-        M = Int64
-        return new{typeof(lattice),M}(lattice, Operation[], Tuple{M,Vararg{M}}[], M[], M[])
+struct Position
+    positions::Matrix{Int64}
+    weights::StatsBase.Weights{Float64,Float64,Vector{Float64}}
+    ancilla::Vector{Int64}
+    function Position(position::Vararg{Integer})
+        new(reshape([position...], (length(position), 1)), StatsBase.Weights([1.0]), zeros(Int64, 1))
     end
-    function FiniteDepthCircuit(lattice::Lattice, operations::Vector{Operation}, operationPositions::Vector{NTuple{N,M}}, operationPointers::Vector{M}, executionOrder::Vector{M}) where {M<:Integer,N}
-        return new{typeof(lattice),M}(lattice, operations, operationPositions, operationPointers, executionOrder)
+    function Position(positions::Matrix, probabilities::Vector)
+        new(positions, StatsBase.Weights(probabilities), zeros(Int64, size(positions, 2)))
+    end
+end
+struct Instruction
+    operations::Vector{Int64}
+    positions::Vector{Int64}
+    weights::StatsBase.Weights{Float64,Float64,Vector{Float64}}
+    function Instruction(operation::Integer, position::Integer)
+        new([operation],[position], StatsBase.Weights([1.0]))
+    end
+    function Instruction(operations::Vector,positions::Vector,probabilities::Vector)
+        new(operations,positions, StatsBase.Weights(probabilities))
     end
 end
 
+# CompiledCircuit optimized for interactive construction
 """
-    EmptyFiniteDepthCircuit(lattice::Lattice)
-
-Create an empty circuit on the given lattice.
+    Circuit{G<:Geometry}
+A circuit optimized for interactive construction. The operations are stored in a vector to allow for efficient construction.
 """
-EmptyFiniteDepthCircuit(lattice::Lattice) = FiniteDepthCircuit(lattice)
+struct Circuit{G<:Geometry}
+    geometry::Geometry
+    operations::Vector{Operation} #inefficient
+    operationHashTable::Dict{UInt64,Int64}
+    positions::Vector{Position}
+    positionHashTable::Dict{UInt64,Int64}
+    instructions::Vector{Instruction}
+    instructionHashTable::Dict{UInt64,Int64}
+    pointer::Vector{Int64}
+    function Circuit(geometry::Geometry)
+        G = typeof(geometry)
+        operations = Operation[]
+        operationHashTable = Dict{UInt64,Int64}()
+        positions = Position[]
+        positionHashTable = Dict{UInt64,Int64}()
+        instructions = Instruction[]
+        instructionHashTable = Dict{UInt64,Int64}()
+        pointer = Int64[]
+        new{G}(geometry, operations, operationHashTable, positions, positionHashTable, instructions, instructionHashTable, pointer)
+    end
+end
 
-
+# CompiledCircuit optimized for interation (but static)
 """
-    apply!(circuit::FiniteDepthCircuit, operation::Operation, position::Vararg{Integer})
-
-Apply the given operation at the given position(s) in the circuit. Operations that act on more than one qubit need to have the same number of position arguments as qubits they act on, as well as a connection structure that is part of the lattice.
+    CompiledCircuit{Ops<:Tuple}
+A circuit optimized for iteration. The operations are stored in a tuple. The operations are stored in a tuple to allow for efficient iteration.
 """
-function apply!(circuit::FiniteDepthCircuit, operation::Operation, position::Vararg{Integer})
-    _checkInBounds(circuit, operation, position...)
+struct CompiledCircuit{Ops<:Tuple}
+    operations::Ops
+    positions::Vector{Position}
+    instructions::Vector{Instruction}
+    n_qubits::Int64
+    n_ancilla::Int64
+    pointer::Vector{Int64}
+    function CompiledCircuit(circuit::Circuit)
+        operations = (circuit.operations...,)
+        Ops = typeof(operations)
+        positions = circuit.positions
+        instructions = circuit.instructions
+        pointer = circuit.pointer
+        n_qubits = nQubits(circuit.geometry)
+        positions_accessed_by_ancilla = Set()
+        for i in instructions
+            for j in eachindex(i.operations)
+                if nancilla(circuit.operations[i.operations[j]]) != 0
+                    push!(positions_accessed_by_ancilla, circuit.positions[i.positions[j]])
+                end
+            end
+        end
+        ancilla = Dict{UInt64,Int64}()
+        index = n_qubits + 1
+        for pos in positions_accessed_by_ancilla
+            for (i, p) in enumerate(eachcol(pos.positions))
+                h = hash(sort(collect(p)))
+                if !haskey(ancilla, h)
+                    ancilla[h] = index
+                    index += 1
+                end
+                pos.ancilla[i] = ancilla[h]
+            end
+        end
+        new{Ops}(operations, positions, instructions, n_qubits, maximum([a.second for a in ancilla]) - n_qubits, pointer)
+    end
+end
+function Base.:(==)(pos1::Position,pos2::Position)
+    return all(pos1.positions .== pos2.positions) && pos1.weights == pos2.weights
+end
+function Base.:(==)(ins1::Instruction,ins2::Instruction)
+    return all(ins1.positions .== ins2.positions) && all(ins1.operations .== ins2.operations) && ins1.weights == ins2.weights
+end
+function Base.hash(position::Position)
+    return hash((position.positions,position.weights))
+end
+function Base.hash(instruction::Instruction)
+    return hash((instruction.operations,instruction.positions,instruction.weights))
+end
 
-    if operation in circuit.operations
-        index = findfirst([op == operation for op in circuit.operations])
+function Base.in(operation::Operation, circuit::Circuit)
+    return haskey(circuit.operationHashTable, hash(operation))
+end
+function Base.in(position::Position, circuit::Circuit)
+    return haskey(circuit.positionHashTable, hash(position))
+end
+function Base.in(instruction::Instruction, circuit::Circuit)
+    return haskey(circuit.instructionHashTable, hash(instruction))
+end
+function Base.getindex(circuit::Circuit, operation::Operation)
+    return circuit.operationHashTable[hash(operation)]
+end
+function Base.getindex(circuit::Circuit, position::Position)
+    return circuit.positionHashTable[hash(position)]
+end
+function Base.getindex(circuit::Circuit, instruction::Instruction)
+    return circuit.instructionHashTable[hash(instruction)]
+end
+
+function Base.push!(circuit::Circuit, operation::Operation)
+    if operation in circuit
+        return circuit[operation]
     else
         push!(circuit.operations, operation)
         index = length(circuit.operations)
+        circuit.operationHashTable[hash(operation)] = index
+        return index
     end
-    push!(circuit.operationPositions, position)
-    push!(circuit.operationPointers, index)
-    if isempty(circuit.executionOrder)
-        push!(circuit.executionOrder, 1)
+    return 0
+end
+function Base.push!(circuit::Circuit, position::Position)
+    if position in circuit
+        return circuit[position]
     else
-        push!(circuit.executionOrder, maximum(circuit.executionOrder) + 1)
+        push!(circuit.positions, position)
+        index = length(circuit.positions)
+        circuit.positionHashTable[hash(position)] = index
+        return index
     end
-    return circuit
+    return 0
 end
-"""
-    apply!(circuit::FiniteDepthCircuit, executionPosition::Integer, operation::Operation, position::Vararg{Integer})
-
-Apply the given operation at a given execution time step at the given position(s) in the circuit. The executionPosition can be used to schedule multiple operations at the same time step. However it is important to first check if the operations are compatible with each other (as of now this will show a warning which can be muted with ```mute=true```).
-"""
-function apply!(circuit::FiniteDepthCircuit, executionPosition::Integer, operation::Operation, position::Vararg{Integer}; mute::Bool=false)
-    # TODO check if operation is compatible with other operations at the same execution position
-    simultaniusOperations = _getOperations(circuit, executionPosition)
-    if !mute && !isempty(simultaniusOperations)
-        warmMessage = "Make sure that $operation at $position can be executed at the same time as \n"
-        for operation in simultaniusOperations
-            warmMessage *= "$(circuit.operations[circuit.operationPointers[operation]]) at $(circuit.operationPositions[operation])\n"
-        end
-        @warn warmMessage
-    end
-    circuit = apply!(circuit, operation, position...)
-    circuit.executionOrder[end] = executionPosition
-    return circuit
-end
-
-
-function _checkInBounds(circuit::FiniteDepthCircuit, operation::Operation, position::Vararg{Integer})
-    if length(position) != nQubits(operation)
-        throw(ArgumentError("Invalid number of position arguments for operation. Expected $(nQubits(operation)), got $(length(position)) $(position)"))
-    end
-    if any([pos < 1 || pos > length(circuit.lattice) for pos in position])
-        throw(ArgumentError("Invalid position argument for operation. Expected between 1 and $(length(circuit.lattice)), got $(position)"))
-    end
-    # check that the connectionGraph of the operation is a subgraph of the lattice graph between the given positions
-    subgraph = induced_subgraph(circuit.lattice.graph, [position...])
-    if !Graphs.Experimental.has_induced_subgraphisomorph(subgraph[1], connectionGraph(operation), vertex_relation=(g1, g2) -> g1 == g2)
-        throw(ArgumentError("The connection graph of the operation is not a subgraph of the lattice graph between the given positions"))
-    end
-end
-
-function Base.show(io::IO, circuit::FiniteDepthCircuit)
-    println(io, "$(typeof(circuit)):")
-    if isempty(circuit.operationPointers)
-        println(io, "No operations defined")
+function Base.push!(circuit::Circuit, instruction::Instruction)
+    if instruction in circuit
+        return circuit[instruction]
     else
-        # as many execution steps as operations -> step count is redundant
-        if all(circuit.executionOrder .== 1:length(circuit.executionOrder))
-            # too many operations to show all
-            if length(circuit.operationPointers) > 10
-                println(io, "with $(length(circuit.operationPointers)) operations")
-            else
-                println(io, "Operations: ")
-                for (i, ptr) in enumerate(circuit.operationPointers)
-                    println(io, "  ", circuit.operations[ptr], " at ", circuit.operationPositions[i])
-                end
-            end
-        else
-            uniqueExecutionSteps = sort(unique(circuit.executionOrder))
-            # too many operations to show all
-            if length(circuit.operationPointers) > 10
-                # print steps/step depending on if more than one step
-                if length(uniqueExecutionSteps) > 1
-                    println(io, "with $(length(circuit.operationPointers)) operations in $(length(uniqueExecutionSteps)) steps")
-                else
-                    println(io, "with $(length(circuit.operationPointers)) operations in 1 step")
-                end
-            else
-                println(io, "Operations: ")
-                for (i, step) in enumerate(uniqueExecutionSteps)
-                    println(io, "  Step $step:")
-                    operationsInStep = findall(circuit.executionOrder .== step)
-                    for operation in operationsInStep
-                        println(io, "    ", circuit.operations[circuit.operationPointers[operation]], " at ", circuit.operationPositions[operation])
+        push!(circuit.instructions, instruction)
+        index = length(circuit.instructions)
+        circuit.instructionHashTable[hash(instruction)] = index
+        return index
+    end
+    return 0
+end
+
+function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
+    operationIndex = push!(circuit, operation)
+    pos = Position(position...)
+    positionIndex = push!(circuit, pos)
+    instruction = Instruction(operationIndex, positionIndex)
+    instructionIndex = push!(circuit, instruction)
+    push!(circuit.pointer, instructionIndex)
+end
+
+function apply!(circuit::Circuit, operations::Vararg{Tuple{<:Operation,<:Real,Matrix{<:Integer},Vector{<:Real}}})
+    sum([operation[2] for operation in operations]) ≈ 1.0 || throw(ArgumentError("Probabilities must add up to 1."))
+    all([sum(operation[4]) for operation in operations] .≈ 1.0) || throw(ArgumentError("Probabilities must add up to 1."))
+
+    operationIndecies = [push!(circuit, operation[1]) for operation in operations]
+    positions = [Position(operation[3],operation[4]) for operation in operations]
+    positionIndecies = [push!(circuit, pos) for pos in positions]
+    probabilities = [operation[2] for operation in operations]
+    instruction = Instruction(operationIndecies, positionIndecies, probabilities)
+    instructionIndex = push!(circuit, instruction)
+    push!(circuit.pointer, instructionIndex)
+end
+
+function apply!(circuit::Circuit, operations::Vector, probabilities::Vector, positions::Vector, positionProbabilities::Vector)
+    sum(probabilities) ≈ 1.0 || throw(ArgumentError("Probabilities must add up to 1. Got sum($probabilities)=$(sum(probabilities))"))
+    all([sum(prob) for prob in positionProbabilities] .≈ 1.0) || throw(ArgumentError("Probabilities must add up to 1."))
+
+    operationIndecies = [push!(circuit, operation) for operation in operations]
+    poses = [Position(position,prob) for (position,prob) in zip(positions,positionProbabilities)]
+    positionIndecies = [push!(circuit, pos) for pos in poses]
+    instruction = Instruction(operationIndecies, positionIndecies, probabilities)
+    instructionIndex = push!(circuit, instruction)
+    push!(circuit.pointer, instructionIndex)
+end
+
+function apply!(circuit::Circuit, index::Integer)
+    push!(circuit.pointer, index)
+end
+
+function apply!(circuit::Circuit, operation::RandomOperation)
+    apply!(circuit, operation.operations, operation.probabilities, operation.positions, operation.positionProbabilities)
+end
+
+function apply!(circuit::Circuit, operation::DistributedOperation)
+    for (i, position) in enumerate(eachcol(operation.positions))
+        apply!(circuit, [operation.operation, I()], [operation.probabilities[i], 1 - operation.probabilities[i]], [reshape(collect(position), length(position), 1), [1;;]], [[1.0], [1.0]])
+    end
+end
+
+function compile(circuit::Circuit)
+    return CompiledCircuit(circuit)
+end
+
+function execute(::CompiledCircuit, backend::Backend; verbose::Bool=true)
+    throw(ArgumentError("Backend $(typeof(backend)) not supported"))
+end
+function Base.getindex(circuit::CompiledCircuit, i::Integer)
+    instruction = circuit.instructions[circuit.pointer[i]]
+    index = StatsBase.sample(instruction.weights)
+    position = circuit.positions[instruction.positions[index]]
+    posIndex = StatsBase.sample(position.weights)
+    ancilla = position.ancilla[posIndex]
+    return instruction.operations[index], @view(position.positions[:, posIndex]), ancilla
+end
+function Base.getindex(circuit::Circuit, i::Integer)
+    instruction = circuit.instructions[circuit.pointer[i]]
+    index = StatsBase.sample(instruction.weights)
+    position = circuit.positions[instruction.positions[index]]
+    posIndex = StatsBase.sample(position.weights)
+    return circuit.operations[instruction.operations[index]], @view(position.positions[:, posIndex])
+end
+
+function depth(circuit::CompiledCircuit)
+    return length(circuit.pointer)
+end
+function depth(circuit::Circuit)
+    return length(circuit.pointer)
+end
+
+function nAncilla(circuit::Circuit)
+    nancill = 0
+    already_included = Set()
+    for instruction in circuit.instructions
+        for j in eachindex(instruction.operations)
+            n = nancilla(circuit.operations[instruction.operations[j]])
+            if n > 0
+                for p in eachcol(circuit.positions[instruction.positions[j]].positions)
+                    h = hash(sort(collect(p)))
+                    if !(h in already_included)
+                        nancill += n
+                        push!(already_included, h)
                     end
                 end
             end
         end
-
     end
+    return nancill
 end
 
-function _getOperations(circuit::FiniteDepthCircuit, executionPosition::Integer)
-    operationsInStep = findall(circuit.executionOrder .== executionPosition)
-    return operationsInStep
+# function Base.show(io::IO, circuit::Circuit)
+#     for i in 1:depth(circuit)
+#         instruction = circuit.instructions[circuit.pointer[i]]
+#         operationsIndeces = instruction.operations
+#         probs = instruction.weights
+#         for (prob, j) in zip(probs, operationsIndeces)
+#             operation = circuit.operations[j]
+#             println(io, prob * 100, "%: ", operation)
+#         end
+
+#     end
+
+# end
+
+@generated function getOperation(circuit::CompiledCircuit, ::Val{i}) where {i}
+    return :(circuit.operations[$i])
 end
 
-"""
-    isClifford(circuit::FiniteDepthCircuit)
-
-Check if the circuit is a Clifford circuit, i.e. only contains Clifford operations.
-Returns true if all operations are Clifford operations, false otherwise.
-"""
-function isClifford(circuit::FiniteDepthCircuit)
-    return all([isClifford(operation) for operation in circuit.operations])
-end
-
-"""
-    execute(circuit::FiniteDepthCircuit, backend::Backend; verbose::Bool=true)
-
-Execute the given circuit on the given backend. The backend needs to be a subtype of Backend. The verbose flag can be used to print additional information about individual execution steps.
-"""
-function execute(::FiniteDepthCircuit, backend::Backend; verbose::Bool=true)
-    throw(ArgumentError("Backend $(typeof(backend)) not supported"))
-end
-
-# TODO: add circuits per tasks to compute multiple circuits in serial. This will also effect the batch script generation
-"""
-    execute(generateCircuit::Function, parameters::Vector{T}, backend::Simulator, cluster::Remote.Cluster; ntasks_per_node=48, partition="", email="", account="", time="1:00:00", postProcessing=() -> nothing, name="simulation", max_nodes=10) where {(T <: Tuple)}
-
-Remotly execute multiple circuits in parallel. Each circuit should be generated by the the generateCircuit function give one entry of the parameters vector. The backend needs to be a subtype of Simulator. The cluster should have allready been initialized (see Remote).
-"""
-function execute(generateCircuit::Function, parameters::Vector{T}, backend::Simulator, cluster::Remote.Cluster; ntasks_per_node=48, partition="", email="", account="", time="1:00:00", postProcessing=() -> nothing, name="simulation", max_nodes=10) where {(T <: Tuple)}
-    ntasks = length(parameters)
-    if ntasks > max_nodes * ntasks_per_node
-        println("Number of tasks $(ntasks) exceeds maximum number of tasks $(max_nodes * ntasks_per_node)! Scheduling multiple jobs")
-    end
-    Hash = hash(hash(generateCircuit) * hash(parameters))
-    for i in 1:max(1, ceil(Int, ntasks / (ntasks_per_node * max_nodes)))
-        start = (i - 1) * ntasks_per_node * max_nodes + 1
-        stop = min(i * ntasks_per_node * max_nodes, ntasks)
-        paras = parameters[start:stop]
-
-
-        fullName = "$(name)_$(Hash)_$(start)_$(stop)"
-        path = joinpath("remotes", fullName)
-        mkpath(path)
-
-        Serialization.serialize(joinpath(path, "generateCircuitFunction.jls"), generateCircuit)
-        Serialization.serialize(joinpath(path, "postProcessingFunction.jls"), postProcessing)
-
-
-        JLD2.save(joinpath(path, "dataAndBackend.jld2"), "parameters", paras, "backend", backend)
-
-        Remote.sbatchScript(
-            path,
-            fullName,
-            joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", "execScript.jl");
-            ntasks=min(length(paras), ntasks_per_node * max_nodes),
-            nodes=ceil(Int64, length(paras) / ntasks_per_node),
-            ntasks_per_node=min(ntasks_per_node, length(paras)),
-            partition,
-            email,
-            account,
-            time,
-            load_juliaANDmpi_cmd=cluster.load_juliaANDmpi_cmd,
-            dataDir=fullName
-        )
-
-        Remote.mkdir(cluster, joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", fullName))
-        Remote.mkdir(cluster, joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", fullName, "data"))
-        Remote.mkdir(cluster, joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", fullName, "data_raw"))
-        Remote.upload(cluster, joinpath(path, "generateCircuitFunction.jls"), joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", fullName))
-        Remote.upload(cluster, joinpath(path, "postProcessingFunction.jls"), joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", fullName))
-        Remote.upload(cluster, joinpath(path, "dataAndBackend.jld2"), joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", fullName))
-        Remote.upload(cluster, joinpath("remotes", fullName, "$(fullName).sh"), joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", fullName))
-
-
-        Remote.queueJob(cluster, "$(fullName).sh", joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV", fullName))
-    end
-    Remote.getQueue(cluster)
-end
-
-"""
-    translate(type::Type, circuit::FiniteDepthCircuit)
-
-Translate a given circuit to a given backend representation type.
-"""
-function translate(type::Type, ::FiniteDepthCircuit)
-    throw(ArgumentError("Conversion from Circuit to $(typeof(type)) not supported"))
-end
-
-"""
-    save(name::String, circuit::FiniteDepthCircuit)
-
-Save the given circuit to a file with the given name.
-"""
-function save(name::String, circuit::FiniteDepthCircuit)
-    JLD2.save(name * ".jld2", "circuit", circuit)
-end
-
-"""
-    load(name::String)
-
-Load a circuit from a file with the given name.
-"""
-function load(name::String)
-    return JLD2.load(name * ".jld2", "circuit")
-end
-
-"""
-    loadMany(folder::String)
-
-Load all circuits from files in the given folder.
-"""
-function loadMany(folder::String)
-    files = [f for f in readdir(folder) if f[end-3:end] == ".jld2"]
-    return [load(folder * "/" * f) for f in files]
-end
-
-"""
-    nMeasurements(circuit::FiniteDepthCircuit)
-
-Get the number of measurements in the given circuit.
-"""
-function nMeasurements(circuit::FiniteDepthCircuit)
-    total = 0
-    for (i, operation) in enumerate(circuit.operations)
-        measurements = nMeasurements(operation)
-        if measurements > 0
-            total += measurements * count(x -> x == i, circuit.operationPointers)
+@generated function getOperationByIndex(circuit::CompiledCircuit{Ops}, i::Integer) where {Ops}
+    n = length(Ops.parameters)
+    branches = Vector{Expr}(undef, n + 1)
+    for j in 1:n
+        branches[j] = quote
+            if i == $(j)
+                return getOperation(circuit, Val($(j)))
+            end
         end
     end
-    return total
-end
-
-function measurements(circuit::FiniteDepthCircuit)
-    qubits = zeros(Int, nMeasurements(circuit))
-
-
-
-end
-
-function Base.iterate(circuit::FiniteDepthCircuit, state::Int=1)
-    if state <= depth(circuit)
-        idx = findall(==(state), circuit.executionOrder)
-        return Tuple{eltype(circuit.operations),eltype(circuit.operationPositions)}[(circuit.operations[circuit.operationPointers[i]], circuit.operationPositions[i]) for i in idx], state + 1
-    else
-        return nothing
-    end
-end
-
-function depth(circuit::FiniteDepthCircuit)
-    return length(unique(circuit.executionOrder))
-end
-
-Base.length(c::FiniteDepthCircuit) = depth(c)
-"""
-    RandomCircuit{T<:Lattice,M<:Integer} <: Circuit
-
-A circuit that is generated randomly. The circuit is defined on a lattice of type T and can contain operations that act on multiple qubits as well as multiple operations at the same time step. The operations are chosen randomly from a given set of operations with a given probability.
-"""
-struct RandomCircuit{T<:Lattice,M<:Integer} <: Circuit
-    lattice::T
-    operations::Vector{Operation}
-    probabilities::Vector{Float64}
-    operationPositions::Vector{Vector{Tuple{M,Vararg{M}}}}
-    depth::M
-
-    function RandomCircuit(lattice::Lattice, operations::Vector{Operation}, probabilities::Vector{Float64}, operationPositions::Vector{Vector{NTuple{N,M}}}, depth::M) where {M<:Integer,N}
-        return new{typeof(lattice),M}(lattice, operations, probabilities, operationPositions, depth)
-    end
+    branches[n+1] = :(error("Index out of bounds: ", i))
+    return Expr(:block, branches...)
 end

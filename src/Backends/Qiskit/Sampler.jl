@@ -10,7 +10,7 @@ struct Sampler
     end
     function Sampler(backend::AerSimulator)
         _checkinit_qiskit()
-        new(qiskit_ibm_runtime.SamplerV2(backend=backend.python_interface))
+        new(qiskit_ibm_runtime.SamplerV2(backend.python_interface))
     end
 end
 function Base.getproperty(qc::Sampler, prop::Symbol)
@@ -22,4 +22,4 @@ function Base.getproperty(qc::Sampler, prop::Symbol)
 end
 Base.show(io::IO, ::MIME"text/plain", obj::Sampler) = print(io, obj.python_interface)
 
-run(sampler::Sampler, qc::QuantumCircuit; shots=1024) = sampler.run([qc.python_interface], shots=shots)
+run(sampler::Sampler, qc::Circuit; shots=1024) = sampler.run([qc.python_interface], shots=shots)

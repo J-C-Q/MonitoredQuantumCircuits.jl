@@ -1,22 +1,61 @@
-function depth(::MonitoredQuantumCircuits.ZZ, ::Type{Circuit})
-    return 1
+function apply!(
+    state::QC.MixedDestabilizer,
+    simulator::TableauSimulator,
+    ::MonitoredQuantumCircuits.ZZ,
+    p1::Integer,
+    p2::Integer;
+    keep_result::Bool=false)
+
+    operator = simulator.pauli_operator
+    QC.zero!(operator)
+    operator[p1] = (false, true) #Z
+    operator[p2] = (false, true) #Z
+    QC.project!(state, operator; keep_result)
 end
 
-function apply!(qc::Circuit, ::MonitoredQuantumCircuits.ZZ, pos::Integer, clbit::Integer, p1::Integer, p2::Integer, p3::Integer)
-    qc.operations[pos] = QC.PauliMeasurement(QC.embed(qc.nQubits, (p1, p3), QC.P"ZZ"), clbit)
-end
-function apply!(qc::Circuit, ::MonitoredQuantumCircuits.ZZ, pos::Integer, step::Integer, clbit::Integer, p1::Integer, p2::Integer, p3::Integer)
-    apply!(qc, MonitoredQuantumCircuits.ZZ(), pos::Integer, Val(step), clbit, p1, p2, p3)
+
+function apply!(
+    state::QC.MixedDestabilizer,
+    simulator::TableauSimulator,
+    ::Type{MonitoredQuantumCircuits.ZZ},
+    floatParamter,
+    intParameter,
+    p1::Integer,
+    p2::Integer;
+    keep_result::Bool=false)
+
+    operator = simulator.pauli_operator
+    QC.zero!(operator)
+    operator[p1] = (false, true) #Z
+    operator[p2] = (false, true) #Z
+    QC.project!(state, operator; keep_result)
 end
 
-function apply!(qc::Circuit, ::MonitoredQuantumCircuits.ZZ, pos::Integer, ::Val{1}, clbit::Integer, p1::Integer, p2::Integer, p3::Integer)
-    qc.operations[pos] = QC.PauliMeasurement(QC.embed(qc.nQubits, (p1, p3), QC.P"ZZ"), clbit)
+
+function apply_ZZ!(
+    state::QC.MixedDestabilizer,
+    simulator::TableauSimulator,
+    p1::Integer,
+    p2::Integer,
+    keep_result::Bool=false)
+
+    operator = simulator.pauli_operator
+    QC.zero!(operator)
+    operator[p1] = (false, true) #Z
+    operator[p2] = (false, true) #Z
+    QC.project!(state, operator; keep_result)
 end
 
-function apply!(::MonitoredQuantumCircuits.ZZ, clbit::Integer, qubits::Integer, p1::Integer, p2::Integer, p3::Integer)
-    QC.PauliMeasurement(QC.embed(qubits, (p1, p3), QC.P"ZZ"), clbit)
-end
+function apply!(
+    state::QC.MixedDestabilizer,
+    simulator::TableauSimulator,
+    ::MonitoredQuantumCircuits.ZZ,
+    p;
+    keep_result::Bool=false)
 
-function apply!(state::QC.Register, ::MonitoredQuantumCircuits.ZZ, qubits::Integer, clbit::Integer, p1::Integer, p2::Integer, p3::Integer)
-    QC.apply!(state, QC.PauliMeasurement(QC.embed(qubits, (p1, p3), QC.P"ZZ"), clbit))
+    operator = simulator.pauli_operator
+    QC.zero!(operator)
+    operator[p[1]] = (false, true) #Z
+    operator[p[2]] = (false, true) #Z
+    QC.project!(state, operator; keep_result)
 end

@@ -19,39 +19,51 @@ function isClifford(operation::Operation)
     throw(ArgumentError("isClifford not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
 end
 
+function hasParameter(::Type{T}, ::DataType) where {T<:Operation}
+    return false
+end
 
+function hasParameter(::Type{T}) where {T<:Operation}
+    return false
+end
 
-"""
-    connectionGraph(operation::Operation)
-
-Return a graph representing the unique gate connections of the operation.
-"""
-function connectionGraph(operation::Operation)
-    throw(ArgumentError("connectionGraph not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+function getParameter(::Operation)
+    return (Float64[], Int64[])
 end
 
 
 
-function plotPositions(operation::Operation)
-    throw(ArgumentError("plotPositions not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
-end
+# """
+#     connectionGraph(operation::Operation)
 
-function color(operation::Operation)
-    throw(ArgumentError("color not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
-end
+# Return a graph representing the unique gate connections of the operation.
+# """
+# function connectionGraph(operation::Operation)
+#     throw(ArgumentError("connectionGraph not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+# end
 
-"""
-    nMeasurements(operation::MeasurementOperation)
 
-Return the number of measurements the operation performs.
-"""
-function nMeasurements(operation::MeasurementOperation)
-    throw(ArgumentError("nMeasurements not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
-end
 
-function nMeasurements(::Operation)
-    return 0
-end
+# function plotPositions(operation::Operation)
+#     throw(ArgumentError("plotPositions not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+# end
+
+# function color(operation::Operation)
+#     throw(ArgumentError("color not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+# end
+
+# """
+#     nMeasurements(operation::MeasurementOperation)
+
+# Return the number of measurements the operation performs.
+# """
+# function nMeasurements(operation::MeasurementOperation)
+#     throw(ArgumentError("nMeasurements not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
+# end
+
+# function nMeasurements(::Operation)
+#     return 0
+# end
 
 
 
