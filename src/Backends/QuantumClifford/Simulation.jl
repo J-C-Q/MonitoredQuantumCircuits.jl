@@ -39,7 +39,6 @@ A QuantumClifford stabilizer Pauli frame simulator that runs on the GPU.
 """
 struct GPUPauliFrameSimulator <: MonitoredQuantumCircuits.Simulator
 end
-using AllocCheck
 
 function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.CompiledCircuit, simulator::TableauSimulator; keep_result::Bool=false)
     # circuit = MonitoredQuantumCircuits.compile(circuit)
@@ -49,6 +48,16 @@ function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.Comp
         apply!(state, simulator, MonitoredQuantumCircuits.getOperationByIndex(circuit, operation), position; keep_result)
     end
     return state
+end
+
+function executeParallel(circuit::MonitoredQuantumCircuits.CompiledCircuit, simulator::TableauSimulator; keep_result::Bool=false)
+    MPI, rank, size = MonitoredQuantumCircuits.get_mpi_ref()
+    # state = simulator.initial_state
+    # for i in 1:MonitoredQuantumCircuits.depth(circuit)
+    #     operation, position, _ = circuit[i]
+    #     apply!(state, simulator, MonitoredQuantumCircuits.getOperationByIndex(circuit, operation), position; keep_result)
+    # end
+    # return state
 end
 
 

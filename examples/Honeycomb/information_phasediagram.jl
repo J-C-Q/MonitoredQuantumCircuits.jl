@@ -3,7 +3,7 @@ using CairoMakie.GeometryBasics
 using DelaunayTriangulation
 using JLD2
 using LinearAlgebra
-using AestheticSuperposition
+# using AestheticSuperposition
 
 function generateProbs(; n=45)
     points = NTuple{3,Float64}[]
@@ -24,7 +24,7 @@ function projection(point; origin=[1 / 3, 1 / 3, 1 / 3], e1=normalize(cross(norm
     return sum(e1 .* (point .- origin)), sum(e2 .* (point .- origin))
 end
 function informationPlot(file::String, data_path::String; depth=100, L=12, averaging=10, resolution=45)
-    set_theme!(AestheticSuperpositionTheme())
+    # set_theme!(AestheticSuperpositionTheme())
     points = generateProbs(n=resolution)
     tmis = Float64[]
     for (i, p) in enumerate(points)

@@ -70,26 +70,27 @@ struct CompiledCircuit{Ops<:Tuple}
         pointer = circuit.pointer
         n_qubits = nQubits(circuit.geometry)
         positions_accessed_by_ancilla = Set()
-        for i in instructions
-            for j in eachindex(i.operations)
-                if nancilla(circuit.operations[i.operations[j]]) != 0
-                    push!(positions_accessed_by_ancilla, circuit.positions[i.positions[j]])
-                end
-            end
-        end
-        ancilla = Dict{UInt64,Int64}()
-        index = n_qubits + 1
-        for pos in positions_accessed_by_ancilla
-            for (i, p) in enumerate(eachcol(pos.positions))
-                h = hash(sort(collect(p)))
-                if !haskey(ancilla, h)
-                    ancilla[h] = index
-                    index += 1
-                end
-                pos.ancilla[i] = ancilla[h]
-            end
-        end
-        new{Ops}(operations, positions, instructions, n_qubits, maximum([a.second for a in ancilla]) - n_qubits, pointer)
+        # for i in instructions
+        #     for j in eachindex(i.operations)
+        #         if nancilla(circuit.operations[i.operations[j]]) != 0
+        #             push!(positions_accessed_by_ancilla, circuit.positions[i.positions[j]])
+        #         end
+        #     end
+        # end
+        # ancilla = Dict{UInt64,Int64}()
+        # index = n_qubits + 1
+        # for pos in positions_accessed_by_ancilla
+        #     for (i, p) in enumerate(eachcol(pos.positions))
+        #         h = hash(sort(collect(p)))
+        #         if !haskey(ancilla, h)
+        #             ancilla[h] = index
+        #             index += 1
+        #         end
+        #         pos.ancilla[i] = ancilla[h]
+        #     end
+        # end
+        # new{Ops}(operations, positions, instructions, n_qubits, maximum([a.second for a in ancilla]) - n_qubits, pointer)
+        new{Ops}(operations, positions, instructions, n_qubits, 0, pointer)
     end
 end
 function Base.:(==)(pos1::Position,pos2::Position)
@@ -213,6 +214,14 @@ end
 function execute(::CompiledCircuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
+function executeMPI(input...)
+    throw(ArgumentError("Load MPI.jl to use MPI"))
+end
+
+function get_mpi_ref(input...)
+    throw(ArgumentError("Load MPI.jl to use MPI"))
+end
+
 function Base.getindex(circuit::CompiledCircuit, i::Integer)
     instruction = circuit.instructions[circuit.pointer[i]]
     index = StatsBase.sample(instruction.weights)

@@ -14,24 +14,24 @@ struct HoneycombGeometry{T<:BoundaryCondition} <: Geometry
         sizeY > 0 || throw(ArgumentError("size must be positive"))
         sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
         graph = SimpleGraph(sizeX * sizeY)
-
+        g = new{Periodic}(graph, sizeX, sizeY)
         for j in 1:sizeY
             for i in 1:2:sizeX
-                add_edge!(graph, to_linear(i, j, sizeX, sizeY), to_linear(i + 1, j, sizeX, sizeY))
+                add_edge!(graph, to_linear(g, (i, j)), to_linear(g, (i + 1, j)))
             end
         end
         for j in 1:sizeY
             for i in 2:2:sizeX
-                add_edge!(graph, to_linear(i, j, sizeX, sizeY), to_linear(i + 1, j, sizeX, sizeY))
+                add_edge!(graph, to_linear(g, (i, j)), to_linear(g, (i + 1, j)))
             end
         end
         for j in 1:sizeY
             for i in 2:2:sizeX
-                add_edge!(graph, to_linear(i, j, sizeX, sizeY), to_linear(i - 1, j + 1, sizeX, sizeY))
+                add_edge!(graph, to_linear(g, (i, j)), to_linear(g, (i - 1, j + 1)))
             end
         end
 
-        return new{Periodic}(graph, sizeX, sizeY)
+        return g
     end
     function HoneycombGeometry(type::Type{Open}, sizeX::Integer, sizeY::Integer)
         sizeX = sizeX * 2
@@ -40,36 +40,57 @@ struct HoneycombGeometry{T<:BoundaryCondition} <: Geometry
         sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
         graph = SimpleGraph(sizeX * sizeY)
 
+        g = new{Open}(graph, sizeX, sizeY)
+
         for j in 1:sizeY
             for i in 1:2:sizeX
-                add_edge!(graph, to_linear(i, j, sizeX, sizeY), to_linear(i + 1, j, sizeX, sizeY))
+                add_edge!(graph, to_linear(g, (i, j)), to_linear(g, (i + 1, j)))
             end
         end
         for j in 1:sizeY
             for i in 2:2:sizeX
-                add_edge!(graph, to_linear(i, j, sizeX, sizeY), to_linear(i + 1, j, sizeX, sizeY))
+                add_edge!(graph, to_linear(g, (i, j)), to_linear(g, (i + 1, j)))
             end
         end
         for j in 1:sizeY
             for i in 2:2:sizeX
-                add_edge!(graph, to_linear(i, j, sizeX, sizeY), to_linear(i - 1, j + 1, sizeX, sizeY))
+                add_edge!(graph, to_linear(g, (i, j)), to_linear(g, (i - 1, j + 1)))
             end
         end
 
-        return new{Open}(graph, sizeX, sizeY)
+        return g
     end
 end
 
 function visualize(io::IO, geometry::HoneycombGeometry{Periodic})
 end
 
-function to_linear(i, j, sizeX, sizeY)
-    return mod1(i, sizeX) + sizeX * (mod1(j, sizeY) - 1)
+function to_linear(geometry::HoneycombGeometry{Periodic}, (i, j)::NTuple{2,Int64})
+    return mod1(i, geometry.sizeX) + geometry.sizeX * (mod1(j, geometry.sizeY) - 1)
 end
 
-function to_grid(linear, sizeX, sizeY)
-    return (mod1(linear, sizeX), div(linear - 1, sizeX) + 1)
+function to_grid(geometry::HoneycombGeometry{Periodic}, i::Int64)
+    return (mod1(i, geometry.sizeX), div(i - 1, geometry.sizeX) + 1)
 end
+
+
+function neighbor(geometry::HoneycombGeometry{Periodic}, i::Int64; direction::Symbol)
+    direction in [:X, :Y, :Z, :Red, :Greenm, :Blue] || throw(ArgumentError("Invalid direction: $direction"))
+    if direction == :X
+        return kitaevX_neighbor(geometry, i)
+    elseif direction == :Y
+        return kitaevY_neighbor(geometry, i)
+    elseif direction == :Z
+        return kitaevZ_neighbor(geometry, i)
+    elseif direction == :Red
+        return kekuleRed_neighbor(geometry, i)
+    elseif direction == :Green
+        return kekuleGreen_neighbor(geometry, i)
+    elseif direction == :Blue
+        return kekuleBlue_neighbor(geometry, i)
+    end
+end
+
 
 function kitaevX(geometry::HoneycombGeometry{Periodic})
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
@@ -79,7 +100,7 @@ function kitaevX(geometry::HoneycombGeometry{Periodic})
     sizeY = geometry.sizeY
     for j in 1:sizeY
         for i in 1:2:sizeX
-            push!(bonds, (to_linear(i, j, sizeX, sizeY), to_linear(i + 1, j, sizeX, sizeY)))
+            push!(bonds, (to_linear(g, (i, j)), to_linear(g, (i + 1, j))))
         end
     end
     return bonds
@@ -93,7 +114,7 @@ function kitaevY(geometry::HoneycombGeometry{Periodic})
     sizeY = geometry.sizeY
     for j in 1:sizeY
         for i in 2:2:sizeX
-            push!(bonds, (to_linear(i, j, sizeX, sizeY), to_linear(i + 1, j, sizeX, sizeY)))
+            push!(bonds, (to_linear(g, (i, j)), to_linear(g, (i + 1, j))))
         end
     end
     return bonds
@@ -107,7 +128,7 @@ function kitaevZ(geometry::HoneycombGeometry{Periodic})
     sizeY = geometry.sizeY
     for j in 1:sizeY
         for i in 2:2:sizeX
-            push!(bonds, (to_linear(i, j, sizeX, sizeY), to_linear(i - 1, j + 1, sizeX, sizeY)))
+            push!(bonds, (to_linear(g, (i, j)), to_linear(g, (i - 1, j + 1))))
         end
     end
     return bonds
@@ -181,26 +202,14 @@ function isKekuleBlue(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,I
     return false
 end
 
-
-function kitaev_neighbor(type::Symbol, geometry::HoneycombGeometry{Periodic}, site::Integer)
-    if type == :X
-        return kitaevX_neighbor(geometry, site)
-    elseif type == :Y
-        return kitaevY_neighbor(geometry, site)
-    elseif type == :Z
-        return kitaevZ_neighbor(geometry, site)
-    end
-    return nothing
-end
-
 function kitaevX_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
-    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+    i, j = to_grid(geometry, site)
     if isodd(i)
-        return to_linear(i + 1, j, geometry.sizeX, geometry.sizeY)
+        return to_linear(geometry, (i + 1, j))
     else
-        return to_linear(i - 1, j, geometry.sizeX, geometry.sizeY)
+        return to_linear(geometry, (i - 1, j))
     end
 end
 
@@ -209,22 +218,22 @@ end
 function kitaevY_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
-    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+    i, j = to_grid(geometry, site)
     if iseven(i)
-        return to_linear(i + 1, j, geometry.sizeX, geometry.sizeY)
+        return to_linear(geometry, (i + 1, j))
     else
-        return to_linear(i - 1, j, geometry.sizeX, geometry.sizeY)
+        return to_linear(geometry, (i - 1, j))
     end
 end
 
 function kitaevZ_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
-    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+    i, j = to_grid(geometry, site)
     if iseven(i)
-        return to_linear(i - 1, j + 1, geometry.sizeX, geometry.sizeY)
+        return to_linear(geometry, (i - 1, j + 1))
     else
-        return to_linear(i + 1, j - 1, geometry.sizeX, geometry.sizeY)
+        return to_linear(geometry, (i + 1, j - 1))
     end
 end
 
@@ -232,7 +241,7 @@ end
 function kekuleRed_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
-    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+    i, j = to_grid(geometry, site)
     j = mod1(j, 3)
     if iseven(i)
         i = mod1(i, 6) ÷ 2
@@ -294,7 +303,7 @@ end
 function kekuleGreen_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
-    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+    i, j = to_grid(geometry, site)
     j = mod1(j, 3)
     if iseven(i)
         i = mod1(i, 6) ÷ 2
@@ -356,7 +365,7 @@ end
 function kekuleBlue_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
-    i, j = to_grid(site, geometry.sizeX, geometry.sizeY)
+    i, j = to_grid(geometry, site)
     j = mod1(j, 3)
     if iseven(i)
         i = mod1(i, 6) ÷ 2
@@ -563,7 +572,7 @@ function plaquettes(geometry::HoneycombGeometry{Periodic})
     i = 1
     for k in 1:sizeY
         for j in 1:2:sizeX
-            m = to_linear(j, k, sizeX, sizeY)
+            m = to_linear(geometry, (j, k))
             cyc[1, i] = m
             m = kitaevZ_neighbor(geometry, m)
             cyc[2, i] = m

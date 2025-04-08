@@ -21,6 +21,9 @@ remotes
 
 *.zip
 data/*
+data
+figures/*
+figures
 
 *.jld2
 *.jls

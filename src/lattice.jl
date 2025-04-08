@@ -44,3 +44,18 @@ function Base.show(io::IO, lattice::Geometry)
     end
     nv(lattice.graph) <= 100 && visualize(io, lattice)
 end
+
+function to_linear(geometry::Geometry, ::NTuple{d,Int64}) where {d}
+    throw(ArgumentError("No function defined to convert $d dimensional grid index to linear index for a geometry of type $(typeof(geometry))"))
+end
+
+
+
+
+function to_grid(geometry::Geometry, ::Int64)
+    throw(ArgumentError("No function defined to convert linear index to grid indicies for a geometry of type $(typeof(geometry))"))
+end
+
+function neighbor(geometry::Geometry, i::Int64; direction::Symbol)
+    throw(ArgumentError("No function defined to get the neighbor of $i in direction $direction for a geometry of type $(typeof(geometry))"))
+end

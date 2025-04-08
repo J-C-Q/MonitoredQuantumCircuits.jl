@@ -20,6 +20,8 @@ include("operations.jl")
 
 include("lattices/PeriodicHoneycombLattice.jl")
 include("lattices/ChainGeometry.jl")
+include("lattices/TriangleSquareGeometry.jl")
+include("lattices/SquareGeometry.jl")
 
 include("operations/ZZ.jl")
 include("operations/XX.jl")
@@ -55,10 +57,12 @@ include("circuits/kitaev.jl")
 include("circuits/kekule.jl")
 include("circuits/MTFIM.jl")
 include("circuits/kekule_floquet.jl")
+include("circuits/triangle_square_XYZ.jl")
 # include("circuits/random.jl")
 
 export HoneycombGeometry
 export ChainGeometry
+export TriangleSquareGeometry
 export Periodic
 export plaquettes
 export loops
@@ -67,6 +71,9 @@ export subsystems
 export subsystem
 export nQubits
 export random_qubit
+export to_grid
+export to_linear
+export neighbor
 
 
 export ZZ
@@ -94,6 +101,7 @@ export Weak_YY
 export Circuit
 export apply!
 export execute
+export executeMPI
 export depth
 export nAncilla
 export compile
@@ -102,6 +110,7 @@ export MeasurementOnlyKitaev
 export MeasurementOnlyKekule
 export MeasurementOnlyKekule_Floquet
 export MonitoredTransverseFieldIsing
+export MeasurementOnlyTriangleSquareXYZ
 
 
 # export GUI

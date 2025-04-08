@@ -46,4 +46,5 @@ Then, you can execute the circuit using
 ```julia
 execute!(circuit::CompiledCircuit, backend::Backend)
 ```
+For more information see [Backends](/library/backends.md).
 

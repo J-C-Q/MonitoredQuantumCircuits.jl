@@ -28,7 +28,7 @@ You can add additional parameters to the `apply!` method if required for specifi
 Define the `execute` method to manage execution, whether by simulation or interaction with a quantum device’s API.
 
 ```julia
-function execute(circuit::FiniteDepthCircuit, ::MyBackend)
+function execute(circuit::CompiledCircuit, ::MyBackend)
     # Instantiate a MyCircuit object
     mycircuit = MyCircuit()
 
