@@ -101,7 +101,7 @@ export Weak_YY
 export Circuit
 export apply!
 export execute
-export executeMPI
+export executeParallel
 export depth
 export nAncilla
 export compile

@@ -11,7 +11,7 @@ function simulate(path::String; depth=100, L=12, averaging=10, resolution=45)
     progressMeter = ProgressMeter.Progress(length(points) * averaging; dt=1.0)
     Threads.@threads for (px, py, pz) in points
 
-        circuit = MeasurementOnlyTriangleSquareXYZ(geometry, px, py, pz; depth)
+        circuit = MeasurementOnlyTriangleSquareXYZ(geometry, px, py, pz; depth, purify=true)
         compiled = compile(circuit)
         sim = QuantumClifford.TableauSimulator(nQubits(geometry))
         tmi = 0

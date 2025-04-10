@@ -4,7 +4,7 @@ struct TriangleSquareGeometry{T<:BoundaryCondition} <: Geometry
     sizeY::Int64
 
     function TriangleSquareGeometry(type::Type{Periodic}, sizeX::Integer, sizeY::Integer)
-        graph = Graphs.grid((sizeX,sizeY); periodic=true)
+        graph = Graphs.grid((sizeX, sizeY); periodic=true)
         g = new{type}(graph, sizeX, sizeY)
         for i in 1:sizeX
             for j in 1:sizeY
@@ -14,7 +14,7 @@ struct TriangleSquareGeometry{T<:BoundaryCondition} <: Geometry
                     end
                 else
                     if isodd(i)
-                        Graphs.add_edge!(graph, to_linear(g,(i,j)), to_linear(g,(i-1,j+1)))
+                        Graphs.add_edge!(graph, to_linear(g, (i, j)), to_linear(g, (i - 1, j + 1)))
                     end
                 end
             end
@@ -32,8 +32,8 @@ function bonds(geometry::TriangleSquareGeometry{Periodic}; type=:All)
         end
     elseif type == :DIAGONAL
         for e in Graphs.edges(geometry.graph)
-            i_src, j_src = to_grid_square(geometry, Graphs.src(e))
-            i_dst, j_dst = to_grid_square(geometry, Graphs.dst(e))
+            i_src, j_src = to_grid(geometry, Graphs.src(e))
+            i_dst, j_dst = to_grid(geometry, Graphs.dst(e))
             if i_src != i_dst && j_src != j_dst
                 push!(positions, Graphs.src(e))
                 push!(positions, Graphs.dst(e))
@@ -41,8 +41,8 @@ function bonds(geometry::TriangleSquareGeometry{Periodic}; type=:All)
         end
     elseif type == :HORIZONTAL
         for e in Graphs.edges(geometry.graph)
-            i_src, j_src = to_grid_square(geometry, Graphs.src(e))
-            i_dst, j_dst = to_grid_square(geometry, Graphs.dst(e))
+            i_src, j_src = to_grid(geometry, Graphs.src(e))
+            i_dst, j_dst = to_grid(geometry, Graphs.dst(e))
             if i_src != i_dst && j_src == j_dst
                 push!(positions, Graphs.src(e))
                 push!(positions, Graphs.dst(e))
@@ -50,8 +50,8 @@ function bonds(geometry::TriangleSquareGeometry{Periodic}; type=:All)
         end
     elseif type == :VERTICAL
         for e in Graphs.edges(geometry.graph)
-            i_src, j_src = to_grid_square(geometry, Graphs.src(e))
-            i_dst, j_dst = to_grid_square(geometry, Graphs.dst(e))
+            i_src, j_src = to_grid(geometry, Graphs.src(e))
+            i_dst, j_dst = to_grid(geometry, Graphs.dst(e))
             if i_src == i_dst && j_src != j_dst
                 push!(positions, Graphs.src(e))
                 push!(positions, Graphs.dst(e))
@@ -90,4 +90,22 @@ function subsystems(geometry::TriangleSquareGeometry{Periodic}, n::Integer=2; cu
         return reshape(sites, geometry.sizeX*(geometry.sizeY÷n), n)
     end
     return reshape(sites, geometry.sizeX*(geometry.sizeY÷n), n)
+end
+
+function subsystem(geometry::TriangleSquareGeometry{Periodic}, l::Integer; cutType=:VERTICAL)
+    if cutType == :HORIZONTAL
+        sites = loops(geometry; type=:VERTICAL)
+    elseif cutType == :VERTICAL
+        sites = loops(geometry; type=:HORIZONTAL)
+    end
+    sub = @view sites[:, 1:l]
+    return reshape(sub, length(sub), 1)
+end
+
+function loops(geometry::TriangleSquareGeometry{Periodic}; type=:HORIZONTAL)
+    if type == :HORIZONTAL
+        return reshape(1:geometry.sizeX*geometry.sizeY, geometry.sizeX, geometry.sizeY)
+    elseif type == :VERTICAL
+        return collect(reshape(1:geometry.sizeX*geometry.sizeY, geometry.sizeX, geometry.sizeY)')
+    end
 end

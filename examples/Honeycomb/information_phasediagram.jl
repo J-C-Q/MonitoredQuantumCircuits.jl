@@ -78,12 +78,12 @@ function informationPlot(file::String, data_path::String; depth=100, L=12, avera
             projection([0, 0, 1]),
             projection([1, 0, 0])], color=:black, joinstyle=:bevel, linewidth=1.0)
 
-    scatter!(ax, [p[1] for p in points2d], [p[2] for p in points2d], color=tmis, strokewidth=0.5, strokecolor=(:black, 1.0), colormap=colormap, markersize=2)
+    scatter!(ax, [p[1] for p in points2d], [p[2] for p in points2d], color=tmis, strokewidth=0.5, strokecolor=(:black, 0.5), colormap=colormap, markersize=2)
     # scatter!(ax, [p[1] for p in points2d], [p[2] for p in points2d], color=:black, strokewidth=0, markersize=2)
 
     text!(ax, Point2f[projection([1.1, 0, 0]), projection([0, 1.1, 0]), projection([0, 0, 1.1])], text=[L"$$X", L"$$Y", L"$$Z"], color=:black, align=(:center, :center))
     # limits!(ax, (-0.8, 0.8), (-0.5, 0.9))
-    Colorbar(fig[1, 2], limits=(-1, 1), colormap=colormap,
+    Colorbar(fig[1, 2], limits=(minimum(tmis), maximum(tmis)), colormap=colormap,
         flipaxis=true, label=L"$$Tripartite Information", minorticksvisible=true, minortickalign=1.0)
 
     save("$file.svg", fig)

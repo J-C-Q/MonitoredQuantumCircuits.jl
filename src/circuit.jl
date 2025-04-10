@@ -214,9 +214,7 @@ end
 function execute(::CompiledCircuit, backend::Backend; verbose::Bool=true)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
-function executeMPI(input...)
-    throw(ArgumentError("Load MPI.jl to use MPI"))
-end
+function executeParallel end
 
 function get_mpi_ref(input...)
     throw(ArgumentError("Load MPI.jl to use MPI"))

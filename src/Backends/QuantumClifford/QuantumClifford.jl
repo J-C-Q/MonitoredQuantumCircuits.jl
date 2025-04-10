@@ -24,7 +24,6 @@ include("operations/Pauli.jl")
 include("operations/Measure_X.jl")
 include("operations/Measure_Y.jl")
 include("operations/Measure_Z.jl")
-# include("operations/Measure.jl")
 
 include("analysis.jl")
 

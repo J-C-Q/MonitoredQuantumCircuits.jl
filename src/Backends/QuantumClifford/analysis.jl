@@ -28,6 +28,11 @@ function entanglement_entropy(state::QC.AbstractStabilizer, l::AbstractArray)
     return QC.entanglement_entropy(state, vec(l), Val(:rref))
 end
 
+function entanglement_entropy(state::QC.AbstractStabilizer, subsystems::Matrix)
+    A = @view subsystems[:, 1]
+    return QC.entanglement_entropy(state, vec(A), Val(:rref))
+end
+
 function tmi(state::QC.AbstractStabilizer, subsystems::Matrix; a_col=1, b_col=2, c_col=3)
     A = @view subsystems[:, a_col]
     B = @view subsystems[:, b_col]

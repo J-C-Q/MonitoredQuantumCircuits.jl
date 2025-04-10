@@ -25,6 +25,8 @@ data
 figures/*
 figures
 
+LocalPreferences.toml
+
 *.jld2
 *.jls
 
