@@ -1,7 +1,7 @@
 """
-    Weak_YY(t) <: Operation
+    Weak_YY <: MeasurementOperation
 
-A singelton type representing the weak YY operation.
+The Weak_YY operation is a three-qubit gate that applies a weak YY interaction between the first two qubits, with a strength determined by the parameter t. The third qubit is an ancilla qubit that is used to store the result of the operation.
 """
 struct Weak_YY <: MeasurementOperation
     t::Float64
@@ -10,35 +10,12 @@ struct Weak_YY <: MeasurementOperation
         new(t)
     end
 end
-
-
 function nQubits(::Weak_YY)
     return 3
 end
 function isClifford(::Weak_YY)
     return false
 end
-function getParameter(o::Weak_YY)
-    return [o.t]
-end
-function nancilla(::Weak_YY)
+function nAncilla(::Weak_YY)
     return 1
 end
-# function connectionGraph(::Weak_YY)
-#     # return the connection graph of the operation
-#     return path_graph(3)
-# end
-# function plotPositions(::Weak_YY)
-#     return [(0, 0), (1, 0), (2, 0)]
-# end
-# function color(::Weak_YY)
-#     return "#4063D8"
-# end
-# function isAncilla(operation::Weak_YY, qubit::Integer)
-#     0 < qubit <= nQubits(operation) || throw(ArgumentError("qubit $qubit is not a valid qubit for the Weak_YY operation."))
-#     return qubit == 2
-# end
-
-# function nMeasurements(::Weak_YY)
-#     return 1
-# end

@@ -32,6 +32,7 @@ function simulate(path::String; depth=100, L=12, averaging=10, resolution=45, ty
             "tmi", tmi,
             "probs", (px, py, pz))
     end
+
 end
 
 function generateProbs(; n=45)

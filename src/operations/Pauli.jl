@@ -1,15 +1,13 @@
 """
-    nPauli(paulistring::Vararg{Operation}) <: MeasurementOperation
+    NPauli{N} <: MeasurementOperation
 
-A type representing a n qubit pauli parity measurement operation.
+The NPauli operation is a N-qubit measurement operation that measures the state of multiple qubits in the Pauli basis.
 """
 struct NPauli{N} <: MeasurementOperation
     memory::NTuple{N,Int8}
-    # paulistring::NTuple{N,Operation}
-    # xs::BitVector
-    # zs::BitVector
+
     function NPauli(paulistring::Vararg{Operation})
-        @assert all(p -> (isa(p, X) || isa(p, Y) || isa(p, Z)), paulistring)
+        all(p -> (isa(p, X) || isa(p, Y) || isa(p, Z)), paulistring) || throw(ArgumentError("Only single qubit pauli operations."))
         N = length(paulistring)
         constructMemory = zeros(Int8, N)
         for (i, p) in enumerate(paulistring)
@@ -54,12 +52,6 @@ struct NPauli{N} <: MeasurementOperation
     end
 end
 
-function nQubits(p::NPauli)
-    return length(p.memory)
-end
-function isClifford(::NPauli)
-    return true
-end
 function Base.show(io::IO, p::NPauli)
     for (i, p) in enumerate(p.memory)
         if p == 1
@@ -71,17 +63,6 @@ function Base.show(io::IO, p::NPauli)
         end
     end
 end
-function getParameter(p::NPauli)
-    floatParamter = Float64[]
-    intParameter = p.memory
-    return (floatParamter, intParameter)
-end
-function hasParameter(::Type{NPauli})
-    return true
-end
-function hasParameter(::Type{NPauli}, ::Type{Int64})
-    return true
-end
 
 function Base.:(==)(np1::NPauli, np2::NPauli)
     return all(np1.memory .== np2.memory)
@@ -89,7 +70,14 @@ end
 function Base.hash(npauli::NPauli)
     return hash((npauli.memory))
 end
-function nancilla(::NPauli)
+
+function nQubits(p::NPauli)
+    return length(p.memory)
+end
+function isClifford(::NPauli)
+    return true
+end
+function nAncilla(::NPauli)
     return 1
 end
 

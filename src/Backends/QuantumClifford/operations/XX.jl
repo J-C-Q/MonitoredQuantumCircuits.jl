@@ -1,58 +1,28 @@
 function apply!(
-    state::QC.MixedDestabilizer,
+    register::QC.Register,
     simulator::TableauSimulator,
     ::MonitoredQuantumCircuits.XX,
-    p1::Integer,
-    p2::Integer;
-    keep_result::Bool=false)
-
-    operator = simulator.pauli_operator
-    QC.zero!(operator)
-    operator[p1] = (true, false) #X
-    operator[p2] = (true, false) #X
-    QC.project!(state, operator; keep_result)
-end
-
-
-function apply!(
-    state::QC.MixedDestabilizer,
-    simulator::TableauSimulator,
-    ::Type{MonitoredQuantumCircuits.XX},
-    floatParamter,
-    intParameter,
-    p1::Integer,
-    p2::Integer;
-    keep_result::Bool=false)
-    operator = simulator.pauli_operator
-    QC.zero!(operator)
-    operator[p1] = (true, false) #X
-    operator[p2] = (true, false) #X
-    QC.project!(state, operator; keep_result)
-end
-
-function apply_XX!(
-    state::QC.MixedDestabilizer,
-    simulator::TableauSimulator,
-    p1::Integer,
-    p2::Integer,
-    keep_result::Bool=false)
-    operator = simulator.pauli_operator
-    QC.zero!(operator)
-    operator[p1] = (true, false) #X
-    operator[p2] = (true, false) #X
-    QC.project!(state, operator; keep_result)
-end
-
-function apply!(
-    state::QC.MixedDestabilizer,
-    simulator::TableauSimulator,
-    ::MonitoredQuantumCircuits.XX,
-    p;
-    keep_result::Bool=false)
+    p)
 
     operator = simulator.pauli_operator
     QC.zero!(operator)
     operator[p[1]] = (true, false) #X
     operator[p[2]] = (true, false) #X
-    QC.project!(state, operator; keep_result)
+    _, res = QC.projectrand!(register, operator)
+    push!(register.bits, res / 2)
+end
+
+
+function expr_apply!(
+    ::MonitoredQuantumCircuits.XX
+)
+    block_ex = quote
+        operator = simulator.pauli_operator
+        QuantumClifford.QC.zero!(operator)
+        operator[p[1]] = (true, false) #Z
+        operator[p[2]] = (true, false) #Z
+        _, res = QuantumClifford.QC.projectrand!(register, operator)
+        push!(register.bits, res / 2)
+    end
+    return block_ex
 end

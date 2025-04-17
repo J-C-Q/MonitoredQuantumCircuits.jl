@@ -1,9 +1,8 @@
 function apply!(
-    state::QC.MixedDestabilizer,
+    register::QC.Register,
     ::TableauSimulator,
     R::MonitoredQuantumCircuits.RandomClifford,
-    p;
-    keep_result::Bool=false)
+    p)
 
-    QC.apply!(state, QC.random_clifford(R.nqubits), p...)
+    QC.apply!(register, QC.random_clifford(R.nqubits), p...)
 end

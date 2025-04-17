@@ -1,63 +1,9 @@
-function apply!(state::QC.MixedDestabilizer, p::MonitoredQuantumCircuits.NPauli, pos::Vararg{Integer})
-
-    QC.project!(state, QC.embed(state.tab.nqubits, pos, QC.PauliOperator(p.xs, p.zs)), keep_result=false)
-end
-
-
 function apply!(
-    state::QC.MixedDestabilizer,
+    register::QC.Register,
     simulator::TableauSimulator,
     P::MonitoredQuantumCircuits.NPauli,
-    p::Vararg{Integer};
-    keep_result::Bool=false)
+    p)
 
-    operator = simulator.pauli_operator
-    QC.zero!(operator)
-    for (i, pos) in enumerate(p)
-        operator[pos] = (P.xs[i], P.zs[i])
-    end
-    QC.project!(state, operator; keep_result)
-end
-
-function apply!(
-    state::QC.MixedDestabilizer,
-    simulator::TableauSimulator,
-    ::Type{T},
-    floatParamter::SubArray,
-    intParameter::SubArray,
-    p::Vararg{Integer};
-    keep_result::Bool=false) where {T<:MonitoredQuantumCircuits.NPauli}
-
-    options = ((true, false), (true, true), (false, true))
-    operator = simulator.pauli_operator
-    QC.zero!(operator)
-    for (i, parameter) in enumerate(intParameter)
-        operator[p[i]] = options[parameter]
-    end
-    QC.project!(state, operator; keep_result)
-end
-
-function apply_NPauli!(
-    state::QC.MixedDestabilizer,
-    simulator::TableauSimulator,
-    intParameter::SubArray,
-    p,
-    keep_result::Bool=false)
-    options = ((true, false), (true, true), (false, true))
-    operator = simulator.pauli_operator
-    QC.zero!(operator)
-    for (i, parameter) in enumerate(intParameter)
-        operator[p[i]] = options[parameter]
-    end
-    QC.project!(state, operator; keep_result)
-end
-
-function apply!(
-    state::QC.MixedDestabilizer,
-    simulator::TableauSimulator,
-    P::MonitoredQuantumCircuits.NPauli,
-    p::SubArray;
-    keep_result::Bool=false)
     options = ((true, false), (true, true), (false, true))
     operator = simulator.pauli_operator
     QC.zero!(operator)
@@ -66,5 +12,23 @@ function apply!(
         operator[p[i]] = options[parameter]
     end
 
-    QC.project!(state, operator; keep_result)
+    _, res = QC.projectrand!(register, operator)
+    push!(register.bits, res / 2)
+end
+
+
+function expr_apply!(
+    P::MonitoredQuantumCircuits.NPauli
+)
+    block_ex = quote
+        options = ((true, false), (true, true), (false, true))
+        operator = simulator.pauli_operator
+        QuantumClifford.QC.zero!(operator)
+        for (i, parameter) in enumerate($(P.memory))
+            operator[p[i]] = options[parameter]
+        end
+        _, res = QuantumClifford.QC.projectrand!(register, operator)
+        push!(register.bits, res / 2)
+    end
+    return block_ex
 end

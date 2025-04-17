@@ -1,7 +1,7 @@
 """
-    Weak_XX(t) <: Operation
+    Weak_XX <: MeasurementOperation
 
-A singelton type representing the weak XX operation.
+The Weak_XX operation is a three-qubit gate that applies a weak XX interaction between the first two qubits, with a strength determined by the parameter t. The third qubit is an ancilla qubit that is used to store the result of the operation.
 """
 struct Weak_XX <: MeasurementOperation
     t::Float64
@@ -10,44 +10,12 @@ struct Weak_XX <: MeasurementOperation
         new(t)
     end
 end
-
-
 function nQubits(::Weak_XX)
     return 3
 end
 function isClifford(::Weak_XX)
     return false
 end
-function getParameter(o::Weak_XX)
-    floatParamter = [o.t]
-    intParameter = []
-    return (floatParamter, intParameter)
-end
-function hasParameter(::Type{Weak_XX})
-    return true
-end
-function hasParameter(::Type{Weak_XX}, ::Type{Float64})
-    return true
-end
-function nancilla(::Weak_XX)
+function nAncilla(::Weak_XX)
     return 1
 end
-
-# function connectionGraph(::Weak_XX)
-#     # return the connection graph of the operation
-#     return path_graph(3)
-# end
-# function plotPositions(::Weak_XX)
-#     return [(0, 0), (1, 0), (2, 0)]
-# end
-# function color(::Weak_XX)
-#     return "#4063D8"
-# end
-# function isAncilla(operation::Weak_XX, qubit::Integer)
-#     0 < qubit <= nQubits(operation) || throw(ArgumentError("qubit $qubit is not a valid qubit for the Weak_XX operation."))
-#     return qubit == 2
-# end
-
-# function nMeasurements(::Weak_XX)
-#     return 1
-# end

@@ -1,20 +1,9 @@
-# abstract type Result end
-
-
-
-# struct SampleResult <: Result
-#     result::Matrix{Bool} # nMeasurements x nShots
-#     qubitMap::Vector{Int64}
-# end
-
-# Base.getindex(result::SampleResult, i::Int) = result.result[i, :]
-# Base.getindex(result::SampleResult, r::UnitRange) = result.result[r, :]
-
-# Base.lastindex(result::SampleResult) = size(result.result, 1)
-
-# TODO maybe make this a sampler result type
-abstract type Result end
-#     measurementOutcomes::Matrix{Bool}
-#     measuredQubits::Vector{Int}
-#     nativeResult::T
-# end
+struct Result{T}
+    native_result::T
+    measurements::Vector{Tuple{Vector{String},Vector{Int64},Bool}}
+    qubit_map_compiled_to_geometry::Vector{Int64}
+    qubits_map_geometry_to_compiled::Vector{Int64}
+    function Result(native_result::T, circuit::CompiledCircuit) where {T}
+        return new{T}(native_result, [], circuit.qubit_map_compiled_to_geometry, circuit.qubits_map_geometry_to_compiled)
+    end
+end

@@ -1,10 +1,8 @@
 function apply!(
-    state::QC.MixedDestabilizer,
+    register::QC.Register,
     ::TableauSimulator,
-    ::MonitoredQuantumCircuits.H,
-    p1::Integer,
-    p2::Integer;
-    keep_result::Bool=false)
+    ::MonitoredQuantumCircuits.CNOT,
+    p)
 
-    QC.apply!(state, QC.sCNOT(state, p1, p2))
+    QC.apply!(register, QC.sCNOT(register, p[1], p[2]))
 end

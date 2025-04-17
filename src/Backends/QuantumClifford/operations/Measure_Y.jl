@@ -1,9 +1,9 @@
 function apply!(
-    state::QC.MixedDestabilizer,
-    simulator::TableauSimulator,
+    register::QC.Register,
+    ::TableauSimulator,
     ::MonitoredQuantumCircuits.Measure_Y,
-    p::SubArray;
-    keep_result::Bool=false)
+    p::SubArray)
 
-    QC.projectY!(state, p[1]; keep_result)
+    _, res = QC.projectYrand!(register, p[1])
+    push!(register.bits, res / 2)
 end

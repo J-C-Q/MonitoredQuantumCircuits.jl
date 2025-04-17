@@ -74,7 +74,8 @@ function Base.getproperty(qc::AerSimulator, prop::Symbol)
     end
 end
 
-function MQC.execute(circuit::MQC.CompiledCircuit, backend::AerSimulator; shots=1024, verbose::Bool=true)
+function MQC.execute(circuit::MQC.CompiledCircuit, backend::AerSimulator; shots=1024)
+    verbose = false
     verbose && print("Transpiling circuit to Qiskit...")
     qc = translate(Circuit, circuit)
     verbose && println("✓")

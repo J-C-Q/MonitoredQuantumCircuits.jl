@@ -18,7 +18,7 @@ struct Instruction
     function Instruction(operation::Integer, position::Integer)
         new([operation],[position], StatsBase.Weights([1.0]))
     end
-    function Instruction(operations::Vector,positions::Vector,probabilities::Vector)
+    function Instruction(operations::Vector, positions::Vector, probabilities::Vector)
         new(operations,positions, StatsBase.Weights(probabilities))
     end
 end
@@ -50,6 +50,82 @@ struct Circuit{G<:Geometry}
     end
 end
 
+"""
+    apply!(circuit::Circuit, operation::Operation, position::Integer)
+Apply an operation to a position in the circuit.
+"""
+function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
+    operationIndex = push!(circuit, operation)
+    pos = Position(position...)
+    positionIndex = push!(circuit, pos)
+    instruction = Instruction(operationIndex, positionIndex)
+    instructionIndex = push!(circuit, instruction)
+    push!(circuit.pointer, instructionIndex)
+end
+
+
+function apply!(circuit::Circuit, operations::Vararg{Tuple{<:Operation,<:Real,Matrix{<:Integer},Vector{<:Real}}})
+    sum([operation[2] for operation in operations]) ≈ 1.0 || throw(ArgumentError("Probabilities must add up to 1."))
+    all([sum(operation[4]) for operation in operations] .≈ 1.0) || throw(ArgumentError("Probabilities must add up to 1."))
+
+    operationIndecies = [push!(circuit, operation[1]) for operation in operations]
+    positions = [Position(operation[3], operation[4]) for operation in operations]
+    positionIndecies = [push!(circuit, pos) for pos in positions]
+    probabilities = [operation[2] for operation in operations]
+    instruction = Instruction(operationIndecies, positionIndecies, probabilities)
+    instructionIndex = push!(circuit, instruction)
+    push!(circuit.pointer, instructionIndex)
+end
+
+function apply!(circuit::Circuit, operations::Vector, probabilities::Vector, positions::Vector, positionProbabilities::Vector)
+    sum(probabilities) ≈ 1.0 || throw(ArgumentError("Probabilities must add up to 1. Got sum($probabilities)=$(sum(probabilities))"))
+    all([sum(prob) for prob in positionProbabilities] .≈ 1.0) || throw(ArgumentError("Probabilities must add up to 1."))
+
+    operationIndecies = [push!(circuit, operation) for operation in operations]
+    poses = [Position(position, prob) for (position, prob) in zip(positions, positionProbabilities)]
+    positionIndecies = [push!(circuit, pos) for pos in poses]
+    instruction = Instruction(operationIndecies, positionIndecies, probabilities)
+    instructionIndex = push!(circuit, instruction)
+    push!(circuit.pointer, instructionIndex)
+end
+
+"""
+    apply!(circuit::Circuit, i::Integer)
+
+Apply the i-th operation in the circuit again.
+"""
+function apply!(circuit::Circuit, i::Integer)
+    push!(circuit.pointer, circuit.pointer[i])
+end
+
+"""
+    apply!(circuit::Circuit, operation::RandomOperation)
+
+Apply a [`RandomOperation`] to the circuit.
+"""
+function apply!(circuit::Circuit, operation::RandomOperation)
+    apply!(circuit, operation.operations, operation.probabilities, operation.positions, operation.positionProbabilities)
+end
+
+"""
+    apply!(circuit::Circuit, operation::DistributedOperation)
+
+Apply a [`DistributedOperation`] to the circuit.
+"""
+function apply!(circuit::Circuit, operation::DistributedOperation)
+    for (i, position) in enumerate(eachcol(operation.positions))
+        apply!(circuit, [operation.operation, I()], [operation.probabilities[i], 1 - operation.probabilities[i]], [reshape(collect(position), length(position), 1), [1;;]], [[1.0], [1.0]])
+    end
+end
+
+
+
+
+
+
+
+
+
 # CompiledCircuit optimized for interation (but static)
 """
     CompiledCircuit{Ops<:Tuple}
@@ -62,6 +138,8 @@ struct CompiledCircuit{Ops<:Tuple}
     n_qubits::Int64
     n_ancilla::Int64
     pointer::Vector{Int64}
+    qubit_map_compiled_to_geometry::Vector{Int64}
+    qubits_map_geometry_to_compiled::Vector{Int64}
     function CompiledCircuit(circuit::Circuit)
         operations = (circuit.operations...,)
         Ops = typeof(operations)
@@ -69,30 +147,84 @@ struct CompiledCircuit{Ops<:Tuple}
         instructions = circuit.instructions
         pointer = circuit.pointer
         n_qubits = nQubits(circuit.geometry)
-        positions_accessed_by_ancilla = Set()
-        # for i in instructions
-        #     for j in eachindex(i.operations)
-        #         if nancilla(circuit.operations[i.operations[j]]) != 0
-        #             push!(positions_accessed_by_ancilla, circuit.positions[i.positions[j]])
-        #         end
-        #     end
-        # end
-        # ancilla = Dict{UInt64,Int64}()
-        # index = n_qubits + 1
-        # for pos in positions_accessed_by_ancilla
-        #     for (i, p) in enumerate(eachcol(pos.positions))
-        #         h = hash(sort(collect(p)))
-        #         if !haskey(ancilla, h)
-        #             ancilla[h] = index
-        #             index += 1
-        #         end
-        #         pos.ancilla[i] = ancilla[h]
-        #     end
-        # end
-        # new{Ops}(operations, positions, instructions, n_qubits, maximum([a.second for a in ancilla]) - n_qubits, pointer)
-        new{Ops}(operations, positions, instructions, n_qubits, 0, pointer)
+        used_positions = Set()
+        for p in positions
+            for i in eachcol(p.positions)
+                for q in i
+                    push!(used_positions, q)
+                end
+            end
+        end
+        used_qubits = sort!(collect(used_positions))
+
+        qubit_map_geometry_to_compiled = zeros(Int64, n_qubits)
+        qubit_map_compiled_to_geometry = zeros(Int64, length(used_qubits))
+        for (i, q) in enumerate(used_qubits)
+            qubit_map_geometry_to_compiled[q] = i
+            qubit_map_compiled_to_geometry[i] = q
+        end
+
+        for pos in positions
+            for i in eachindex(pos.positions)
+                pos.positions[i] = qubit_map_geometry_to_compiled[pos.positions[i]]
+            end
+        end
+        n_qubits = length(used_positions)
+        qubit_map_compiled_to_geometry = zeros(Int64, n_qubits)
+
+
+        positions_accessed_by_ancilla = Position[]
+        for i in instructions
+            for j in eachindex(i.operations)
+                if nAncilla(circuit.operations[i.operations[j]]) != 0
+                    push!(positions_accessed_by_ancilla, circuit.positions[i.positions[j]])
+                end
+            end
+        end
+        ancilla = Dict{UInt64,Int64}()
+        index = n_qubits + 1
+        for pos in positions_accessed_by_ancilla
+            for (i, p) in enumerate(eachcol(pos.positions))
+                h = hash(sort(collect(p)))
+                if !haskey(ancilla, h)
+                    ancilla[h] = index
+                    index += 1
+                end
+                pos.ancilla[i] = ancilla[h]
+            end
+        end
+        new{Ops}(operations, positions, instructions, n_qubits, maximum([a.second for a in ancilla]) - n_qubits, pointer, qubit_map_compiled_to_geometry, qubit_map_geometry_to_compiled)
     end
 end
+
+"""
+    compile(circuit::Circuit)
+Compile the circuit. The function will return a CompiledCircuit object. The CompiledCircuit object is optimized for iteration and is not meant to be modified. The execute function only accepts CompiledCircuit objects.
+"""
+function compile(circuit::Circuit)
+    return CompiledCircuit(circuit)
+end
+
+"""
+    nQubits(circuit::CompiledCircuit)
+
+Return the number of qubits in the compiled circuit. This can differ from the number of qubits in the original circuit, since unused qubits get deleated during compilation. Ancilla qubits are not included, use `nAncilla` to get the number of ancilla qubits.
+"""
+function nQubits(circuit::CompiledCircuit)
+    return circuit.n_qubits
+end
+
+"""
+    nAncilla(circuit::CompiledCircuit)
+
+Return the number of ancilla qubits in the compiled circuit. An ancilla qubits gets added for every unique combination of position and operation.
+"""
+function nAncilla(circuit::CompiledCircuit)
+    return circuit.n_ancilla
+end
+
+
+
 function Base.:(==)(pos1::Position,pos2::Position)
     return all(pos1.positions .== pos2.positions) && pos1.weights == pos2.weights
 end
@@ -105,7 +237,6 @@ end
 function Base.hash(instruction::Instruction)
     return hash((instruction.operations,instruction.positions,instruction.weights))
 end
-
 function Base.in(operation::Operation, circuit::Circuit)
     return haskey(circuit.operationHashTable, hash(operation))
 end
@@ -124,7 +255,6 @@ end
 function Base.getindex(circuit::Circuit, instruction::Instruction)
     return circuit.instructionHashTable[hash(instruction)]
 end
-
 function Base.push!(circuit::Circuit, operation::Operation)
     if operation in circuit
         return circuit[operation]
@@ -159,61 +289,21 @@ function Base.push!(circuit::Circuit, instruction::Instruction)
     return 0
 end
 
-function apply!(circuit::Circuit, operation::Operation, position::Vararg{Integer})
-    operationIndex = push!(circuit, operation)
-    pos = Position(position...)
-    positionIndex = push!(circuit, pos)
-    instruction = Instruction(operationIndex, positionIndex)
-    instructionIndex = push!(circuit, instruction)
-    push!(circuit.pointer, instructionIndex)
-end
 
-function apply!(circuit::Circuit, operations::Vararg{Tuple{<:Operation,<:Real,Matrix{<:Integer},Vector{<:Real}}})
-    sum([operation[2] for operation in operations]) ≈ 1.0 || throw(ArgumentError("Probabilities must add up to 1."))
-    all([sum(operation[4]) for operation in operations] .≈ 1.0) || throw(ArgumentError("Probabilities must add up to 1."))
 
-    operationIndecies = [push!(circuit, operation[1]) for operation in operations]
-    positions = [Position(operation[3],operation[4]) for operation in operations]
-    positionIndecies = [push!(circuit, pos) for pos in positions]
-    probabilities = [operation[2] for operation in operations]
-    instruction = Instruction(operationIndecies, positionIndecies, probabilities)
-    instructionIndex = push!(circuit, instruction)
-    push!(circuit.pointer, instructionIndex)
-end
 
-function apply!(circuit::Circuit, operations::Vector, probabilities::Vector, positions::Vector, positionProbabilities::Vector)
-    sum(probabilities) ≈ 1.0 || throw(ArgumentError("Probabilities must add up to 1. Got sum($probabilities)=$(sum(probabilities))"))
-    all([sum(prob) for prob in positionProbabilities] .≈ 1.0) || throw(ArgumentError("Probabilities must add up to 1."))
 
-    operationIndecies = [push!(circuit, operation) for operation in operations]
-    poses = [Position(position,prob) for (position,prob) in zip(positions,positionProbabilities)]
-    positionIndecies = [push!(circuit, pos) for pos in poses]
-    instruction = Instruction(operationIndecies, positionIndecies, probabilities)
-    instructionIndex = push!(circuit, instruction)
-    push!(circuit.pointer, instructionIndex)
-end
 
-function apply!(circuit::Circuit, index::Integer)
-    push!(circuit.pointer, index)
-end
 
-function apply!(circuit::Circuit, operation::RandomOperation)
-    apply!(circuit, operation.operations, operation.probabilities, operation.positions, operation.positionProbabilities)
-end
+"""
+    execute(circuit::CompiledCircuit, backend::Backend)
 
-function apply!(circuit::Circuit, operation::DistributedOperation)
-    for (i, position) in enumerate(eachcol(operation.positions))
-        apply!(circuit, [operation.operation, I()], [operation.probabilities[i], 1 - operation.probabilities[i]], [reshape(collect(position), length(position), 1), [1;;]], [[1.0], [1.0]])
-    end
-end
-
-function compile(circuit::Circuit)
-    return CompiledCircuit(circuit)
-end
-
-function execute(::CompiledCircuit, backend::Backend; verbose::Bool=true)
+Execute the circuit on the given backend. The backend must be a subclass of Backend. The function will return the result of the execution.
+"""
+function execute(::CompiledCircuit, backend::Backend)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
+
 function executeParallel end
 
 function get_mpi_ref(input...)
@@ -236,6 +326,21 @@ function Base.getindex(circuit::Circuit, i::Integer)
     return circuit.operations[instruction.operations[index]], @view(position.positions[:, posIndex])
 end
 
+function sample(position::Position)
+    index = StatsBase.sample(position.weights)
+    return @view(position.positions[:, index])
+end
+function sample(instruction::Instruction)
+    index = StatsBase.sample(instruction.weights)
+    return index
+end
+
+
+"""
+    depth(circuit::QuantumCircuit)
+
+Return the depth of the circuit. The depth is the number of instructions in the circuit.
+"""
 function depth(circuit::CompiledCircuit)
     return length(circuit.pointer)
 end
@@ -243,39 +348,21 @@ function depth(circuit::Circuit)
     return length(circuit.pointer)
 end
 
-function nAncilla(circuit::Circuit)
-    nancill = 0
-    already_included = Set()
-    for instruction in circuit.instructions
-        for j in eachindex(instruction.operations)
-            n = nancilla(circuit.operations[instruction.operations[j]])
-            if n > 0
-                for p in eachcol(circuit.positions[instruction.positions[j]].positions)
-                    h = hash(sort(collect(p)))
-                    if !(h in already_included)
-                        nancill += n
-                        push!(already_included, h)
-                    end
-                end
-            end
+
+
+function Base.show(io::IO, circuit::Circuit)
+    for i in 1:depth(circuit)
+        instruction = circuit.instructions[circuit.pointer[i]]
+        operationsIndeces = instruction.operations
+        probs = instruction.weights
+        for (prob, j) in zip(probs, operationsIndeces)
+            operation = circuit.operations[j]
+            println(io, prob * 100, "%: ", operation)
         end
+
     end
-    return nancill
+
 end
-
-# function Base.show(io::IO, circuit::Circuit)
-#     for i in 1:depth(circuit)
-#         instruction = circuit.instructions[circuit.pointer[i]]
-#         operationsIndeces = instruction.operations
-#         probs = instruction.weights
-#         for (prob, j) in zip(probs, operationsIndeces)
-#             operation = circuit.operations[j]
-#             println(io, prob * 100, "%: ", operation)
-#         end
-
-#     end
-
-# end
 
 @generated function getOperation(circuit::CompiledCircuit, ::Val{i}) where {i}
     return :(circuit.operations[$i])

@@ -5,25 +5,29 @@ function simulate(path::String; depth=100, L=12, averaging=10, resolution=45)
     points = generateProbs(n=resolution)
     geometry = TriangleSquareGeometry(Periodic, L, L)
 
+    h_subsystems = subsystems(geometry, 4; cutType=:HORIZONTAL)
+    v_subsystems = subsystems(geometry, 4; cutType=:VERTICAL)
+
     progressMeter = ProgressMeter.Progress(length(points) * averaging; dt=1.0)
     Threads.@threads for (px, py, pz) in points
 
-        circuit = MeasurementOnlyTriangleSquareXYZ(geometry, px, py, pz; depth, purify=true)
+        circuit = MeasurementOnlyTriangleSquareXYZ(geometry, px, py, pz; depth, purify=false)
         compiled = compile(circuit)
         sim = QuantumClifford.TableauSimulator(nQubits(geometry))
-        entanglement = 0
+        tmi = 0
         for _ in 1:averaging
             result = execute(compiled, sim)
-            entanglement += QuantumClifford.entanglement_entropy(result, subsystem(geometry, L ÷ 2; cutType=:HORIZONTAL))
-            entanglement += QuantumClifford.entanglement_entropy(result, subsystem(geometry, L ÷ 2; cutType=:VERTICAL))
+            tmi += QuantumClifford.tmi(result.stab, h_subsystems)
+            tmi += QuantumClifford.tmi(result.stab, v_subsystems)
             ProgressMeter.next!(progressMeter)
         end
-        entanglement /= 2averaging
+        tmi /= 2averaging
         JLD2.save(
-            "$path/Lhalf_ENT_L=$(L)_px=$(px)_py=$(py)_pz=$(pz)_averaging=$(averaging)_depth=$(depth).jld2",
-            "entanglement", entanglement,
+            "$path/TMI_L=$(L)_px=$(px)_py=$(py)_pz=$(pz)_averaging=$(averaging)_depth=$(depth).jld2",
+            "tmi", tmi,
             "probs", (px, py, pz))
     end
+    return
 end
 
 function generateProbs(; n=45)

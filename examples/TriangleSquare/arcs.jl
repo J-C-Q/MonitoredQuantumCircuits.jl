@@ -2,7 +2,14 @@ using MonitoredQuantumCircuits
 import JLD2
 import ProgressMeter
 function simulate(path::String; depth=100, L=12, averaging=10, resolution=45)
-    points = [(1 / 3, 1 / 3, 1 / 3), (0.8, 0.1, 0.1), (0.25, 0.5, 0.25)]
+    points = [
+        (1 / 3, 1 / 3, 1 / 3),
+        (0.1, 0.8, 0.1),
+        (0.25, 0.5, 0.25),
+        (0.8, 0.1, 0.1),
+        (0.1, 0.1, 0.8),
+        (0.5, 0.25, 0.25),
+        (0.25, 0.25, 0.5)]
     geometry = TriangleSquareGeometry(Periodic, L, L)
 
     progressMeter = ProgressMeter.Progress(length(points) * averaging; dt=1.0)

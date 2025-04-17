@@ -1,7 +1,7 @@
 """
     Z() <: Operation
 
-A singelton type representing the Pauli Z operation.
+The Z operation is a single-qubit gate that applies a phase of π to the |1⟩ state.
 """
 struct Z <: Operation end
 
@@ -11,22 +11,6 @@ end
 function isClifford(::Z)
     return true
 end
-function nancilla(::Z)
+function nAncilla(::Z)
     return 0
 end
-# function connectionGraph(::Z)
-#     # return the connection graph of the operation
-#     return path_graph(1)
-# end
-# function plotPositions(::Z)
-#     return [(0, 0)]
-# end
-
-# function color(::Z)
-#     return "#CB3C33"
-# end
-
-# function isAncilla(::Z, qubit::Integer)
-#     0 < qubit <= nQubits(Z()) || throw(ArgumentError("qubit $qubit is not a valid qubit for the Z operation."))
-#     return false
-# end

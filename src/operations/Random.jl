@@ -1,3 +1,8 @@
+"""
+    RandomOperation <: Operation
+
+An operation that applies a random operation from a list of operations with specified probabilities and random positions.
+"""
 struct RandomOperation <: Operation
     operations::Vector{Operation}
     probabilities::Vector{Float64}
@@ -12,7 +17,17 @@ struct RandomOperation <: Operation
     end
 end
 
+"""
+    push!(random::RandomOperation,
+        op::Operation,
+        positions::Matrix;
+        probability,
+        positionProbabilities)
 
+Push a new operation to the list of operations in the `RandomOperation` object.
+The operation is applied with a specified probability and the positions are given as a matrix.
+The `positionProbabilities` argument specifies the probabilities for each position (column) in the matrix.
+"""
 function Base.push!(
     random::RandomOperation,
     op::Operation,
@@ -21,12 +36,7 @@ function Base.push!(
     positionProbabilities=fill(1/size(positions,2), size(positions,2)))
 
     push!(random.operations, op)
-    # if probability ≈ 1.0 && !isempty(random.probabilities)
-    #     random.probabilities .*= length(random.probabilities)/(length(random.probabilities) + 1)
-    #     push!(random.probabilities, 1/(length(random.probabilities)+1))
-    # else
-        push!(random.probabilities, probability)
-    # end
+    push!(random.probabilities, probability)
     push!(random.positions, positions)
     push!(random.positionProbabilities, positionProbabilities)
 

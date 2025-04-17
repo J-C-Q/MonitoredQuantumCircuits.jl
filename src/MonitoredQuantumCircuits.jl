@@ -2,7 +2,6 @@ module MonitoredQuantumCircuits
 
 using Graphs
 using JLD2
-using Crayons
 using Serialization
 using StatsBase
 using LinearAlgebra
@@ -14,14 +13,14 @@ using CondaPkg
 
 include("backend.jl")
 # include("Remote/Remote.jl")
-include("lattice.jl")
+include("geometry.jl")
 include("operations.jl")
 
 
-include("lattices/PeriodicHoneycombLattice.jl")
-include("lattices/ChainGeometry.jl")
-include("lattices/TriangleSquareGeometry.jl")
-include("lattices/SquareGeometry.jl")
+include("geometries/PeriodicHoneycombLattice.jl")
+include("geometries/ChainGeometry.jl")
+include("geometries/TriangleSquareGeometry.jl")
+include("geometries/SquareGeometry.jl")
 
 include("operations/ZZ.jl")
 include("operations/XX.jl")
@@ -44,6 +43,7 @@ include("operations/I.jl")
 include("operations/Random.jl")
 
 include("circuit.jl")
+include("result.jl")
 
 # include("GUI/BonitoApp.jl")
 
@@ -58,7 +58,7 @@ include("circuits/kekule.jl")
 include("circuits/MTFIM.jl")
 include("circuits/kekule_floquet.jl")
 include("circuits/triangle_square_XYZ.jl")
-# include("circuits/random.jl")
+
 
 export HoneycombGeometry
 export ChainGeometry
@@ -105,6 +105,8 @@ export executeParallel
 export depth
 export nAncilla
 export compile
+
+export Result
 
 export MeasurementOnlyKitaev
 export MeasurementOnlyKekule

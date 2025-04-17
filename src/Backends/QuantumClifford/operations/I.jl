@@ -1,9 +1,8 @@
 function apply!(
-    state::QC.MixedDestabilizer,
+    register::QC.Register,
     ::TableauSimulator,
     ::MonitoredQuantumCircuits.I,
-    p;
-    keep_result::Bool=false)
+    p)
 
-    QC.apply!(state, QC.sId1(p[1]))
+    QC.apply!(register, QC.sId1(p[1]))
 end

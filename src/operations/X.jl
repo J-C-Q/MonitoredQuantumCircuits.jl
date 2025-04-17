@@ -1,7 +1,7 @@
 """
     X() <: Operation
 
-A singelton type representing the I operation.
+The X operation is a single-qubit gate that flips the state of a qubit.
 """
 struct X <: Operation end
 
@@ -11,22 +11,6 @@ end
 function isClifford(::X)
     return true
 end
-function nancilla(::X)
+function nAncilla(::X)
     return 0
 end
-# function connectionGraph(::X)
-#     # return the connection graph of the operation
-#     return path_graph(1)
-# end
-# function plotPositions(::X)
-#     return [(0, 0)]
-# end
-
-# function color(::X)
-#     return "#CB3C33"
-# end
-
-# function isAncilla(::X, qubit::Integer)
-#     0 < qubit <= nQubits(X()) || throw(ArgumentError("qubit $qubit is not a valid qubit for the X operation."))
-#     return false
-# end

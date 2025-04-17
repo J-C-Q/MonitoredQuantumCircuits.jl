@@ -18,11 +18,28 @@ struct Cluster
 end
 
 """
-    addCluster(user::String, host_name::String, identity_file::String; ssh_password="", remote_password="", workingDir="", load_juliaANDmpi_cmd="", MPI_use_system_binary=true)
+    addCluster(
+        user::String,
+        host_name::String,
+        identity_file::String;
+        ssh_password="",
+        remote_password="",
+        workingDir="",
+        load_juliaANDmpi_cmd="",
+        MPI_use_system_binary=true)
 
 Add a cluster to the list of clusters. The cluster will be saved in the file remotes.csv in the current directory. The cluster will be connected to and setup. The cluster will be disconnected after the setup.
 """
-function addCluster(user::String, host_name::String, identity_file::String; ssh_password="", remote_password="", workingDir="", load_juliaANDmpi_cmd="", MPI_use_system_binary=true)
+function addCluster(
+    user::String,
+    host_name::String,
+    identity_file::String;
+    ssh_password="",
+    remote_password="",
+    workingDir="",
+    load_juliaANDmpi_cmd="",
+    MPI_use_system_binary=true)
+
     if !isfile("remotes.csv")
 
         CSV.write("remotes.csv", DataFrame(host_name=[host_name], user=[user], identity_file=[identity_file], ssh_password=[ssh_password], remote_password=[remote_password], workingDir=[workingDir], load_juliaANDmpi_cmd=[load_juliaANDmpi_cmd], MPI_use_system_binary=[MPI_use_system_binary]))
@@ -131,27 +148,13 @@ end
 
 function setup(cluster::Cluster)
 
-    if !isfile(".env")
-        println("No .env file found. Please create a .env file with the following format:")
-        println("GITHUB_USERNAME=<username>")
-        println("GITHUB_PASSWORD=<accesstoken>")
-        return nothing
-    end
-
     mkdir(cluster, joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV"))
 
-    upload(cluster, joinpath(@__DIR__, "execScript.jl"), joinpath("$(cluster.workingDir)", "MonitoredQuantumCircuitsENV"))
-
     println("Adding packages...")
-    df = DataFrame(CSV.File(".env", delim='=', header=-1))
-    row = df[df.Column1.=="GITHUB_USERNAME", :]
-    github_username = row.Column2[1]
-    row = df[df.Column1.=="GITHUB_PASSWORD", :]
-    github_password = row.Column2[1]
 
     runCommand(cluster, [
             "$(cluster.load_juliaANDmpi_cmd)",
-            "julia -e 'using Pkg;Pkg.activate(\".\");Pkg.add(PackageSpec(url=\"https://$(github_username):$(github_password)@github.com/J-C-Q/MonitoredQuantumCircuits.jl.git\", rev=\"main\")); Pkg.add(\"JLD2\"); Pkg.add(\"MPI\")'",
+            "julia -e 'using Pkg;Pkg.activate(\".\");Pkg.add(PackageSpec(url=\"https://github.com/J-C-Q/MonitoredQuantumCircuits.jl.git\", rev=\"main\")); Pkg.add(\"JLD2\"); Pkg.add(\"MPI\")'",
             "julia --project -e 'using Pkg; Pkg.instantiate()'",
             "julia --project -e 'using Pkg;Pkg.add(PackageSpec(url=\"https://github.com/J-C-Q/CondaPkg.jl.git\", rev=\"main\"));'",
             "julia --project -e 'using MonitoredQuantumCircuits'"],

@@ -1,29 +1,8 @@
 function apply!(
-    state::QC.MixedDestabilizer,
+    register::QC.Register,
     ::TableauSimulator,
     ::MonitoredQuantumCircuits.Z,
-    p::Integer;
-    keep_result::Bool=false)
+    p)
 
-    QC.apply!(state, QC.sZ(p))
-end
-
-
-function apply_Z!(
-    state::QC.MixedDestabilizer,
-    ::TableauSimulator,
-    p::Integer,
-    keep_result::Bool=false)
-
-    QC.apply!(state, QC.sZ(p))
-end
-
-function apply!(
-    state::QC.MixedDestabilizer,
-    ::TableauSimulator,
-    ::MonitoredQuantumCircuits.Z,
-    p;
-    keep_result::Bool=false)
-
-    QC.apply!(state, QC.sZ(p[1]))
+    QC.apply!(register, QC.sZ(p[1]))
 end

@@ -9,27 +9,27 @@ abstract type BoundaryCondition end
 abstract type Periodic <: BoundaryCondition end
 abstract type Open <: BoundaryCondition end
 
-function getBonds(lattice::Geometry)
-    bonds = collect(edges(lattice.graph))
+function getBonds(geometry::Geometry)
+    bonds = collect(edges(geometry.graph))
     return [(src(e), dst(e)) for e in bonds]
 end
 
-function Base.length(lattice::Geometry)
-    return nv(lattice.graph)
+function Base.length(geometry::Geometry)
+    return nv(geometry.graph)
 end
 
 """
-    nQubits(lattice::Geometry)
+    nQubits(geometry::Geometry)
 
-Return the number of qubits in the gemoetry.
+Return the number of qubits in the geometry.
 """
-function nQubits(lattice::Geometry)
-    return nv(lattice.graph)
+function nQubits(geometry::Geometry)
+    return nv(geometry.graph)
 end
 
-function Base.show(io::IO, lattice::Geometry)
-    print(io, "$(typeof(lattice)) with ", length(lattice), " sites and ")
-    bonds = getBonds(lattice)
+function Base.show(io::IO, geometry::Geometry)
+    print(io, "$(typeof(geometry)) with ", length(geometry), " sites and ")
+    bonds = getBonds(geometry)
     if length(bonds) == 0
         print(io, "no bonds defined")
         println(io)
@@ -42,7 +42,7 @@ function Base.show(io::IO, lattice::Geometry)
             println(io, bond)
         end
     end
-    nv(lattice.graph) <= 100 && visualize(io, lattice)
+    nv(geometry.graph) <= 100 && visualize(io, geometry)
 end
 
 function to_linear(geometry::Geometry, ::NTuple{d,Int64}) where {d}
