@@ -1,1 +1,0 @@
-import{_ as e,c as t,o}from"./chunks/framework.BlNHQ1cX.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"modules/remote.md","filePath":"modules/remote.md","lastUpdated":null}'),a={name:"modules/remote.md"};function r(s,m,n,c,d,l){return o(),t("div")}const i=e(a,[["render",r]]);export{_ as __pageData,i as default};
