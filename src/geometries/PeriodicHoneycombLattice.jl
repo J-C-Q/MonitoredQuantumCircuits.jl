@@ -1,13 +1,16 @@
 """
     HoneycombGeometry(sizeX::Integer, sizeY::Integer)
-
 """
 struct HoneycombGeometry{T<:BoundaryCondition} <: Geometry
     graph::Graph
     sizeX::Int64
     sizeY::Int64
 
-    # gridPositions::Vector{Tuple{Int64,Int64}} # the grid positions of the qubits
+    """
+        HoneycombGeometry(Periodic, sizeX::Int64, sizeY::Int64)
+
+    Construct a honeycomb geometry with a given size and periodic boundary conditions.
+    """
     function HoneycombGeometry(type::Type{Periodic}, sizeX::Integer, sizeY::Integer)
         sizeX = sizeX * 2
         sizeX > 0 || throw(ArgumentError("size must be positive"))

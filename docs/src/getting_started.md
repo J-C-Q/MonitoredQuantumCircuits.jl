@@ -1,6 +1,6 @@
 # Getting Started
 
-The framework consists out of three main parts. First is the qubit geometry, which represents the underlying qubits structure. Second is the circuit, which holds information about the operations applied to the qubits in a given geometry. The last part is the execution of the circuit, which can happen on various backends.
+The framework consists of three main parts. First is the qubit geometry, which represents the underlying qubits structure. Second is the circuit, which holds information about the operations applied to the qubits in a given geometry. The last part is the execution of the circuit, which can happen on various backends.
 As always, load MonitoredQuantumCircuits.jl (after [installing](/index.md) it) using the `using` keyword for the following code snippets to work
 ```julia
 using MonitoredQuantumCircuits

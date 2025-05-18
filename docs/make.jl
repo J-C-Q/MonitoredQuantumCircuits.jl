@@ -43,9 +43,9 @@ makedocs(;
     # clean=false
 )
 
-deploydocs(;
+DocumenterVitepress.deploydocs(;
     repo="github.com/J-C-Q/MonitoredQuantumCircuits.jl",
-    target="build",
+    target=joinpath(@__DIR__, "build"),
     branch="gh-pages",
     devbranch="main",
     push_preview=true,
