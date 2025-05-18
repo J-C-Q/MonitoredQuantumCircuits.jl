@@ -1,9 +1,30 @@
-struct TriangleSquareGeometry{T<:BoundaryCondition} <: Geometry
+"""
+A data structure representing a Shastry-Sutherland lattice geometry.
+
+## Constructors
+```julia
+ShastrySutherlandGeometry(Periodic, sizeX::Integer, sizeY::Integer)
+```
+Construct a Shastry-Sutherland geometry with periodic boundary conditions.
+
+## Arguments
+
+- `sizeX::Integer`: The number of sites in the x direction
+- `sizeY::Integer`: The number of sites in the y direction
+
+## Examples
+
+```julia
+# Create a 4×4 Shastry-Sutherland lattice with periodic boundaries
+geometry = ShastrySutherlandGeometry(Periodic, 4, 4)
+```
+"""
+struct ShastrySutherlandGeometry{T<:BoundaryCondition} <: Geometry
     graph::Graph
     sizeX::Int64
     sizeY::Int64
 
-    function TriangleSquareGeometry(type::Type{Periodic}, sizeX::Integer, sizeY::Integer)
+    function ShastrySutherlandGeometry(type::Type{Periodic}, sizeX::Integer, sizeY::Integer)
         graph = Graphs.grid((sizeX, sizeY); periodic=true)
         g = new{type}(graph, sizeX, sizeY)
         for i in 1:sizeX
@@ -23,7 +44,7 @@ struct TriangleSquareGeometry{T<:BoundaryCondition} <: Geometry
     end
 end
 
-function bonds(geometry::TriangleSquareGeometry{Periodic}; type=:All)
+function bonds(geometry::ShastrySutherlandGeometry{Periodic}; type=:All)
     positions = Int64[]
     if type == :All
         for e in Graphs.edges(geometry.graph)
@@ -61,22 +82,22 @@ function bonds(geometry::TriangleSquareGeometry{Periodic}; type=:All)
     return reshape(positions, 2, length(positions) ÷ 2)
 end
 
-function to_linear(geometry::TriangleSquareGeometry{Periodic}, (i, j)::NTuple{2,Int64})
+function to_linear(geometry::ShastrySutherlandGeometry{Periodic}, (i, j)::NTuple{2,Int64})
     sizeX = geometry.sizeX
     sizeY = geometry.sizeY
     return (mod1(i,sizeX)-1) * sizeY + mod1(j,sizeY)
 end
 
-function to_grid(geometry::TriangleSquareGeometry{Periodic}, i::Int64)
+function to_grid(geometry::ShastrySutherlandGeometry{Periodic}, i::Int64)
     sizeY = geometry.sizeY
     return (i-1) ÷ sizeY + 1,(i-1) % sizeY + 1
 end
 
 
-function visualize(io::IO, geometry::TriangleSquareGeometry{Periodic})
+function visualize(io::IO, geometry::ShastrySutherlandGeometry{Periodic})
 end
 
-function subsystems(geometry::TriangleSquareGeometry{Periodic}, n::Integer=2; cutType=:VERTICAL)
+function subsystems(geometry::ShastrySutherlandGeometry{Periodic}, n::Integer=2; cutType=:VERTICAL)
     sites = zeros(Int64, geometry.sizeX*geometry.sizeY)
     if cutType == :HORIZONTAL
         geometry.sizeX % n == 0 || throw(ArgumentError("n=$n sub systems not possible."))
@@ -92,7 +113,7 @@ function subsystems(geometry::TriangleSquareGeometry{Periodic}, n::Integer=2; cu
     return reshape(sites, geometry.sizeX*(geometry.sizeY÷n), n)
 end
 
-function subsystem(geometry::TriangleSquareGeometry{Periodic}, l::Integer; cutType=:VERTICAL)
+function subsystem(geometry::ShastrySutherlandGeometry{Periodic}, l::Integer; cutType=:VERTICAL)
     if cutType == :HORIZONTAL
         sites = loops(geometry; type=:VERTICAL)
     elseif cutType == :VERTICAL
@@ -102,7 +123,7 @@ function subsystem(geometry::TriangleSquareGeometry{Periodic}, l::Integer; cutTy
     return reshape(sub, length(sub), 1)
 end
 
-function loops(geometry::TriangleSquareGeometry{Periodic}; type=:HORIZONTAL)
+function loops(geometry::ShastrySutherlandGeometry{Periodic}; type=:HORIZONTAL)
     if type == :HORIZONTAL
         return reshape(1:geometry.sizeX*geometry.sizeY, geometry.sizeX, geometry.sizeY)
     elseif type == :VERTICAL

@@ -20,7 +20,7 @@ makedocs(;
         "Home" => "index.md",
         "Getting started" => "getting_started.md",
         "Library" => [
-            "Geometries" => "library/lattices.md",
+            "Geometries" => "library/geometries.md",
             "Operations" => "library/operations.md",
             "Circuits" => "library/circuits.md",
             "Backends" => [
@@ -30,9 +30,8 @@ makedocs(;
             ]
         ],
         "Interfaces" => [
-            "Geometry" => "interfaces/add_lattice.md",
+            "Geometry" => "interfaces/add_geometry.md",
             "Operation" => "interfaces/add_operation.md",
-            "Circuit" => "interfaces/add_circuit.md",
             "Backend" => "interfaces/add_backend.md"
         ],
         "Modules" => [

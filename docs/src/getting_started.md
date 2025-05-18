@@ -1,50 +1,69 @@
 # Getting Started
 
-The framework consists of three main parts. First is the qubit geometry, which represents the underlying qubits structure. Second is the circuit, which holds information about the operations applied to the qubits in a given geometry. The last part is the execution of the circuit, which can happen on various backends.
-As always, load MonitoredQuantumCircuits.jl (after [installing](/index.md) it) using the `using` keyword for the following code snippets to work
+MonitoredQuantumCircuits.jl is structured around three core components: **qubit geometry**, **circuit construction**, and **circuit execution**. This guide provides a concise overview to help you begin using the framework effectively.
+
+Before proceeding, ensure that MonitoredQuantumCircuits.jl is [installed](/index.md) and loaded:
+
 ```julia
 using MonitoredQuantumCircuits
 ```
 
-## Choose a Geometry
-A `Geometry` is a representation of qubits and connections between them (i.e., a graph). In general, it is only possible to apply operations to multiple qubits if they are connected in the geometry. For more information see [Geometries](/library/lattices.md).
-To construct a geometry object, call a constructor, e.g.,
+## 1. Select a Geometry
+
+A `Geometry` defines the arrangement and connectivity of qubits, typically represented as a graph. Operations can only be applied to qubits that are connected within the chosen geometry. For further details, refer to the [Geometries](/library/geometries.md) documentation.
+
+To construct a geometry object, use one of the provided constructors. For example:
+
 ```julia
 geometry = HoneycombGeometry(Periodic, 12, 12)
 ```
 
-## Compose a Circuit
-A circuit stores the [Operations](/library/operations.md) being applied to the qubits in a lattice. For more information see [Circuits](/library/circuits.md).
-To construct a circuit object, call a constructor, e.g.,
+## 2. Construct a Circuit
+
+A circuit encapsulates the [operations](/library/operations.md) applied to the qubits within a given geometry. For more information, see [Circuits](/library/circuits.md).
+
+To create a circuit, you may use a predefined constructor:
+
 ```julia
 circuit = MeasurementOnlyKitaev(geometry, px, py, pz; depth=100)
 ```
-Or start an iterative construction by initializing an empty circuit
+
+Alternatively, you can build a circuit iteratively by initializing an empty circuit:
+
 ```julia
 circuit = Circuit(geometry)
 ```
-Now you could continue with the CLI and call `apply!` for different operations, or launch a [GUI](/modules/gui.md) (WIP) using 
+
+You may then use the command-line interface to apply operations, or launch the [Graphical User Interface](/modules/gui.md) (GUI, work in progress):
+
 ```julia
 GUI.CircuitComposer!(circuit)
 ```
-Once you are done creating the circuit, compile it for faster iteration
+
+Once your circuit is complete, compile it for improved performance:
+
 ```julia
 compiled_circuit = compile(circuit)
 ```
 
-## Execute
-To execute a quantum circuit, you first have to think about which [Backend](/library/backends.md) to use.
-For example a Clifford simulation using QuantumClifford.jl
+## 3. Execute the Circuit
+
+To execute a quantum circuit, first select an appropriate [backend](/library/backends.md). For example, to use a Clifford simulator via QuantumClifford.jl:
+
 ```julia
 simulator = QuantumClifford.TableauSimulator(nQubits(geometry))
 ```
-or a state vector simulation using cuQuantum via Qiskit-Aer
+
+Or, for state vector simulation using cuQuantum through Qiskit-Aer:
+
 ```julia
 simulator = Qiskit.GPUStateVectorSimulator()
 ```
-Then, you can execute the circuit using
-```julia
-execute!(circuit::CompiledCircuit, backend::Backend)
-```
-For more information see [Backends](/library/backends.md).
 
+Execute the compiled circuit on the chosen backend:
+
+```julia
+execute!(compiled_circuit, simulator)
+```
+
+For additional details, consult the [Backends](/library/backends.md) documentation.

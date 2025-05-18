@@ -1,3 +1,30 @@
+"""
+A data structure representing a one-dimensional chain geometry of qubits.
+
+## Constructors
+```julia
+ChainGeometry(Periodic, size::Integer)
+```
+Constructs a chain geometry with periodic boundary conditions (i.e., a closed loop).
+```julia
+ChainGeometry(Open, size::Integer)
+```
+Constructs a chain geometry with open boundary conditions (i.e., a linear chain).
+
+## Arguments
+
+- `size::Integer`: The number of qubits in the chain.
+
+## Examples
+
+```julia
+# Create a chain of 8 qubits with periodic boundaries
+geometry = ChainGeometry(Periodic, 8)
+
+# Create a chain of 10 qubits with open boundaries
+geometry = ChainGeometry(Open, 10)
+```
+"""
 struct ChainGeometry{T<:BoundaryCondition} <: Geometry
     graph::Graph
     size::Int64

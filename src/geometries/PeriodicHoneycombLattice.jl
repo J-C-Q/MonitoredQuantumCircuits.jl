@@ -1,16 +1,36 @@
 """
-    HoneycombGeometry(sizeX::Integer, sizeY::Integer)
+A data structure representing a honeycomb lattice geometry.
+
+## Constructors
+```julia
+HoneycombGeometry(Periodic, sizeX::Integer, sizeY::Integer)
+```
+Create a honeycomb geometry with periodic boundary conditions.
+```julia
+HoneycombGeometry(Open, sizeX::Integer, sizeY::Integer)
+```
+Create a honeycomb geometry with open boundary conditions.
+
+## Arguments
+
+- `sizeX::Integer`: Width of the lattice
+- `sizeY::Integer`: Height of the lattice (must be even)
+
+## Examples
+
+```julia
+# Create a 4×4 honeycomb lattice with periodic boundaries
+geometry = HoneycombGeometry(Periodic, 4, 4)
+
+# Create a 6×6 honeycomb lattice with open boundaries
+geometry = HoneycombGeometry(Open, 6, 6)
+```
 """
 struct HoneycombGeometry{T<:BoundaryCondition} <: Geometry
     graph::Graph
     sizeX::Int64
     sizeY::Int64
 
-    """
-        HoneycombGeometry(Periodic, sizeX::Int64, sizeY::Int64)
-
-    Construct a honeycomb geometry with a given size and periodic boundary conditions.
-    """
     function HoneycombGeometry(type::Type{Periodic}, sizeX::Integer, sizeY::Integer)
         sizeX = sizeX * 2
         sizeX > 0 || throw(ArgumentError("size must be positive"))
@@ -78,7 +98,7 @@ end
 
 
 function neighbor(geometry::HoneycombGeometry{Periodic}, i::Int64; direction::Symbol)
-    direction in [:X, :Y, :Z, :Red, :Greenm, :Blue] || throw(ArgumentError("Invalid direction: $direction"))
+    direction in [:X, :Y, :Z, :Red, :Green, :Blue] || throw(ArgumentError("Invalid direction: $direction"))
     if direction == :X
         return kitaevX_neighbor(geometry, i)
     elseif direction == :Y

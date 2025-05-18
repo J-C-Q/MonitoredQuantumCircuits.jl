@@ -1,11 +1,26 @@
-# Graphical User Interface
+# Graphical User Interface (GUI)
 
-MonitoredQuantumCircuits.jl offers a graphical user interface to construct quantum circuits. To use the interface, first create a circuit using the CLI
+::: danger Disclaimer
+
+The graphical user interface is currently under active development. Features and functionality are not yet fully implemented.
+
+:::
+
+
+MonitoredQuantumCircuits.jl provides a graphical user interface (GUI) designed to facilitate the construction and visualization of quantum circuits. The GUI aims to offer an intuitive, interactive environment for users to build and modify circuits without requiring direct manipulation of code.
+
+## Usage
+
+To launch the GUI, first create a circuit:
+
 ```julia
-circuit = EmptyFiniteDepthCircuit(lattice)
+circuit = Circuit(lattice)
 ```
-then call
+
+then, start the GUI with:
+
 ```julia
 GUI.CircuitComposer!(circuit)
 ```
-This will open a window in your default browser.
+
+This command will open the interface in your default web browser.

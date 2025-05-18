@@ -19,7 +19,7 @@ include("operations.jl")
 
 include("geometries/PeriodicHoneycombLattice.jl")
 include("geometries/ChainGeometry.jl")
-include("geometries/TriangleSquareGeometry.jl")
+include("geometries/ShastrySutherlandGeometry.jl")
 include("geometries/SquareGeometry.jl")
 
 include("operations/ZZ.jl")
@@ -57,12 +57,12 @@ include("circuits/kitaev.jl")
 include("circuits/kekule.jl")
 include("circuits/MTFIM.jl")
 include("circuits/kekule_floquet.jl")
-include("circuits/triangle_square_XYZ.jl")
+include("circuits/shastry_sutherland.jl")
 
 
 export HoneycombGeometry
 export ChainGeometry
-export TriangleSquareGeometry
+export ShastrySutherlandGeometry
 export Periodic
 export plaquettes
 export loops
@@ -112,7 +112,7 @@ export MeasurementOnlyKitaev
 export MeasurementOnlyKekule
 export MeasurementOnlyKekule_Floquet
 export MonitoredTransverseFieldIsing
-export MeasurementOnlyTriangleSquareXYZ
+export MeasurementOnlyShastrySutherland
 
 
 # export GUI
