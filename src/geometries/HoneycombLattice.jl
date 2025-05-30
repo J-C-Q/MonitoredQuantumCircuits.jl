@@ -66,16 +66,16 @@ struct HoneycombGeometry{T<:BoundaryCondition} <: Geometry
         g = new{Open}(graph, sizeX, sizeY)
 
         for j in 1:sizeY
-            for i in 1:2:sizeX
+            for i in 1:2:sizeX-1
                 add_edge!(graph, to_linear(g, (i, j)), to_linear(g, (i + 1, j)))
             end
         end
         for j in 1:sizeY
-            for i in 2:2:sizeX
+            for i in 2:2:sizeX-1
                 add_edge!(graph, to_linear(g, (i, j)), to_linear(g, (i + 1, j)))
             end
         end
-        for j in 1:sizeY
+        for j in 1:sizeY-1
             for i in 2:2:sizeX
                 add_edge!(graph, to_linear(g, (i, j)), to_linear(g, (i - 1, j + 1)))
             end
@@ -85,16 +85,17 @@ struct HoneycombGeometry{T<:BoundaryCondition} <: Geometry
     end
 end
 
-function visualize(io::IO, geometry::HoneycombGeometry{Periodic})
+function visualize(io::IO, geometry::HoneycombGeometry)
 end
 
-function to_linear(geometry::HoneycombGeometry{Periodic}, (i, j)::NTuple{2,Int64})
+function to_linear(geometry::HoneycombGeometry, (i, j)::NTuple{2,Int64})
     return mod1(i, geometry.sizeX) + geometry.sizeX * (mod1(j, geometry.sizeY) - 1)
 end
 
-function to_grid(geometry::HoneycombGeometry{Periodic}, i::Int64)
+function to_grid(geometry::HoneycombGeometry, i::Int64)
     return (mod1(i, geometry.sizeX), div(i - 1, geometry.sizeX) + 1)
 end
+
 
 
 function neighbor(geometry::HoneycombGeometry{Periodic}, i::Int64; direction::Symbol)
@@ -123,7 +124,7 @@ function kitaevX(geometry::HoneycombGeometry{Periodic})
     sizeY = geometry.sizeY
     for j in 1:sizeY
         for i in 1:2:sizeX
-            push!(bonds, (to_linear(g, (i, j)), to_linear(g, (i + 1, j))))
+            push!(bonds, (to_linear(geometry, (i, j)), to_linear(geometry, (i + 1, j))))
         end
     end
     return bonds
@@ -137,7 +138,7 @@ function kitaevY(geometry::HoneycombGeometry{Periodic})
     sizeY = geometry.sizeY
     for j in 1:sizeY
         for i in 2:2:sizeX
-            push!(bonds, (to_linear(g, (i, j)), to_linear(g, (i + 1, j))))
+            push!(bonds, (to_linear(geometry, (i, j)), to_linear(geometry, (i + 1, j))))
         end
     end
     return bonds
@@ -151,7 +152,49 @@ function kitaevZ(geometry::HoneycombGeometry{Periodic})
     sizeY = geometry.sizeY
     for j in 1:sizeY
         for i in 2:2:sizeX
-            push!(bonds, (to_linear(g, (i, j)), to_linear(g, (i - 1, j + 1))))
+            push!(bonds, (to_linear(geometry, (i, j)), to_linear(geometry, (i - 1, j + 1))))
+        end
+    end
+    return bonds
+end
+
+function kitaevX(geometry::HoneycombGeometry{Open})
+    geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
+    geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
+    bonds = Tuple{Int64,Int64}[]
+    sizeX = geometry.sizeX
+    sizeY = geometry.sizeY
+    for j in 1:sizeY
+        for i in 1:2:sizeX-1
+            push!(bonds, (to_linear(geometry, (i, j)), to_linear(geometry, (i + 1, j))))
+        end
+    end
+    return bonds
+end
+
+function kitaevY(geometry::HoneycombGeometry{Open})
+    geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
+    geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
+    bonds = Tuple{Int64,Int64}[]
+    sizeX = geometry.sizeX
+    sizeY = geometry.sizeY
+    for j in 1:sizeY
+        for i in 2:2:sizeX-1
+            push!(bonds, (to_linear(geometry, (i, j)), to_linear(geometry, (i + 1, j))))
+        end
+    end
+    return bonds
+end
+
+function kitaevZ(geometry::HoneycombGeometry{Open})
+    geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
+    geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
+    bonds = Tuple{Int64,Int64}[]
+    sizeX = geometry.sizeX
+    sizeY = geometry.sizeY
+    for j in 1:sizeY-1
+        for i in 2:2:sizeX
+            push!(bonds, (to_linear(geometry, (i, j)), to_linear(geometry, (i - 1, j + 1))))
         end
     end
     return bonds
@@ -166,7 +209,6 @@ function isKitaevX(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int6
         return true
     end
     return false
-    return false
 end
 
 function isKitaevY(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int64})
@@ -177,7 +219,6 @@ function isKitaevY(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int6
     if (neighbor2, neighbor1) == bond
         return true
     end
-    return false
     return false
 end
 

@@ -12,5 +12,5 @@ function apply!(qc::Circuit, operation::MQC.Weak_XX, p::SubArray, ancilla::Integ
     qc.h(ax)
     qc.h(p2)
     qc.measure(ax, ax)
-    qc.x(p1).c_if(ax)
+    # qc.x(p1).c_if(ax)
 end

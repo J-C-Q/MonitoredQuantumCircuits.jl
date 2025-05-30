@@ -8,5 +8,5 @@ function apply!(qc::Circuit, operation::MQC.Weak_ZZ, p::SubArray, ancilla::Integ
     qc.rzz(operation.t * 2, p2, ax)
     qc.h(ax)
     qc.measure(ax, ax)
-    qc.z(p1).c_if(ax)
+    # qc.z(p1).c_if(ax)
 end

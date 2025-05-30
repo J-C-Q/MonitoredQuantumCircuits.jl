@@ -140,6 +140,7 @@ struct CompiledCircuit{Ops<:Tuple}
     pointer::Vector{Int64}
     qubit_map_compiled_to_geometry::Vector{Int64}
     qubits_map_geometry_to_compiled::Vector{Int64}
+    n_measurements::Int64
     function CompiledCircuit(circuit::Circuit)
         operations = (circuit.operations...,)
         Ops = typeof(operations)
@@ -193,7 +194,11 @@ struct CompiledCircuit{Ops<:Tuple}
                 pos.ancilla[i] = ancilla[h]
             end
         end
-        new{Ops}(operations, positions, instructions, n_qubits, maximum([a.second for a in ancilla]) - n_qubits, pointer, qubit_map_compiled_to_geometry, qubit_map_geometry_to_compiled)
+
+
+
+
+        new{Ops}(operations, positions, instructions, n_qubits, maximum([a.second for a in ancilla]) - n_qubits, pointer, qubit_map_compiled_to_geometry, qubit_map_geometry_to_compiled, 0)
     end
 end
 

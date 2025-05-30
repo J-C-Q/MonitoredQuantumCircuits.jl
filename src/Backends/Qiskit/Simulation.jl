@@ -94,8 +94,8 @@ function MQC.execute(circuit::MQC.CompiledCircuit, backend::AerSimulator; shots=
 
     nativeResult = job.result()[0]
     verbose && println("✓")
-    # result = QiskitResult(nativeResult, circuit)
+    result = QiskitResult(nativeResult, circuit)
 
     # verbose && println("Job ID: $(job.job_id())")
-    return nativeResult
+    return result
 end

@@ -17,7 +17,7 @@ include("geometry.jl")
 include("operations.jl")
 
 
-include("geometries/PeriodicHoneycombLattice.jl")
+include("geometries/HoneycombLattice.jl")
 include("geometries/ChainGeometry.jl")
 include("geometries/ShastrySutherlandGeometry.jl")
 include("geometries/SquareGeometry.jl")
@@ -58,12 +58,14 @@ include("circuits/kekule.jl")
 include("circuits/MTFIM.jl")
 include("circuits/kekule_floquet.jl")
 include("circuits/shastry_sutherland.jl")
+include("circuits/nishimoris_cat.jl")
 
 
 export HoneycombGeometry
 export ChainGeometry
 export ShastrySutherlandGeometry
 export Periodic
+export Open
 export plaquettes
 export loops
 export bonds
@@ -113,6 +115,7 @@ export MeasurementOnlyKekule
 export MeasurementOnlyKekule_Floquet
 export MonitoredTransverseFieldIsing
 export MeasurementOnlyShastrySutherland
+export NishimorisCat
 
 
 # export GUI
