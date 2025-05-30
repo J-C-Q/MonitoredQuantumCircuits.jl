@@ -11,9 +11,9 @@ function simulate(path::String; depth=100, L=12, averaging=10, resolution=45, ty
     progressMeter = ProgressMeter.Progress(length(points) * averaging; dt=1.0)
     Threads.@threads for (px, py, pz) in points
         if type == :Kitaev
-            circuit = MeasurementOnlyKitaev(geometry, px, py, pz; depth)
+            circuit = compile(MeasurementOnlyKitaev(geometry, px, py, pz; depth))
         elseif type == :Kekule
-            circuit = MeasurementOnlyKekule(geometry, px, py, pz; depth)
+            circuit = compile(MeasurementOnlyKekule(geometry, px, py, pz; depth))
         else
             throw(ArgumentError("Unsupported type $type. Choose one of :Kitaev, :Kekule"))
         end
@@ -21,9 +21,9 @@ function simulate(path::String; depth=100, L=12, averaging=10, resolution=45, ty
         tmi = 0
         for _ in 1:averaging
             result = execute(circuit, sim)
-            tmi += QuantumClifford.tmi(result, z_subsystems)
-            tmi += QuantumClifford.tmi(result, x_subsystems)
-            tmi += QuantumClifford.tmi(result, y_subsystems)
+            tmi += QuantumClifford.tmi(result.stab, z_subsystems)
+            tmi += QuantumClifford.tmi(result.stab, x_subsystems)
+            tmi += QuantumClifford.tmi(result.stab, y_subsystems)
             ProgressMeter.next!(progressMeter)
         end
         tmi /= 3averaging
