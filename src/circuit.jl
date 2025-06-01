@@ -194,11 +194,18 @@ struct CompiledCircuit{Ops<:Tuple}
                 pos.ancilla[i] = ancilla[h]
             end
         end
+        nMeasurements = 0
+        for p in pointer
+            instruction = instructions[p]
+            if typeof(instruction) <: MeasurementOperation
+                nMeasurements += 1
+            end
+        end
 
 
 
 
-        new{Ops}(operations, positions, instructions, n_qubits, maximum([a.second for a in ancilla]) - n_qubits, pointer, qubit_map_compiled_to_geometry, qubit_map_geometry_to_compiled, 0)
+        new{Ops}(operations, positions, instructions, n_qubits, maximum([a.second for a in ancilla]) - n_qubits, pointer, qubit_map_compiled_to_geometry, qubit_map_geometry_to_compiled, nMeasurements)
     end
 end
 

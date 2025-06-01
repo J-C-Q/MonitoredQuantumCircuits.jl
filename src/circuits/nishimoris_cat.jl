@@ -1,4 +1,4 @@
-function NishimorisCat(geometry::HoneycombGeometry{Open}; depth::Integer=100)
+function NishimorisCat(geometry::HoneycombGeometry{Open})
     circuit = Circuit(geometry)
 
     for position in 1:nQubits(geometry)
