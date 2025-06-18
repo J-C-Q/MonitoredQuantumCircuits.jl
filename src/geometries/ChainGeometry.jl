@@ -32,6 +32,11 @@ struct ChainGeometry{T<:BoundaryCondition} <: Geometry
         graph = Graphs.cycle_graph(size)
         new{type}(graph, size)
     end
+    function ChainGeometry(type::Type{Open}, size::Integer)
+        graph = Graphs.cycle_graph(size)
+        Graphs.rem_edge!(graph, 1, size)  # Remove the edge to make it open
+        new{type}(graph, size)
+    end
 end
 
 function bonds(geometry::ChainGeometry; type=:All)
@@ -46,12 +51,12 @@ function bonds(geometry::ChainGeometry; type=:All)
     end
     return reshape(positions, 2, length(positions) ÷ 2)
 end
-function visualize(io::IO, geometry::ChainGeometry{Periodic})
+function visualize(io::IO, geometry::ChainGeometry)
 end
 function a_neighbor()
 
 end
 
-function qubits(geometry::ChainGeometry{Periodic})
+function qubits(geometry::ChainGeometry)
     return reshape(collect(1:nQubits(geometry)), 1, nQubits(geometry))
 end

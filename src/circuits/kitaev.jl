@@ -11,12 +11,12 @@ function MeasurementOnlyKitaev(geometry::HoneycombGeometry{Periodic}, px::Float6
     xz_loop = loops(geometry; kitaevTypes=(:X, :Z))[:, 1]
     apply!(circuit, NPauli(Z(), length(xy_loop)), xy_loop...)
     apply!(circuit, NPauli(Y(), length(xy_loop)), xz_loop...)
-    randomPartityMeasurement = RandomOperation()
-    push!(randomPartityMeasurement, XX(), bonds(geometry; kitaevType=:X); probability=px)
-    push!(randomPartityMeasurement, YY(), bonds(geometry; kitaevType=:Y); probability=py)
-    push!(randomPartityMeasurement, ZZ(), bonds(geometry; kitaevType=:Z); probability=pz)
+    randomParityMeasurement = RandomOperation()
+    push!(randomParityMeasurement, XX(), bonds(geometry; kitaevType=:X); probability=px)
+    push!(randomParityMeasurement, YY(), bonds(geometry; kitaevType=:Y); probability=py)
+    push!(randomParityMeasurement, ZZ(), bonds(geometry; kitaevType=:Z); probability=pz)
     for i in 1:depth*nQubits(geometry)
-        apply!(circuit, randomPartityMeasurement)
+        apply!(circuit, randomParityMeasurement)
     end
 
     return circuit

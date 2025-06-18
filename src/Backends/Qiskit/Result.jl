@@ -10,14 +10,14 @@
 
 struct QiskitResult #<: MQC.Result
     measurementOutcomes::Matrix{Bool}
-    # measuredQubits::Vector{Int}
+    # measuredQubits::Vector{Vector{Int64}}
     nativeResult::PythonCall.Py
 
     function QiskitResult(nativeResult::PythonCall.Py, circuit::MQC.CompiledCircuit)
         _checkinit_qiskit()
         # nMeasurements = MQC.nMeasurements(circuit)
         bitstrings = PythonCall.pyconvert(Vector{String}, nativeResult.data.c.get_bitstrings())
-        measurementOutcomes = hcat(map(s -> [c == '1' for c in s], bitstrings)...)
+        measurementOutcomes = hcat(map(s -> [c == '1' for c in reverse(s)], bitstrings)...)
 
 
         # measuredQubits = zeros(Int, nMeasurements)

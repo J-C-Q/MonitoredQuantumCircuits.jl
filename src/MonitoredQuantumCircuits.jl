@@ -21,6 +21,8 @@ include("geometries/HoneycombLattice.jl")
 include("geometries/ChainGeometry.jl")
 include("geometries/ShastrySutherlandGeometry.jl")
 include("geometries/SquareGeometry.jl")
+include("geometries/SquareOctagonGeometry.jl")
+
 
 include("operations/ZZ.jl")
 include("operations/XX.jl")
@@ -59,11 +61,14 @@ include("circuits/MTFIM.jl")
 include("circuits/kekule_floquet.jl")
 include("circuits/shastry_sutherland.jl")
 include("circuits/nishimoris_cat.jl")
+include("circuits/squareOctagon.jl")
+include("circuits/fibonacci_drive.jl")
 
 
 export HoneycombGeometry
 export ChainGeometry
 export ShastrySutherlandGeometry
+export SquareOctagonGeometry
 export Periodic
 export Open
 export plaquettes
@@ -116,7 +121,8 @@ export MeasurementOnlyKekule_Floquet
 export MonitoredTransverseFieldIsing
 export MeasurementOnlyShastrySutherland
 export NishimorisCat
-
+export MeasurementOnlySquareOctagon
+export MeasurementOnlyFibonacciDrive
 
 # export GUI
 

@@ -138,7 +138,7 @@ struct CompiledCircuit{Ops<:Tuple}
     n_qubits::Int64
     n_ancilla::Int64
     pointer::Vector{Int64}
-    qubit_map_compiled_to_geometry::Vector{Int64}
+    qubits_map_compiled_to_geometry::Vector{Int64}
     qubits_map_geometry_to_compiled::Vector{Int64}
     n_measurements::Int64
     function CompiledCircuit(circuit::Circuit)
@@ -158,20 +158,20 @@ struct CompiledCircuit{Ops<:Tuple}
         end
         used_qubits = sort!(collect(used_positions))
 
-        qubit_map_geometry_to_compiled = zeros(Int64, n_qubits)
-        qubit_map_compiled_to_geometry = zeros(Int64, length(used_qubits))
+        qubits_map_geometry_to_compiled = zeros(Int64, n_qubits)
+        qubits_map_compiled_to_geometry = zeros(Int64, length(used_qubits))
         for (i, q) in enumerate(used_qubits)
-            qubit_map_geometry_to_compiled[q] = i
-            qubit_map_compiled_to_geometry[i] = q
+            qubits_map_geometry_to_compiled[q] = i
+            qubits_map_compiled_to_geometry[i] = q
         end
 
         for pos in positions
             for i in eachindex(pos.positions)
-                pos.positions[i] = qubit_map_geometry_to_compiled[pos.positions[i]]
+                pos.positions[i] = qubits_map_geometry_to_compiled[pos.positions[i]]
             end
         end
         n_qubits = length(used_positions)
-        qubit_map_compiled_to_geometry = zeros(Int64, n_qubits)
+        # qubits_map_compiled_to_geometry = zeros(Int64, n_qubits)
 
 
         positions_accessed_by_ancilla = Position[]
@@ -205,7 +205,7 @@ struct CompiledCircuit{Ops<:Tuple}
 
 
 
-        new{Ops}(operations, positions, instructions, n_qubits, maximum([a.second for a in ancilla]) - n_qubits, pointer, qubit_map_compiled_to_geometry, qubit_map_geometry_to_compiled, nMeasurements)
+        new{Ops}(operations, positions, instructions, n_qubits, maximum([a.second for a in ancilla]) - n_qubits, pointer, qubits_map_compiled_to_geometry, qubits_map_geometry_to_compiled, nMeasurements)
     end
 end
 

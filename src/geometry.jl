@@ -59,3 +59,7 @@ end
 function neighbor(geometry::Geometry, i::Int64; direction::Symbol)
     throw(ArgumentError("No function defined to get the neighbor of $i in direction $direction for a geometry of type $(typeof(geometry))"))
 end
+
+function drawGeometry(geometry::Geometry; kwargs...)
+    throw(ArgumentError("No function defined to draw geometry of type $(typeof(geometry)). Load Makie.jl to visualize geometries."))
+end
