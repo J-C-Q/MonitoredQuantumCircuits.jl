@@ -2,41 +2,45 @@ using CairoMakie
 using JLD2
 using LinearAlgebra
 
-function entanglementPlot(file::String, data_path::String; depth=100, L=100, averaging=100, resolution=100)
+function entanglementPlot(file::String, data_path::String;)
 
-    # points = point_distribution(resolution; ratio_in_high_density_region=0.7, high_density_center=0.43, high_density_width=0.15)
-    points = point_distribution(resolution; ratio_in_high_density_region=0.7, high_density_center=0.39, high_density_width=0.1)
+    rg = (1+sqrt(5))/2
+    left = 1/(1+rg)
+    right = (1+rg)^2/2rg - sqrt(((1+rg)^2/2rg)^2 - (1+rg)/rg)
 
-    entropies = Float64[]
-    for (i, p) in enumerate(points)
-        push!(entropies, JLD2.load("$data_path/ENT_L=$(L)_averaging=$(averaging)_p=$(p)_depth=$depth.jld2")["entropies"][div(L,2)+1])
+    # find all files in data_path and load the data
+    files = readdir(data_path, join=true)
+
+
+    entanglement = Float64[]
+    error = Float64[]
+    probabilities = Float64[]
+    for f in files
+        data = JLD2.load(f)
+        if haskey(data, "entanglement")
+            push!(entanglement, data["entanglement"])
+            push!(error, data["error"])
+            push!(probabilities, data["probability"])
+        end
     end
+
+    # sort the data by probability
+    sorted_indices = sortperm(probabilities)
+    permute!(entanglement, sorted_indices)
+    permute!(error, sorted_indices)
+    permute!(probabilities, sorted_indices)
 
 
     fig = Figure()
-    ax = Axis(fig[1, 1], xlabel=L"measurement ratio $p$", ylabel=L"entanglement entropy $S_{L/2}$",
+    ax = Axis(fig[1, 1], xlabel=L"measurement rate $p$", ylabel=L"entanglement entropy $S_{L/2}$",
               title="Entanglement Entropy for Fibonacci Drive")
 
-    scatterlines!(ax, points, entropies)
+    scatter!(ax, probabilities, entanglement;  markersize=2, color=:white, strokecolor=:black, strokewidth=0.5)
 
-    vlines!(ax, [0.38196601125010515])
+    vlines!(ax, [left, right])
+
+    limits!(ax, 0,1,0,nothing)
     save("$file.svg", fig)
     save("$file.png", fig)
     display(fig)
-end
-
-function point_distribution(n; ratio_in_high_density_region=0.5, high_density_center=0.3, high_density_width=0.1)
-    d = ratio_in_high_density_region/2high_density_width
-    a = high_density_center
-    b = high_density_width
-    equal_points = range(0, 1, n)
-    f1(x) = (a-b)/(-b*d+a)*x
-    f2(x) = 1/d*(x-a)+a
-
-    f3(x) = (1-a-b)/(1-d*b-a)*(x-b*d-a)+a+b
-
-    cross12 = (-a/d+a)/((a-b)/(-b*d+a)-1/d)
-    cross23 = ((1-a-b)/(1-b*d-a)*(b*d+a)-b-a/d)/((1-a-b)/(1-d*b-a)-1/d)
-    f(x) = x < cross12 ? f1(x) : x < cross23 ? f2(x) : f3(x)
-    return [f(x) for x in equal_points]
 end

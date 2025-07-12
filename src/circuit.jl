@@ -214,7 +214,9 @@ end
 Compile the circuit. The function will return a CompiledCircuit object. The CompiledCircuit object is optimized for iteration and is not meant to be modified. The execute function only accepts CompiledCircuit objects.
 """
 function compile(circuit::Circuit)
-    return CompiledCircuit(circuit)
+    c = CompiledCircuit(circuit)
+    # precompile(getOperationByIndex, typeof(c), Int)
+    return c
 end
 
 """
@@ -363,17 +365,45 @@ end
 
 
 function Base.show(io::IO, circuit::Circuit)
-    for i in 1:depth(circuit)
-        instruction = circuit.instructions[circuit.pointer[i]]
-        operationsIndeces = instruction.operations
-        probs = instruction.weights
-        for (prob, j) in zip(probs, operationsIndeces)
-            operation = circuit.operations[j]
-            println(io, prob * 100, "%: ", operation)
+    if depth(circuit) < 10
+        for i in 1:depth(circuit)
+            instruction = circuit.instructions[circuit.pointer[i]]
+            operationsIndeces = instruction.operations
+            probs = instruction.weights
+            for (prob, j) in zip(probs, operationsIndeces)
+                operation = circuit.operations[j]
+                print(io, prob * 100, "%: ", operation, " ")
+            end
+            println()
         end
-
+    else
+        for i in 1:5
+            instruction = circuit.instructions[circuit.pointer[i]]
+            operationsIndeces = instruction.operations
+            probs = instruction.weights
+            for (prob, j) in zip(probs, operationsIndeces)
+                operation = circuit.operations[j]
+                print(io, prob * 100, "%: ", operation, " ")
+            end
+            println()
+        end
+        println("⋮")
+        for i in depth(circuit)-5:depth(circuit)
+            instruction = circuit.instructions[circuit.pointer[i]]
+            operationsIndeces = instruction.operations
+            probs = instruction.weights
+            for (prob, j) in zip(probs, operationsIndeces)
+                operation = circuit.operations[j]
+                print(io, prob * 100, "%: ", operation, " ")
+            end
+            println()
+        end
     end
 
+end
+
+function Base.show(io::IO, circuit::CompiledCircuit)
+    println("Compiled circuit with $(circuit.n_qubits) system qubits and $(circuit.n_ancilla) ancilla qubits.")
 end
 
 @generated function getOperation(circuit::CompiledCircuit, ::Val{i}) where {i}

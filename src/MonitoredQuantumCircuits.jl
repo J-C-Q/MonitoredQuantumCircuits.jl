@@ -82,7 +82,7 @@ export to_grid
 export to_linear
 export neighbor
 
-
+export I
 export ZZ
 export XX
 export YY

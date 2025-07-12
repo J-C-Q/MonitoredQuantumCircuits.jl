@@ -1,14 +1,16 @@
+include("../util/fastYY.jl")
 function apply!(
     register::QC.Register,
     simulator::TableauSimulator,
     ::MonitoredQuantumCircuits.YY,
     p)
 
-    operator = simulator.pauli_operator
-    QC.zero!(operator)
-    operator[p[1]] = (true, true) #Y
-    operator[p[2]] = (true, true) #Y
-    _, res = QC.projectrand!(register, operator)
+    # operator = simulator.pauli_operator
+    # QC.zero!(operator)
+    # operator[p[1]] = (true, true) #Y
+    # operator[p[2]] = (true, true) #Y
+    # _, res = QC.projectrand!(register, operator)
+    _, res = projectYYrand!(register.stab, p[1], p[2])
     push!(register.bits, res / 2)
 end
 
