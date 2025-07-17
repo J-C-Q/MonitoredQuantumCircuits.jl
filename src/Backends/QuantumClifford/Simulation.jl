@@ -5,17 +5,19 @@
 A QuantumClifford stabilizer simulator.
 """
 struct TableauSimulator <: MonitoredQuantumCircuits.Simulator
-    initial_state::QC.MixedDestabilizer{QC.Tableau{Vector{UInt8},Matrix{UInt64}}}
-    pauli_operator::QC.PauliOperator{Array{UInt8,0},Vector{UInt64}}
+    state::QC.MixedDestabilizer{QC.Tableau{Vector{UInt8},Matrix{UInt64}}}
+    operator::QC.PauliOperator{Array{UInt8,0},Vector{UInt64}}
+    measurements::BitVector
     function TableauSimulator(qubits::Integer; mixed=true, basis=:Z)
         if mixed
-            new(QC.MixedDestabilizer(zero(QC.Stabilizer, qubits)), QC.zero(QC.PauliOperator, qubits))
+            state = QC.MixedDestabilizer(zero(QC.Stabilizer, qubits))
+            operator = QC.zero(QC.PauliOperator, qubits)
+            new(state, operator, falses(0))
         else
-            new(QC.MixedDestabilizer(one(QC.Stabilizer, qubits; basis)), QC.zero(QC.PauliOperator, qubits))
+            state = QC.MixedDestabilizer(one(QC.Stabilizer, qubits; basis))
+            operator = QC.zero(QC.PauliOperator, qubits)
+            new(state, operator, falses(0))
         end
-    end
-    function TableauSimulator(initial_state::QC.MixedDestabilizer)
-        new(initial_state, QC.zero(QC.PauliOperator, initial_state.tab.nqubits))
     end
 end
 function setInitialState!(sim::TableauSimulator, state::QC.MixedDestabilizer)
@@ -30,6 +32,7 @@ end
 A QuantumClifford stabilizer Pauli frame simulator.
 """
 struct PauliFrameSimulator <: MonitoredQuantumCircuits.Simulator
+
 end
 
 """
@@ -40,22 +43,11 @@ A QuantumClifford stabilizer Pauli frame simulator that runs on the GPU.
 struct GPUPauliFrameSimulator <: MonitoredQuantumCircuits.Simulator
 end
 
-struct QuantumCliffordCode
-    code::Function
+
+
+function MonitoredQuantumCircuits.execute(simulator::TableauSimulator)
+    return simulator.state, simulator.measurements
 end
-
-function MonitoredQuantumCircuits.execute(circuit::MonitoredQuantumCircuits.CompiledCircuit, simulator::TableauSimulator)
-
-    # simulator = deepcopy(simulator)
-    state = simulator.initial_state
-    register = QC.Register(state)
-    for i in 1:MonitoredQuantumCircuits.depth(circuit)
-        operation, position, _ = circuit[i]
-        apply!(register, simulator, MonitoredQuantumCircuits.getOperationByIndex(circuit, operation), position)
-    end
-    return register
-end
-
 
 function MonitoredQuantumCircuits.executeParallel(circuit::MonitoredQuantumCircuits.CompiledCircuit, simulator::TableauSimulator; samples=1)
     MPI, rank, size = MonitoredQuantumCircuits.get_mpi_ref()

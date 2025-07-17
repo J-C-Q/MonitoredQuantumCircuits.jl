@@ -1,29 +1,19 @@
-include("../util/fastYY.jl")
-function apply!(
-    register::QC.Register,
-    simulator::TableauSimulator,
+include("./util/fastYY.jl")
+function MonitoredQuantumCircuits.apply!(
+    backend::TableauSimulator,
     ::MonitoredQuantumCircuits.YY,
-    p)
+    p1::Integer,
+    p2::Integer;
+    keep_result=true,
+    kwargs...)
 
-    # operator = simulator.pauli_operator
-    # QC.zero!(operator)
-    # operator[p[1]] = (true, true) #Y
-    # operator[p[2]] = (true, true) #Y
-    # _, res = QC.projectrand!(register, operator)
-    _, res = projectYYrand!(register.stab, p[1], p[2])
-    push!(register.bits, res / 2)
-end
-
-function expr_apply!(
-    ::MonitoredQuantumCircuits.YY
-)
-    block_ex = quote
-        operator = simulator.pauli_operator
-        QuantumClifford.QC.zero!(operator)
-        operator[p[1]] = (true, true) #Z
-        operator[p[2]] = (true, true) #Z
-        _, res = QuantumClifford.QC.projectrand!(register, operator)
-        push!(register.bits, res / 2)
+    if keep_result
+        _, res = projectYYrand!(backend.state, p1, p2)
+        res = Bool(res / 2)
+        push!(backend.measurements, res)
+    else
+        projectYY!(backend.state, p1, p2; keep_result)
+        res = false
     end
-    return block_ex
+    return res
 end

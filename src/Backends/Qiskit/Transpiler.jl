@@ -8,3 +8,11 @@ function transpile!(circuit::Circuit, backend::AerSimulator; optimization::Integ
     0 <= optimization <= 3 || throw(ArgumentError("Degree must be between 0 and 3"))
     circuit.python_interface = qiskit.compiler.transpile(circuit.python_interface, backend.python_interface, optimization_level=optimization)
 end
+
+
+function transpile!(backend::Union{AerSimulator,IBMBackend}; optimization::Integer=3)
+    0 <= optimization <= 3 || throw(ArgumentError("Degree must be between 0 and 3"))
+    qc = circuit(backend)
+    qc.python_interface = qiskit.compiler.transpile(qc.python_interface, backend.python_interface, optimization_level=optimization)
+    return qc
+end

@@ -1,14 +1,20 @@
-function MonitoredTransverseFieldIsing(geometry::ChainGeometry{Periodic}, p::Float64; depth=100)
-    circuit = Circuit(geometry)
-
-    X_random = DistributedOperation(Measure_X(), MonitoredQuantumCircuits.qubits(geometry), p)
-
-    ZZ_random = DistributedOperation(ZZ(), bonds(geometry), 1 - p)
-
-    for _ in 1:depth
-        apply!(circuit, ZZ_random)
-        apply!(circuit, X_random)
+function MonitoredTransverseFieldIsing(backend::Backend, geometry::ChainGeometry{Periodic}, p::Float64; depth=100,keep_result=false)
+    qubits_ = qubits(geometry)
+    bonds_ = bonds(geometry)
+    for i in 1:depth
+        if i%2 == 1
+            for position in eachcol(bonds_)
+                if rand() >= p
+                    apply!(backend, ZZ(), position...;keep_result)
+                end
+            end
+        else
+           for position in eachcol(qubits_)
+                if rand() < p
+                    apply!(backend, Measure_X(), position...;keep_result)
+                end
+            end
+        end
     end
-    apply!(circuit, ZZ_random)
-    return circuit
+    return execute(backend)
 end

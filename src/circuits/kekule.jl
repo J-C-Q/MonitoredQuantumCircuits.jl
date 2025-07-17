@@ -1,28 +1,32 @@
-function MeasurementOnlyKekule(geometry::HoneycombGeometry{Periodic}, pr::Float64, pg::Float64, pb::Float64; depth::Integer=100)
-    circuit = Circuit(geometry)
+function MeasurementOnlyKekule(backend::Backend,geometry::HoneycombGeometry{Periodic}, pr::Float64, pg::Float64, pb::Float64; depth::Integer=100,keep_result=false)
 
     for position in eachcol(bonds(geometry; kitaevType=:Z))
-        apply!(circuit, ZZ(), position...)
+        apply!(backend, ZZ(), position...; keep_result)
     end
     for position in eachcol(plaquettes(geometry))
-        apply!(circuit, NPauli(Y, X, Z, Y, X, Z), position...)
+        apply!(backend, NPauli(Y, X, Z, Y, X, Z), position...; keep_result)
     end
     xy_loop = loops(geometry; kitaevTypes=(:X, :Y))[:, 1]
     xz_loop = loops(geometry; kitaevTypes=(:X, :Z))[:, 1]
-    apply!(circuit, NPauli(Z(), length(xy_loop)), xy_loop...)
-    apply!(circuit, NPauli(Y(), length(xy_loop)), xz_loop...)
-    randomPartityMeasurement = RandomOperation()
-    push!(randomPartityMeasurement, XX(), bonds(geometry; kitaevType=:X, kekuleType=:Red); probability=pr / 3)
-    push!(randomPartityMeasurement, YY(), bonds(geometry; kitaevType=:Y, kekuleType=:Red); probability=pr / 3)
-    push!(randomPartityMeasurement, ZZ(), bonds(geometry; kitaevType=:Z, kekuleType=:Red); probability=pr / 3)
-    push!(randomPartityMeasurement, XX(), bonds(geometry; kitaevType=:X, kekuleType=:Green); probability=pg / 3)
-    push!(randomPartityMeasurement, YY(), bonds(geometry; kitaevType=:Y, kekuleType=:Green); probability=pg / 3)
-    push!(randomPartityMeasurement, ZZ(), bonds(geometry; kitaevType=:Z, kekuleType=:Green); probability=pg / 3)
-    push!(randomPartityMeasurement, XX(), bonds(geometry; kitaevType=:X, kekuleType=:Blue); probability=pb / 3)
-    push!(randomPartityMeasurement, YY(), bonds(geometry; kitaevType=:Y, kekuleType=:Blue); probability=pb / 3)
-    push!(randomPartityMeasurement, ZZ(), bonds(geometry; kitaevType=:Z, kekuleType=:Blue); probability=pb / 3)
-    for _ in 1:depth*nQubits(geometry)
-        apply!(circuit, randomPartityMeasurement)
+    apply!(backend, NPauli(Z(), length(xy_loop)), xy_loop...; keep_result)
+    apply!(backend, NPauli(Y(), length(xy_loop)), xz_loop...; keep_result)
+    for i in 1:depth*nQubits(geometry)
+        p = rand()
+        if p < pr
+            bond = random_bond(geometry; type=:Red)
+
+        elseif p < pr + pg
+            bond = random_bond(geometry; type=:Green)
+        else
+            bond = random_bond(geometry; type=:Blue)
+        end
+        if isKitaevX(geometry, bond)
+            apply!(backend, XX(), bond...; keep_result)
+        elseif isKitaevY(geometry, bond)
+            apply!(backend, YY(), bond...; keep_result)
+        else
+            apply!(backend, ZZ(), bond...; keep_result)
+        end
     end
-    return circuit
+    return execute(backend)
 end

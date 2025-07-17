@@ -83,6 +83,7 @@ export to_grid
 export to_linear
 export neighbor
 export qubits
+export random_bond
 
 export I
 export ZZ

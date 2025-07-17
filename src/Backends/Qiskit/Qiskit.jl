@@ -95,5 +95,7 @@ include("operations/Weak_XX.jl")
 include("operations/Weak_YY.jl")
 include("operations/Pauli.jl")
 include("operations/I.jl")
-
+include("operations/X.jl")
+include("operations/Y.jl")
+include("operations/Z.jl")
 end

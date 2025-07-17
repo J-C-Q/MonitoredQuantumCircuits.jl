@@ -22,7 +22,7 @@ Base.show(io::IO, ::MIME"text/plain", obj::Circuit) = print(io, obj.python_inter
 
 
 function nQubits(circuit::Circuit)
-    return circuit.n_qubits
+    return circuit.num_qubits
 end
 
 function depth(operation::MQC.Operation, ::Type{Circuit})

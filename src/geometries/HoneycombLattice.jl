@@ -522,6 +522,28 @@ function kekuleBlue_neighbor(geometry::HoneycombGeometry{Periodic}, site::Intege
     end
 end
 
+function random_bond(geometry::HoneycombGeometry; type=:All)
+    qubit = random_qubit(geometry)
+    if type == :X
+        return (qubit,kitaevX_neighbor(geometry,qubit))
+    elseif type == :Y
+        return (qubit,kitaevY_neighbor(geometry,qubit))
+    elseif type == :Z
+        return (qubit,kitaevZ_neighbor(geometry,qubit))
+    elseif type == :Red
+        return (qubit,kekuleRed_neighbor(geometry,qubit))
+    elseif type == :Green
+        return (qubit,kekuleGreen_neighbor(geometry,qubit))
+    elseif type == :Blue
+        return (qubit,kekuleBlue_neighbor(geometry,qubit))
+    elseif type == :All
+        type = rand([:X, :Y, :Z, :Red, :Green, :Blue])
+        return random_bond(geometry; type=type)
+    else
+        throw(ArgumentError("Invalid type: $type"))
+    end
+end
+
 function bonds(geometry::HoneycombGeometry; kitaevType=:All, kekuleType=:All)
     positions = Int64[]
     if kitaevType == :All
@@ -788,7 +810,7 @@ function loops(geometry::HoneycombGeometry{Periodic}; kitaevTypes=(:X, :Y))
     end
 end
 
-function random_qubit(geometry::HoneycombGeometry{Periodic})
+function random_qubit(geometry::HoneycombGeometry)
     return rand(1:nv(geometry.graph))
 end
 

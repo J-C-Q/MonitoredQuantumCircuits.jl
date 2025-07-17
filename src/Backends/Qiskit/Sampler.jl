@@ -2,11 +2,11 @@ struct Sampler
     python_interface::PythonCall.Py
     function Sampler(backend::String)
         _checkinit_qiskit()
-        new(qiskit_ibm_runtime.SamplerV2(backend=backend))
+        new(qiskit_ibm_runtime.SamplerV2(backend))
     end
     function Sampler(backend::IBMBackend)
         _checkinit_qiskit()
-        new(qiskit_ibm_runtime.SamplerV2(backend=backend.python_interface))
+        new(qiskit_ibm_runtime.SamplerV2(backend.python_interface))
     end
     function Sampler(backend::AerSimulator)
         _checkinit_qiskit()

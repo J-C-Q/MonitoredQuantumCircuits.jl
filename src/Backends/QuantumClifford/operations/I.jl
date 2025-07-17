@@ -1,8 +1,8 @@
-function apply!(
-    register::QC.Register,
-    ::TableauSimulator,
+function MonitoredQuantumCircuits.apply!(
+    backend::TableauSimulator,
     ::MonitoredQuantumCircuits.I,
-    p)
+    p::Integer)
 
-    QC.apply!(register, QC.sId1(p[1]))
+    QC.apply!(backend.state, QC.sId1(p))
+    return backend.state
 end

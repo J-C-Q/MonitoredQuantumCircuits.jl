@@ -4,7 +4,7 @@ struct QiskitRuntimeService
     function QiskitRuntimeService()
         _checkinit_qiskit()
         try
-            runtimeService = qiskit_ibm_runtime.QiskitRuntimeService(channel="ibm_quantum")
+            runtimeService = qiskit_ibm_runtime.QiskitRuntimeService()
             new(runtimeService)
         catch
             throw(ArgumentError("Could not connect to IBM Quantum. Please provide an API key."))
@@ -12,8 +12,9 @@ struct QiskitRuntimeService
     end
     function QiskitRuntimeService(api_key::String)
         _checkinit_qiskit()
-        runtimeService = qiskit_ibm_runtime.QiskitRuntimeService(token=api_key, channel="ibm_quantum")
-        runtimeService.save_account(token=api_key, channel="ibm_quantum", overwrite=true)
+        qiskit_ibm_runtime.QiskitRuntimeService.save_account(token=api_key, set_as_default=true)
+        runtimeService = qiskit_ibm_runtime.QiskitRuntimeService()
+
         new(runtimeService)
     end
 end
@@ -32,6 +33,11 @@ end
 function getBackend(qc::QiskitRuntimeService, name::String)
     backend = qc.get_backend(name)
     return IBMBackend(backend)
+end
+function least_buisy(qc::QiskitRuntimeService,nqubits::Integer)
+    qc.least_busy(
+    operational=true, simulator=false, min_num_qubits=nqubits
+)
 end
 
 function Base.show(io::IO, ::MIME"text/plain", obj::QiskitRuntimeService)

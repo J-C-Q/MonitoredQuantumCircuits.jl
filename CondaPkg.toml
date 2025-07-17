@@ -1,7 +1,7 @@
 [deps]
-qiskit-aer = "0.16.1.*"
-qiskit-ibm-runtime = "0.37.0.*"
-qiskit = "1.4.2.*"
+qiskit-aer = ""
+qiskit-ibm-runtime = ""
+qiskit = ""
 
 [pip.deps]
 stim = ""

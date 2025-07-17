@@ -1,30 +1,19 @@
-include("../util/fastZZ.jl")
-function apply!(
-    register::QC.Register,
-    simulator::TableauSimulator,
+include("./util/fastZZ.jl")
+function MonitoredQuantumCircuits.apply!(
+    backend::TableauSimulator,
     ::MonitoredQuantumCircuits.ZZ,
-    p)
+    p1::Integer,
+    p2::Integer;
+    keep_result=true,
+    kwargs...)
 
-    # operator = simulator.pauli_operator
-    # QC.zero!(operator)
-    # operator[p[1]] = (false, true) #Z
-    # operator[p[2]] = (false, true) #Z
-    # _, res = QC.projectrand!(register, operator)
-    _, res = projectZZrand!(register.stab, p[1], p[2])
-    push!(register.bits, res / 2)
-end
-
-
-function expr_apply!(
-    ::MonitoredQuantumCircuits.ZZ
-)
-    block_ex = quote
-        operator = simulator.pauli_operator
-        QuantumClifford.QC.zero!(operator)
-        operator[p[1]] = (false, true) #Z
-        operator[p[2]] = (false, true) #Z
-        _, res = QuantumClifford.QC.projectrand!(register, operator)
-        push!(register.bits, res / 2)
+    if keep_result
+        _, res = projectZZrand!(backend.state, p1, p2)
+        res = Bool(res / 2)
+        push!(backend.measurements, res)
+    else
+        projectZZ!(backend.state, p1, p2; keep_result)
+        res = false
     end
-    return block_ex
+    return res
 end
