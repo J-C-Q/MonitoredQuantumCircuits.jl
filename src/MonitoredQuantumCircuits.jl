@@ -61,6 +61,7 @@ include("circuits/MTFIM.jl")
 include("circuits/kekule_floquet.jl")
 include("circuits/shastry_sutherland.jl")
 include("circuits/nishimoris_cat.jl")
+include("circuits/nishimoris_cat_clifford.jl")
 include("circuits/squareOctagon.jl")
 include("circuits/fibonacci_drive.jl")
 
@@ -81,6 +82,7 @@ export random_qubit
 export to_grid
 export to_linear
 export neighbor
+export qubits
 
 export I
 export ZZ
@@ -121,6 +123,7 @@ export MeasurementOnlyKekule_Floquet
 export MonitoredTransverseFieldIsing
 export MeasurementOnlyShastrySutherland
 export NishimorisCat
+export NishimorisCatClifford
 export MeasurementOnlySquareOctagon
 export MeasurementOnlyFibonacciDrive
 

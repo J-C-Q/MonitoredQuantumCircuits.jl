@@ -200,7 +200,7 @@ function kitaevZ(geometry::HoneycombGeometry{Open})
     return bonds
 end
 
-function isKitaevX(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int64})
+function isKitaevX(geometry::HoneycombGeometry, bond::Tuple{Int64,Int64})
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
     neighbor1 = kitaevX_neighbor(geometry, bond[1])
@@ -211,7 +211,9 @@ function isKitaevX(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int6
     return false
 end
 
-function isKitaevY(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int64})
+
+
+function isKitaevY(geometry::HoneycombGeometry, bond::Tuple{Int64,Int64})
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
     neighbor1 = kitaevY_neighbor(geometry, bond[1])
@@ -222,7 +224,7 @@ function isKitaevY(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int6
     return false
 end
 
-function isKitaevZ(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int64})
+function isKitaevZ(geometry::HoneycombGeometry, bond::Tuple{Int64,Int64})
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
     neighbor1 = kitaevZ_neighbor(geometry, bond[1])
@@ -233,7 +235,7 @@ function isKitaevZ(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int6
     return false
 end
 
-function isKekuleRed(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int64})
+function isKekuleRed(geometry::HoneycombGeometry, bond::Tuple{Int64,Int64})
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
     neighbor1 = kekuleRed_neighbor(geometry, bond[1])
@@ -244,7 +246,7 @@ function isKekuleRed(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,In
     return false
 end
 
-function isKekuleGreen(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int64})
+function isKekuleGreen(geometry::HoneycombGeometry, bond::Tuple{Int64,Int64})
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
     neighbor1 = kekuleGreen_neighbor(geometry, bond[1])
@@ -255,7 +257,7 @@ function isKekuleGreen(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,
     return false
 end
 
-function isKekuleBlue(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,Int64})
+function isKekuleBlue(geometry::HoneycombGeometry, bond::Tuple{Int64,Int64})
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
     neighbor1 = kekuleBlue_neighbor(geometry, bond[1])
@@ -266,38 +268,70 @@ function isKekuleBlue(geometry::HoneycombGeometry{Periodic}, bond::Tuple{Int64,I
     return false
 end
 
-function kitaevX_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
+
+
+function kitaevX_neighbor(geometry::HoneycombGeometry, site::Integer)
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
     i, j = to_grid(geometry, site)
     if isodd(i)
-        return to_linear(geometry, (i + 1, j))
+        new = to_linear(geometry, (i + 1, j))
+        if (site,new) in edges(geometry.graph)
+            return new
+        else
+            return nothing
+        end
     else
-        return to_linear(geometry, (i - 1, j))
+        new = to_linear(geometry,(i - 1, j))
+        if (site,new) in edges(geometry.graph)
+            return new
+        else
+            return nothing
+        end
     end
 end
 
 
 
-function kitaevY_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
+function kitaevY_neighbor(geometry::HoneycombGeometry, site::Integer)
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
     i, j = to_grid(geometry, site)
     if iseven(i)
-        return to_linear(geometry, (i + 1, j))
+        new = to_linear(geometry, (i + 1, j))
+        if (site,new) in edges(geometry.graph)
+            return new
+        else
+            return nothing
+        end
     else
-        return to_linear(geometry, (i - 1, j))
+        new = to_linear(geometry, (i - 1, j))
+        if (site,new) in edges(geometry.graph)
+            return new
+        else
+            return nothing
+        end
     end
 end
 
-function kitaevZ_neighbor(geometry::HoneycombGeometry{Periodic}, site::Integer)
+function kitaevZ_neighbor(geometry::HoneycombGeometry, site::Integer)
     geometry.sizeX % 2 == 0 || throw(ArgumentError("The sizeX must be even"))
     geometry.sizeY % 2 == 0 || throw(ArgumentError("The sizeY must be even"))
     i, j = to_grid(geometry, site)
     if iseven(i)
-        return to_linear(geometry, (i - 1, j + 1))
+        new = to_linear(geometry, (i - 1, j + 1))
+        if (site,new) in edges(geometry.graph)
+            return new
+        else
+            return nothing
+        end
     else
-        return to_linear(geometry, (i + 1, j - 1))
+        new = to_linear(geometry, (i + 1, j - 1))
+        if (site,new) in edges(geometry.graph)
+            return new
+        else
+            return nothing
+        end
     end
 end
 
@@ -488,7 +522,7 @@ function kekuleBlue_neighbor(geometry::HoneycombGeometry{Periodic}, site::Intege
     end
 end
 
-function bonds(geometry::HoneycombGeometry{Periodic}; kitaevType=:All, kekuleType=:All)
+function bonds(geometry::HoneycombGeometry; kitaevType=:All, kekuleType=:All)
     positions = Int64[]
     if kitaevType == :All
         if kekuleType == :All

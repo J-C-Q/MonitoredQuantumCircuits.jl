@@ -4,5 +4,5 @@ function apply!(
     ::MonitoredQuantumCircuits.H,
     p)
 
-    QC.apply!(register, QC.sHadamard(p))
+    QC.apply!(register, QC.sHadamard(p[1]))
 end
