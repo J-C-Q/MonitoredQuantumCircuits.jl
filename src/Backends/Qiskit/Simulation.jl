@@ -95,28 +95,3 @@ function MQC.execute(backend::AerSimulator; shots=1)
     return nativeResult
 end
 
-function MQC.execute(circuit::MQC.CompiledCircuit, backend::AerSimulator; shots=1024)
-    verbose = false
-    verbose && print("Transpiling circuit to Qiskit...")
-    qc = translate(Circuit, circuit)
-    verbose && println("✓")
-
-    verbose && print("Transpiling circuit to backend...")
-    transpile!(qc, backend)
-    verbose && println("✓")
-
-    verbose && print("Initializing sampler...")
-    sampler = Sampler(backend)
-    verbose && println("✓")
-
-    verbose && print("Simulating circuit...")
-    job = run(sampler, qc; shots)
-
-
-    nativeResult = job.result()[0]
-    verbose && println("✓")
-    result = QiskitResult(nativeResult, circuit)
-
-    # verbose && println("Job ID: $(job.job_id())")
-    return result
-end

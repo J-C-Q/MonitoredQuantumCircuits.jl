@@ -1,3 +1,4 @@
+#old
 function MeasurementOnlySquareOctagon(geometry::SquareOctagonGeometry{Periodic}, px::Float64, py::Float64, pz::Float64; depth::Integer=100)
     circuit = Circuit(geometry)
 

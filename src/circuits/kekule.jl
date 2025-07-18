@@ -1,4 +1,4 @@
-function MeasurementOnlyKekule(backend::Backend,geometry::HoneycombGeometry{Periodic}, pr::Float64, pg::Float64, pb::Float64; depth::Integer=100,keep_result=false)
+function measurementOnlyKekule!(backend::Backend,geometry::HoneycombGeometry{Periodic}, pr::Float64, pg::Float64, pb::Float64; depth::Integer=100,keep_result=false)
 
     for position in eachcol(bonds(geometry; kitaevType=:Z))
         apply!(backend, ZZ(), position...; keep_result)
@@ -28,5 +28,5 @@ function MeasurementOnlyKekule(backend::Backend,geometry::HoneycombGeometry{Peri
             apply!(backend, ZZ(), bond...; keep_result)
         end
     end
-    return execute(backend)
+    return backend
 end

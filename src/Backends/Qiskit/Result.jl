@@ -8,26 +8,26 @@
 #     end
 # end
 
-struct QiskitResult #<: MQC.Result
-    measurementOutcomes::Matrix{Bool}
-    # measuredQubits::Vector{Vector{Int64}}
-    nativeResult::PythonCall.Py
+# struct QiskitResult #<: MQC.Result
+#     measurementOutcomes::Matrix{Bool}
+#     # measuredQubits::Vector{Vector{Int64}}
+#     nativeResult::PythonCall.Py
 
-    function QiskitResult(nativeResult::PythonCall.Py, circuit::MQC.CompiledCircuit)
-        _checkinit_qiskit()
-        # nMeasurements = MQC.nMeasurements(circuit)
-        bitstrings = PythonCall.pyconvert(Vector{String}, nativeResult.data.c.get_bitstrings())
-        measurementOutcomes = hcat(map(s -> [c == '1' for c in reverse(s)], bitstrings)...)
+#     function QiskitResult(nativeResult::PythonCall.Py, circuit::MQC.CompiledCircuit)
+#         _checkinit_qiskit()
+#         # nMeasurements = MQC.nMeasurements(circuit)
+#         bitstrings = PythonCall.pyconvert(Vector{String}, nativeResult.data.c.get_bitstrings())
+#         measurementOutcomes = hcat(map(s -> [c == '1' for c in reverse(s)], bitstrings)...)
 
 
-        # measuredQubits = zeros(Int, nMeasurements)
-        new(measurementOutcomes, nativeResult)
-    end
-end
+#         # measuredQubits = zeros(Int, nMeasurements)
+#         new(measurementOutcomes, nativeResult)
+#     end
+# end
 
-function Base.show(io::IO, ::MIME"text/plain", obj::QiskitResult)
-    print(io, obj.measurementOutcomes)
-end
+# function Base.show(io::IO, ::MIME"text/plain", obj::QiskitResult)
+#     print(io, obj.measurementOutcomes)
+# end
 
 
 # function QiskitResult(Backend::Type{AerSimulator}, python_interface::PythonCall.Py)

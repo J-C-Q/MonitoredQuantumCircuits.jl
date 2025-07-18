@@ -1,4 +1,7 @@
-function MeasurementOnlyKitaev(backend::Backend, geometry::HoneycombGeometry{Periodic}, px::Float64, py::Float64, pz::Float64; depth::Integer=100,keep_result=false)
+function measurementOnlyKitaev!(
+    backend::Backend, geometry::HoneycombGeometry{Periodic},
+    px::Float64, py::Float64, pz::Float64;
+    depth::Integer=100,keep_result=false)
 
     for position in eachcol(bonds(geometry; kitaevType=:Z))
         apply!(backend, ZZ(), position...;keep_result)
@@ -13,12 +16,15 @@ function MeasurementOnlyKitaev(backend::Backend, geometry::HoneycombGeometry{Per
     for i in 1:depth*nQubits(geometry)
         p = rand()
         if p < px
-            apply!(backend, XX(), random_bond(geometry; type=:X)...; keep_result)
+            apply!(backend, XX(),
+                random_bond(geometry; type=:X)...; keep_result)
         elseif p < px + py
-            apply!(backend, YY(), random_bond(geometry; type=:Y)...; keep_result)
+            apply!(backend, YY(),
+                random_bond(geometry; type=:Y)...; keep_result)
         else
-            apply!(backend, ZZ(), random_bond(geometry; type=:Z)...; keep_result)
+            apply!(backend, ZZ(),
+                random_bond(geometry; type=:Z)...; keep_result)
         end
     end
-    return execute(backend)
+    return backend
 end

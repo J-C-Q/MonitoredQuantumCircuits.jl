@@ -8,22 +8,52 @@ struct TableauSimulator <: MonitoredQuantumCircuits.Simulator
     state::QC.MixedDestabilizer{QC.Tableau{Vector{UInt8},Matrix{UInt64}}}
     operator::QC.PauliOperator{Array{UInt8,0},Vector{UInt64}}
     measurements::BitVector
-    function TableauSimulator(qubits::Integer; mixed=true, basis=:Z)
+    measured_qubits::Vector{Int64}
+    ancillas::Int64
+    function TableauSimulator(qubits::Integer; ancillas=0, mixed=true, basis=:Z)
         if mixed
             state = QC.MixedDestabilizer(zero(QC.Stabilizer, qubits))
             operator = QC.zero(QC.PauliOperator, qubits)
-            new(state, operator, falses(0))
+            new(state, operator, falses(0), Int64[], ancillas)
         else
             state = QC.MixedDestabilizer(one(QC.Stabilizer, qubits; basis))
             operator = QC.zero(QC.PauliOperator, qubits)
-            new(state, operator, falses(0))
+            new(state, operator, falses(0), Int64[], ancillas)
         end
     end
 end
 function setInitialState!(sim::TableauSimulator, state::QC.MixedDestabilizer)
-    sim.initial_state.tab.phases .= state.tab.phases
-    sim.initial_state.tab.xzs .= state.tab.xzs
-    sim.initial_state.rank = state.rank
+    sim.state.tab.phases .= state.tab.phases
+    sim.state.tab.xzs .= state.tab.xzs
+    sim.state.rank = state.rank
+end
+function aux(backend::TableauSimulator)
+    return backend.state.tab.nqubits + backend.ancillas + 1
+end
+
+function MonitoredQuantumCircuits.reset!(backend::TableauSimulator; mixed=true, basis=:Z)
+    qubits = backend.state.tab.nqubits
+    #? maybe this can be done in place
+    if mixed
+        state = QC.MixedDestabilizer(zero(QC.Stabilizer, qubits))
+    else
+        state = QC.MixedDestabilizer(one(QC.Stabilizer, qubits; basis))
+    end
+    setInitialState!(backend, state)
+    empty!(backend.measurements)
+    empty!(backend.measured_qubits)
+    return backend
+end
+
+function Base.show(io::IO, backend::TableauSimulator)
+    println(io, "TableauSimulator Backend powerd by QuantumClifford.jl")
+    println(io, "Number of qubits: ", backend.state.tab.nqubits)
+    println(io, "Number of ancillas: ", backend.ancillas)
+    if !isempty(backend.measurements)
+        println(io, "Recorded measurements: ", length(backend.measurements))
+    else
+        println(io, "No measurements recorded.")
+    end
 end
 
 """
@@ -49,10 +79,10 @@ function MonitoredQuantumCircuits.execute(simulator::TableauSimulator)
     return simulator.state, simulator.measurements
 end
 
-function MonitoredQuantumCircuits.executeParallel(circuit::MonitoredQuantumCircuits.CompiledCircuit, simulator::TableauSimulator; samples=1)
-    MPI, rank, size = MonitoredQuantumCircuits.get_mpi_ref()
-    Threads.@threads for i in 1:samples÷size
-        MonitoredQuantumCircuits.execute(circuit, simulator)
+# function MonitoredQuantumCircuits.executeParallel(circuit::MonitoredQuantumCircuits.CompiledCircuit, simulator::TableauSimulator; samples=1)
+#     MPI, rank, size = MonitoredQuantumCircuits.get_mpi_ref()
+#     Threads.@threads for i in 1:samples÷size
+#         MonitoredQuantumCircuits.execute(circuit, simulator)
 
-    end
-end
+#     end
+# end

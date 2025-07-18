@@ -1,19 +1,25 @@
-function MeasurementOnlyFibonacciDrive(geometry::ChainGeometry, p::Float64; depth=10)
-    circuit = Circuit(geometry)
+function measurementOnlyFibonacciDrive!(
+    backend::Backend, geometry::ChainGeometry,
+    p::Float64; depth=610, keep_result=false)
 
-    ZZ_distributed = DistributedOperation(ZZ(), bonds(geometry), 1-p)
-    X_distributed = DistributedOperation(Measure_X(), qubits(geometry), p)
-
-    depth = word_length(depth)
+    qubits_ = qubits(geometry)
+    bonds_ = bonds(geometry)
     for n in 1:depth
         if fibonacci_word(n)
-            apply!(circuit, X_distributed)
+            for position in eachcol(qubits_)
+                if rand() < p
+                    apply!(backend, Measure_X(), position...;keep_result)
+                end
+            end
         else
-            apply!(circuit, ZZ_distributed)
+            for position in eachcol(bonds_)
+                if rand() >= p
+                    apply!(backend, ZZ(), position...; keep_result)
+                end
+            end
         end
     end
-
-    return circuit
+    return backend
 end
 
 function fibonacci_word(n)

@@ -26,7 +26,7 @@ geometry = ChainGeometry(Open, 10)
 ```
 """
 struct ChainGeometry{T<:BoundaryCondition} <: Geometry
-    graph::Graph
+    graph::Graphs.SimpleGraphs.SimpleGraph{Int64}
     size::Int64
     function ChainGeometry(type::Type{Periodic}, size::Integer)
         graph = Graphs.cycle_graph(size)
@@ -55,8 +55,4 @@ function visualize(io::IO, geometry::ChainGeometry)
 end
 function a_neighbor()
 
-end
-
-function qubits(geometry::ChainGeometry)
-    return reshape(collect(1:nQubits(geometry)), 1, nQubits(geometry))
 end

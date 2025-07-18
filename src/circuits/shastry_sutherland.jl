@@ -1,3 +1,4 @@
+#old
 function MeasurementOnlyShastrySutherland(geometry::ShastrySutherlandGeometry{Periodic}, px::Float64, py::Float64, pz::Float64; depth::Real=100, purify::Bool=false)
     circuit = Circuit(geometry)
     if purify

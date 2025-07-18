@@ -23,8 +23,16 @@ end
 
 Return the number of qubits in the geometry.
 """
-function nQubits(geometry::Geometry)
+function nQubits(geometry::Geometry)::Int64
     return nv(geometry.graph)
+end
+
+function nBonds(geometry::Geometry)
+    return ne(geometry.graph)
+end
+
+function qubits(geometry::Geometry)
+    return reshape(collect(1:nQubits(geometry)), 1, nQubits(geometry))
 end
 
 function Base.show(io::IO, geometry::Geometry)

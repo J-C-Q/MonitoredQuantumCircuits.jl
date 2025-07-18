@@ -25,17 +25,4 @@ function nQubits(circuit::Circuit)
     return circuit.num_qubits
 end
 
-function depth(operation::MQC.Operation, ::Type{Circuit})
-    throw(ArgumentError("depth in Qiskit is not implemented for $(typeof(operation)). Please implement this method for your custom operation."))
-end
 
-function translate(::Type{Circuit}, circuit::MQC.CompiledCircuit)
-    _checkinit_qiskit()
-    total_qubits = circuit.n_qubits + circuit.n_ancilla
-    qc = Circuit(total_qubits, total_qubits)
-    for i in 1:MQC.depth(circuit)
-        operation, position, ancilla = circuit[i]
-        apply!(qc, MQC.getOperationByIndex(circuit, operation), position, ancilla)
-    end
-    return qc
-end

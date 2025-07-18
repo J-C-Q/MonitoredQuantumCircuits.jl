@@ -51,25 +51,7 @@ function MQC.execute(backend::IBMBackend; shots=1)
     println("Job ID: $(job.job_id())")
 end
 
-function execute(circuit::MQC.Circuit, backend::IBMBackend; verbose::Bool=true)
-    verbose && print("Transpiling circuit to Qiskit...")
-    qc = MQC.translate(QuantumCircuit, circuit)
-    verbose && println("✓")
 
-    verbose && print("Transpiling circuit to backend...")
-    transpile!(qc, backend)
-    verbose && println("✓")
-
-    verbose && print("Initializing sampler...")
-    sampler = Sampler(backend)
-    verbose && println("✓")
-
-    verbose && print("Submitting job...")
-    job = run(sampler, qc)
-    verbose && println("✓")
-
-    verbose && println("Job ID: $(job.job_id())")
-end
 
 function isSimulator(::IBMBackend)
     return false

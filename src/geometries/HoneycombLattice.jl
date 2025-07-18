@@ -27,7 +27,7 @@ geometry = HoneycombGeometry(Open, 6, 6)
 ```
 """
 struct HoneycombGeometry{T<:BoundaryCondition} <: Geometry
-    graph::Graph
+    graph::Graphs.SimpleGraphs.SimpleGraph{Int64}
     sizeX::Int64
     sizeY::Int64
 

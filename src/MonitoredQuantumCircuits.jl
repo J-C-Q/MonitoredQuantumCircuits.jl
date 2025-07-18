@@ -61,7 +61,6 @@ include("circuits/MTFIM.jl")
 include("circuits/kekule_floquet.jl")
 include("circuits/shastry_sutherland.jl")
 include("circuits/nishimoris_cat.jl")
-include("circuits/nishimoris_cat_clifford.jl")
 include("circuits/squareOctagon.jl")
 include("circuits/fibonacci_drive.jl")
 
@@ -78,6 +77,7 @@ export bonds
 export subsystems
 export subsystem
 export nQubits
+export nBonds
 export random_qubit
 export to_grid
 export to_linear
@@ -86,6 +86,9 @@ export qubits
 export random_bond
 
 export I
+export Weak_ZZ
+export Weak_XX
+export Weak_YY
 export ZZ
 export XX
 export YY
@@ -93,8 +96,6 @@ export X
 export Y
 export Z
 export NPauli
-export RandomOperation
-export DistributedOperation
 export RandomClifford
 export Measure_Z
 export Measure_X
@@ -102,19 +103,18 @@ export Measure_Y
 export H
 export CNOT
 export Measure
-export Weak_ZZ
-export Weak_XX
-export Weak_YY
 
 
 
-export Circuit
+
+# export Circuit
 export apply!
+export reset!
 export execute
-export executeParallel
+# export executeParallel
 export depth
-export nAncilla
-export compile
+# export nAncilla
+# export compile
 
 export Result
 
@@ -124,7 +124,6 @@ export MeasurementOnlyKekule_Floquet
 export MonitoredTransverseFieldIsing
 export MeasurementOnlyShastrySutherland
 export NishimorisCat
-export NishimorisCatClifford
 export MeasurementOnlySquareOctagon
 export MeasurementOnlyFibonacciDrive
 

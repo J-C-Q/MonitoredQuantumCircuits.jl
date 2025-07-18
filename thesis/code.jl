@@ -1,17 +1,49 @@
-function MeasurementTransverseFieldIsingFibonacci(
-    geometry::ChainGeometry, p::Float64; depth=10)
+function monitoredTransverseFieldIsingFibonacci!(
+    backend::Backend, geometry::ChainGeometry,
+    p::Float64; depth=610, keep_result=false)
 
-    circuit = Circuit(geometry)
-    X_random = DistributedOperation(Measure_X(), qubits(geometry), p)
-    ZZ_random = DistributedOperation(ZZ(), bonds(geometry), 1 - p)
-    for n in 1:word_length(depth)
+    qubits_ = qubits(geometry)
+    bonds_ = bonds(geometry)
+    for n in 1:depth
         if fibonacci_word(n)
-            apply!(circuit, X_random)
+            for position in eachcol(qubits_)
+                if rand() < p
+                    apply!(backend, Measure_X(), position...;keep_result)
+                end
+            end
         else
-            apply!(circuit, ZZ_random)
+            for position in eachcol(bonds_)
+                if rand() >= p
+                    apply!(backend, ZZ(), position...; keep_result)
+                end
+            end
         end
     end
-    return circuit
+    return backend
+end
+
+function monitoredTransverseFieldIsing!(
+    backend::Backend, geometry::ChainGeometry{Periodic},
+    p::Float64; depth=100, keep_result=false)
+
+    qubits_ = qubits(geometry)
+    bonds_ = bonds(geometry)
+    for i in 1:depth
+        if i%2 == 1
+            for position in eachcol(bonds_)
+                if rand() >= p
+                    apply!(backend, ZZ(), position...; keep_result)
+                end
+            end
+        else
+           for position in eachcol(qubits_)
+                if rand() < p
+                    apply!(backend, Measure_X(), position...; keep_result)
+                end
+            end
+        end
+    end
+    return backend
 end
 function MonitoredTransverseFieldIsing(
     geometry::ChainGeometry{Periodic}, p::Float64; depth=100)
@@ -76,9 +108,9 @@ function fibonacci_word(n)
 end
 
 p = 0.5
-circuit = compile(MonitoredTransverseFieldIsing(geometry, p; depth=2^15))
-result = execute(circuit, sim)
-half_ent = QuantumClifford.entanglement_entropy(result.stab, 1:div(N, 2))
+circuit = monitoredTransverseFieldIsing!(sim, geometry, p; depth=2^15)
+result = execute(sim)
+half_ent = QuantumClifford.entanglement_entropy(result.state, 1:div(N, 2))
 
 function MonitoredTransverseFieldIsing(
     geometry::ChainGeometry{Periodic}, p::Float64; depth=100)
@@ -94,3 +126,17 @@ function MonitoredTransverseFieldIsing(
     return circuit
 end
 
+backend = QuantumClifford.TableauSimulator(nQubits(geometry); mixed=false, basis=:X)
+
+
+apply!(::Backend, ::Operation, position...;kwargs...)
+
+julia> print_tree(MonitoredQuantumCircuits.Backend)
+Backend
+├─ QuantumComputer
+│  └─ IBMBackend
+└─ Simulator
+   ├─ AerSimulator
+   ├─ GPUPauliFrameSimulator
+   ├─ PauliFrameSimulator
+   └─ TableauSimulator

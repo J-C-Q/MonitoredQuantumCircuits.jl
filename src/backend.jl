@@ -10,3 +10,5 @@ Return whether the backend is a simulator.
 function isSimulator(backend::Backend)
     throw(ArgumentError("Backend $(typeof(backend)) not supported"))
 end
+
+function reset! end
