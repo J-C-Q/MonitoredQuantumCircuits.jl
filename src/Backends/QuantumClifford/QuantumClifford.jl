@@ -3,8 +3,8 @@ module QuantumClifford
 import QuantumClifford as QC
 using QuantumClifford
 import ...MonitoredQuantumCircuits
-using StatsBase
-using LinearAlgebra
+# using StatsBase
+# using LinearAlgebra
 
 
 include("operations/util/fastSingleQubit.jl")

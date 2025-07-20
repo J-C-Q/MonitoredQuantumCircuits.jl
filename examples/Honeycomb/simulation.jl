@@ -1,4 +1,4 @@
-function simulate_QuantumClifford(L,n;shots=10000,depth=100)
+function simulate_QuantumClifford(L,n=10;shots=10,depth=10)
     g = HoneycombGeometry(Periodic, L, L)
     ps = generateProbs(;n)
     backend = QuantumClifford.TableauSimulator(nQubits(g); mixed=true)

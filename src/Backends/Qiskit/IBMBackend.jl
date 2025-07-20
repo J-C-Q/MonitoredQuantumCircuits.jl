@@ -43,7 +43,7 @@ function Base.show(io::IO, ::MIME"text/plain", obj::IBMBackend)
     println(io, get_circuit(obj).python_interface)
 end
 
-function MQC.execute(backend::IBMBackend; shots=1)
+function MQC.execute!(backend::IBMBackend; shots=1)
     qc = get_circuit(backend)
     transpile!(qc, backend)
     sampler = Sampler(backend)

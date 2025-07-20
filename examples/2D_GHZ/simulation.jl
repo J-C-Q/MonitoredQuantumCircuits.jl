@@ -1,4 +1,4 @@
-function simulate_QuantumClifford(;shots=10000,postselect=false)
+function simulate_QuantumClifford(;shots=10,postselect=false)
     g = IBMQ_Falcon()
     backend = QuantumClifford.TableauSimulator(nQubits(g);
         mixed=false, basis=:Z)
@@ -13,7 +13,7 @@ function simulate_QuantumClifford(;shots=10000,postselect=false)
     return magnetization
 end
 
-function simulate_Qiskit(;shots=10000,postselect=false)
+function simulate_Qiskit(;shots=10,postselect=false)
     g = IBMQ_Falcon()
     backend = Qiskit.CliffordSimulator(nQubits(g);ancillas=nControlQubits(g))
 

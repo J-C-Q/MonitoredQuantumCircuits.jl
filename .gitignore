@@ -30,3 +30,5 @@ LocalPreferences.toml
 *.jld2
 *.jls
 
+thesis/*
+/thesis/

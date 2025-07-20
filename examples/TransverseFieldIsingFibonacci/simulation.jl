@@ -7,7 +7,7 @@ function simulate_QuantumClifford(L,ps;shots=10,depth=10)
         post = (s) -> begin
             entanglement[i] += QuantumClifford.entanglement_entropy(backend.state, 1:div(L,2))
         end
-        execute!(()->monitoredTransverseFieldIsing!(backend, g, p; depth), backend, post; shots=shots)
+        execute!(()->monitoredTransverseFieldIsingFibonacci!(backend, g, p; depth), backend, post; shots=shots)
     end
 
     return entanglement ./= shots
