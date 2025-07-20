@@ -1,4 +1,5 @@
 import QuantumClifford: mul_left!, zero!, @valbooldispatch, rowswap!
+
 ##########  helper predicates  ##########
 
 # `tab[row,col][1]`  →  the X–bit of the tableau cell
@@ -28,16 +29,17 @@ import QuantumClifford: mul_left!, zero!, @valbooldispatch, rowswap!
     # stabiliser block
     for i in 1:r
         if i ≠ anticommutes && _isZZ(tab, i, q1, q2)
-            mul_left!(tab, i, n + anticommutes; phases=Val(false))
+           mul_left!(tab, i, n + anticommutes; phases=Val(false))
         end
     end
+    return nothing
 end
 
 
 ##########  internal worker (mirrors `project_cond!`)  ##########
 
 function _projectZZ!(
-    d::MixedDestabilizer, q1::Int, q2::Int,
+    d::MixedDestabilizer, q1::Int, q2::Int, pauli::PauliOperator,
     reset::Val{RESET};                     # = Val((false,true))
     keep_result::Bool=true,
     phases::Val{PHASES}=Val(true)
@@ -49,7 +51,7 @@ function _projectZZ!(
     destabilizer = destabilizerview(d)
     r = d.rank
     n = nqubits(d)
-
+    result = UInt8(3)  # 0x3 = "no measurement"
     # 1.  look for a stabiliser row that anticommutes with Z⊗Z
     for i in 1:r
         if _isZZ(stabilizer, i, q1, q2)
@@ -81,33 +83,41 @@ function _projectZZ!(
         if anticomlog != 0
             ##########  promote logical row to stabiliser & bump rank  ##########
             if anticomlog ≤ n
-                rowswap!(tab, r + 1 + n, anticomlog)         # !this allocates...
+                rowswap!(tab, r + 1 + n, anticomlog)
                 n != r + 1 && anticomlog != r + 1 && rowswap!(tab, r + 1, anticomlog + n)
             else
-                rowswap!(tab, r + 1, anticomlog - n)   # !this allocates...
-                rowswap!(tab, r + 1 + n, anticomlog)       # !this allocates...
+                rowswap!(tab, r + 1, anticomlog - n)
+                rowswap!(tab, r + 1 + n, anticomlog)
             end
 
             _anticomm_update_rows_ZZ!(tab, q1, q2, r + 1, n, r + 1, phases)
             d.rank += 1
             anticommutes = d.rank
 
-            tab[r+1] = tab[n+r+1]          # copy promoted row
+            # tab[r+1] = tab[n+r+1]          # copy promoted row
+            xz = @view tab.xzs[:,n+r+1]
+            phases = tab.phases[n+r+1]
+            tab.xzs[:,r+1] .= xz
+            # for j in eachindex(xz)
+            #     tab.xzs[j,r+1] = xz[j]
+            # end
+            tab.phases[r+1] = phases[]
+
             zero!(tab, n + r + 1)              # projector row
             tab[n+r+1, q1] = RESET
             tab[n+r+1, q2] = RESET
-            result = nothing                    # (keep_result is irrelevant here)
+            result = UInt8(3)                    # (keep_result is irrelevant here)
 
         else
             ##########  everything commutes – state already an eigenstate ##########
             if keep_result
-                new_pauli = zero(PauliOperator, n)
+                new_pauli = zero!(pauli)
                 for i in 1:r
                     _isZZ(destabilizer, i, q1, q2) && mul_left!(new_pauli, stabilizer, i; phases=phases)
                 end
                 result = new_pauli.phase[]
             else
-                result = nothing
+                result = UInt8(3)  # 0x3 = "no measurement"
             end
         end
 
@@ -115,11 +125,19 @@ function _projectZZ!(
         ############  there *is* an anticommuting stabiliser row  ############
         _anticomm_update_rows_ZZ!(tab, q1, q2, r, n, anticommutes, phases)
 
-        destabilizer[anticommutes] = stabilizer[anticommutes]
+        # copy the stabiliser row to the destabilizer without allocating a PauliOperator (see getindex(tab::Tableau, i::Int) and Base.setindex!(tab::Tableau, pauli::PauliOperator, i))
+        stabxz = @view QuantumClifford.tab(stabilizer).xzs[:,anticommutes]
+        stabphases = QuantumClifford.tab(stabilizer).phases[anticommutes]
+        # for j in eachindex(stabxz)
+        #     QuantumClifford.tab(destabilizer).xzs[j,anticommutes] = stabxz[j]
+        # end
+        QuantumClifford.tab(destabilizer).xzs[:,anticommutes] .= stabxz
+        QuantumClifford.tab(destabilizer).phases[anticommutes] = stabphases[]
+        # destabilizer[anticommutes] .= stabilizer[anticommutes]
         zero!(stabilizer, anticommutes)
         stabilizer[anticommutes, q1] = RESET
         stabilizer[anticommutes, q2] = RESET
-        result = nothing
+        result = UInt8(3)  # 0x3 = "no measurement"
     end
 
     return d, anticommutes, result
@@ -140,15 +158,15 @@ outcome (`Bool`).
 *This is the two-qubit analogue of `projectZ!` and is just as fast (O(n) word
 scans, no allocations, fully inlined).*
 """
-function projectZZ!(d::MixedDestabilizer, q1::Int, q2::Int;
+function projectZZ!(d::MixedDestabilizer, q1::Int, q2::Int,pauli::PauliOperator;
     keep_result::Bool=true, phases::Bool=true)
     # same reset marker that single-qubit Z uses
-    QuantumClifford.@valbooldispatch _projectZZ!(d, q1, q2, Val((false, true));
+    QuantumClifford.@valbooldispatch _projectZZ!(d, q1, q2,pauli, Val((false, true));
         keep_result, phases=Val(phases)) phases
 end
 
-function projectZZrand!(state, qubit1, qubit2)
-    _, anticom, res = projectZZ!(state, qubit1,qubit2)
-    isnothing(res) && (res = tab(stabilizerview(state)).phases[anticom] = rand((0x0, 0x2)))
+function projectZZrand!(state, qubit1, qubit2, pauli::PauliOperator)
+    _, anticom, res = projectZZ!(state, qubit1,qubit2,pauli)
+    res==UInt8(3) && (res = tab(stabilizerview(state)).phases[anticom] = rand((0x0, 0x2)))
     return state, res
 end

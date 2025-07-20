@@ -17,32 +17,32 @@ include("geometry.jl")
 include("operations.jl")
 
 
-include("geometries/HoneycombLattice.jl")
+include("geometries/HoneycombLattice_Periodic.jl")
 include("geometries/ChainGeometry.jl")
 include("geometries/ShastrySutherlandGeometry.jl")
 include("geometries/SquareGeometry.jl")
 include("geometries/SquareOctagonGeometry.jl")
+include("geometries/IBMQ_Falcon.jl")
 
 
-include("operations/ZZ.jl")
-include("operations/XX.jl")
-include("operations/YY.jl")
+include("operations/MZZ.jl")
+include("operations/MXX.jl")
+include("operations/MYY.jl")
 include("operations/X.jl")
 include("operations/Y.jl")
 include("operations/Z.jl")
 include("operations/Pauli.jl")
 include("operations/H.jl")
 include("operations/CNOT.jl")
-include("operations/Measure_Z.jl")
-include("operations/Measure_X.jl")
-include("operations/Measure_Y.jl")
-include("operations/Weak_ZZ.jl")
-include("operations/Weak_YY.jl")
-include("operations/Weak_XX.jl")
+include("operations/MZ.jl")
+include("operations/MX.jl")
+include("operations/MY.jl")
+include("operations/WeakMZZ.jl")
+include("operations/WeakMYY.jl")
+include("operations/WeakMXX.jl")
 include("operations/RandomClifford.jl")
-include("operations/Distributed.jl")
 include("operations/I.jl")
-include("operations/Random.jl")
+
 
 include("circuit.jl")
 include("result.jl")
@@ -64,45 +64,35 @@ include("circuits/nishimoris_cat.jl")
 include("circuits/squareOctagon.jl")
 include("circuits/fibonacci_drive.jl")
 
-
-export HoneycombGeometry
 export ChainGeometry
 export ShastrySutherlandGeometry
 export SquareOctagonGeometry
 export Periodic
 export Open
-export plaquettes
-export loops
-export bonds
-export subsystems
-export subsystem
 export nQubits
+export Bond
 export nBonds
 export random_qubit
-export to_grid
-export to_linear
-export neighbor
 export qubits
 export random_bond
 
 export I
-export Weak_ZZ
-export Weak_XX
-export Weak_YY
-export ZZ
-export XX
-export YY
+export WeakMZZ
+export WeakMXX
+export WeakMYY
+export MZZ
+export MXX
+export MYY
 export X
 export Y
 export Z
-export NPauli
+export MnPauli
 export RandomClifford
-export Measure_Z
-export Measure_X
-export Measure_Y
+export MZ
+export MX
+export MY
 export H
 export CNOT
-export Measure
 
 
 
@@ -110,7 +100,7 @@ export Measure
 # export Circuit
 export apply!
 export reset!
-export execute
+export execute!
 # export executeParallel
 export depth
 # export nAncilla
@@ -118,14 +108,14 @@ export depth
 
 export Result
 
-export MeasurementOnlyKitaev
-export MeasurementOnlyKekule
-export MeasurementOnlyKekule_Floquet
-export MonitoredTransverseFieldIsing
-export MeasurementOnlyShastrySutherland
-export NishimorisCat
-export MeasurementOnlySquareOctagon
-export MeasurementOnlyFibonacciDrive
+export measurementOnlyKitaev!
+export measurementOnlyKekule!
+# export measurementOnlyKekule_Floquet!
+export monitoredTransverseFieldIsing!
+# export measurementOnlyShastrySutherland!
+export monitoredGHZ!
+# export measurementOnlySquareOctagon!
+export monitoredTransverseFieldIsingFibonacci!
 
 # export GUI
 
@@ -136,6 +126,7 @@ export Qiskit
 export QuantumClifford
 # export cuQuantum
 # export ITensorNetworks
+export get_measurements
 
 # export Analysis
 

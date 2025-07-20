@@ -1,4 +1,3 @@
-
 function MQC.apply!(
     backend::Union{AerSimulator,IBMBackend},
     ::MQC.Y,

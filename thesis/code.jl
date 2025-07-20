@@ -2,19 +2,19 @@ function monitoredTransverseFieldIsingFibonacci!(
     backend::Backend, geometry::ChainGeometry,
     p::Float64; depth=610, keep_result=false)
 
-    qubits_ = qubits(geometry)
-    bonds_ = bonds(geometry)
+    _qubits = qubits(geometry)
+    _bonds = bonds(geometry)
     for n in 1:depth
         if fibonacci_word(n)
-            for position in eachcol(qubits_)
+            for position in eachcol(_qubits)
                 if rand() < p
-                    apply!(backend, Measure_X(), position...;keep_result)
+                    apply!(backend, MX(), position...; keep_result)
                 end
             end
         else
-            for position in eachcol(bonds_)
+            for position in eachcol(_bonds)
                 if rand() >= p
-                    apply!(backend, ZZ(), position...; keep_result)
+                    apply!(backend, MZZ(), position...; keep_result)
                 end
             end
         end
@@ -24,68 +24,59 @@ end
 
 function monitoredTransverseFieldIsing!(
     backend::Backend, geometry::ChainGeometry{Periodic},
-    p::Float64; depth=100, keep_result=false)
+    p::Float64; depth=610, keep_result=false)
 
-    qubits_ = qubits(geometry)
-    bonds_ = bonds(geometry)
+    _qubits = qubits(geometry)
+    _bonds = bonds(geometry)
     for i in 1:depth
-        if i%2 == 1
-            for position in eachcol(bonds_)
-                if rand() >= p
-                    apply!(backend, ZZ(), position...; keep_result)
+        if i%2 == 0
+            for position in eachcol(_qubits)
+                if rand() < p
+                    apply!(backend, MX(), position...; keep_result)
                 end
             end
         else
-           for position in eachcol(qubits_)
-                if rand() < p
-                    apply!(backend, Measure_X(), position...; keep_result)
+           for position in eachcol(_bonds)
+                if rand() >= p
+                    apply!(backend, MZZ(), position...; keep_result)
                 end
             end
         end
     end
     return backend
 end
-function MonitoredTransverseFieldIsing(
-    geometry::ChainGeometry{Periodic}, p::Float64; depth=100)
 
-    circuit = Circuit(geometry)
-    X_random = DistributedOperation(Measure_X(), qubits(geometry), p)
-    ZZ_random = DistributedOperation(ZZ(), bonds(geometry), 1 - p)
-    for _ in 1:depth
-        apply!(circuit, ZZ_random)
-        apply!(circuit, X_random)
-    end
-    apply!(circuit, ZZ_random)
-    return circuit
-end
 
-function MeasurementOnlyKitaev(
-    geometry::HoneycombGeometry{Periodic},
+
+function measurementOnlyKitaev!(
+    backend::Backend, geometry::HoneycombGeometry{Periodic},
     px::Float64, py::Float64, pz::Float64;
-    depth::Integer=100)
+    depth::Integer=100, keep_result=false)
 
-    circuit = Circuit(geometry)
     for position in eachcol(bonds(geometry; kitaevType=:Z))
-        apply!(circuit, ZZ(), position...)
+        apply!(backend, MZZ(), position...; keep_result)
     end
     for position in eachcol(plaquettes(geometry))
-        apply!(circuit, NPauli(Y, X, Z, Y, X, Z), position...)
+        apply!(backend, MnPauli(Y, X, Z, Y, X, Z), position...; keep_result)
     end
     xy_loop = loops(geometry; kitaevTypes=(:X, :Y))[:, 1]
     xz_loop = loops(geometry; kitaevTypes=(:X, :Z))[:, 1]
-    apply!(circuit, NPauli(Z(), length(xy_loop)), xy_loop...)
-    apply!(circuit, NPauli(Y(), length(xy_loop)), xz_loop...)
-    randomParityMeasurement = RandomOperation()
-    push!(randomParityMeasurement, XX(), bonds(geometry; kitaevType=:X);
-        probability=px)
-    push!(randomParityMeasurement, YY(), bonds(geometry; kitaevType=:Y);
-        probability=py)
-    push!(randomParityMeasurement, ZZ(), bonds(geometry; kitaevType=:Z);
-        probability=pz)
+    apply!(backend, MnPauli(Z(), length(xy_loop)), xy_loop...; keep_result)
+    apply!(backend, MnPauli(Y(), length(xy_loop)), xz_loop...; keep_result)
     for i in 1:depth*nQubits(geometry)
-        apply!(circuit, randomParityMeasurement)
+        p = rand()
+        if p < px
+            apply!(backend, MXX(),
+                random_bond(geometry; type=:X)...; keep_result)
+        elseif p < px + py
+            apply!(backend, MYY(),
+                random_bond(geometry; type=:Y)...; keep_result)
+        else
+            apply!(backend, MZZ(),
+                random_bond(geometry; type=:Z)...; keep_result)
+        end
     end
-    return circuit
+    return backend
 end
 
 
@@ -112,19 +103,7 @@ circuit = monitoredTransverseFieldIsing!(sim, geometry, p; depth=2^15)
 result = execute(sim)
 half_ent = QuantumClifford.entanglement_entropy(result.state, 1:div(N, 2))
 
-function MonitoredTransverseFieldIsing(
-    geometry::ChainGeometry{Periodic}, p::Float64; depth=100)
 
-    circuit = Circuit(geometry)
-    X_random = DistributedOperation(Measure_X(), MonitoredQuantumCircuits.qubits(geometry), p)
-    ZZ_random = DistributedOperation(ZZ(), bonds(geometry), 1 - p)
-    for _ in 1:depth
-        apply!(circuit, ZZ_random)
-        apply!(circuit, X_random)
-    end
-    apply!(circuit, ZZ_random)
-    return circuit
-end
 
 backend = QuantumClifford.TableauSimulator(nQubits(geometry); mixed=false, basis=:X)
 

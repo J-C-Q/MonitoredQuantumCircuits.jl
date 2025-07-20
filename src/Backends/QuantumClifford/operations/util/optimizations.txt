@@ -1,0 +1,18 @@
+Some notes on measurement optimizations:
+
+
+- make the sparse measurement functions type stable by always returning an UInt8 (instead of nothing we return UInt8(3))
+
+- reuse a Pauli operator in the case of "everything commutes" to not allocate a new one.
+
+- replace the get index of Tableau, which creates a new PauliOperator object with a direct matrix element wise copy
+once for the promote logical row case and once for the there is an anticommuting stabilizer case.
+
+e.g.:
+# tab[r+1] = tab[n+r+1]          # copy promoted row
+xz = @view tab.xzs[:,n+r+1]
+phases = tab.phases[n+r+1]
+tab.xzs[:,r+1] .= xz
+tab.phases[r+1] = phases[]
+
+-> no allocations

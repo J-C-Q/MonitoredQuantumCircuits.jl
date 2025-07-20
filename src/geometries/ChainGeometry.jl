@@ -28,31 +28,26 @@ geometry = ChainGeometry(Open, 10)
 struct ChainGeometry{T<:BoundaryCondition} <: Geometry
     graph::Graphs.SimpleGraphs.SimpleGraph{Int64}
     size::Int64
+    bonds::Vector{Bond{Int64}}
     function ChainGeometry(type::Type{Periodic}, size::Integer)
         graph = Graphs.cycle_graph(size)
-        new{type}(graph, size)
+        new{type}(graph, size, collectBonds(graph))
     end
     function ChainGeometry(type::Type{Open}, size::Integer)
         graph = Graphs.cycle_graph(size)
         Graphs.rem_edge!(graph, 1, size)  # Remove the edge to make it open
-        new{type}(graph, size)
+        new{type}(graph, size, collectBonds(graph))
     end
 end
 
-function bonds(geometry::ChainGeometry; type=:All)
-    positions = Int64[]
-    if type == :All
-        for e in Graphs.edges(geometry.graph)
-            push!(positions, Graphs.src(e))
-            push!(positions, Graphs.dst(e))
-        end
-    elseif type == :A
-
+function collectBonds(graph::Graphs.SimpleGraphs.SimpleGraph{Int64})
+    bonds = Vector{Bond{Int64}}(undef, ne(graph))
+    for (i, e) in enumerate(Graphs.edges(graph))
+        bonds[i] = Bond(Graphs.src(e), Graphs.dst(e))
     end
-    return reshape(positions, 2, length(positions) ÷ 2)
+    return bonds
 end
-function visualize(io::IO, geometry::ChainGeometry)
-end
-function a_neighbor()
 
+function bonds(geometry::ChainGeometry)
+    return geometry.bonds
 end

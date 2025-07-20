@@ -23,6 +23,9 @@ function state_entropy(state::QC.MixedDestabilizer)
     return (state.tab.nqubits - state.rank) / state.tab.nqubits
 end
 
+function entanglement_entropy(state::TableauSimulator, l::AbstractArray)
+    return QC.entanglement_entropy(state.state, l, Val(:rref))
+end
 
 function entanglement_entropy(state::QC.AbstractStabilizer, l::AbstractArray)
     return QC.entanglement_entropy(state, vec(l), Val(:rref))
@@ -38,4 +41,10 @@ function tmi(state::QC.AbstractStabilizer, subsystems::Matrix; a_col=1, b_col=2,
     B = @view subsystems[:, b_col]
     C = @view subsystems[:, c_col]
     return tmi(state, A, B, C)
+end
+function tmi(state::TableauSimulator, subsystems::Matrix; a_col=1, b_col=2, c_col=3)
+    A = @view subsystems[:, a_col]
+    B = @view subsystems[:, b_col]
+    C = @view subsystems[:, c_col]
+    return tmi(state.state, A, B, C)
 end

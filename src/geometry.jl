@@ -31,9 +31,9 @@ function nBonds(geometry::Geometry)
     return ne(geometry.graph)
 end
 
-function qubits(geometry::Geometry)
-    return reshape(collect(1:nQubits(geometry)), 1, nQubits(geometry))
-end
+# function qubits(geometry::Geometry)
+#     return reshape(collect(1:nQubits(geometry)), 1, nQubits(geometry))
+# end
 
 function Base.show(io::IO, geometry::Geometry)
     print(io, "$(typeof(geometry)) with ", length(geometry), " sites and ")
@@ -50,7 +50,7 @@ function Base.show(io::IO, geometry::Geometry)
             println(io, bond)
         end
     end
-    nv(geometry.graph) <= 100 && visualize(io, geometry)
+    # nv(geometry.graph) <= 100 && visualize(io, geometry)
 end
 
 function to_linear(geometry::Geometry, ::NTuple{d,Int64}) where {d}
@@ -70,4 +70,36 @@ end
 
 function drawGeometry(geometry::Geometry; kwargs...)
     throw(ArgumentError("No function defined to draw geometry of type $(typeof(geometry)). Load Makie.jl to visualize geometries."))
+end
+
+
+struct Bond{T<:Integer}
+    qubit1::T
+    qubit2::T
+    function Bond(q1::T, q2::T) where {T<:Integer}
+        return q1 ≤ q2 ? new{T}(q1, q2) : new{T}(q2, q1)
+    end
+end
+function Base.show(io::IO, bond::Bond)
+    print(io, "$(bond.qubit1) ⟷ $(bond.qubit2)")
+end
+# --- make Bond iterable of length 2 ---
+function Base.iterate(b::Bond{T}, state::Int=1) where T
+    state == 1 && return (b.qubit1, 2)
+    state == 2 && return (b.qubit2, 3)
+    return nothing
+end
+Base.length(::Bond) = 2
+Base.eltype(::Type{Bond{T}}) where T = T
+
+
+
+
+function random_qubit(geometry::Geometry)
+    i = rand(1:nQubits(geometry))
+    return i
+end
+
+function qubits(geometry::Geometry)
+    return 1:nQubits(geometry)
 end

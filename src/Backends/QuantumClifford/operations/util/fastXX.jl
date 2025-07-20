@@ -40,7 +40,7 @@ end
 ##########  internal worker (mirrors `project_cond!`)  ##########
 
 function _projectXX!(
-    d::MixedDestabilizer, q1::Int, q2::Int,
+    d::MixedDestabilizer, q1::Int, q2::Int,pauli::PauliOperator,
     reset::Val{RESET};                     # = Val((false,true))
     keep_result::Bool=true,
     phases::Val{PHASES}=Val(true)
@@ -95,22 +95,29 @@ function _projectXX!(
             d.rank += 1
             anticommutes = d.rank
 
-            tab[r+1] = tab[n+r+1]          # copy promoted row
+            # tab[r+1] = tab[n+r+1]          # copy promoted row
+            xz = @view tab.xzs[:,n+r+1]
+            phases = tab.phases[n+r+1]
+            tab.xzs[:,r+1] .= xz
+            # for j in eachindex(xz)
+            #     tab.xzs[j,r+1] = xz[j]
+            # end
+            tab.phases[r+1] = phases[]
             zero!(tab, n + r + 1)              # projector row
             tab[n+r+1, q1] = RESET
             tab[n+r+1, q2] = RESET
-            result = nothing                    # (keep_result is irrelevant here)
+            result = UInt8(3)                    # (keep_result is irrelevant here)
 
         else
             ##########  everything commutes – state already an eigenstate ##########
             if keep_result
-                new_pauli = zero(PauliOperator, n)
+                new_pauli = zero!(pauli)
                 for i in 1:r
                     _isXX(destabilizer, i, q1, q2) && mul_left!(new_pauli, stabilizer, i; phases=phases)
                 end
                 result = new_pauli.phase[]
             else
-                result = nothing
+                result = UInt8(3)
             end
         end
 
@@ -118,11 +125,16 @@ function _projectXX!(
         ############  there *is* an anticommuting stabiliser row  ############
         _anticomm_update_rows_XX!(tab, q1, q2, r, n, anticommutes, phases)
 
-        destabilizer[anticommutes] = stabilizer[anticommutes]
+        # copy the stabiliser row to the destabilizer without allocating a PauliOperator (see getindex(tab::Tableau, i::Int) and Base.setindex!(tab::Tableau, pauli::PauliOperator, i))
+        stabxz = @view QuantumClifford.tab(stabilizer).xzs[:,anticommutes]
+        stabphases = QuantumClifford.tab(stabilizer).phases[anticommutes]
+        QuantumClifford.tab(destabilizer).xzs[:,anticommutes] .= stabxz
+        QuantumClifford.tab(destabilizer).phases[anticommutes] = stabphases[]
+        # destabilizer[anticommutes] .= stabilizer[anticommutes]
         zero!(stabilizer, anticommutes)
         stabilizer[anticommutes, q1] = RESET
         stabilizer[anticommutes, q2] = RESET
-        result = nothing
+        result = UInt8(3)
     end
 
     return d, anticommutes, result
@@ -143,15 +155,15 @@ outcome (`Bool`).
 *This is the two-qubit analogue of `projectX!` and is just as fast (O(n) word
 scans, no allocations, fully inlined).*
 """
-function projectXX!(d::MixedDestabilizer, q1::Int, q2::Int;
+function projectXX!(d::MixedDestabilizer, q1::Int, q2::Int, pauli::PauliOperator;
     keep_result::Bool=true, phases::Bool=true)
     # same reset marker that single-qubit Z uses
-    @valbooldispatch _projectXX!(d, q1, q2, Val((true, false));
+    @valbooldispatch _projectXX!(d, q1, q2, pauli, Val((true, false));
         keep_result, phases=Val(phases)) phases
 end
 
-function projectXXrand!(state, qubit1, qubit2)
-    _, anticom, res = projectXX!(state, qubit1,qubit2)
-    isnothing(res) && (res = tab(stabilizerview(state)).phases[anticom] = rand((0x0, 0x2)))
+function projectXXrand!(state, qubit1, qubit2, pauli)
+    _, anticom, res = projectXX!(state, qubit1,qubit2, pauli)
+    res == UInt8(3) && (res = tab(stabilizerview(state)).phases[anticom] = rand((0x0, 0x2)))
     return state, res
 end

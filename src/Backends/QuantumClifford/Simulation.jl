@@ -45,6 +45,17 @@ function MonitoredQuantumCircuits.reset!(backend::TableauSimulator; mixed=true, 
     return backend
 end
 
+function MonitoredQuantumCircuits.reset!(
+    backend::TableauSimulator,
+    state::QC.MixedDestabilizer)
+
+    qubits = backend.state.tab.nqubits
+    setInitialState!(backend, state)
+    empty!(backend.measurements)
+    empty!(backend.measured_qubits)
+    return backend
+end
+
 function Base.show(io::IO, backend::TableauSimulator)
     println(io, "TableauSimulator Backend powerd by QuantumClifford.jl")
     println(io, "Number of qubits: ", backend.state.tab.nqubits)
@@ -75,14 +86,24 @@ end
 
 
 
-function MonitoredQuantumCircuits.execute(simulator::TableauSimulator)
-    return simulator.state, simulator.measurements
+function MonitoredQuantumCircuits.execute!(simulator::TableauSimulator; kwargs...)
+    return simulator
 end
 
-# function MonitoredQuantumCircuits.executeParallel(circuit::MonitoredQuantumCircuits.CompiledCircuit, simulator::TableauSimulator; samples=1)
-#     MPI, rank, size = MonitoredQuantumCircuits.get_mpi_ref()
-#     Threads.@threads for i in 1:samples÷size
-#         MonitoredQuantumCircuits.execute(circuit, simulator)
+function MonitoredQuantumCircuits.execute!(f::F,
+    simulator::TableauSimulator, p::P=()->();
+    shots=1, kwargs...) where {F<:Function,P<:Function}
 
-#     end
-# end
+    initial_state = simulator.state
+    for i in 1:shots
+        f()
+        p(i)
+        MonitoredQuantumCircuits.reset!(simulator, initial_state)
+    end
+
+    return simulator
+end
+
+function MonitoredQuantumCircuits.get_measurements(backend::TableauSimulator, shot)
+    return backend.measurements
+end

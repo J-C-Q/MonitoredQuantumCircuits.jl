@@ -1,58 +1,33 @@
 """
-    NPauli{N} <: MeasurementOperation
+    MnPauli{N} <: MeasurementOperation
 
-The NPauli operation is a N-qubit measurement operation that measures the state of multiple qubits in the Pauli basis.
+The MnPauli operation is a N-qubit measurement operation that measures the state of multiple qubits in the Pauli basis.
 """
-struct NPauli{N} <: MeasurementOperation
+struct MnPauli{N} <: MeasurementOperation
     memory::NTuple{N,Int8}
-
-    function NPauli(paulistring::Vararg{Operation})
-        all(p -> (isa(p, X) || isa(p, Y) || isa(p, Z)), paulistring) || throw(ArgumentError("Only single qubit pauli operations."))
-        N = length(paulistring)
-        constructMemory = zeros(Int8, N)
-        for (i, p) in enumerate(paulistring)
-            if isa(p, X)
-                constructMemory[i] = Int8(1)
-            elseif isa(p, Y)
-                constructMemory[i] = Int8(2)
-            elseif isa(p, Z)
-                constructMemory[i] = Int8(3)
-            end
-        end
-        new{N}((constructMemory...,))
-    end
-
-    function NPauli(paulistring::Vararg{DataType})
-        all(p -> (p == X || p == Y || p == Z), paulistring) || throw(ArgumentError("Only single qubit pauli operations."))
-        N = length(paulistring)
-        constructMemory = zeros(Int8, N)
-        for (i, p) in enumerate(paulistring)
-            if p == X
-                constructMemory[i] = Int8(1)
-            elseif p == Y
-                constructMemory[i] = Int8(2)
-            elseif p == Z
-                constructMemory[i] = Int8(3)
-            end
-        end
-        new{N}((constructMemory...,))
-    end
-
-    function NPauli(pauli::Operation, N::Integer)
-        isa(pauli, X) || isa(pauli, Y) || isa(pauli, Z) || throw(ArgumentError("Only single qubit pauli operations."))
-        num = Int8(0)
-        if isa(pauli, X)
-            num = Int8(1)
-        elseif isa(pauli, Y)
-            num = Int8(2)
-        elseif isa(pauli, Z)
-            num = Int8(3)
-        end
-        new{N}((fill(num, N)...,))
-    end
 end
 
-function Base.show(io::IO, p::NPauli)
+# -------- helper for the element code --------
+@inline _code(::X) = Int8(1)
+@inline _code(::Y) = Int8(2)
+@inline _code(::Z) = Int8(3)
+
+# 1. From a tuple/Vararg – already non‑allocating
+MnPauli(paulis::Vararg{Operation,N}) where N =
+    MnPauli{N}(ntuple(i -> _code(paulis[i]), Val(N)))
+
+MnPauli(paulis::Vararg{DataType,N}) where N =
+    MnPauli{N}(ntuple(i -> _code(paulis[i]()), Val(N)))
+
+# 2. From a single Pauli and a **type‑level** length
+MnPauli{N}(pauli::Operation) where N =
+    MnPauli{N}(ntuple(_ -> _code(pauli), Val(N)))
+
+# 3. Convenience wrapper that still avoids allocation
+MnPauli(pauli::Operation, ::Val{N}) where N = MnPauli{N}(pauli)
+
+
+function Base.show(io::IO, p::MnPauli)
     for (i, p) in enumerate(p.memory)
         if p == 1
             print(io, "X")
@@ -64,20 +39,20 @@ function Base.show(io::IO, p::NPauli)
     end
 end
 
-function Base.:(==)(np1::NPauli, np2::NPauli)
+function Base.:(==)(np1::MnPauli, np2::MnPauli)
     return all(np1.memory .== np2.memory)
 end
-function Base.hash(npauli::NPauli)
+function Base.hash(npauli::MnPauli)
     return hash((npauli.memory))
 end
 
-function nQubits(p::NPauli)
+function nQubits(p::MnPauli)
     return length(p.memory)
 end
-function isClifford(::NPauli)
+function isClifford(::MnPauli)
     return true
 end
-function nAncilla(::NPauli)
+function nAncilla(::MnPauli)
     return 1
 end
 

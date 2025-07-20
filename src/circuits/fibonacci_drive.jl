@@ -1,20 +1,18 @@
-function measurementOnlyFibonacciDrive!(
+function monitoredTransverseFieldIsingFibonacci!(
     backend::Backend, geometry::ChainGeometry,
-    p::Float64; depth=610, keep_result=false)
+    p::Float64; depth=610, keep_result=false,phases=false)
 
-    qubits_ = qubits(geometry)
-    bonds_ = bonds(geometry)
     for n in 1:depth
         if fibonacci_word(n)
-            for position in eachcol(qubits_)
+            for position in qubits(geometry)
                 if rand() < p
-                    apply!(backend, Measure_X(), position...;keep_result)
+                    apply!(backend, MX(), position;keep_result,phases)
                 end
             end
         else
-            for position in eachcol(bonds_)
+            for position in bonds(geometry)
                 if rand() >= p
-                    apply!(backend, ZZ(), position...; keep_result)
+                    apply!(backend, MZZ(), position; keep_result,phases)
                 end
             end
         end
@@ -25,7 +23,7 @@ end
 function fibonacci_word(n)
     golden_ratio = (1+sqrt(5))/2
 
-    return Bool(floor((n+1)/golden_ratio) - floor(n/golden_ratio))
+    return Bool(div((n+1),golden_ratio) - div(n,golden_ratio))
 end
 
 # Sum over fibonacci series for i <= n

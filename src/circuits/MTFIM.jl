@@ -1,20 +1,19 @@
 function monitoredTransverseFieldIsing!(
     backend::Backend, geometry::ChainGeometry{Periodic},
-    p::Float64; depth=100, keep_result=false)
+    p::Float64; depth=100, keep_result=false, phases=false)
 
-    qubits_ = qubits(geometry)
-    bonds_ = bonds(geometry)
+
     for i in 1:depth
         if i%2 == 1
-            for position in eachcol(bonds_)
+            for position in bonds(geometry)
                 if rand() >= p
-                    apply!(backend, ZZ(), position...; keep_result)
+                    apply!(backend, MZZ(), position; keep_result, phases)
                 end
             end
         else
-           for position in eachcol(qubits_)
+           for position in qubits(geometry)
                 if rand() < p
-                    apply!(backend, Measure_X(), position...; keep_result)
+                    apply!(backend, MX(), position; keep_result, phases)
                 end
             end
         end
