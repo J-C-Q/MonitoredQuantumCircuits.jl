@@ -1,10 +1,10 @@
 using CairoMakie
 using JLD2
 using LinearAlgebra
-using AestheticSuperposition
+# using AestheticSuperposition
 
 function entanglementPlot(file::String, data_path::String; depth=100, L=100, averaging=100, resolution=100)
-    set_theme!(AestheticSuperpositionTheme())
+    # set_theme!(AestheticSuperpositionTheme())
     points = range(0, 1, resolution)
     entropies = Float64[]
     for (i, p) in enumerate(points)
