@@ -13,9 +13,9 @@ function simulate_QuantumClifford(;shots=10,postselect=false)
     return magnetization
 end
 
-function simulate_Qiskit(;shots=10,postselect=false)
+function simulate_Qiskit(;shots=10,postselect=false,tApi=1/4)
     g = IBMQ_Falcon()
-    backend = Qiskit.CliffordSimulator(nQubits(g);ancillas=nControlQubits(g))
+    backend = Qiskit.StateVectorSimulator(nQubits(g);ancillas=nControlQubits(g))
 
     magnetization = Int64[]
     p = (s) -> begin
@@ -24,6 +24,6 @@ function simulate_Qiskit(;shots=10,postselect=false)
             push!(magnetization, sum(i->2*i-1, measurements[12:end]))
         end
     end
-    execute!(()->monitoredGHZ!(backend, g; tApi=1/4), backend, p; shots=shots)
+    execute!(()->monitoredGHZ!(backend, g; tApi), backend, p; shots=shots)
     return magnetization
 end

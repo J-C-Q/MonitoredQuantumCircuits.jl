@@ -24,7 +24,7 @@ function MQC.apply!(
     qc.s(p1)
     qc.measure(ax, ax)
     qc.s(p2)
-    qc.y(p1).c_if(ax,true)
+    # qc.y(p1).c_if(ax,true)
     measured_qubits = get_measured_qubits(backend)
     push!(measured_qubits, ax+1)
     return qc
@@ -55,7 +55,7 @@ function MQC.apply!(
     qc.s(p1)
     qc.measure(ax, ax)
     qc.s(p2)
-    qc.y(p1).c_if(ax,true)
+    # qc.y(p1).c_if(ax,true)
     measured_qubits = get_measured_qubits(backend)
     push!(measured_qubits, ax+1)
     return qc

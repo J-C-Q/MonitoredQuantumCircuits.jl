@@ -39,7 +39,7 @@ function MQC.apply!(
     qc.rzz(operation.t * 2, p2, ax)
     qc.h(ax)
     qc.measure(ax, ax)
-    qc.z(p1).c_if(ax,true)
+    # qc.z(p1).c_if(ax,true)
     measured_qubits = get_measured_qubits(backend)
     push!(measured_qubits, ax+1)
     return qc
