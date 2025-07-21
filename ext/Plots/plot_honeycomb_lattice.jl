@@ -1,4 +1,4 @@
-function MonitoredQuantumCircuits.drawGeometry(geometry::HoneycombGeometry; brickwork::Bool=false)
+function MonitoredQuantumCircuits.drawGeometry(geometry::HoneycombGeometry; brickwork::Bool=false, cutType::Symbol=:X)
     graph = geometry.graph
     sizeX = geometry.sizeX
     sizeY = geometry.sizeY
@@ -19,6 +19,7 @@ function MonitoredQuantumCircuits.drawGeometry(geometry::HoneycombGeometry; bric
     points = Point2f[]
 
 
+
     for j in 1:sizeY
         for i in 1:sizeX
 
@@ -30,6 +31,24 @@ function MonitoredQuantumCircuits.drawGeometry(geometry::HoneycombGeometry; bric
             end
         end
     end
+    points_sub1 = Point2f[]
+    points_sub2 = Point2f[]
+    points_sub3 = Point2f[]
+    points_sub4 = Point2f[]
+    partitionsX = subsystems(geometry, 4; cutType=cutType)
+    for i in @view partitionsX[:,1]
+        push!(points_sub1, points[i])
+    end
+    for i in @view partitionsX[:,2]
+        push!(points_sub2, points[i])
+    end
+    for i in @view partitionsX[:,3]
+        push!(points_sub3, points[i])
+    end
+    for i in @view partitionsX[:,4]
+        push!(points_sub4, points[i])
+    end
+
     connections = Point2f[]
     periodic = Point2f[]
     for i in 1:Graphs.nv(graph)
@@ -79,6 +98,10 @@ function MonitoredQuantumCircuits.drawGeometry(geometry::HoneycombGeometry; bric
     lines!(ax, connections, color=:black,  linewidth=1)
     lines!(ax, periodic, color=:black, linewidth=1)
     scatter!(ax, points, markersize=0.5, color=:white, strokecolor=:black, strokewidth=1.0, markerspace=:data)
+    scatter!(ax, points_sub1, markersize=0.5, color=:red, strokecolor=:black, strokewidth=1.0, markerspace=:data)
+    scatter!(ax, points_sub2, markersize=0.5, color=:green, strokecolor=:black, strokewidth=1.0, markerspace=:data)
+    scatter!(ax, points_sub3, markersize=0.5, color=:blue, strokecolor=:black, strokewidth=1.0, markerspace=:data)
+    scatter!(ax, points_sub4, markersize=0.5, color=:yellow, strokecolor=:black, strokewidth=1.0, markerspace=:data)
     text!(ax, points, text=string.(1:length(points)), color=:black, align=(:center, :center), fontsize=0.16, markerspace=:data)
     limits!(ax, xmin, xmax, ymin, ymax)
     display(fig)

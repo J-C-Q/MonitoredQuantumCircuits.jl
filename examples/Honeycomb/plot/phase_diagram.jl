@@ -119,7 +119,7 @@ function plot_phasediagram(file)
     for (i, t) in enumerate(each_solid_triangle(tri))
         faces[i, :] .= t
     end
-    mesh!(ax, points2d, faces, color=tmis, colormap=colormap, rasterize=10)
+    mesh!(ax, points2d, faces, color=tmis, colormap=colormap, rasterize=10,colorrange=(-1,1), highclip=:black, lowclip=:black)
 
 
     p = Polygon(
@@ -133,7 +133,7 @@ function plot_phasediagram(file)
 
 
     # scatter!(ax, [p[1] for p in points2d], [p[2] for p in points2d], color=:black, strokewidth=0, markersize=5)
-    scatter!(ax, [p[1] for p in points2d], [p[2] for p in points2d], color=tmis, strokewidth=0.25, strokecolor=:black, colormap=colormap, markersize=2)
+    scatter!(ax, [p[1] for p in points2d], [p[2] for p in points2d], color=tmis, strokewidth=0.25, strokecolor=:black, colormap=colormap, markersize=2,colorrange=(-1, 1), highclip=:black, lowclip=:black, nan_color=:black)
    poly!(p, color=:white)
     lines!(ax, [
             projection([1, 0, 0]),
@@ -146,8 +146,8 @@ function plot_phasediagram(file)
 
     text!(ax, Point2f[projection([1.1, 0, 0]), projection([0, 1.1, 0]), projection([0, 0, 1.1])], text=[L"$p_X$", L"$p_Y$", L"$p_Z$"], color=:black, align=(:center, :center),fontsize=8)
     # limits!(ax, (-0.8, 0.8), (-0.5, 0.9))
-    Colorbar(fig[1, 2], limits=(minimum(tmis), maximum(tmis)), colormap=colormap,
-        flipaxis=true, label=L"$$Tripartite Information", minorticksvisible=true, minortickalign=1.0,tickalign=1.0,spinewidth=0.75,minortickwidth=0.75,tickwidth=0.75,height=154, tellheight=false)
+    Colorbar(fig[1, 2], limits=(-1, 1), colormap=colormap,
+        flipaxis=true, label=L"$$Tripartite Information", minorticksvisible=true, minortickalign=1.0,tickalign=1.0,spinewidth=0.75,minortickwidth=0.75,tickwidth=0.75,height=154, tellheight=false, highclip=:black, lowclip=:black)
     limits!(ax, (-0.82, 0.82), (-0.515, 0.915))
     filename = "honeycomb_circuit_L$(L)_D$(depth)_pres$(n)_avg$(averaging)_$(type)"
     save("figures/$filename.svg", fig)

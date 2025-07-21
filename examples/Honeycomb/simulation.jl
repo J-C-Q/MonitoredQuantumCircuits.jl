@@ -12,9 +12,15 @@ function simulate_QuantumClifford(L,n=10;shots=10,depth=10,type=:Kitaev)
         px,py,pz = ps[i]
         backend = QuantumClifford.TableauSimulator(nQubits(g); mixed=true)
         post = (s) -> begin
-            tmi[i] += QuantumClifford.tmi(backend.state, partitionsX)
-            tmi[i] += QuantumClifford.tmi(backend.state, partitionsY)
-            tmi[i] += QuantumClifford.tmi(backend.state, partitionsZ)
+            px,py,pz = px,py,pz
+            x = QuantumClifford.tmi(backend.state, partitionsX)
+            y = QuantumClifford.tmi(backend.state, partitionsY)
+            z = QuantumClifford.tmi(backend.state, partitionsZ)
+            if -1 <= x <= 1 && -1 <= y <= 1 && -1 <= z <= 1
+                tmi[i] += x + y + z
+            else
+                @warn "TMI out of bounds: $x, $y, $z, px=$px, py=$py, pz=$pz, sum=$(px+py+pz), $(QuantumClifford.state_entropy(backend.state))"
+            end
         end
         if type == :Kitaev
             execute!(()->measurementOnlyKitaev!(backend, g, px,py,pz; depth), backend, post; shots=shots)

@@ -99,7 +99,7 @@ function _projectYY!(
             xz = @view tab.xzs[:,n+r+1]
             phases = tab.phases[n+r+1]
             tab.xzs[:,r+1] .= xz
-
+            tab.phases[r+1] = phases[]
             zero!(tab, n + r + 1)              # projector row
             tab[n+r+1, q1] = RESET
             tab[n+r+1, q2] = RESET

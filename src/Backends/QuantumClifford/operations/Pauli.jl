@@ -46,7 +46,7 @@ function MonitoredQuantumCircuits.apply!(
         push!(backend.measurements, res)
         push!(backend.measured_qubits, ancilla)
     else
-        # QC.project!(backend.state, operator)
+        QC.project!(backend.state, operator)
         res = false
     end
     return res
