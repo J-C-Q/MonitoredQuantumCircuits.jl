@@ -72,7 +72,7 @@ function average_data(f)
     tmi = read(f["tmi"])
     n_samples = read(f["averaging"])
 
-    averaged_tmi = sum(tmi, dims=1) ./ n_samples
+    averaged_tmi = sum(tmi, dims=1) ./ 3n_samples
     f["tmi_averaged"] = averaged_tmi
     return nothing
 end
@@ -119,7 +119,7 @@ function plot_phasediagram(file)
     for (i, t) in enumerate(each_solid_triangle(tri))
         faces[i, :] .= t
     end
-    mesh!(ax, points2d, faces, color=tmis, colormap=colormap, rasterize=10,colorrange=(-1,1), highclip=:black, lowclip=:black)
+    mesh!(ax, points2d, faces, color=tmis, colormap=colormap, rasterize=20,colorrange=(-1,1))
 
 
     p = Polygon(
@@ -132,8 +132,8 @@ function plot_phasediagram(file)
     )
 
 
-    # scatter!(ax, [p[1] for p in points2d], [p[2] for p in points2d], color=:black, strokewidth=0, markersize=5)
-    scatter!(ax, [p[1] for p in points2d], [p[2] for p in points2d], color=tmis, strokewidth=0.25, strokecolor=:black, colormap=colormap, markersize=2,colorrange=(-1, 1), highclip=:black, lowclip=:black, nan_color=:black)
+    # scatter!(ax, [p[1] for p in points2d], [p[2] for p in points2d], color=:black, strokewidth=0, markersize=0.25)
+    # scatter!(ax, [p[1] for p in points2d], [p[2] for p in points2d], color=tmis, strokewidth=0.25, strokecolor=:black, colormap=colormap, markersize=2,colorrange=extrema(tmis))
    poly!(p, color=:white)
     lines!(ax, [
             projection([1, 0, 0]),
@@ -143,12 +143,15 @@ function plot_phasediagram(file)
 
 
 
-
-    text!(ax, Point2f[projection([1.1, 0, 0]), projection([0, 1.1, 0]), projection([0, 0, 1.1])], text=[L"$p_X$", L"$p_Y$", L"$p_Z$"], color=:black, align=(:center, :center),fontsize=8)
+    if type == "Kitaev"
+        text!(ax, Point2f[projection([1.1, 0, 0]), projection([0, 1.1, 0]), projection([0, 0, 1.1])], text=[L"$p_X$", L"$p_Y$", L"$p_Z$"], color=:black, align=(:center, :center),fontsize=8)
+    elseif type == "Kekule"
+        text!(ax, Point2f[projection([1.1, 0, 0]), projection([0, 1.1, 0]), projection([0, 0, 1.1])], text=[L"$p_R$", L"$p_G$", L"$p_B$"], color=:black, align=(:center, :center),fontsize=8)
+    end
     # limits!(ax, (-0.8, 0.8), (-0.5, 0.9))
-    Colorbar(fig[1, 2], limits=(-1, 1), colormap=colormap,
-        flipaxis=true, label=L"$$Tripartite Information", minorticksvisible=true, minortickalign=1.0,tickalign=1.0,spinewidth=0.75,minortickwidth=0.75,tickwidth=0.75,height=154, tellheight=false, highclip=:black, lowclip=:black)
-    limits!(ax, (-0.82, 0.82), (-0.515, 0.915))
+    Colorbar(fig[1, 2], limits=(-1,1), colormap=colormap,
+        flipaxis=true, label=L"$$Tripartite Information", minorticksvisible=true, minortickalign=1.0,tickalign=1.0,spinewidth=0.75,minortickwidth=0.75,tickwidth=0.75,height=154, tellheight=false)
+    limits!(ax, (-0.83, 0.83), (-0.515, 0.915))
     filename = "honeycomb_circuit_L$(L)_D$(depth)_pres$(n)_avg$(averaging)_$(type)"
     save("figures/$filename.svg", fig)
     save("figures/$filename.png", fig)

@@ -31,4 +31,4 @@ LocalPreferences.toml
 *.jls
 
 thesis/*
-/thesis/
+/thesis

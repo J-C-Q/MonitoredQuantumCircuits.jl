@@ -2,7 +2,6 @@ function monitoredTransverseFieldIsing!(
     backend::Backend, geometry::ChainGeometry{Periodic},
     p::Float64; depth=100, keep_result=false, phases=false)
 
-
     for i in 1:depth
         if i%2 == 1
             for position in bonds(geometry)

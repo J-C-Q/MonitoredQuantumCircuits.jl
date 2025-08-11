@@ -39,6 +39,15 @@ function least_buisy(qc::QiskitRuntimeService,nqubits::Integer)
     operational=true, simulator=false, min_num_qubits=nqubits
 )
 end
+function get_job(job_id::String)
+    _checkinit_qiskit()
+    runtime = QiskitRuntimeService()
+    job = runtime.job(job_id)
+    if job == nothing
+        throw(ArgumentError("Job with ID $job_id not found."))
+    end
+    return job
+end
 
 function Base.show(io::IO, ::MIME"text/plain", obj::QiskitRuntimeService)
     account_info = activeAccount(obj)

@@ -23,3 +23,5 @@ end
 Base.show(io::IO, ::MIME"text/plain", obj::Sampler) = print(io, obj.python_interface)
 
 run(sampler::Sampler, qc::Circuit; shots=1024) = sampler.run([qc.python_interface], shots=shots)
+
+run(sampler::Sampler, qc::Vector{Circuit}; shots=1024) = sampler.run([q.python_interface for q in qc], shots=shots)

@@ -1,11 +1,6 @@
 module MonitoredQuantumCircuits
 
 using Graphs
-# using JLD2
-# using Serialization
-# using StatsBase
-# using LinearAlgebra
-
 using PythonCall
 using CondaPkg
 
@@ -50,8 +45,8 @@ include("result.jl")
 # include("GUI/BonitoApp.jl")
 
 include("Backends/Qiskit/Qiskit.jl")
-# include("Backends/Stim/Stim.jl")
 include("Backends/QuantumClifford/QuantumClifford.jl")
+# include("Backends/Stim/Stim.jl")
 # include("Backends/cuQuantum/cuQuantum.jl")
 # include("Backends/ITensorNetworks/ITensorNetworks.jl")
 
@@ -87,34 +82,25 @@ export X
 export Y
 export Z
 export MnPauli
-export RandomClifford
 export MZ
 export MX
 export MY
 export H
 export CNOT
 
-
-
-
-# export Circuit
 export apply!
 export reset!
 export execute!
-# export executeParallel
 export depth
-# export nAncilla
-# export compile
+export get_measurements
+
 
 export Result
 
 export measurementOnlyKitaev!
 export measurementOnlyKekule!
-# export measurementOnlyKekule_Floquet!
 export monitoredTransverseFieldIsing!
-# export measurementOnlyShastrySutherland!
 export monitoredGHZ!
-# export measurementOnlySquareOctagon!
 export monitoredTransverseFieldIsingFibonacci!
 
 # export GUI
@@ -122,12 +108,8 @@ export monitoredTransverseFieldIsingFibonacci!
 # export Remote
 
 export Qiskit
-# export Stim
 export QuantumClifford
+# export Stim
 # export cuQuantum
 # export ITensorNetworks
-export get_measurements
-
-# export Analysis
-
 end

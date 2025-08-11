@@ -11,11 +11,10 @@ function measurementOnlyKitaev!(
     end
     xy_loop = loopsXY(geometry)[1]
     xz_loop = loopsXZ(geometry)[1]
-    apply!(backend, MnPauli(Z(), XYlooplength(geometry)), xy_loop; keep_result, phases)
-    apply!(backend, MnPauli(Y(), XZlooplength(geometry)), xz_loop; keep_result, phases)
-    if QuantumClifford.state_entropy(backend.state) > 0.0
-        @warn "State entropy is non-zero: $(QuantumClifford.state_entropy(backend.state))"
-    end
+    xy_looplength = XYlooplength(geometry)
+    xz_looplength = XZlooplength(geometry)
+    apply!(backend, MnPauli(Z(), XYlooplength), xy_loop; keep_result, phases)
+    apply!(backend, MnPauli(Y(), XZlooplength), xz_loop; keep_result, phases)
     for i in 1:depth*nQubits(geometry)
         p = rand()
         if p < px

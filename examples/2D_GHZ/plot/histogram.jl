@@ -84,3 +84,94 @@ function plot_magnetization(data; title="magnetization_histogram")
     save("figures/$filename.pdf", fig)
     return fig
 end
+
+function plot_magnetization(tApi)
+    data = JLD2.load("data/m_tApi=$(tApi)_postfalse_qpu.jld2", "magnetization")
+    plot_magnetization(data; title="magnetization_histogram_$(tApi)_qpu")
+    data = JLD2.load("data/m_tApi=$(tApi)_posttrue_qpu.jld2", "magnetization")
+    plot_magnetization(data; title="magnetization_histogram_$(tApi)_qpu_postselect")
+end
+
+function plot_simulation_magnetization(;tApi=0.2)
+    data = JLD2.load("data/m_tApi=$(tApi)_postfalse_statevec.jld2", "magnetization")
+    data_post = JLD2.load("data/m_tApi=$(tApi)_posttrue_tensor.jld2", "magnetization")
+
+    fig = Figure(size=(246, 246))
+    ax = Axis(fig[1, 1], ylabel="relative counts",xticks=(-12:2:12),xminorticks=IntervalsBetween(2),xticklabelsvisible=false)
+    ax2 = Axis(fig[2, 1], xlabel="magnetization", ylabel="relative counts",xticks=(-12:2:12),xminorticks=IntervalsBetween(2))
+
+    bars = -10:10
+    hist_data = [sum(data .== b)/length(data) for b in bars]
+    hist_data_post = [sum(data_post .== b)/length(data_post) for b in bars]
+    barplot!(ax, bars, hist_data, color=:orange, strokecolor=:black, strokewidth=0.75)
+    barplot!(ax2, bars, hist_data_post, color=:orange, strokecolor=:black, strokewidth=0.75)
+    filename = "magnetization_histogram_$(tApi)_simulation"
+    limits!(ax, -11,11,0,nothing)
+    limits!(ax2, -11,11,0,nothing)
+    linkyaxes!(ax, ax2)
+
+    axislegend(ax,
+        [
+            MarkerElement(color=(:white, 0.0), markersize=0.0, marker=:circle) for i in 1:4
+        ],
+        ["Raw",L"t_A=%$tApi\pi", "10 qubits", "$(length(data)) samples"],
+        position=:rt,
+        labelhalign=:center,
+        margin=(15, 15, 10, 10))
+
+    axislegend(ax2,
+        [
+            MarkerElement(color=(:white, 0.0), markersize=0.0, marker=:circle) for i in 1:4
+        ],
+        ["Post-Selected",L"t_A=%$tApi\pi", "10 qubits", "$(length(data_post)) samples"],
+        position=:rt,
+        labelhalign=:center,
+        margin=(15, 15, 10, 10))
+
+    save("figures/$filename.svg", fig)
+    save("figures/$filename.png", fig)
+    save("figures/$filename.pdf", fig)
+    return fig
+end
+
+function plot_qpu_magnetization(;tApi=0.2)
+    data = JLD2.load("data/m_tApi=$(tApi)_postfalse_qpu.jld2", "magnetization")
+    data_post = JLD2.load("data/m_tApi=$(tApi)_posttrue_qpu.jld2", "magnetization")
+
+    fig = Figure(size=(246, 246))
+    ax = Axis(fig[1, 1], ylabel="relative counts",xticks=(-12:2:12),xminorticks=IntervalsBetween(2),xticklabelsvisible=false)
+    ax2 = Axis(fig[2, 1], xlabel="magnetization", ylabel="relative counts",xticks=(-12:2:12),xminorticks=IntervalsBetween(2))
+
+    bars = -10:10
+    hist_data = [sum(data .== b)/length(data) for b in bars]
+    hist_data_post = [sum(data_post .== b)/length(data_post) for b in bars]
+    barplot!(ax, bars, hist_data, color=:orange, strokecolor=:black, strokewidth=0.75)
+    barplot!(ax2, bars, hist_data_post, color=:orange, strokecolor=:black, strokewidth=0.75)
+    filename = "magnetization_histogram_$(tApi)_qpu"
+    limits!(ax, -11,11,0,nothing)
+    limits!(ax2, -11,11,0,nothing)
+    linkyaxes!(ax, ax2)
+
+    axislegend(ax,
+        [
+            MarkerElement(color=(:white, 0.0), markersize=0.0, marker=:circle) for i in 1:4
+        ],
+        ["Raw",L"t_A=%$tApi\pi", "10 qubits", "$(length(data)) samples"],
+        position=:rt,
+        labelhalign=:center,
+        margin=(15, 15, 10, 10))
+
+    axislegend(ax2,
+        [
+            MarkerElement(color=(:white, 0.0), markersize=0.0, marker=:circle) for i in 1:4
+        ],
+        ["Post-Selected",L"t_A=%$tApi\pi", "10 qubits", "$(length(data_post)) samples"],
+        position=:rt,
+        labelhalign=:center,
+        margin=(15, 15, 10, 10))
+
+    save("figures/$filename.svg", fig)
+    save("figures/$filename.png", fig)
+    save("figures/$filename.pdf", fig)
+    return fig
+end

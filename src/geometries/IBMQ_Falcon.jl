@@ -148,6 +148,9 @@ end
 function nQubits(geometry::IBMQ_Falcon)
     return length(geometry.system_qubits)
 end
+function nBonds(geometry::IBMQ_Falcon)
+    return length(geometry.system_bonds)
+end
 function nControlQubits(geometry::IBMQ_Falcon)
     return length(geometry.control_qubits)
 end
