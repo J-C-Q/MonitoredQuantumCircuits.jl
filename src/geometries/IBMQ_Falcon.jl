@@ -173,4 +173,4 @@ function get_control(geometry::IBMQ_Falcon, bond::Bond{Int64})
     return geometry.control_qubit_for_system_bond[bond]
 end
 
-export IBMQ_Falcon, hardware_bonds, bonds, system_qubits, control_qubits, nSystemQubits, nControlQubits, get_control
+export IBMQ_Falcon, hardware_bonds, bonds, system_qubits, control_qubits, nControlQubits, get_control

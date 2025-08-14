@@ -20,11 +20,15 @@ MonitoredQuantumCircuitsMPIExt = "MPI"
 MonitoredQuantumCircuitsMakieExt = "Makie"
 
 [compat]
-CUDA = "5.7.2"
-Graphs = "1.11.1"
-MPI = "0.20.22"
-Makie = "0.22.2"
-PythonCall = "0.9.20"
+CUDA = "5.7"
+Graphs = "1.11"
+MPI = "0.20"
+MPIPreferences = "0.20"
+Makie = "0.22"
+PythonCall = "0.9"
+QuantumClifford = "0.10"
+CondaPkg = "0.2"
+julia = "1.11"
 
 [extras]
 MPIPreferences = "3da0fdf6-3ccc-4f1b-acd9-58baa6c99267"

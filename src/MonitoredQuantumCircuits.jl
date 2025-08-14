@@ -91,11 +91,10 @@ export CNOT
 export apply!
 export reset!
 export execute!
-export depth
+
 export get_measurements
 
 
-export Result
 
 export measurementOnlyKitaev!
 export measurementOnlyKekule!

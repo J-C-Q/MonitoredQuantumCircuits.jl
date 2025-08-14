@@ -19,6 +19,8 @@ MnPauli(paulis::Vararg{Operation,N}) where N =
 MnPauli(paulis::Vararg{DataType,N}) where N =
     MnPauli{N}(ntuple(i -> _code(paulis[i]()), Val(N)))
 
+MnPauli() = MnPauli{0}(NTuple{0,Int8}())
+
 # 2. From a single Pauli and a **type‑level** length
 MnPauli{N}(pauli::Operation) where N =
     MnPauli{N}(ntuple(_ -> _code(pauli), Val(N)))
