@@ -1,6 +1,5 @@
 """
-    TableauSimulator(qubits::Integer; mixed=true, basis=:Z)
-    TableauSimulator(initial_state::QuantumClifford.MixedDestabilizer)
+    TableauSimulator(qubits::Integer; mixed=false, basis=:Z)
 
 A QuantumClifford stabilizer simulator.
 """

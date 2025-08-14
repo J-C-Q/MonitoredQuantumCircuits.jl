@@ -3,7 +3,7 @@ abstract type AerSimulator <: MQC.Simulator end
 
 
 """
-    StateVectorSimulator()
+    StateVectorSimulator <: AerSimulator
 
 A Qiskit Aer statevector simulator.
 """
@@ -28,7 +28,7 @@ struct StateVectorSimulator <: AerSimulator
     end
 end
 """
-    GPUStateVectorSimulator()
+    GPUStateVectorSimulator <: AerSimulator
 
 A Qiskit Aer statevector simulator that runs on the GPU.
 """
@@ -59,7 +59,7 @@ end
 
 
 """
-    CliffordSimulator()
+    CliffordSimulator <: AerSimulator
 
 A Qiskit Aer stabilizer simulator.
 """
@@ -84,7 +84,7 @@ struct CliffordSimulator <: AerSimulator
 end
 
 """
-    GPUTensorNetworkSimulator()
+    GPUTensorNetworkSimulator <: AerSimulator
 
 A Qiskit Aer tensor network simulator that runs on the GPU.
 """

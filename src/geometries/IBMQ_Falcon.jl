@@ -1,3 +1,11 @@
+"""
+A data structure representing the geometry of the IBM Quantum Falcon QPU.
+
+## Constructors
+```julia
+IBMQ_Falcon()
+```
+"""
 struct IBMQ_Falcon <: Geometry
     graph::Graph
     bonds::Vector{Bond}
