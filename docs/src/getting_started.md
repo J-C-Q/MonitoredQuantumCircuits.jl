@@ -20,50 +20,38 @@ geometry = HoneycombGeometry(Periodic, 12, 12)
 
 ## 2. Construct a Circuit
 
-A circuit encapsulates the [operations](/library/operations.md) applied to the qubits within a given geometry. For more information, see [Circuits](/library/circuits.md).
+A circuit encapsulates the [operations](/library/operations.md) applied to the qubits within a given geometry. The exact representation of the circuit depends on the backend.
 
-To create a circuit, you may use a predefined constructor:
-
-```julia
-circuit = MeasurementOnlyKitaev(geometry, px, py, pz; depth=100)
-```
-
-Alternatively, you can build a circuit iteratively by initializing an empty circuit:
+To create a circuit, you must first pick a [backend](/library/backends.md).
+For example a Clifford circuit can be efficiently represented using a stabilizer tableau.
 
 ```julia
-circuit = Circuit(geometry)
+backend = QuantumClifford.TableauSimulator(nqubits::Int)
 ```
 
-You may then use the command-line interface to apply operations, or launch the [Graphical User Interface](/modules/gui.md) (GUI, work in progress):
+Now you can apply operations to the circuit using
 
 ```julia
-GUI.CircuitComposer!(circuit)
+apply!(backend::Backend, ::Operation, position)
 ```
 
-Once your circuit is complete, compile it for improved performance:
+It is best practice, to constructing the circuit in a separate function
 
 ```julia
-compiled_circuit = compile(circuit)
+function circuit!(::Backend)
+    # apply! ...
+end
 ```
+
 
 ## 3. Execute the Circuit
 
-To execute a quantum circuit, first select an appropriate [backend](/library/backends.md). For example, to use a Clifford simulator via QuantumClifford.jl:
+To execute the circuit run
 
 ```julia
-simulator = QuantumClifford.TableauSimulator(nQubits(geometry))
+execute!(() -> circuit!(backend), ::Backend, post_processing::Function)
 ```
 
-Or, for state vector simulation using cuQuantum through Qiskit-Aer:
-
-```julia
-simulator = Qiskit.GPUStateVectorSimulator()
-```
-
-Execute the compiled circuit on the chosen backend:
-
-```julia
-execute!(compiled_circuit, simulator)
-```
+where the `post_processing` function takes the shot index and could compute some property of the circuit.
 
 For additional details, consult the [Backends](/library/backends.md) documentation.

@@ -8,81 +8,105 @@ Operations are the fundamental building blocks of quantum circuits. They represe
 
 ## Available Operations
 
-MonitoredQuantumCircuits.jl provides a variety of operations that can be applied to qubits within a circuit. These operations include unitary transformations, measurements, and other quantum operations. The following is a list of the available operations:
+MonitoredQuantumCircuits.jl provides a variety of operations that can be applied to qubits within a circuit. These operations include unitary transformations and measurements. The following is a list of the available operations:
 ### Unitary Operations
-- **I**  
+::: info `I`
 
 Represents the identity operation, which leaves the qubit unchanged.
+
+:::
   
-- **X**
+::: info `X`
 
 Represents the Pauli-X operation, which flips the state of the qubit.
 
-- **Y**
+:::
+
+::: info `Y`
 
 Represents the Pauli-Y operation, which applies a bit-flip and phase-flip to the qubit.
 
-- **Z**
+:::
+
+::: info `Z`
 
 Represents the Pauli-Z operation, which applies a phase-flip to the qubit.
 
-- **H**
+:::
+
+::: info `H`
 
 Represents the Hadamard operation, which creates superposition by transforming the basis states.
 
-- **CNOT**
+:::
+
+::: info `CNOT`
 
 Represents the controlled-NOT operation, which flips the target qubit if the control qubit is in the |1⟩ state.
 
+:::
+
 ### Measurement Operations
-- **MeasureX**
+::: info `MX`
 
 Represents a measurement in the X basis, collapsing the qubit state to |+⟩ or |-⟩.
 
-- **MeasureY**
+:::
+
+::: info `MY`
 
 Represents a measurement in the Y basis, collapsing the qubit state to |+i⟩ or |-i⟩.
 
-- **MeasureZ**
+:::
+
+::: info `MZ`
 
 Represents a measurement in the Z basis, collapsing the qubit state to |0⟩ or |1⟩.
 
-- **XX**
+:::
+
+::: info `MXX`
 
 Represents a parity measurement in the X basis.
 
-- **YY**
+:::
+
+::: info `MYY`
 
 Represents a parity measurement in the Y basis.
 
-- **ZZ**
+:::
+
+::: info `MZZ`
+
 Represents a parity measurement in the Z basis.
 
-- **Weak_XX**
+:::
+
+::: info `WeakMXX`
 
 Represents a weak parity measurement in the X basis.
 
-- **Weak_YY**
+:::
+
+::: info `WeakMYY`
 
 Represents a weak parity measurement in the Y basis.
 
-- **Weak_ZZ**
+:::
+
+::: info `WeakMZZ`
 
 Represents a weak parity measurement in the Z basis.
 
-- **NPauli**
+:::
+
+::: info `MnPauli`
 
 Represents a parity measurement, which can be applied to multiple qubits.
 
-### Other Operations
+:::
 
-- **RandomOperation**
-
-Represents an operation constructed from mulitple unitary operations, each applied with a specified probability. The qubits on which the operation is applied can also be randomized.
-
-- **DistributedOperation**
-
-Represents an operation that is distributed across multiple qubits with specified probabilities.
 
 ---
 
@@ -95,16 +119,14 @@ Y
 Z
 H
 CNOT
-MeasureX
-MeasureY
-MeasureZ
-XX
-YY
-ZZ
-Weak_XX
-Weak_YY
-Weak_ZZ
-NPauli
-RandomOperation
-DistributedOperation
+MX
+MY
+MZ
+MXX
+MYY
+MZZ
+WeakMXX
+WeakMYY
+WeakMZZ
+MnPauli
 ```

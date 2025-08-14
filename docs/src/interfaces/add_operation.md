@@ -29,18 +29,16 @@ nQubits(::Id) = 1
 isClifford(::Id) = true
 
 # Qiskit backend implementation
-function apply!(qc::Qiskit.Circuit, ::Id, p, ::Integer)
-    qc.id(p[1] - 1)
+function apply!(backend::Union{IBMBackend, AerSimulator}, ::Id, p::Integer)
+    qc = get_circuit(backend)
+    qc.id(p - 1)
+    return backend
 end
 
 # QuantumClifford backend implementation
-function apply!(
-    register::QuantumClifford.QC.Register,
-    ::QuantumClifford.TableauSimulator,
-    ::Id,
-    p
-)
-    QuantumClifford.QC.apply!(register, QuantumClifford.QC.sId1(p[1]))
+function apply!(backend::TableauSimulator, ::Id, p::Integer)
+    QuantumClifford.QC.apply!(backend.state, QuantumClifford.QC.sId1(p))
+    return backend
 end
 ```
 

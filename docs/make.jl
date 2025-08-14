@@ -22,7 +22,7 @@ makedocs(;
         "Library" => [
             "Geometries" => "library/geometries.md",
             "Operations" => "library/operations.md",
-            "Circuits" => "library/circuits.md",
+            # "Circuits" => "library/circuits.md",
             "Backends" => [
                 "Overview" => "library/backends.md",
                 "Qiskit" => "library/qiskit.md",
@@ -34,11 +34,12 @@ makedocs(;
             "Operation" => "interfaces/add_operation.md",
             "Backend" => "interfaces/add_backend.md"
         ],
-        "Modules" => [
-            "GUI" => "modules/gui.md",
-            "Remote" => "modules/remote.md"
-        ],
+        # "Modules" => [
+        #     "GUI" => "modules/gui.md",
+        #     "Remote" => "modules/remote.md"
+        # ],
         "API" => "api.md"],
+    # local
     # clean=false
 )
 

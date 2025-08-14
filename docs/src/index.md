@@ -30,14 +30,6 @@ features:
     title: QuantumClifford
     details: Clifford simulations in native Julia
     link: https://github.com/QuantumSavory/QuantumClifford.jl
-  - icon: <img width="64" height="64" src="https://docs.makie.org/stable/logo.svg" alt="GUI"/>
-    title: GUI
-    details: Powered by Makie.jl and Bonito.jl
-    link: modules/gui
-  - icon: <img width="32" height="32" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Unofficial_SSH_Logo.svg/1200px-Unofficial_SSH_Logo.svg.png?20220225235622" alt="Remote"/>
-    title: Remote
-    details: Remote compute abstraction
-    link: modules/remote
 ---
 ```
 
