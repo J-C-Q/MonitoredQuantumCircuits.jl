@@ -1,7 +1,6 @@
 module QuantumClifford
 
 import QuantumClifford as QC
-using QuantumClifford
 import ...MonitoredQuantumCircuits
 # using StatsBase
 # using LinearAlgebra
