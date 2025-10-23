@@ -1,6 +1,6 @@
 function simulate_QuantumClifford(L,n=10;shots=10,depth=10,type=:Kitaev)
     g = HoneycombGeometry(Periodic, L, L)
-    ps = generateProbs(;n, offset=0.01)
+    ps = generateProbabilities(n)
     partitionsX = subsystems(g, 4; cutType=:X)
     partitionsY = subsystems(g, 4; cutType=:Y)
     partitionsZ = subsystems(g, 4; cutType=:Z)
@@ -9,7 +9,6 @@ function simulate_QuantumClifford(L,n=10;shots=10,depth=10,type=:Kitaev)
         px,py,pz = ps[i]
         backend = QuantumClifford.TableauSimulator(nQubits(g); mixed=true)
         post = (s) -> begin
-            px,py,pz = px,py,pz
             x = QuantumClifford.tmi(backend.state, partitionsX)
             y = QuantumClifford.tmi(backend.state, partitionsY)
             z = QuantumClifford.tmi(backend.state, partitionsZ)
@@ -27,6 +26,7 @@ function simulate_QuantumClifford(L,n=10;shots=10,depth=10,type=:Kitaev)
 end
 
 function generateProbabilities(resolution)
+    n = resolution
     points = Vector{NTuple{3,Float64}}(undef, n*(n + 1) ÷ 2)
     m = 1
     for (k, i) in enumerate(range(0, 1, n))
